@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import StudentDataRegisteration from './Components/Student data registration/StudentDataRegisteration.js'
 
 class App extends Component {
   render() {
-    return <div className='App'>Post graduate system</div>
+    return (
+      <>
+        <StudentDataRegisteration />
+      </>
+    )
   }
 }
 

@@ -1,0 +1,26 @@
+.header {
+  background-color: #2f3944;
+  margin: 10px auto;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.header h1 {
+  color: #ece8e1;
+}
+
+.center {
+  background-color: #fff;
+  font-size: 20px;
+  margin: 10px auto;
+  margin-top: 10%;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 3px 6px 2px #c0c0c0;
+}
+.center input {
+  width: 55%;
+  padding-right: 5px;
+}
