@@ -1,11 +1,13 @@
 .form-one {
     text-align: right;
     color: #2f3944;
+    font-size: 1.2em;
 }
 
 .title {
     text-align: center;
     margin: 20px auto;
+    font-size: 2rem;
 }
 
 .section {
