@@ -1,10 +1,16 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'MarkaziText-SemiBold', serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #edf0f6 !important
+}
+
+@font-face {
+  font-family: 'MarkaziText-SemiBold';
+  src:  url('./Fonts/MarkaziText-SemiBold.woff2') format('woff2'),
+        url('./Fonts/MarkaziText-SemiBold.woff') format('woff'),
+        url('./Fonts/MarkaziText-SemiBold.ttf') format('truetype');
 }
 
 code {
