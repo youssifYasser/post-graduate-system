@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PersonalData from './Components/personal-data/PersonalData'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        Post graduate system
-      </div>
+      <main>
+        <PersonalData />
+      </main>
     );
   }
 }
