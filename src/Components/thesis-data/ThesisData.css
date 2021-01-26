@@ -1,4 +1,4 @@
-.form-one {
+.form-two {
     text-align: right;
     color: #2f3944;
 }
@@ -18,13 +18,4 @@
 .form-input {
     background-color: #edf0f6 !important;
     color: #373636 !important;
-}
-
-.form-check-male {
-    margin-left: 14px
-}
-
-.gender{
-    margin-top: 10px;
-    margin-right: -32px;
 }

@@ -5,8 +5,8 @@ import './PersonalData.css'
 const PersonalData = () => {
     return (
         <>
-            <h5 className='title'> البيانات الشخصية للطالب </h5>
             <Container className='form-one'>
+                <h5 className='title'> البيانات الشخصية للطالب </h5>
                 <Form>
                     <section className='section'>
                         <Form.Row>

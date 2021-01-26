@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PersonalData from './Components/personal-data/PersonalData'
+import ThesisData from './Components/thesis-data/ThesisData'
 
 class App extends Component {
   render() {
     return (
       <main>
-        <PersonalData />
+        <ThesisData />
       </main>
     );
   }
