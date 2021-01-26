@@ -11,28 +11,28 @@ const PersonalData = () => {
                     <section className='section'>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='arName'>
-                                    <Form.Label htmlFor='arName'>الاسم باللغة العربية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='arName' />
+                                <Form.Group controlId='arName'>
+                                    <Form.Label>الاسم باللغة العربية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
-                                <Form.Group cotrolId='enName'>
-                                    <Form.Label htmlFor='enName'>الاسم باللغة الإنجليزية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='enName' />
+                                <Form.Group controlId='enName'>
+                                    <Form.Label>الاسم باللغة الإنجليزية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }}>
-                                <Form.Group cotrolId='bDate'>
-                                    <Form.Label htmlFor='bDate'>تاريخ الميلاد</Form.Label>
-                                    <Form.Control className='form-input' type='date' id='bDate' />
+                                <Form.Group controlId='bDate'>
+                                    <Form.Label>تاريخ الميلاد</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={3} xs={6}>
                                 <Form.Group controlId='gender'>
-                                    <Form.Label htmlFor='gender'>الجنس</Form.Label>
+                                    <Form.Label>الجنس</Form.Label>
                                     <Col className='gender'>
                                         <Form.Check
                                             inline
@@ -45,7 +45,7 @@ const PersonalData = () => {
                                         <Form.Check
                                             inline
                                             type='radio'
-                                            id='male'
+                                            id='female'
                                             label='أنثى'
                                             name='gender'
                                             className='form-check-female'
@@ -54,9 +54,9 @@ const PersonalData = () => {
                                 </Form.Group>
                             </Col>
                             <Col md={2} xs={6}>
-                                <Form.Group cotrolId='nation'>
-                                    <Form.Label htmlFor='nation'>الجنسية</Form.Label>
-                                    <Form.Control className='form-input' as='select' id='nation' custom>
+                                <Form.Group controlId='nation'>
+                                    <Form.Label>الجنسية</Form.Label>
+                                    <Form.Control className='form-input' as='select' custom>
                                         <option>مصر</option>
                                         <option>السمبلاوين</option>
                                         <option>بوركينا فاسو</option>
@@ -68,29 +68,29 @@ const PersonalData = () => {
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} xs={6}>
-                                <Form.Group cotrolId='natId'>
-                                    <Form.Label htmlFor='natId'>الرقم القومى</Form.Label>
-                                    <Form.Control className='form-input' type='number' id='natId' />
+                                <Form.Group controlId='natId'>
+                                    <Form.Label>الرقم القومى</Form.Label>
+                                    <Form.Control className='form-input' type='number' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} xs={6}>
-                                <Form.Group cotrolId='birthSrc'>
-                                    <Form.Label htmlFor='birthSrc'>مصدر شهادة الميلاد</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='birthSrc' />
+                                <Form.Group controlId='birthSrc'>
+                                    <Form.Label>مصدر شهادة الميلاد</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='code'>
-                                    <Form.Label htmlFor='code'>الرقم الكودى</Form.Label>
-                                    <Form.Control className='form-input' type='number' id='code' />
+                                <Form.Group controlId='code'>
+                                    <Form.Label>الرقم الكودى</Form.Label>
+                                    <Form.Control className='form-input' type='number' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
-                                <Form.Group cotrolId='email'>
-                                    <Form.Label htmlFor='email'>البريد الإلكترونى</Form.Label>
-                                    <Form.Control className='form-input' type='email' id='email' />
+                                <Form.Group controlId='email'>
+                                    <Form.Label>البريد الإلكترونى</Form.Label>
+                                    <Form.Control className='form-input' type='email' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -98,15 +98,15 @@ const PersonalData = () => {
                     <section className='section'>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='address'>
-                                    <Form.Label htmlFor='address'>العنوان</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='address' />
+                                <Form.Group controlId='address'>
+                                    <Form.Label>العنوان</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
-                                <Form.Group cotrolId='phoneNum'>
-                                    <Form.Label htmlFor='phoneNum'>رقم الهاتف</Form.Label>
-                                    <Form.Control className='form-input' type='number' id='phoneNum' />
+                                <Form.Group controlId='phoneNum'>
+                                    <Form.Label>رقم الهاتف</Form.Label>
+                                    <Form.Control className='form-input' type='number' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -114,23 +114,23 @@ const PersonalData = () => {
                     <section className='section'>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} xs={6}>
-                                <Form.Group cotrolId='arJob'>
-                                    <Form.Label htmlFor='arJob'>الوظيفة باللغة العربية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='arJob' />
+                                <Form.Group controlId='arJob'>
+                                    <Form.Label>الوظيفة باللغة العربية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} xs={6}>
-                                <Form.Group cotrolId='enJob'>
-                                    <Form.Label htmlFor='arJob'>الوظيفة باللغة الإنجليزية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='arJob' />
+                                <Form.Group controlId='enJob'>
+                                    <Form.Label>الوظيفة باللغة الإنجليزية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='jobAdd'>
-                                    <Form.Label htmlFor='jobAdd'>عنوان الوظيفة</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='jobAdd' />
+                                <Form.Group controlId='jobAdd'>
+                                    <Form.Label>عنوان الوظيفة</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>

@@ -11,37 +11,37 @@ const ThesisData = () => {
                     <section className='section'>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='studyType'>
-                                    <Form.Label htmlFor='studyType'>نوع الدراسة</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='studyType' />
+                                <Form.Group controlId='studyType'>
+                                    <Form.Label>نوع الدراسة</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
-                                <Form.Group cotrolId='TOEFL'>
-                                    <Form.Label htmlFor='TOEFL'>درجة امتحان التويفل - TOEFL</Form.Label>
-                                    <Form.Control className='form-input' type='number' id='TOEFL' />
+                                <Form.Group controlId='TOEFL'>
+                                    <Form.Label>درجة امتحان التويفل - TOEFL</Form.Label>
+                                    <Form.Control className='form-input' type='number' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
-                                <Form.Group cotrolId='arThesis'>
-                                    <Form.Label htmlFor='arThesis'>عنوان الرسالة باللغة العربية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='arThesis' />
+                                <Form.Group controlId='arThesis'>
+                                    <Form.Label>عنوان الرسالة باللغة العربية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
-                                <Form.Group cotrolId='enThesis'>
-                                    <Form.Label htmlFor='enThesis'>عنوان الرسالة باللغة الإنجليزية</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='enThesis' />
+                                <Form.Group controlId='enThesis'>
+                                    <Form.Label>عنوان الرسالة باللغة الإنجليزية</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={5}>
-                                <Form.Group cotrolId='courses'>
-                                    <Form.Label htmlFor='courses'>المقررات الملتحقة بالدراسة</Form.Label>
-                                    <Form.Control className='form-input' type='text' id='courses' />
+                                <Form.Group controlId='courses'>
+                                    <Form.Label>المقررات الملتحقة بالدراسة</Form.Label>
+                                    <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
