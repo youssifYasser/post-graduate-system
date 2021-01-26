@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
+import { BsFillCaretLeftFill } from 'react-icons/bs'
+
+import PersonalData from '../personal-data/PersonalData'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
+  const [page, setPage] = useState(1)
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -31,25 +35,43 @@ const StudentDataRegisteration = () => {
     }
   }
 
+  const viewPage = () => {
+    switch (page) {
+      case 1:
+        return <PersonalData />
+        break
+      default:
+        break
+    }
+  }
+
   if (showUpload) {
     return (
-      <Container fluid>
+      <Container className='main-form'>
         <Row>
           <div className='header'>
             <h1>تسجيل بيانات الطالب</h1>
           </div>
         </Row>
-        <Row>
-          <div className='center'>
-            <label htmlFor='fileInput'>قم برفع ملف الإكسل:</label>
-            <input type='file' id='fileInput' onChange={handleFile} />
-          </div>
-        </Row>
+        <Form.Row>
+          <Col className='center' xs={9} md={7}>
+            <Form.Group controlId='fileInput'>
+              <Form.Label className='label'>قم برفع ملف الإكسل:</Form.Label>
+              <Form.File
+                className='uploader'
+                label='قم برفع ملف الإكسل'
+                id='fileInput'
+                onChange={handleFile}
+                custom
+              />
+            </Form.Group>
+          </Col>
+        </Form.Row>
       </Container>
     )
   } else {
     return (
-      <Container fluid>
+      <>
         {students.map((item) => {
           const personalData = {
             image: item['الصورة الشخصية'],
@@ -129,9 +151,40 @@ const StudentDataRegisteration = () => {
               ? item['المقررات الملتحقة بالدراسة']
               : '',
           }
-          return <></>
+          return (
+            <Container key={personalData.id}>
+              <main className='main-form'>
+                <Row>
+                  <Col>
+                    <Image src={personalData.image} className='person-img' />
+                  </Col>
+                  <Col className='header' xs={{ span: 12, order: 'first' }}>
+                    <h1>تسجيل بيانات الطالب</h1>
+                  </Col>
+                  <Col className='pages'>
+                    <Row>
+                      <Col className='number1'>1</Col>
+                      <Col className='number2'>2</Col>
+                      <Col className='number3'>3</Col>
+                    </Row>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>{viewPage()}</Col>
+                </Row>
+                <Row>
+                  <Col className='btn-col'>
+                    <Button size='lg' type='submit' className='next-btn'>
+                      التالي
+                      <BsFillCaretLeftFill className='btn-icon' />
+                    </Button>
+                  </Col>
+                </Row>
+              </main>
+            </Container>
+          )
         })}
-      </Container>
+      </>
     )
   }
 }
