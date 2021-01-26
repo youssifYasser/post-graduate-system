@@ -6,7 +6,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        Post graduate system
         <AddStudent />
       </div>
     );

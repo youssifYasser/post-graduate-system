@@ -4,8 +4,9 @@ import AddStudentView from './addStudent-view';
 
 class AddStudent extends Component {
     state = {
-        NameInArabic: '',
-        Email: '',
+        nameInArabic: '',
+        email: '',
+        type: ''
     }
 
     handleChange = (event) => {

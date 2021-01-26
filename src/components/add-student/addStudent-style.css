@@ -1,0 +1,64 @@
+.addStudent{
+    font-family: 'Markazi Text', serif;
+}
+.addStudent .header{
+    padding: 20px;
+    background: #2f3944 !important;
+    color: #ece8e1;
+    font-size: 50px;
+    border-radius: 1rem 1rem 0rem 0rem;
+    box-shadow: 4px 3px 6px 2px #c0c0c0;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addStudent .main{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 0rem 0rem 1rem 1rem;
+    box-shadow: 1px 3px 6px 2px #c0c0c0;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.addStudent .main .form-control{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #bebdbc 2px;
+    border-radius: 0;
+}
+.addStudent .main .form-control:focus{
+    border-radius: 0.25rem;
+    border: none;
+    background-color: #edf0f6;
+}
+
+.addStudent .regBtn{
+    background: #2f3944;
+    color: #ece8e1;
+    padding: 5px 50px;
+    border-radius: 2rem;
+    font-size: 30px;
+
+}
+
+/*start of Responsive*/
+@media (max-width:992px){
+    .addStudent .header,
+    .addStudent .main{
+        max-width: 90%;
+    }
+}
+
+@media (max-width:360px){
+    .addStudent .header,
+    .addStudent .main{
+        max-width: 100%;
+    }
+    .addStudent .main .form{
+        margin: 0 !important;
+    }
+}
+/*End of Responsive*/
