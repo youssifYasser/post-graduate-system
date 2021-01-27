@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import ThesisData from './Components/thesis-data/ThesisData'
-import PersonalData from './Components/personal-data/PersonalData';
+
+import React, { Component } from 'react'
+import StudentDataRegisteration from './Components/Student data registration/StudentDataRegisteration.js'
+
 
 class App extends Component {
   render() {
     return (
-      <main>
-        <PersonalData />
-      </main>
-    );
+      <>
+        <StudentDataRegisteration />
+      </>
+    )
   }
 }
 
-export default App;
+export default App
