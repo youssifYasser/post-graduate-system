@@ -1,0 +1,136 @@
+.main-form {
+  text-align: right;
+  margin: 10px;
+}
+.main-form .header,
+.upload-form .header {
+  background-color: #2f3944;
+  margin: 50px auto;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  width: max-content !important;
+  color: #ece8e1;
+}
+
+.header h1 {
+  margin-top: 10px;
+}
+
+.file {
+  background-color: #fff;
+  font-size: 20px;
+  margin: 10px auto;
+  margin-top: 10%;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 3px 6px 2px #c0c0c0;
+  text-align: right;
+}
+.file label {
+  text-align: left;
+  margin: 5px 10px;
+}
+.main-form .file .custom-file-input:hover {
+  cursor: pointer;
+}
+.main-form .person-img {
+  border-radius: 50%;
+  margin: 20px 16px 16px 16px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  box-shadow: 1px 3px 6px 2px #c0c0c0;
+}
+
+.main-form .pages {
+  position: relative;
+}
+.main-form .pages .col {
+  text-align: center;
+  border-radius: 50%;
+  margin: 3px;
+  max-width: 40px;
+  height: 40px;
+  background-color: #617689;
+  color: #ece8e1;
+  font-weight: bold;
+  padding: 8px;
+}
+.main-form .pages .number1 {
+  position: absolute !important;
+  bottom: 0;
+  left: 145px;
+}
+.main-form .pages .number2 {
+  position: absolute !important;
+  bottom: 0;
+  left: 85px;
+}
+.main-form .pages .number3 {
+  position: absolute !important;
+  bottom: 0;
+  left: 25px;
+}
+
+.main-form .pages .active-page {
+  background-color: #2f3944;
+}
+
+.main-form .btn-col {
+  text-align: left;
+  left: 15px;
+}
+.main-form .btn-col .next-btn {
+  color: #ece8e1 !important;
+  background-color: #2f3944 !important;
+  border-color: #2f3944 !important;
+  min-width: 10%;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
+}
+
+.main-form .btn-col .next-btn .btn-icon {
+  margin-right: 3px;
+}
+
+@media screen and (max-width: 992px) {
+  .main-form .header {
+    margin-left: 2.1875em;
+  }
+  .main-form .header h1 {
+    margin-top: 10px;
+    font-size: 2.27em;
+  }
+
+  .main-form .person-img {
+    width: 115px;
+    height: 115px;
+    margin-top: 35px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* .main-form .person-img{
+    margin-right: 4.25em;
+  } */
+  .main-form .header {
+    margin-bottom: 1.5625em;
+    margin-right: 3.75em;
+  }
+  .main-form .pages .number1 {
+    position: absolute !important;
+    bottom: 3.125em;
+    left: 145px;
+  }
+  .main-form .pages .number2 {
+    position: absolute !important;
+    bottom: 3.125em;
+    left: 85px;
+  }
+  .main-form .pages .number3 {
+    position: absolute !important;
+    bottom: 3.125em;
+    left: 25px;
+  }
+}
