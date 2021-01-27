@@ -2,7 +2,16 @@ import React from 'react'
 import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
-const ThesisData = () => {
+const ThesisData = ({ academicThesisData }) => {
+
+    const {
+        registerationType,
+        toeflDegree,
+        arabicTitle,
+        englishTitle,
+        courses
+    } = academicThesisData
+
     return (
         <>
             <Container className='form-two'>
@@ -13,13 +22,21 @@ const ThesisData = () => {
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
                                 <Form.Group controlId='studyType'>
                                     <Form.Label>نوع الدراسة</Form.Label>
-                                    <Form.Control className='form-input' type='text' />
+                                    <Form.Control
+                                        className='form-input'
+                                        type='text'
+                                        value={registerationType}
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
                                 <Form.Group controlId='TOEFL'>
                                     <Form.Label>درجة امتحان التويفل - TOEFL</Form.Label>
-                                    <Form.Control className='form-input' type='number' />
+                                    <Form.Control
+                                        className='form-input'
+                                        type='number'
+                                        value={toeflDegree}
+                                    />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -27,13 +44,21 @@ const ThesisData = () => {
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
                                 <Form.Group controlId='arThesis'>
                                     <Form.Label>عنوان الرسالة باللغة العربية</Form.Label>
-                                    <Form.Control className='form-input' type='text' />
+                                    <Form.Control
+                                        className='form-input'
+                                        type='text'
+                                        value={arabicTitle}
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
                                 <Form.Group controlId='enThesis'>
                                     <Form.Label>عنوان الرسالة باللغة الإنجليزية</Form.Label>
-                                    <Form.Control className='form-input' type='text' />
+                                    <Form.Control
+                                        className='form-input'
+                                        type='text'
+                                        value={englishTitle}
+                                    />
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -41,7 +66,11 @@ const ThesisData = () => {
                             <Col md={5}>
                                 <Form.Group controlId='courses'>
                                     <Form.Label>المقررات الملتحقة بالدراسة</Form.Label>
-                                    <Form.Control className='form-input' type='text' />
+                                    <Form.Control
+                                        className='form-input'
+                                        type='text'
+                                        value={courses}
+                                    />
                                 </Form.Group>
                             </Col>
                         </Form.Row>

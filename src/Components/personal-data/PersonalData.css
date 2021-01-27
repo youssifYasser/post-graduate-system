@@ -20,10 +20,12 @@
 
 .form-input {
     background-color: #edf0f6 !important;
+    color: #373636 !important;
     border-radius: 10px !important;
-    border: 1px solid #8e949b !important
+    border: 1px solid #8e949b !important;
+    font-size: 0.9em !important;
 }
-
+/*
 .section .form-check-label {
     margin-right: 3px;
 }
@@ -31,8 +33,8 @@
 .form-check-male {
     margin-left: 10px
 }
+*/
 
 .gender{
-    margin-right: -32px;
-    padding: 5px
+    margin-right: -16px;
 }
