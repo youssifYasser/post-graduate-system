@@ -13,11 +13,12 @@
   color: #ece8e1;
 }
 
-.header h1 {
+.main-form .header h1,
+.upload-form .header h1 {
   margin-top: 10px;
 }
 
-.file {
+.upload-form .file {
   background-color: #fff;
   font-size: 20px;
   margin: 10px auto;
@@ -27,13 +28,18 @@
   box-shadow: 1px 3px 6px 2px #c0c0c0;
   text-align: right;
 }
-.file label {
+.upload-form .file label {
   text-align: left;
   margin: 5px 10px;
 }
-.main-form .file .custom-file-input:hover {
+
+.upload-form .file .custom-file-input {
+  margin-top: 10px;
+}
+::-webkit-file-upload-button {
   cursor: pointer;
 }
+
 .main-form .person-img {
   border-radius: 50%;
   margin: 20px 16px 16px 16px;

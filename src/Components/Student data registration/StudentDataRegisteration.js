@@ -22,7 +22,16 @@ const StudentDataRegisteration = () => {
         const wb = XLSX.read(bufferArray, { type: 'buffer' })
         const wsname = wb.SheetNames[0]
         const ws = wb.Sheets[wsname]
-        const data = XLSX.utils.sheet_to_json(ws, { raw: false })
+        for (const item in ws) {
+          if (ws[item].t == 'n') {
+            delete ws[item].w
+            ws[item].z = 'dd/mm/yyyy'
+            XLSX.utils.format_cell(ws[item])
+          }
+        }
+        const data = XLSX.utils.sheet_to_json(ws, {
+          raw: false,
+        })
         setStudents(data)
         setShowUpload(false)
       } catch (error) {
@@ -151,6 +160,7 @@ const StudentDataRegisteration = () => {
               ? item['المقررات الملتحقة بالدراسة']
               : '',
           }
+
           return (
             <Container key={personalData.id}>
               <main className='main-form'>
