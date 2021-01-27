@@ -54,9 +54,6 @@ function AddStudent(props) {
                     <div className="text-center">
                         <Button variant="dark" className="regBtn">تسجيل</Button>
                     </div>
-                    {
-                        console.log(window.innerWidth + '  ' + window.innerHeight)
-                    }
                 </Form>
             </div>
         </Container>
