@@ -41,7 +41,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='enName'>
                                     <Form.Label>الاسم باللغة الإنجليزية</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='text'
                                         value={englishName}
                                     />
@@ -53,7 +53,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='bDate'>
                                     <Form.Label>تاريخ الميلاد</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='text'
                                         value={birthDate}
                                     />
@@ -127,7 +127,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='natId'>
                                     <Form.Label>الرقم القومى</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='number'
                                         value={nationalID}
                                     />
@@ -159,7 +159,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='email'>
                                     <Form.Label>البريد الإلكترونى</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='email'
                                         value={email}
                                     />
@@ -183,7 +183,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='phoneNum'>
                                     <Form.Label>رقم الهاتف</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='number'
                                         value={phoneNumber}
                                     />
@@ -207,7 +207,7 @@ const PersonalData = ({ personalData }) => {
                                 <Form.Group controlId='enJob'>
                                     <Form.Label>الوظيفة باللغة الإنجليزية</Form.Label>
                                     <Form.Control
-                                        className='form-input'
+                                        className='form-input form-english'
                                         type='text'
                                         value={englishJobName}
                                     />
