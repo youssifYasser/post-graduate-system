@@ -29,6 +29,10 @@
 }
 
 .gender{
-    margin-top: 10px;
-    margin-right: -32px;
+    padding-top:7px;
+    margin-right: -5px;
+}
+
+.section .form-check-label{
+    margin-right: 5px;
 }
