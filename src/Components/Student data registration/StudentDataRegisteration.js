@@ -5,12 +5,13 @@ import * as XLSX from 'xlsx'
 import { BsFillCaretLeftFill } from 'react-icons/bs'
 
 import PersonalData from '../personal-data/PersonalData'
+import ThesisData from '../thesis-data/ThesisData'
 import FileUpload from '../file-upload/FileUpload'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(3)
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -40,6 +41,9 @@ const StudentDataRegisteration = () => {
     switch (page) {
       case 1:
         return <PersonalData personalData={personalData} />
+        break
+      case 3:
+        return <ThesisData academicThesisData={academicThesisData} />
         break
       default:
         break
