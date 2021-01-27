@@ -1,6 +1,6 @@
-.addStudent{
+/* .addStudent{
     font-family: 'Markazi Text', serif;
-}
+} */
 .addStudent .header{
     padding: 20px;
     background: #2f3944 !important;
@@ -34,7 +34,9 @@
     border: none;
     background-color: #edf0f6;
 }
-
+.addStudent .main .form-label{
+    font-size: 1.2rem;
+}
 .addStudent .regBtn{
     background: #2f3944;
     color: #ece8e1;
@@ -45,6 +47,17 @@
 }
 
 /*start of Responsive*/
+/*@media (max-height: 695px){
+    .addStudent .main{
+        padding: 5px 20px
+    }
+    .addStudent .regBtn{
+        padding: 5px 50px;
+        font-size: 25px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+}*/
 @media (max-width:992px){
     .addStudent .header,
     .addStudent .main{
@@ -53,12 +66,21 @@
 }
 
 @media (max-width:360px){
+    .addStudent .header{
+        font-size: 40px;
+    }
+
     .addStudent .header,
     .addStudent .main{
         max-width: 100%;
     }
+
     .addStudent .main .form{
         margin: 0 !important;
+    }
+
+    .addStudent .regBtn{
+        font-size: 25px;
     }
 }
 /*End of Responsive*/
