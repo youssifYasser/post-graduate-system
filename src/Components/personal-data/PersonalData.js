@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Form, Container } from 'react-bootstrap'
+import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 
 const PersonalData = () => {
@@ -9,6 +9,7 @@ const PersonalData = () => {
                 <h5 className='title'> البيانات الشخصية للطالب </h5>
                 <Form>
                     <section className='section'>
+                        {console.log(window.innerWidth)}
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} sm={6}>
                                 <Form.Group controlId='arName'>
@@ -30,40 +31,44 @@ const PersonalData = () => {
                                     <Form.Control className='form-input' type='text' />
                                 </Form.Group>
                             </Col>
-                            <Col md={3} xs={6}>
-                                <Form.Group controlId='gender'>
-                                    <Form.Label>الجنس</Form.Label>
-                                    <Col className='gender'>
-                                        <Form.Check
-                                            inline
-                                            type='radio'
-                                            id='male'
-                                            label='ذكر'
-                                            name='gender'
-                                            className='form-check-male'
-                                        />
-                                        <Form.Check
-                                            inline
-                                            type='radio'
-                                            id='female'
-                                            label='أنثى'
-                                            name='gender'
-                                            className='form-check-female'
-                                        />
+                            <Col>
+                                <Row>
+                                    <Col xs={6} md={5} lg={6}>
+                                        <Form.Group controlId='gender'>
+                                            <Form.Label>الجنس</Form.Label>
+                                            <Col className='gender'>
+                                                <Form.Check
+                                                    inline
+                                                    type='radio'
+                                                    id='male'
+                                                    label='ذكر'
+                                                    name='gender'
+                                                    className='form-check-male'
+                                                />
+                                                <Form.Check
+                                                    inline
+                                                    type='radio'
+                                                    id='female'
+                                                    label='أنثى'
+                                                    name='gender'
+                                                    className='form-check-female'
+                                                />
+                                            </Col>
+                                        </Form.Group>
                                     </Col>
-                                </Form.Group>
-                            </Col>
-                            <Col md={2} xs={6}>
-                                <Form.Group controlId='nation'>
-                                    <Form.Label>الجنسية</Form.Label>
-                                    <Form.Control className='form-input' as='select' custom>
-                                        <option>مصر</option>
-                                        <option>السمبلاوين</option>
-                                        <option>بوركينا فاسو</option>
-                                        <option>الساحل العاج</option>
-                                        <option>مصر جوا</option>
-                                    </Form.Control>
-                                </Form.Group>
+                                    <Col xs={6} md={7} lg={6}>
+                                        <Form.Group controlId='nation'>
+                                            <Form.Label>الجنسية</Form.Label>
+                                            <Form.Control className='form-input' as='select' custom>
+                                                <option>مصر</option>
+                                                <option>السمبلاوين</option>
+                                                <option>بوركينا فاسو</option>
+                                                <option>الساحل العاج</option>
+                                                <option>مصر جوا</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
                             </Col>
                         </Form.Row>
                         <Form.Row>
