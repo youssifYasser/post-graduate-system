@@ -35,10 +35,10 @@ const StudentDataRegisteration = () => {
     }
   }
 
-  const viewPage = () => {
+  const viewPage = (personalData, universityDegrees, academicThesisData) => {
     switch (page) {
       case 1:
-        return <PersonalData />
+        return <PersonalData personalData={personalData} />
         break
       default:
         break
@@ -47,14 +47,14 @@ const StudentDataRegisteration = () => {
 
   if (showUpload) {
     return (
-      <Container className='main-form'>
+      <Container className='upload-form'>
         <Row>
           <div className='header'>
             <h1>تسجيل بيانات الطالب</h1>
           </div>
         </Row>
         <Form.Row>
-          <Col className='center' xs={9} md={7}>
+          <Col className='file' xs={9} md={7}>
             <Form.Group controlId='fileInput'>
               <Form.Label className='label'>قم برفع ملف الإكسل:</Form.Label>
               <Form.File
@@ -155,22 +155,40 @@ const StudentDataRegisteration = () => {
             <Container key={personalData.id}>
               <main className='main-form'>
                 <Row>
-                  <Col>
+                  <Col xs={{ order: 2 }} md={{ order: 1 }}>
                     <Image src={personalData.image} className='person-img' />
                   </Col>
-                  <Col className='header' xs={{ span: 12, order: 'first' }}>
+                  <Col
+                    className='header'
+                    xs={{ order: 1, span: 9 }}
+                    md={{ order: 2, span: 5 }}
+                    lg={{ span: 5 }}
+                    xl={{ span: 5 }}
+                  >
                     <h1>تسجيل بيانات الطالب</h1>
                   </Col>
-                  <Col className='pages'>
+                  <Col className='pages' xs={{ order: 3 }} md={{ order: 3 }}>
                     <Row>
-                      <Col className='number1'>1</Col>
-                      <Col className='number2'>2</Col>
-                      <Col className='number3'>3</Col>
+                      <Col className={`number1 ${page === 1 && 'active-page'}`}>
+                        1
+                      </Col>
+                      <Col className={`number2 ${page === 2 && 'active-page'}`}>
+                        2
+                      </Col>
+                      <Col className={`number3 ${page === 3 && 'active-page'}`}>
+                        3
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
                 <Row>
-                  <Col>{viewPage()}</Col>
+                  <Col>
+                    {viewPage(
+                      personalData,
+                      universityDegrees,
+                      academicThesisData
+                    )}
+                  </Col>
                 </Row>
                 <Row>
                   <Col className='btn-col'>
