@@ -36,7 +36,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='registerationType'
                                         value={thesis.registerationType}
                                         onChange={handleChange}
-                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
+                                        pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -63,7 +63,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='arabicTitle'
                                         value={thesis.arabicTitle}
                                         onChange={handleChange}
-                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
+                                        pattern='^[\u0621-\u064A0-9 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -76,7 +76,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='englishTitle'
                                         value={thesis.englishTitle}
                                         onChange={handleChange}
-                                        pattern='/^[A-Za-z][A-Za-z0-9]*$/'
+                                        pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                                     />
                                 </Form.Group>
                             </Col>
