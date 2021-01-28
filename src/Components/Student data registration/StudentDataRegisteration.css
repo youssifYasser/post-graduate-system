@@ -28,14 +28,32 @@
   box-shadow: 1px 3px 6px 2px #c0c0c0;
   text-align: right;
 }
-.upload-form .file label {
-  text-align: left;
-  margin: 5px 10px;
+
+.upload-form .file .custom-file-input:hover {
+  cursor: pointer !important;
 }
 
-.upload-form .file .custom-file-input {
-  margin-top: 10px;
+.upload-form .file .custom-file-label {
+  margin: 10px;
+  border-radius: 10px !important;
+  background-color: #edf0f6 !important;
+  color: #373636 !important;
+  cursor: pointer !important;
 }
+
+.upload-form .custom-file-label::after {
+  background-color: #2f3944 !important;
+  color: #ece8e1 !important;
+  font-weight: 500 !important;
+  content: 'تصفح' !important;
+  padding: 3px !important;
+  left: 0 !important;
+  right: auto !important;
+  border: 2px solid #2f3944 !important;
+  width: 4.5em !important;
+  text-align: center !important;
+}
+
 ::-webkit-file-upload-button {
   cursor: pointer;
 }

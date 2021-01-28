@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx'
 import { BsFillCaretLeftFill } from 'react-icons/bs'
 
 import PersonalData from '../personal-data/PersonalData'
+import ThesisData from '../thesis-data/ThesisData'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
@@ -49,6 +50,9 @@ const StudentDataRegisteration = () => {
       case 1:
         return <PersonalData personalData={personalData} />
         break
+      case 3:
+        return <ThesisData academicThesisData={academicThesisData} />
+        break
       default:
         break
     }
@@ -65,7 +69,6 @@ const StudentDataRegisteration = () => {
         <Form.Row>
           <Col className='file' xs={9} md={7}>
             <Form.Group controlId='fileInput'>
-              <Form.Label className='label'>قم برفع ملف الإكسل:</Form.Label>
               <Form.File
                 className='uploader'
                 label='قم برفع ملف الإكسل'
