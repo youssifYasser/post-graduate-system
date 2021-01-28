@@ -7,6 +7,7 @@ import { BsFillCaretLeftFill } from 'react-icons/bs'
 import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
 import UniversityDegrees from '../university-degrees/UniversityDegrees'
+import FileUpload from '../file-upload/FileUpload'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
@@ -63,28 +64,7 @@ const StudentDataRegisteration = () => {
   }
 
   if (showUpload) {
-    return (
-      <Container className='upload-form'>
-        <Row>
-          <div className='header'>
-            <h1>تسجيل بيانات الطالب</h1>
-          </div>
-        </Row>
-        <Form.Row>
-          <Col className='file' xs={9} md={7}>
-            <Form.Group controlId='fileInput'>
-              <Form.File
-                className='uploader'
-                label='قم برفع ملف الإكسل'
-                id='fileInput'
-                onChange={handleFile}
-                custom
-              />
-            </Form.Group>
-          </Col>
-        </Form.Row>
-      </Container>
-    )
+    return <FileUpload handleFile={handleFile} />
   } else {
     return (
       <>
