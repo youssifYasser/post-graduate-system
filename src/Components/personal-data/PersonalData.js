@@ -4,6 +4,8 @@ import './PersonalData.css'
 
 const PersonalData = ({ personalData }) => {
 
+    const [validated, setValidated] = React.useState(false);
+
     const {
         id,
         arabicName,
@@ -39,6 +41,13 @@ const PersonalData = ({ personalData }) => {
     })
 
     const handleChange = (e) => {
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        setValidated(true);
+
         const name = e.target.name
         const value = e.target.value
         const type = e.target.type
@@ -50,7 +59,7 @@ const PersonalData = ({ personalData }) => {
         <>
             <Container className='form-one'>
                 <h5 className='title'> البيانات الشخصية للطالب </h5>
-                <Form>
+                <Form noValidate validated={validated}>
                     <section className='section'>
                         {console.log(window.innerWidth)}
                         <Form.Row>
@@ -65,6 +74,9 @@ const PersonalData = ({ personalData }) => {
                                         onChange={handleChange}
                                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الاسم باللغة العربية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
@@ -78,6 +90,9 @@ const PersonalData = ({ personalData }) => {
                                         onChange={handleChange}
                                         pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الاسم باللغة الإنجليزية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -167,6 +182,9 @@ const PersonalData = ({ personalData }) => {
                                         value={student.nationalID}
                                         onChange={handleChange}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الرقم القومى بالطريقة الصحيحية (أرقام فقط).
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} xs={6}>
@@ -180,6 +198,9 @@ const PersonalData = ({ personalData }) => {
                                         onChange={handleChange}
                                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل المصدر باللغة العربية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -194,6 +215,9 @@ const PersonalData = ({ personalData }) => {
                                         value={student.id}
                                         onChange={handleChange}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الرقم الكودى بالطريقة الصحيحة(أرقام فقط).
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
@@ -205,7 +229,11 @@ const PersonalData = ({ personalData }) => {
                                         name='email'
                                         value={student.email}
                                         onChange={handleChange}
+                                        pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة (example@mail.com).
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -221,8 +249,11 @@ const PersonalData = ({ personalData }) => {
                                         name='address'
                                         value={student.address}
                                         onChange={handleChange}
-                                        pattern='^[\u0621-\u064A0-9 ]+$'
+                                        pattern='^[\u0621-\u064A-0-9 ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل العنوان بالطريقة الصحيحة.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
@@ -235,6 +266,9 @@ const PersonalData = ({ personalData }) => {
                                         value={student.phoneNumber}
                                         onChange={handleChange}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل رقم الهاتف بالطريقة الصحيحة(أرقام فقط).
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -252,6 +286,9 @@ const PersonalData = ({ personalData }) => {
                                         onChange={handleChange}
                                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الوظيفة باللغة العربية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} xs={6}>
@@ -265,6 +302,9 @@ const PersonalData = ({ personalData }) => {
                                         onChange={handleChange}
                                         pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الوظيفة باللغة الإنجليزية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -278,8 +318,11 @@ const PersonalData = ({ personalData }) => {
                                         name='jobAddress'
                                         value={student.jobAddress}
                                         onChange={handleChange}
-                                        pattern='^[\u0621-\u064A0-9 ]+$'
+                                        pattern='^[\u0621-\u064A-0-9 ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل العنوان بالطريقة الصحيحة.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>

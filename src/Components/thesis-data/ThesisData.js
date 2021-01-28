@@ -32,12 +32,20 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Label>نوع الدراسة</Form.Label>
                                     <Form.Control
                                         className='form-input'
-                                        type='text'
+                                        as={select}
                                         name='registerationType'
                                         value={thesis.registerationType}
                                         onChange={handleChange}
                                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                                    />
+                                    >
+                                        <option>دبلومة</option>
+                                        <option>تمهيدى</option>
+                                        <option>ماجيستير</option>
+                                        <option>دكتوراه</option>
+                                    </Form.Control>
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل نوع الدراسة بالطريقة الصحيحة.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
@@ -50,6 +58,9 @@ const ThesisData = ({ academicThesisData }) => {
                                         value={thesis.toeflDegree}
                                         onChange={handleChange}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل الدرجة بالطريقة الصحيحة (ارقام فقط).
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
@@ -65,6 +76,9 @@ const ThesisData = ({ academicThesisData }) => {
                                         onChange={handleChange}
                                         pattern='^[\u0621-\u064A0-9 ]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل عنوان الرسالة باللغة العربية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={5} sm={6}>
@@ -78,6 +92,9 @@ const ThesisData = ({ academicThesisData }) => {
                                         onChange={handleChange}
                                         pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        من فضلك أدخل عنوان الرسالة باللغة الإنجليزية فقط.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Form.Row>
