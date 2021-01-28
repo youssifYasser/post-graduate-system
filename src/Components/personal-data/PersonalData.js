@@ -106,8 +106,12 @@ const PersonalData = ({ personalData }) => {
                                         name='birthDate'
                                         value={student.birthDate}
                                         onChange={handleChange}
+                                        pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
                                     />
                                 </Form.Group>
+                                <Form.Control.Feedback type="invalid">
+                                    من فضلك أدخل التاريخ بالطريقة الصحيحة (dd/mm/yyyy).
+                                </Form.Control.Feedback>
                             </Col>
                             <Col>
                                 <Row>
