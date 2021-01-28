@@ -29,7 +29,7 @@
 .form-english {
     font-size: 1.1em !important;
 }
-/*
+
 .section .form-check-label {
     margin-right: 3px;
 }
@@ -37,8 +37,9 @@
 .form-check-male {
     margin-left: 10px
 }
-*/
+
 
 .gender{
-    margin-right: -16px;
+    margin-right: -32px;
+    padding: 5px
 }

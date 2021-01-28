@@ -59,39 +59,20 @@ const PersonalData = ({ personalData }) => {
                                     />
                                 </Form.Group>
                             </Col>
-                            <Col md={2} xs={4}>
-                                <Form.Group controlId='gender'>
-                                    <Form.Label>الجنس</Form.Label>
-                                    <Form.Control
-                                        className='form-input'
-                                        type='text'
-                                        value={gender}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={3} xs={4}>
-                                <Form.Group controlId='nation'>
-                                    <Form.Label>الجنسية</Form.Label>
-                                    <Form.Control
-                                        className='form-input'
-                                        type='text'
-                                        value={country}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            {/* <Col md={5} sm={12}>
+                            <Col>
                                 <Row>
-                                    <Col>
+                                    <Col xs={6} md={5} lg={6}>
                                         <Form.Group controlId='gender'>
                                             <Form.Label>الجنس</Form.Label>
-                                            <Col className='gender'> */}
-                            {/* <Form.Check
+                                            <Col className='gender'>
+                                                <Form.Check
                                                     inline
                                                     type='radio'
                                                     id='male'
                                                     label='ذكر'
                                                     name='gender'
                                                     className='form-check-male'
+                                                    checked={gender === "ذكر"}
                                                 />
                                                 <Form.Check
                                                     inline
@@ -100,27 +81,25 @@ const PersonalData = ({ personalData }) => {
                                                     label='أنثى'
                                                     name='gender'
                                                     className='form-check-female'
-                                                /> */}
-                            {/* <Form.Control
-                                                    className='form-input'
-                                                    type='text'
-                                                    value={gender}
+                                                    checked={gender === "أنثى"}
                                                 />
                                             </Col>
                                         </Form.Group>
                                     </Col>
-                                    <Col>
+                                    <Col xs={6} md={7} lg={6}>
                                         <Form.Group controlId='nation'>
                                             <Form.Label>الجنسية</Form.Label>
-                                            <Form.Control
-                                                className='form-input'
-                                                type='text'
-                                                value={country}
-                                            />
+                                            <Form.Control className='form-input' as='select' custom>
+                                                <option>مصر</option>
+                                                <option>السمبلاوين</option>
+                                                <option>بوركينا فاسو</option>
+                                                <option>الساحل العاج</option>
+                                                <option>مصر جوا</option>
+                                            </Form.Control>
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                            </Col> */}
+                            </Col>
                         </Form.Row>
                         <Form.Row>
                             <Col md={{ span: 5, offset: 2 }} xs={6}>
