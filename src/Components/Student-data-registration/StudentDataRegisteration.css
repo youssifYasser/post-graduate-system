@@ -25,8 +25,13 @@
   margin-top: 10%;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 1px 3px 6px 2px #c0c0c0;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
   text-align: right;
+}
+
+.upload-form .file:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 .upload-form .file .custom-file-input:hover {
@@ -108,10 +113,17 @@
 .main-form .btn-col .next-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
-  border-color: #2f3944 !important;
+  border: 2px solid #2f3944 !important;
   min-width: 10%;
   font-size: 1.2em !important;
   border-radius: 10px !important;
+  transition: background-color 0.5s ease-out;
+}
+
+.main-form .btn-col .next-btn:hover {
+  color: #2f3944 !important;
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
 }
 
 .main-form .btn-col .next-btn .btn-icon {

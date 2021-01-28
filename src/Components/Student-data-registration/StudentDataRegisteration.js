@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
@@ -6,11 +6,12 @@ import { BsFillCaretLeftFill } from 'react-icons/bs'
 
 import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
+import UniversityDegrees from '../university-degrees/UniversityDegrees'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(2)
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -49,6 +50,9 @@ const StudentDataRegisteration = () => {
     switch (page) {
       case 1:
         return <PersonalData personalData={personalData} />
+        break
+      case 2:
+        return <UniversityDegrees universityDegrees={universityDegrees} />
         break
       case 3:
         return <ThesisData academicThesisData={academicThesisData} />
@@ -116,6 +120,7 @@ const StudentDataRegisteration = () => {
               university:
                 item['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
             },
+
             {
               scientificDegree: item['الدرجة  العلمية2']
                 ? item['الدرجة  العلمية2']
