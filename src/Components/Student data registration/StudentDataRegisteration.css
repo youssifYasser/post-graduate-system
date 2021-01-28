@@ -13,27 +13,56 @@
   color: #ece8e1;
 }
 
-.header h1 {
+.main-form .header h1,
+.upload-form .header h1 {
   margin-top: 10px;
 }
 
-.file {
+.upload-form .file {
   background-color: #fff;
   font-size: 20px;
   margin: 10px auto;
   margin-top: 10%;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 1px 3px 6px 2px #c0c0c0;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
   text-align: right;
 }
-.file label {
-  text-align: left;
-  margin: 5px 10px;
+
+.upload-form .file:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
-.main-form .file .custom-file-input:hover {
+
+.upload-form .file .custom-file-input:hover {
+  cursor: pointer !important;
+}
+
+.upload-form .file .custom-file-label {
+  margin: 10px;
+  border-radius: 10px !important;
+  background-color: #edf0f6 !important;
+  color: #373636 !important;
+  cursor: pointer !important;
+}
+
+.upload-form .custom-file-label::after {
+  background-color: #2f3944 !important;
+  color: #ece8e1 !important;
+  font-weight: 500 !important;
+  content: 'تصفح' !important;
+  padding: 3px !important;
+  left: 0 !important;
+  right: auto !important;
+  border: 2px solid #2f3944 !important;
+  width: 4.5em !important;
+  text-align: center !important;
+}
+
+::-webkit-file-upload-button {
   cursor: pointer;
 }
+
 .main-form .person-img {
   border-radius: 50%;
   margin: 20px 16px 16px 16px;
@@ -84,10 +113,17 @@
 .main-form .btn-col .next-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
-  border-color: #2f3944 !important;
+  border: 2px solid #2f3944 !important;
   min-width: 10%;
   font-size: 1.2em !important;
   border-radius: 10px !important;
+  transition: background-color 0.5s ease-out;
+}
+
+.main-form .btn-col .next-btn:hover {
+  color: #2f3944 !important;
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
 }
 
 .main-form .btn-col .next-btn .btn-icon {

@@ -8,6 +8,7 @@ const PersonalData = ({ personalData }) => {
 
     const {
         id,
+        image,
         arabicName,
         englishName,
         birthDate,
@@ -41,6 +42,7 @@ const PersonalData = ({ personalData }) => {
     })
 
     const handleChange = (e) => {
+        console.log(image)
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
             e.preventDefault();

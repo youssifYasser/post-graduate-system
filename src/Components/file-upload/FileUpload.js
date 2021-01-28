@@ -12,7 +12,6 @@ const FileUpload = ({ handleFile }) => {
             <Form.Row>
                 <Col className='file' xs={9} md={7}>
                     <Form.Group controlId='fileInput'>
-                        <Form.Label className='label'>قم برفع ملف الإكسل:</Form.Label>
                         <Form.File
                             className='uploader'
                             label='قم برفع ملف الإكسل'
