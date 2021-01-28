@@ -3,6 +3,7 @@ import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 
 const PersonalData = ({ personalData }) => {
+
     const {
         id,
         arabicName,
@@ -19,6 +20,32 @@ const PersonalData = ({ personalData }) => {
         englishJobName,
         jobAddress
     } = personalData
+
+    const [student, setStudent] = React.useState({
+        id,
+        arabicName,
+        englishName,
+        birthDate,
+        gender,
+        country,
+        nationalID,
+        birthCertificateSource,
+        address,
+        phoneNumber,
+        email,
+        arabicJobName,
+        englishJobName,
+        jobAddress
+    })
+
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        const type = e.target.type
+        const checked = e.target.checked
+        type === 'checkbox' ? setStudent({ ...student, [name]: checked }) : setStudent({ ...student, [name]: value })
+    }
+
     return (
         <>
             <Container className='form-one'>
@@ -33,7 +60,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={arabicName}
+                                        name='arabicName'
+                                        value={student.arabicName}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -43,7 +72,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='text'
-                                        value={englishName}
+                                        name='englishName'
+                                        value={student.englishName}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -55,7 +86,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='text'
-                                        value={birthDate}
+                                        name='birthDate'
+                                        value={student.birthDate}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -68,20 +101,22 @@ const PersonalData = ({ personalData }) => {
                                                 <Form.Check
                                                     inline
                                                     type='radio'
-                                                    id='male'
                                                     label='ذكر'
+                                                    value='ذكر'
                                                     name='gender'
                                                     className='form-check-male'
-                                                    checked={gender === "ذكر"}
+                                                    checked={student.gender === "ذكر"}
+                                                    onChange={handleChange}
                                                 />
                                                 <Form.Check
                                                     inline
                                                     type='radio'
-                                                    id='female'
+                                                    value='أنثى'
                                                     label='أنثى'
                                                     name='gender'
                                                     className='form-check-female'
-                                                    checked={gender === "أنثى"}
+                                                    checked={student.gender === "أنثى"}
+                                                    onChange={handleChange}
                                                 />
                                             </Col>
                                         </Form.Group>
@@ -89,12 +124,29 @@ const PersonalData = ({ personalData }) => {
                                     <Col xs={6} md={7} lg={6}>
                                         <Form.Group controlId='nation'>
                                             <Form.Label>الجنسية</Form.Label>
-                                            <Form.Control className='form-input' as='select' custom>
-                                                <option>مصر</option>
-                                                <option>السمبلاوين</option>
-                                                <option>بوركينا فاسو</option>
-                                                <option>الساحل العاج</option>
-                                                <option>مصر جوا</option>
+                                            <Form.Control
+                                                className='form-input'
+                                                as='select'
+                                                name='country'
+                                                value={student.country}
+                                                onChange={handleChange}
+                                                custom
+                                            >
+                                                <option value='مصر'>
+                                                    مصر
+                                                </option>
+                                                <option value='السمبلاوين'>
+                                                    السمبلاوين
+                                                </option>
+                                                <option value='بوركينا فاسو'>
+                                                    بوركينا فاسو
+                                                </option>
+                                                <option value='الساحل العاج'>
+                                                    الساحل العاج
+                                                </option>
+                                                <option value='مصر جوا'>
+                                                    مصر جوا
+                                                </option>
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
@@ -108,7 +160,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='number'
-                                        value={nationalID}
+                                        name='nationalID'
+                                        value={student.nationalID}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -118,7 +172,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={birthCertificateSource}
+                                        name='birthCertificateSource'
+                                        value={student.birthCertificateSource}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -130,7 +186,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='number'
-                                        value={id}
+                                        name='id'
+                                        value={student.id}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -140,7 +198,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='email'
-                                        value={email}
+                                        name='email'
+                                        value={student.email}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -154,7 +214,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={address}
+                                        name='address'
+                                        value={student.address}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -164,7 +226,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='number'
-                                        value={phoneNumber}
+                                        name='phoneNumber'
+                                        value={student.phoneNumber}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -178,7 +242,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={arabicJobName}
+                                        name='arabicJobName'
+                                        value={student.arabicJobName}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -188,7 +254,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input form-english'
                                         type='text'
-                                        value={englishJobName}
+                                        name='englishJobName'
+                                        value={student.englishJobName}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -200,7 +268,9 @@ const PersonalData = ({ personalData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={jobAddress}
+                                        name='jobAddress'
+                                        value={student.jobAddress}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>

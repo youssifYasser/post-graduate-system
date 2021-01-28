@@ -12,6 +12,14 @@ const ThesisData = ({ academicThesisData }) => {
         courses
     } = academicThesisData
 
+    const [thesis, setThesis] = React.useState({ registerationType, toeflDegree, arabicTitle, englishTitle, courses })
+
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setThesis({ ...thesis, [name]: value })
+    }
+
     return (
         <>
             <Container className='form-two'>
@@ -25,7 +33,9 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={registerationType}
+                                        name='registerationType'
+                                        value={thesis.registerationType}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -35,7 +45,9 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='number'
-                                        value={toeflDegree}
+                                        name='toeflDegree'
+                                        value={thesis.toeflDegree}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -47,7 +59,9 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={arabicTitle}
+                                        name='arabicTitle'
+                                        value={thesis.arabicTitle}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -57,7 +71,9 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={englishTitle}
+                                        name='englishTitle'
+                                        value={thesis.englishTitle}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
@@ -69,7 +85,9 @@ const ThesisData = ({ academicThesisData }) => {
                                     <Form.Control
                                         className='form-input'
                                         type='text'
-                                        value={courses}
+                                        name='courses'
+                                        value={thesis.courses}
+                                        onChange={handleChange}
                                     />
                                 </Form.Group>
                             </Col>
