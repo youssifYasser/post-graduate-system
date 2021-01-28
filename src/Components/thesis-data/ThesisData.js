@@ -22,7 +22,7 @@ const ThesisData = ({ academicThesisData }) => {
 
     return (
         <>
-            <Container className='form-two'>
+            <Container className='form-three'>
                 <h5 className='title'> بيانات الرسالة</h5>
                 <Form>
                     <section className='section'>
@@ -36,6 +36,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='registerationType'
                                         value={thesis.registerationType}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -62,6 +63,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='arabicTitle'
                                         value={thesis.arabicTitle}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -74,6 +76,7 @@ const ThesisData = ({ academicThesisData }) => {
                                         name='englishTitle'
                                         value={thesis.englishTitle}
                                         onChange={handleChange}
+                                        pattern='/^[A-Za-z][A-Za-z0-9]*$/'
                                     />
                                 </Form.Group>
                             </Col>

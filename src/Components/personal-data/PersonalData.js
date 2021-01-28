@@ -63,6 +63,7 @@ const PersonalData = ({ personalData }) => {
                                         name='arabicName'
                                         value={student.arabicName}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -75,6 +76,7 @@ const PersonalData = ({ personalData }) => {
                                         name='englishName'
                                         value={student.englishName}
                                         onChange={handleChange}
+                                        pattern='/^[A-Za-z][A-Za-z0-9]*$/'
                                     />
                                 </Form.Group>
                             </Col>
@@ -130,6 +132,7 @@ const PersonalData = ({ personalData }) => {
                                                 name='country'
                                                 value={student.country}
                                                 onChange={handleChange}
+                                                pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                                 custom
                                             >
                                                 <option value='مصر'>
@@ -175,6 +178,7 @@ const PersonalData = ({ personalData }) => {
                                         name='birthCertificateSource'
                                         value={student.birthCertificateSource}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -217,6 +221,7 @@ const PersonalData = ({ personalData }) => {
                                         name='address'
                                         value={student.address}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -245,6 +250,7 @@ const PersonalData = ({ personalData }) => {
                                         name='arabicJobName'
                                         value={student.arabicJobName}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
@@ -257,6 +263,7 @@ const PersonalData = ({ personalData }) => {
                                         name='englishJobName'
                                         value={student.englishJobName}
                                         onChange={handleChange}
+                                        pattern='/^[A-Za-z][A-Za-z0-9]*$/'
                                     />
                                 </Form.Group>
                             </Col>
@@ -271,6 +278,7 @@ const PersonalData = ({ personalData }) => {
                                         name='jobAddress'
                                         value={student.jobAddress}
                                         onChange={handleChange}
+                                        pattern='^[\u0621-\u064A\u0660-\u0669 ]+$'
                                     />
                                 </Form.Group>
                             </Col>
