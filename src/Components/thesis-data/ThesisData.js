@@ -3,7 +3,6 @@ import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
 const ThesisData = ({ academicThesisData }) => {
-  const [validated, setValidated] = useState(false)
 
   const {
     registerationType,

@@ -4,7 +4,6 @@ import './UniversityDegrees.css'
 
 const UniversityDegrees = ({ universityDegrees }) => {
   const [Degrees, setDegrees] = useState(universityDegrees)
-  const [validated, setValidated] = useState(false)
 
   const handleChange = (e) => {
     const temp = e.target.name

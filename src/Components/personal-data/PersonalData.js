@@ -7,7 +7,6 @@ const PersonalData = ({ personalData }) => {
 
     const {
         id,
-        image,
         arabicName,
         englishName,
         birthDate,
