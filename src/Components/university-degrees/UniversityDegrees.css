@@ -1,0 +1,53 @@
+.form-two {
+  text-align: right;
+  color: #2f3944;
+  font-size: 1.2em;
+}
+
+.form-two .title {
+  text-align: center;
+  margin: 20px auto;
+  font-size: 2rem;
+}
+
+.form-two .degree {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
+}
+
+.form-two .degree:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.form-two .degree .form-input {
+  background-color: #edf0f6 !important;
+  border-radius: 10px !important;
+  border: 1px solid #8e949b !important;
+}
+
+.degree .form-row:nth-child(1) .col:nth-child(1),
+.degree .form-row:nth-child(1) .col:nth-child(2) {
+  max-width: 30% !important;
+  margin-left: 5%;
+}
+
+.degree .form-row:nth-child(2) .col:nth-child(1) {
+  max-width: 50% !important;
+  margin-left: 5%;
+}
+
+.degree .form-input {
+  background-color: #edf0f6 !important;
+  color: #373636 !important;
+  border-radius: 10px !important;
+  border: 1px solid #8e949b !important;
+  font-size: 1em !important;
+}
+
+.degree .form-english {
+  font-size: 1.1em !important;
+}

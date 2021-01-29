@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
 import { BsFillCaretLeftFill } from 'react-icons/bs'
 
 import PersonalData from '../personal-data/PersonalData'
+import ThesisData from '../thesis-data/ThesisData'
+import UniversityDegrees from '../university-degrees/UniversityDegrees'
 import FileUpload from '../file-upload/FileUpload'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(2)
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -23,7 +25,16 @@ const StudentDataRegisteration = () => {
         const wb = XLSX.read(bufferArray, { type: 'buffer' })
         const wsname = wb.SheetNames[0]
         const ws = wb.Sheets[wsname]
-        const data = XLSX.utils.sheet_to_json(ws, { raw: false })
+        for (const item in ws) {
+          if (ws[item].t == 'n') {
+            delete ws[item].w
+            ws[item].z = 'dd/mm/yyyy'
+            XLSX.utils.format_cell(ws[item])
+          }
+        }
+        const data = XLSX.utils.sheet_to_json(ws, {
+          raw: false,
+        })
         setStudents(data)
         setShowUpload(false)
       } catch (error) {
@@ -41,15 +52,19 @@ const StudentDataRegisteration = () => {
       case 1:
         return <PersonalData personalData={personalData} />
         break
+      case 2:
+        return <UniversityDegrees universityDegrees={universityDegrees} />
+        break
+      case 3:
+        return <ThesisData academicThesisData={academicThesisData} />
+        break
       default:
         break
     }
   }
 
   if (showUpload) {
-    return (
-      <FileUpload handleFile={handleFile} />
-    )
+    return <FileUpload handleFile={handleFile} />
   } else {
     return (
       <>
@@ -85,6 +100,7 @@ const StudentDataRegisteration = () => {
               university:
                 item['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
             },
+
             {
               scientificDegree: item['الدرجة  العلمية2']
                 ? item['الدرجة  العلمية2']
@@ -132,6 +148,7 @@ const StudentDataRegisteration = () => {
               ? item['المقررات الملتحقة بالدراسة']
               : '',
           }
+
           return (
             <Container key={personalData.id}>
               <main className='main-form'>
