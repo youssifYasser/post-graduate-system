@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
-import { BsFillCaretLeftFill } from 'react-icons/bs'
+import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
+import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
 
 import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
@@ -13,6 +14,9 @@ const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
   const [page, setPage] = useState(1)
+
+  const [validated, setValidated] = useState(false);
+
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -47,19 +51,25 @@ const StudentDataRegisteration = () => {
     }
   }
 
-  const viewPage = (personalData, universityDegrees, academicThesisData) => {
-    switch (page) {
-      case 1:
-        return <PersonalData personalData={personalData} />
-        break
-      case 2:
-        return <UniversityDegrees universityDegrees={universityDegrees} />
-        break
-      case 3:
-        return <ThesisData academicThesisData={academicThesisData} />
-        break
-      default:
-        break
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+
+    } else {
+      setValidated(true);
+      switch (page) {
+        case 1:
+        case 2:
+          setPage(page + 1)
+          break
+        case 3:
+          setPage(1)
+          break
+      }
+      setValidated(false)
     }
   }
 
@@ -181,21 +191,45 @@ const StudentDataRegisteration = () => {
                 </Row>
                 <Row>
                   <Col>
-                    {viewPage(
-                      personalData,
-                      universityDegrees,
-                      academicThesisData
-                    )}
+                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                      <Form.Row>
+                        {page === 1 && <PersonalData personalData={personalData} />}
+                        {page === 2 && <UniversityDegrees universityDegrees={universityDegrees} />}
+                        {page === 3 && <ThesisData academicThesisData={academicThesisData} />}
+                      </Form.Row>
+                      <Form.Row>
+                        {page === 1 || <Col className='btn-col'>
+                          <Button size='lg' type='button' className='next-btn' onClick={() => setPage(page - 1)}>
+                            <BsFillCaretRightFill className='btn-previous' />
+                            السابق
+                          </Button>
+                        </Col>
+                        }
+                        <Col className='btn-col'>
+                          <Button size='lg' type='button' className='next-btn cancel-btn'>
+                            إلغاء <TiUserDelete className='btn-submit' />
+                          </Button>
+                        </Col>
+                        <Col className='btn-col'>
+                          <Button size='lg' type='submit' className={`next-btn ${page === 3 && 'submit-btn'}`}>
+                            {page === 3 ?
+                              <div>
+                                تسجيل <TiUserAdd className='btn-submit' />
+                              </div>
+                              :
+                              <div>
+                                التالى <BsFillCaretLeftFill className='btn-next' />
+                              </div>
+                            }
+                          </Button>
+                        </Col>
+                      </Form.Row>
+                    </Form>
                   </Col>
                 </Row>
-                <Row>
-                  <Col className='btn-col'>
-                    <Button size='lg' type='submit' className='next-btn'>
-                      التالي
-                      <BsFillCaretLeftFill className='btn-icon' />
-                    </Button>
-                  </Col>
-                </Row>
+                {/* <Row>
+                  
+                </Row> */}
               </main>
             </Container>
           )
