@@ -12,7 +12,7 @@ import FileUpload from '../file-upload/FileUpload'
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState(null)
-  const [page, setPage] = useState(2)
+  const [page, setPage] = useState(1)
 
   const handleFile = (e) => {
     setShowUpload(true)

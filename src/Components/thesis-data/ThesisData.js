@@ -68,7 +68,7 @@ const ThesisData = ({ academicThesisData }) => {
                 <Form.Group controlId='TOEFL'>
                   <Form.Label>درجة امتحان التويفل - TOEFL</Form.Label>
                   <Form.Control
-                    className='form-input'
+                    className='form-input form-english'
                     type='number'
                     name='toeflDegree'
                     value={thesis.toeflDegree}
@@ -101,7 +101,7 @@ const ThesisData = ({ academicThesisData }) => {
                 <Form.Group controlId='enThesis'>
                   <Form.Label>عنوان الرسالة باللغة الإنجليزية</Form.Label>
                   <Form.Control
-                    className='form-input'
+                    className='form-input form-english'
                     type='text'
                     name='englishTitle'
                     value={thesis.englishTitle}
