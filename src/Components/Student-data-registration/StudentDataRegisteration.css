@@ -107,15 +107,14 @@
 }
 
 .main-form .btn-col {
-  text-align: left;
-  left: 15px;
+  text-align: center;
 }
 .main-form .btn-col .next-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 2px solid #2f3944 !important;
-  min-width: 10%;
   font-size: 1.2em !important;
+  width: 40%;
   border-radius: 10px !important;
   transition: background-color 0.5s ease-out;
 }
@@ -126,8 +125,29 @@
   border-color: #2f3944 !important;
 }
 
-.main-form .btn-col .next-btn .btn-icon {
+.main-form .btn-col .submit-btn:hover {
+  color: rgb(1, 173, 1)  !important;
+  background-color: #edf0f6 !important;
+  border-color: rgb(1, 173, 1) !important;
+}
+
+.main-form .btn-col .cancel-btn:hover {
+  color: rgb(190, 7, 7) !important;
+  background-color: #edf0f6 !important;
+  border-color: rgb(190, 7, 7) !important;
+}
+
+.main-form .btn-col .next-btn .btn-next,
+.main-form .btn-col .next-btn .btn-submit {
   margin-right: 3px;
+}
+
+.main-form .btn-col .next-btn .btn-previous {
+  margin-left: 3px;
+}
+
+.main-form .btn-col .next-btn .btn-submit {
+  font-size: 1.2em
 }
 
 @media screen and (max-width: 992px) {
@@ -146,7 +166,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767.98px) {
   /* .main-form .person-img{
     margin-right: 4.25em;
   } */
