@@ -4,13 +4,10 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
-import { AppProvider } from './Components/context'
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -4,28 +4,18 @@ import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
 import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
-import { useGlobalContext } from '../context'
 
 import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
 import UniversityDegrees from '../university-degrees/UniversityDegrees'
 import FileUpload from '../file-upload/FileUpload'
-import { reducer } from '../reducer'
 
 const StudentDataRegisteration = () => {
-  const {
-    handleSubmit,
-    validated,
-    page,
-    studentNumber,
-    setPage,
-    setStudentNumber,
-  } = useGlobalContext()
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState([])
-  // const [page, setPage] = useState(1)
-  // const [studentNumber, setStudentNumber] = useState(0)
-  //const [validated, setValidated] = useState(false)
+  const [page, setPage] = useState(1)
+  const [studentNumber, setStudentNumber] = useState(0)
+  const [validated, setValidated] = useState(false)
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -57,6 +47,28 @@ const StudentDataRegisteration = () => {
     }
     fileReader.onerror = (error) => {
       throw new Error('Load error')
+    }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+    } else {
+      setValidated(true)
+      switch (page) {
+        case 1:
+        case 2:
+          setPage(page + 1)
+          break
+        case 3:
+          setStudentNumber(studentNumber + 1)
+          setPage(1)
+          break
+      }
+      setValidated(false)
     }
   }
 

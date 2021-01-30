@@ -2,30 +2,7 @@ import React from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 
-import { useGlobalContext } from '../context'
-
 const PersonalData = ({ personalData }) => {
-  //   const {
-  //     id,
-  //     arabicName,
-  //     englishName,
-  //     birthDate,
-  //     gender,
-  //     country,
-  //     nationalID,
-  //     birthCertificateSource,
-  //     address,
-  //     phoneNumber,
-  //     email,
-  //     arabicJobName,
-  //     englishJobName,
-  //     jobAddress,
-  //   } = personalData
-
-  const { personalInfo, setPersonalInfo, handleChange } = useGlobalContext()
-
-  setPersonalInfo(personalData)
-
   const {
     id,
     arabicName,
@@ -41,23 +18,41 @@ const PersonalData = ({ personalData }) => {
     arabicJobName,
     englishJobName,
     jobAddress,
-  } = personalInfo
+  } = personalData
 
-  //   const handleChange = (e) => {
-  //     const name = e.target.name
-  //     const value = e.target.value
-  //     const type = e.target.type
-  //     const checked = e.target.checked
-  //     type === 'checkbox'
-  //       ? setStudent({ ...student, [name]: checked })
-  //       : setStudent({ ...student, [name]: value })
-  //   }
+  const [student, setStudent] = React.useState({
+    id,
+    arabicName,
+    englishName,
+    birthDate,
+    gender,
+    country,
+    nationalID,
+    birthCertificateSource,
+    address,
+    phoneNumber,
+    email,
+    arabicJobName,
+    englishJobName,
+    jobAddress,
+  })
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    const type = e.target.type
+    const checked = e.target.checked
+    type === 'checkbox'
+      ? setStudent({ ...student, [name]: checked })
+      : setStudent({ ...student, [name]: value })
+  }
 
   return (
     <>
       <Container className='form-one'>
         <h5 className='title'> البيانات الشخصية للطالب </h5>
         <section className='section'>
+          {console.log(window.innerWidth)}
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
               <Form.Group controlId='arName'>
@@ -66,7 +61,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='text'
                   name='arabicName'
-                  value={arabicName}
+                  value={student.arabicName}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -82,7 +77,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='text'
                   name='englishName'
-                  value={englishName}
+                  value={student.englishName}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                 />
@@ -100,7 +95,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='text'
                   name='birthDate'
-                  value={birthDate}
+                  value={student.birthDate}
                   onChange={handleChange}
                   pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
                 />
@@ -122,7 +117,7 @@ const PersonalData = ({ personalData }) => {
                         value='ذكر'
                         name='gender'
                         className='form-check-male'
-                        checked={gender === 'ذكر'}
+                        checked={student.gender === 'ذكر'}
                         onChange={handleChange}
                       />
                       <Form.Check
@@ -132,7 +127,7 @@ const PersonalData = ({ personalData }) => {
                         label='أنثى'
                         name='gender'
                         className='form-check-female'
-                        checked={gender === 'أنثى'}
+                        checked={student.gender === 'أنثى'}
                         onChange={handleChange}
                       />
                     </Col>
@@ -145,7 +140,7 @@ const PersonalData = ({ personalData }) => {
                       className='form-input'
                       as='select'
                       name='country'
-                      value={country}
+                      value={student.country}
                       onChange={handleChange}
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                       custom
@@ -169,7 +164,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='number'
                   name='nationalID'
-                  value={nationalID}
+                  value={student.nationalID}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -184,7 +179,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='text'
                   name='birthCertificateSource'
-                  value={birthCertificateSource}
+                  value={student.birthCertificateSource}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -202,7 +197,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='number'
                   name='id'
-                  value={id}
+                  value={student.id}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -217,7 +212,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='email'
                   name='email'
-                  value={email}
+                  value={student.email}
                   onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                 />
@@ -238,7 +233,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='text'
                   name='address'
-                  value={address}
+                  value={student.address}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'
                 />
@@ -254,7 +249,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='number'
                   name='phoneNumber'
-                  value={phoneNumber}
+                  value={student.phoneNumber}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -273,7 +268,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='text'
                   name='arabicJobName'
-                  value={arabicJobName}
+                  value={student.arabicJobName}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -289,7 +284,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input form-english'
                   type='text'
                   name='englishJobName'
-                  value={englishJobName}
+                  value={student.englishJobName}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                 />
@@ -307,7 +302,7 @@ const PersonalData = ({ personalData }) => {
                   className='form-input'
                   type='text'
                   name='jobAddress'
-                  value={jobAddress}
+                  value={student.jobAddress}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'
                 />
