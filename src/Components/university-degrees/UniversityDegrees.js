@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './UniversityDegrees.css'
 
-const UniversityDegrees = ({ universityDegrees }) => {
+const UniversityDegrees = ({ universityDegrees, setUniDegrees }) => {
   const [Degrees, setDegrees] = useState(universityDegrees)
 
   const handleChange = (e) => {
@@ -12,8 +12,11 @@ const UniversityDegrees = ({ universityDegrees }) => {
     let index = temp.slice(0, 1)
     Degrees[index] = { ...Degrees[index], [name]: value }
     setDegrees([...Degrees])
-
   }
+
+  React.useEffect(() => {
+    setUniDegrees(Degrees)
+  }, [Degrees])
 
   const degrees = []
   for (const [index, degree] of Degrees.entries()) {
@@ -41,23 +44,7 @@ const UniversityDegrees = ({ universityDegrees }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك ادحل الدرجة العلمية باللغة العربية فقط.
-                  </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId='specialization'>
-                <Form.Label>التخصص</Form.Label>
-                <Form.Control
-                  className='form-input'
-                  type='text'
-                  name={`${index}specialization`}
-                  value={specialization}
-                  onChange={handleChange}
-                  pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                />
-                <Form.Control.Feedback type='invalid'>
-                  من فضلك ادحل التخصص باللغة العربية فقط.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
@@ -73,7 +60,23 @@ const UniversityDegrees = ({ universityDegrees }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId='specialization'>
+                <Form.Label>التخصص</Form.Label>
+                <Form.Control
+                  className='form-input'
+                  type='text'
+                  name={`${index}specialization`}
+                  value={specialization}
+                  onChange={handleChange}
+                  pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                />
+                <Form.Control.Feedback type='invalid'>
+                  من فضلك ادحل التخصص باللغة العربية فقط.
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Form.Row>
@@ -91,7 +94,7 @@ const UniversityDegrees = ({ universityDegrees }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك ادحل اسم الكلية باللغة العربية فقط.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
@@ -107,7 +110,7 @@ const UniversityDegrees = ({ universityDegrees }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك ادحل اسم الجامعة باللغة العربية فقط.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Form.Row>
