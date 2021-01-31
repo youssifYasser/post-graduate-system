@@ -2,34 +2,21 @@ import React, { useState } from 'react'
 import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
-const ThesisData = ({ academicThesisData }) => {
-
-  const {
-    registerationType,
-    toeflDegree,
-    arabicTitle,
-    englishTitle,
-    courses,
-  } = academicThesisData
-
-  const [thesis, setThesis] = useState({
-    registerationType,
-    toeflDegree,
-    arabicTitle,
-    englishTitle,
-    courses,
-  })
+const ThesisData = ({ academicThesisData, setThesisData, className }) => {
+  const [thesis, setThesis] = useState(academicThesisData)
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     setThesis({ ...thesis, [name]: value })
-
   }
+
+  React.useEffect(() => {
+    setThesisData(thesis)
+  }, [thesis])
 
   return (
     <>
-      <Container className='form-three'>
+      <Container className={`form-three ${className}`}>
         <h5 className='title'> بيانات الرسالة</h5>
         <section className='section'>
           <Form.Row>
@@ -52,7 +39,7 @@ const ThesisData = ({ academicThesisData }) => {
                 </Form.Control>
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل نوع الدراسة بالطريقة الصحيحة.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col md={5} sm={6}>
@@ -67,7 +54,7 @@ const ThesisData = ({ academicThesisData }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الدرجة بالطريقة الصحيحة (ارقام فقط).
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Form.Row>
@@ -85,7 +72,7 @@ const ThesisData = ({ academicThesisData }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل عنوان الرسالة باللغة العربية فقط.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col md={5} sm={6}>
@@ -101,7 +88,7 @@ const ThesisData = ({ academicThesisData }) => {
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل عنوان الرسالة باللغة الإنجليزية فقط.
-                  </Form.Control.Feedback>
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Form.Row>
