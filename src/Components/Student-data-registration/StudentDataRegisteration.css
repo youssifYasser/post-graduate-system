@@ -26,7 +26,7 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-  transition: box-shadow 0.3s linear;
+  transition: box-shadow 0.2s linear;
   text-align: right;
 }
 
@@ -85,21 +85,29 @@
   color: #ece8e1;
   font-weight: bold;
   padding: 8px;
-}
-.main-form .pages .number1 {
+  border: 2px solid #617689 !important;
+  font-size: 1.25em;
+  padding: 4px 0px;
   position: absolute !important;
   bottom: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out;
+}
+
+.main-form .pages .col:nth-child(1) {
   left: 145px;
 }
-.main-form .pages .number2 {
-  position: absolute !important;
-  bottom: 0;
+.main-form .pages .col:nth-child(2) {
   left: 85px;
 }
-.main-form .pages .number3 {
-  position: absolute !important;
-  bottom: 0;
+.main-form .pages .col:nth-child(3) {
   left: 25px;
+}
+
+.main-form .pages .col:hover {
+  color: #2f3944 !important;
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
 }
 
 .main-form .pages .active-page {
@@ -116,8 +124,7 @@
   font-size: 1.2em !important;
   width: 40%;
   border-radius: 10px !important;
-  transition: background-color 0.5s ease-out;
-  margin-bottom: 20px
+  transition: background-color 0.3s ease-out;
 }
 
 .main-form .btn-col .next-btn:hover {
@@ -127,15 +134,15 @@
 }
 
 .main-form .btn-col .submit-btn:hover {
-  color: rgb(1, 173, 1)  !important;
+  color: #01ad01 !important;
   background-color: #edf0f6 !important;
-  border-color: rgb(1, 173, 1) !important;
+  border-color: #01ad01 !important;
 }
 
 .main-form .btn-col .cancel-btn:hover {
-  color: rgb(190, 7, 7) !important;
+  color: #be0707 !important;
   background-color: #edf0f6 !important;
-  border-color: rgb(190, 7, 7) !important;
+  border-color: #be0707 !important;
 }
 
 .main-form .btn-col .next-btn .btn-next,
@@ -148,7 +155,7 @@
 }
 
 .main-form .btn-col .next-btn .btn-submit {
-  font-size: 1.2em
+  font-size: 1.2em;
 }
 
 @media screen and (max-width: 992px) {
@@ -165,12 +172,13 @@
     height: 115px;
     margin-top: 35px;
   }
+
+  .main-form .btn-col .next-btn {
+    width: auto;
+  }
 }
 
 @media screen and (max-width: 767.98px) {
-  /* .main-form .person-img{
-    margin-right: 4.25em;
-  } */
   .main-form .header {
     margin-bottom: 1.5625em;
     margin-right: 3.75em;

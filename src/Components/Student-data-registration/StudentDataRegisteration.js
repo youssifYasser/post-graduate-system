@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import './StudentDataRegisteration.css'
 import * as XLSX from 'xlsx'
+import 'animate.css/animate.min.css'
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
 import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
-
 import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
 import UniversityDegrees from '../university-degrees/UniversityDegrees'
@@ -13,9 +13,15 @@ import FileUpload from '../file-upload/FileUpload'
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState([])
+
+  const [personalInfo, setPersonalInfo] = useState({})
+  const [thesisData, setThesisData] = useState({})
+  const [uniDegrees, setUniDegrees] = useState({})
+
   const [page, setPage] = useState(1)
   const [studentNumber, setStudentNumber] = useState(0)
   const [validated, setValidated] = useState(false)
+  const [animate, setAnimate] = useState('animate__animated animate__fadeIn')
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -29,7 +35,7 @@ const StudentDataRegisteration = () => {
         const wsname = wb.SheetNames[0]
         const ws = wb.Sheets[wsname]
         for (const item in ws) {
-          if (ws[item].t == 'n') {
+          if (ws[item].t === 'n') {
             delete ws[item].w
             ws[item].z = 'dd/mm/yyyy'
             XLSX.utils.format_cell(ws[item])
@@ -57,15 +63,23 @@ const StudentDataRegisteration = () => {
       e.stopPropagation()
       setValidated(true)
     } else {
+      document.documentElement.scrollTop = 0
       setValidated(true)
       switch (page) {
         case 1:
         case 2:
+          setAnimate('animate__animated animate__fadeInLeft')
           setPage(page + 1)
           break
         case 3:
+          const finalStudent = [personalInfo, uniDegrees, thesisData]
+          console.log(finalStudent)
+          console.log(JSON.stringify(finalStudent))
           setStudentNumber(studentNumber + 1)
+          setAnimate('animate__animated animate__fadeIn')
           setPage(1)
+          break
+        default:
           break
       }
       setValidated(false)
@@ -174,13 +188,40 @@ const StudentDataRegisteration = () => {
             </Col>
             <Col className='pages' xs={{ order: 3 }} md={{ order: 3 }}>
               <Row>
-                <Col className={`number1 ${page === 1 && 'active-page'}`}>
+                <Col
+                  className={
+                    page === 1 &&
+                    'active-page animate__animated animate__flipInX'
+                  }
+                  onClick={() => {
+                    setPage(1)
+                    setAnimate('animate__animated animate__fadeIn')
+                  }}
+                >
                   1
                 </Col>
-                <Col className={`number2 ${page === 2 && 'active-page'}`}>
+                <Col
+                  className={
+                    page === 2 &&
+                    'active-page animate__animated animate__flipInX'
+                  }
+                  onClick={() => {
+                    setPage(2)
+                    setAnimate('animate__animated animate__fadeIn')
+                  }}
+                >
                   2
                 </Col>
-                <Col className={`number3 ${page === 3 && 'active-page'}`}>
+                <Col
+                  className={
+                    page === 3 &&
+                    'active-page animate__animated animate__flipInX'
+                  }
+                  onClick={() => {
+                    setPage(3)
+                    setAnimate('animate__animated animate__fadeIn')
+                  }}
+                >
                   3
                 </Col>
               </Row>
@@ -190,14 +231,29 @@ const StudentDataRegisteration = () => {
             <Col>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Row>
-                  {page === 1 && <PersonalData personalData={personalData} />}
+                  {page === 1 && (
+                    <PersonalData
+                      className={animate}
+                      setPersonalInfo={setPersonalInfo}
+                      personalData={personalData}
+                    />
+                  )}
                   {page === 2 && (
-                    <UniversityDegrees universityDegrees={universityDegrees} />
+                    <UniversityDegrees
+                      className={animate}
+                      universityDegrees={universityDegrees}
+                      setUniDegrees={setUniDegrees}
+                    />
                   )}
                   {page === 3 && (
-                    <ThesisData academicThesisData={academicThesisData} />
+                    <ThesisData
+                      className={animate}
+                      academicThesisData={academicThesisData}
+                      setThesisData={setThesisData}
+                    />
                   )}
                 </Form.Row>
+
                 <Form.Row>
                   {page === 1 || (
                     <Col className='btn-col'>
@@ -205,7 +261,11 @@ const StudentDataRegisteration = () => {
                         size='lg'
                         type='button'
                         className='next-btn'
-                        onClick={() => setPage(page - 1)}
+                        onClick={() => {
+                          document.documentElement.scrollTop = 0
+                          setAnimate('animate__animated animate__fadeInRight')
+                          setPage(page - 1)
+                        }}
                       >
                         <BsFillCaretRightFill className='btn-previous' />
                         السابق
@@ -218,7 +278,9 @@ const StudentDataRegisteration = () => {
                       type='button'
                       className='next-btn cancel-btn'
                       onClick={() => {
+                        document.documentElement.scrollTop = 0
                         setStudentNumber(studentNumber + 1)
+                        setAnimate('animate__animated animate__fadeIn')
                         setPage(1)
                       }}
                     >

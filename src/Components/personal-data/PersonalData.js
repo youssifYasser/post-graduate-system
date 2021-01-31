@@ -2,57 +2,25 @@ import React from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 
-const PersonalData = ({ personalData }) => {
-  const {
-    id,
-    arabicName,
-    englishName,
-    birthDate,
-    gender,
-    country,
-    nationalID,
-    birthCertificateSource,
-    address,
-    phoneNumber,
-    email,
-    arabicJobName,
-    englishJobName,
-    jobAddress,
-  } = personalData
-
-  const [student, setStudent] = React.useState({
-    id,
-    arabicName,
-    englishName,
-    birthDate,
-    gender,
-    country,
-    nationalID,
-    birthCertificateSource,
-    address,
-    phoneNumber,
-    email,
-    arabicJobName,
-    englishJobName,
-    jobAddress,
-  })
+const PersonalData = ({ personalData, setPersonalInfo, className }) => {
+  const [student, setStudent] = React.useState(personalData)
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    const type = e.target.type
-    const checked = e.target.checked
+    const { name, value, type, checked } = e.target
     type === 'checkbox'
       ? setStudent({ ...student, [name]: checked })
       : setStudent({ ...student, [name]: value })
   }
 
+  React.useEffect(() => {
+    setPersonalInfo(student)
+  }, [student])
+
   return (
     <>
-      <Container className='form-one'>
+      <Container className={`form-one ${className}`}>
         <h5 className='title'> البيانات الشخصية للطالب </h5>
         <section className='section'>
-          {console.log(window.innerWidth)}
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
               <Form.Group controlId='arName'>
