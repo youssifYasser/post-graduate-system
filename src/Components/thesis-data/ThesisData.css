@@ -1,22 +1,22 @@
 .form-three {
-    text-align: right;
-    color: #2f3944;
-    font-size: 1.2em;
+  text-align: right;
+  color: #2f3944;
+  font-size: 1.2em;
 }
 
 .title {
-    text-align: center;
-    margin: 20px auto;
-    font-size: 2rem;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 2rem;
 }
 
 .section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 40px;
-    box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-    transition: box-shadow 0.3s linear;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
 }
 
 .section:hover {
@@ -24,13 +24,13 @@
 }
 
 .form-input {
-    background-color: #edf0f6 !important;
-    color: #373636 !important;
-    border-radius: 10px !important;
-    border: 1px solid #8e949b !important;
-    font-size: 1em !important;
+  background-color: #edf0f6 !important;
+  color: #373636 !important;
+  border-radius: 10px !important;
+  border: 1px solid #8e949b !important;
+  font-size: 1em !important;
 }
 
 .form-english {
-    font-size: 1.1em !important;
+  font-size: 1.1em !important;
 }
