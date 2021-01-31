@@ -84,14 +84,10 @@
   background-color: #617689;
   color: #ece8e1;
   font-weight: bold;
-  padding: 8px;
-  border: 2px solid #617689 !important;
   font-size: 1.25em;
-  padding: 4px 0px;
+  padding: 6px 0px;
   position: absolute !important;
   bottom: 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease-out;
 }
 
 .main-form .pages .col:nth-child(1) {
@@ -102,12 +98,6 @@
 }
 .main-form .pages .col:nth-child(3) {
   left: 25px;
-}
-
-.main-form .pages .col:hover {
-  color: #2f3944 !important;
-  background-color: #edf0f6 !important;
-  border-color: #2f3944 !important;
 }
 
 .main-form .pages .active-page {
@@ -156,6 +146,20 @@
 
 .main-form .btn-col .next-btn .btn-submit {
   font-size: 1.2em;
+}
+
+.swal2-confirm {
+  width: 30% !important;
+  border-radius: 10px !important;
+}
+
+.swal2-deny,
+.swal2-cancel {
+  border-radius: 10px !important;
+}
+
+.swal2-show {
+  border-radius: 10px !important;
 }
 
 @media screen and (max-width: 992px) {

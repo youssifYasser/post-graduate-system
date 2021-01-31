@@ -9,6 +9,7 @@ import PersonalData from '../personal-data/PersonalData'
 import ThesisData from '../thesis-data/ThesisData'
 import UniversityDegrees from '../university-degrees/UniversityDegrees'
 import FileUpload from '../file-upload/FileUpload'
+import Swal from 'sweetalert2'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
@@ -62,6 +63,30 @@ const StudentDataRegisteration = () => {
     if (form.checkValidity() === false) {
       e.stopPropagation()
       setValidated(true)
+      Swal.fire({
+        icon: 'error',
+        title: 'حدث خطأ',
+        text: '.من فضلك راجع البيانات',
+        confirmButtonText: 'حسنــاً',
+        confirmButtonColor: '#2f3944',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setTimeout(() => {
+            const element = document.getElementsByClassName(
+              'invalid-feedback'
+            )[0]
+            const offset = 70
+            const bodyRect = document.body.getBoundingClientRect().top
+            const elementRect = element.getBoundingClientRect().top
+            const elementPosition = elementRect - bodyRect
+            const offsetPosition = elementPosition - offset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }, 300)
+        }
+      })
     } else {
       document.documentElement.scrollTop = 0
       setValidated(true)
@@ -72,12 +97,32 @@ const StudentDataRegisteration = () => {
           setPage(page + 1)
           break
         case 3:
-          const finalStudent = [personalInfo, uniDegrees, thesisData]
-          console.log(finalStudent)
-          console.log(JSON.stringify(finalStudent))
-          setStudentNumber(studentNumber + 1)
-          setAnimate('animate__animated animate__fadeIn')
-          setPage(1)
+          Swal.fire({
+            icon: 'info',
+            title: 'هل أنت متأكد من تسجيل الطالب ؟',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#01ad01',
+            confirmButtonText: 'نعم ، سجل',
+            cancelButtonText: 'لا ، عودة',
+            cancelButtonColor: '#2f3944',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إضافة الطالب بنجاح',
+                confirmButtonText: 'حسنــاً',
+                confirmButtonColor: '#2f3944',
+              })
+              const finalStudent = [personalInfo, uniDegrees, thesisData]
+              console.log(finalStudent)
+              console.log(JSON.stringify(finalStudent))
+              setStudentNumber(studentNumber + 1)
+              setAnimate('animate__animated animate__fadeIn')
+              setPage(1)
+            }
+          })
           break
         default:
           break
@@ -193,10 +238,6 @@ const StudentDataRegisteration = () => {
                     page === 1 &&
                     'active-page animate__animated animate__flipInX'
                   }
-                  onClick={() => {
-                    setPage(1)
-                    setAnimate('animate__animated animate__fadeIn')
-                  }}
                 >
                   1
                 </Col>
@@ -205,10 +246,6 @@ const StudentDataRegisteration = () => {
                     page === 2 &&
                     'active-page animate__animated animate__flipInX'
                   }
-                  onClick={() => {
-                    setPage(2)
-                    setAnimate('animate__animated animate__fadeIn')
-                  }}
                 >
                   2
                 </Col>
@@ -217,10 +254,6 @@ const StudentDataRegisteration = () => {
                     page === 3 &&
                     'active-page animate__animated animate__flipInX'
                   }
-                  onClick={() => {
-                    setPage(3)
-                    setAnimate('animate__animated animate__fadeIn')
-                  }}
                 >
                   3
                 </Col>
@@ -278,10 +311,31 @@ const StudentDataRegisteration = () => {
                       type='button'
                       className='next-btn cancel-btn'
                       onClick={() => {
-                        document.documentElement.scrollTop = 0
-                        setStudentNumber(studentNumber + 1)
-                        setAnimate('animate__animated animate__fadeIn')
-                        setPage(1)
+                        Swal.fire({
+                          icon: 'warning',
+                          title: 'هل أنت متأكد من إزالة الطالب؟',
+                          showDenyButton: true,
+                          showCancelButton: true,
+                          showConfirmButton: false,
+                          denyButtonText: `نعم ، امسح الطالب`,
+                          cancelButtonText: 'لا ، عودة',
+                          cancelButtonColor: '#2f3944',
+                          denyButtonColor: '#be0707',
+                        }).then((result) => {
+                          /* Read more about isConfirmed, isDenied below */
+                          if (result.isDenied) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'تمت إزالة الطالب بنجاح',
+                              confirmButtonText: 'حسنــاً',
+                              confirmButtonColor: '#2f3944',
+                            })
+                            document.documentElement.scrollTop = 0
+                            setStudentNumber(studentNumber + 1)
+                            setAnimate('animate__animated animate__fadeIn')
+                            setPage(1)
+                          }
+                        })
                       }}
                     >
                       إلغاء <TiUserDelete className='btn-submit' />
