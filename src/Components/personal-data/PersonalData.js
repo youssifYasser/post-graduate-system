@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 
-const PersonalData = ({ personalData, setPersonalInfo }) => {
+const PersonalData = ({ personalData, setPersonalInfo, className }) => {
   const [student, setStudent] = React.useState(personalData)
 
   const handleChange = (e) => {
@@ -18,7 +18,7 @@ const PersonalData = ({ personalData, setPersonalInfo }) => {
 
   return (
     <>
-      <Container className='form-one'>
+      <Container className={`form-one ${className}`}>
         <h5 className='title'> البيانات الشخصية للطالب </h5>
         <section className='section'>
           <Form.Row>

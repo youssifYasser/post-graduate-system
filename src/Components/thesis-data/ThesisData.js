@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
-const ThesisData = ({ academicThesisData, setThesisData }) => {
+const ThesisData = ({ academicThesisData, setThesisData, className }) => {
   const [thesis, setThesis] = useState(academicThesisData)
 
   const handleChange = (e) => {
@@ -16,7 +16,7 @@ const ThesisData = ({ academicThesisData, setThesisData }) => {
 
   return (
     <>
-      <Container className='form-three'>
+      <Container className={`form-three ${className}`}>
         <h5 className='title'> بيانات الرسالة</h5>
         <section className='section'>
           <Form.Row>

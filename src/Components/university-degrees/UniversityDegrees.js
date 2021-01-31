@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './UniversityDegrees.css'
 
-const UniversityDegrees = ({ universityDegrees, setUniDegrees }) => {
+const UniversityDegrees = ({ universityDegrees, setUniDegrees, className }) => {
   const [Degrees, setDegrees] = useState(universityDegrees)
 
   const handleChange = (e) => {
@@ -120,7 +120,7 @@ const UniversityDegrees = ({ universityDegrees, setUniDegrees }) => {
   }
   return (
     <>
-      <Container className='form-two'>
+      <Container className={`form-two ${className}`}>
         <h5 className='title'>الدرجات الجامعية وتاريخ الحصول عليها</h5>
         {degrees}
       </Container>

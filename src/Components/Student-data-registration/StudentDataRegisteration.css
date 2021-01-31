@@ -26,7 +26,7 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-  transition: box-shadow 0.3s linear;
+  transition: box-shadow 0.2s linear;
   text-align: right;
 }
 
@@ -91,7 +91,7 @@
   position: absolute !important;
   bottom: 0;
   cursor: pointer;
-  transition: background-color 0.5s ease-out;
+  transition: background-color 0.3s ease-out;
 }
 
 .main-form .pages .col:nth-child(1) {
@@ -124,7 +124,7 @@
   font-size: 1.2em !important;
   width: 40%;
   border-radius: 10px !important;
-  transition: background-color 0.5s ease-out;
+  transition: background-color 0.3s ease-out;
 }
 
 .main-form .btn-col .next-btn:hover {
