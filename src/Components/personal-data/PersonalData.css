@@ -52,3 +52,11 @@
 .was-validated .form-check-input:valid ~ .form-check-label {
   color: #2f3944 !important;
 }
+
+@media screen and (max-width: 576px) {
+  .form-one,
+  .form-input,
+  .form-english {
+    font-size: 1em !important;
+  }
+}

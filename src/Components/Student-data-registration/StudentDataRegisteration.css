@@ -203,3 +203,16 @@
     left: 25px;
   }
 }
+
+@media screen and (max-width: 576px) {
+  .file {
+    font-size: 1em !important;
+  }
+  .main-form .header h1,
+  .upload-form .header h1 {
+    font-size: 2rem;
+  }
+  .main-form .btn-col .next-btn {
+    font-size: 1em !important;
+  }
+}

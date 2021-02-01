@@ -34,3 +34,11 @@
 .form-english {
   font-size: 1.1em !important;
 }
+
+@media screen and (max-width: 576px) {
+  .form-three,
+  .form-input,
+  .form-english {
+    font-size: 1em !important;
+  }
+}
