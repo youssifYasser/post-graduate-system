@@ -7,43 +7,50 @@ function AddStudent(props) {
     const state = props;
     return (
         <Container className="addStudent mt-5 mb-5">
+
             <div className="header">
                 <p className="text-center">اضافة طالب</p>
             </div>
+
             <div className="main">
-                <Form className="text-right m-5 mb-2 form">
+                <Form className="text-right m-5 mb-2 form" noValidate validated={state.validated} onSubmit={state.handleSubmit}>
 
                     <Form.Group className="mb-5">
                         <Form.Label>الاسم بالعربية</Form.Label>
-                        <Form.Control 
-                            name = "nameInArabic"
-                            placeholder = "الاسم بالعربية" 
-                            value = {state.nameInArabic}
-                            onChange = {state.handleChange}
+                        <Form.Control
+                            name="nameInArabic"
+                            placeholder="الاسم بالعربية"
+                            onChange={state.handleChange}
+                            pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                         />
+                        <Form.Control.Feedback type='invalid'>
+                            من فضلك أدخل الاسم باللغة العربية فقط.
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-5">
                         <Form.Label>البريد الإلكتروني</Form.Label>
-                        <Form.Control 
-                            type="email" 
+                        <Form.Control
+                            type="email"
                             name="email"
                             placeholder="example@email.com"
-                            value = {state.email}
-                            onChange = {state.handleChange}
+                            onChange={state.handleChange}
+                            pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                         />
+                        <Form.Control.Feedback type='invalid'>
+                            من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
+                            (example@mail.com).
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group controlId="exampleForm.SelectCustom" className="mb-5">
                         <Form.Label>اختر نوع الدراسة</Form.Label>
-                        <Form.Control 
-                            as="select" 
+                        <Form.Control
+                            as="select"
                             name="type"
-                            value={state.type}
-                            onChange={state.handleChange} 
+                            onChange={state.handleChange}
                             custom
                         >
-                            <option>اختر</option>
                             <option>دبلومة</option>
                             <option>تمهيدي</option>
                             <option>ماجستير</option>
@@ -52,7 +59,7 @@ function AddStudent(props) {
                     </Form.Group>
 
                     <div className="text-center">
-                        <Button variant="dark" className="regBtn">تسجيل</Button>
+                        <Button variant="dark" className="regBtn" type="submit">تسجيل</Button>
                     </div>
                 </Form>
             </div>

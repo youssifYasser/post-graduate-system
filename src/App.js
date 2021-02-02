@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AddStudent from './components/add-student/addStudent-container'
+import AddStudent from './Components/add-student/addStudent-container'
 
 class App extends Component {
   render() {

@@ -1,27 +1,36 @@
-/* .addStudent{
+.addStudent{
     font-family: 'Markazi Text', serif;
-} */
+}
+
 .addStudent .header{
     padding: 20px;
     background: #2f3944 !important;
     color: #ece8e1;
-    font-size: 50px;
+    font-size: 55px;
     border-radius: 1rem 1rem 0rem 0rem;
-    box-shadow: 4px 3px 6px 2px #c0c0c0;
     max-width: 50%;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.3s linear;
 }
-
+.addStudent .header p{
+    margin-top: 16px;
+}
 .addStudent .main{
     padding: 20px;
     background-color: #fff;
     border-radius: 0rem 0rem 1rem 1rem;
-    box-shadow: 1px 3px 6px 2px #c0c0c0;
     max-width: 50%;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.3s linear;
 }
+/* .addStudent .main:hover,
+.addStudent .header:hover{
+    box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+} */
 .addStudent .main .form-control{
     border-top: none;
     border-left: none;
