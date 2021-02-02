@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
+import { countries } from '../countries'
 
 const PersonalData = ({ personalData, setPersonalInfo, className }) => {
   const [student, setStudent] = React.useState(personalData)
@@ -113,11 +114,13 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                       custom
                     >
-                      <option value='مصر'>مصر</option>
-                      <option value='السمبلاوين'>السمبلاوين</option>
-                      <option value='بوركينا فاسو'>بوركينا فاسو</option>
-                      <option value='الساحل العاج'>الساحل العاج</option>
-                      <option value='مصر جوا'>مصر جوا</option>
+                      {countries.map((country, index) => {
+                        return (
+                          <option className='country-option' key={index}>
+                            {country}
+                          </option>
+                        )
+                      })}
                     </Form.Control>
                   </Form.Group>
                 </Col>
