@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react'
+import StudentDataRegisteration from './Components/Student-data-registration/StudentDataRegisteration'
 
-import AddStudent from './Components/add-student/addStudent-container'
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <AddStudent />
-      </div>
-    );
-  }
+const App = () => {
+  return (
+    <>
+      <StudentDataRegisteration />
+    </>
+  )
 }
 
-export default App;
+export default App
