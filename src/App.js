@@ -1,10 +1,10 @@
 import React from 'react'
-import StudentDataRegisteration from './Components/Student-data-registration/StudentDataRegisteration'
+import AddStudent from './Components/add-student/addStudent-container'
 
 const App = () => {
   return (
     <>
-      <StudentDataRegisteration />
+      <AddStudent />
     </>
   )
 }

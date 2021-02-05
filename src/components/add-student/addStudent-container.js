@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
+import 'animate.css/animate.min.css'
 
 import AddStudentView from './addStudent-view';
 
@@ -24,12 +26,37 @@ const AddStudent = () => {
             event.stopPropagation()
         } else {
             console.log(JSON.stringify(student))
+            swalReg()
         }
     }
 
+    const swalReg = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'هل أنت متأكد من تسجيل الطالب ؟',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#01ad01',
+            confirmButtonText: 'نعم ، سجل',
+            cancelButtonText: 'لا ، عودة',
+            cancelButtonColor: '#2f3944',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تمت إضافة الطالب بنجاح',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                setTimeout(() => {
+                    window.location.href = window.location.pathname + window.location.search + window.location.hash;
+                }, 2000);
+            }
+        })
+    }
     return (
         <AddStudentView
-            validated = {validated}
+            validated={validated}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
         />

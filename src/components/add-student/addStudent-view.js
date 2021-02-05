@@ -22,6 +22,7 @@ function AddStudent(props) {
                             placeholder="الاسم بالعربية"
                             onChange={state.handleChange}
                             pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                            required
                         />
                         <Form.Control.Feedback type='invalid'>
                             من فضلك أدخل الاسم باللغة العربية فقط.
@@ -36,6 +37,7 @@ function AddStudent(props) {
                             placeholder="example@email.com"
                             onChange={state.handleChange}
                             pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
+                            required
                         />
                         <Form.Control.Feedback type='invalid'>
                             من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
@@ -49,13 +51,18 @@ function AddStudent(props) {
                             as="select"
                             name="type"
                             onChange={state.handleChange}
+                            required
                             custom
                         >
+                            <option value="">اختر</option>
                             <option>دبلومة</option>
                             <option>تمهيدي</option>
                             <option>ماجستير</option>
                             <option>دكتوراه</option>
                         </Form.Control>
+                        <Form.Control.Feedback type='invalid'>
+                            من فضلك اختر نوع الدراسة
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <div className="text-center">
