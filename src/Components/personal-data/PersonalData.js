@@ -115,11 +115,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                       custom
                     >
                       {countries.map((country, index) => {
-                        return (
-                          <option className='country-option' key={index}>
-                            {country}
-                          </option>
-                        )
+                        return <option key={index}>{country}</option>
                       })}
                     </Form.Control>
                   </Form.Group>

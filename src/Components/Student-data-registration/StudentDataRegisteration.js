@@ -115,9 +115,9 @@ const StudentDataRegisteration = () => {
                 confirmButtonText: 'حسنــاً',
                 confirmButtonColor: '#2f3944',
               })
-              const finalStudent = [personalInfo, uniDegrees, thesisData]
-              console.log(finalStudent)
-              console.log(JSON.stringify(finalStudent))
+              console.log(JSON.stringify(personalInfo))
+              console.log(JSON.stringify(uniDegrees))
+              console.log(JSON.stringify(thesisData))
               setStudentNumber(studentNumber + 1)
               setAnimate('animate__animated animate__fadeIn')
               setPage(1)
@@ -149,17 +149,13 @@ const StudentDataRegisteration = () => {
       gender: student['الجنس'],
       country: student['دولة الجنسية (مثال: مصر)'],
       nationalID: student['الرقم القومي'],
-      birthCertificateSource: student['مصدر شهادة الميلاد']
-        ? student['مصدر شهادة الميلاد']
-        : '',
-      address: student['العنوان'] ? student['العنوان'] : '',
+      birthCertificateSource: student['مصدر شهادة الميلاد'] || '',
+      address: student['العنوان'] || '',
       phoneNumber: student['رقم الهاتف'],
       email: student['البريد الإلكتروني'],
       arabicJobName: student['الوظيفة باللغة العربية'],
-      englishJobName: student['الوظيفة باللغة الإنجليزية']
-        ? student['الوظيفة باللغة الإنجليزية']
-        : '',
-      jobAddress: student['عنوان الوظيفة'] ? student['عنوان الوظيفة'] : '',
+      englishJobName: student['الوظيفة باللغة الإنجليزية'] || '',
+      jobAddress: student['عنوان الوظيفة'] || '',
     }
 
     const universityDegrees = [
@@ -170,49 +166,80 @@ const StudentDataRegisteration = () => {
         college: student['الكلية التي حصل الطالب على الدرجة العلمية منها'],
         university: student['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
       },
-
       {
-        scientificDegree: student['الدرجة  العلمية2']
-          ? student['الدرجة  العلمية2']
-          : '',
-        specialization: student['التخصص2'] ? student['التخصص2'] : '',
-        date: student['تاريخ الحصول عليها2']
-          ? student['تاريخ الحصول عليها2']
-          : '',
-        college: student['الكلية التي حصل الطالب على الدرجة العلمية منها2']
-          ? student['الكلية التي حصل الطالب على الدرجة العلمية منها2']
-          : '',
-        university: student['الجامعة التي حصل الطالب على الدرجة العلمية منها2']
-          ? student['الجامعة التي حصل الطالب على الدرجة العلمية منها2']
-          : '',
+        scientificDegree: student['الدرجة  العلمية2'] || '',
+        specialization: student['التخصص2'] || '',
+        date: student['تاريخ الحصول عليها2'] || '',
+        college:
+          student['الكلية التي حصل الطالب على الدرجة العلمية منها2'] || '',
+        university:
+          student['الجامعة التي حصل الطالب على الدرجة العلمية منها2'] || '',
       },
       {
-        scientificDegree: student['الدرجة  العلمية3']
-          ? student['الدرجة  العلمية3']
-          : '',
-        specialization: student['التخصص3'] ? student['التخصص3'] : '',
-        date: student['تاريخ الحصول عليها3']
-          ? student['تاريخ الحصول عليها3']
-          : '',
-        college: student['الكلية التي حصل الطالب على الدرجة العلمية منها3']
-          ? student['الكلية التي حصل الطالب على الدرجة العلمية منها3']
-          : '',
-        university: student['الجامعة التي حصل الطالب على الدرجة العلمية منها3']
-          ? student['الجامعة التي حصل الطالب على الدرجة العلمية منها3']
-          : '',
+        scientificDegree: student['الدرجة  العلمية3'] || '',
+        specialization: student['التخصص3'] || '',
+        date: student['تاريخ الحصول عليها3'] || '',
+        college:
+          student['الكلية التي حصل الطالب على الدرجة العلمية منها3'] || '',
+        university:
+          student['الجامعة التي حصل الطالب على الدرجة العلمية منها3'] || '',
       },
     ]
 
+    let title = ''
+    if (student['تأكيد نوع التسجيل'] === 'دبلومة الدراسات العليا') {
+      if (student['عنوان الدبلومة']) {
+        title = student['عنوان الدبلومة']
+      } else if (student['2عنوان الدبلومة']) {
+        title = student['2عنوان الدبلومة']
+      } else if (student['3عنوان الدبلومة']) {
+        title = student['3عنوان الدبلومة']
+      } else if (student['4عنوان الدبلومة']) {
+        title = student['4عنوان الدبلومة']
+      } else if (student['5عنوان الدبلومة']) {
+        title = student['5عنوان الدبلومة']
+      } else if (student['6عنوان الدبلومة']) {
+        title = student['6عنوان الدبلومة']
+      } else if (student['7عنوان الدبلومة']) {
+        title = student['7عنوان الدبلومة']
+      } else if (student['8عنوان الدبلومة']) {
+        title = student['8عنوان الدبلومة']
+      } else if (student['9عنوان الدبلومة']) {
+        title = student['9عنوان الدبلومة']
+      }
+    } else if (student['تأكيد نوع التسجيل'] === 'تمهيدي الماجستير') {
+      if (student['عنوان تمهيدي الماجستير']) {
+        title = student['عنوان تمهيدي الماجستير']
+      } else if (student['2عنوان تمهيدي الماجستير']) {
+        title = student['2عنوان تمهيدي الماجستير']
+      } else if (student['3عنوان تمهيدي الماجستير']) {
+        title = student['3عنوان تمهيدي الماجستير']
+      } else if (student['4عنوان تمهيدي الماجستير']) {
+        title = student['4عنوان تمهيدي الماجستير']
+      } else if (student['5عنوان تمهيدي الماجستير']) {
+        title = student['5عنوان تمهيدي الماجستير']
+      } else if (student['6عنوان تمهيدي الماجستير']) {
+        title = student['6عنوان تمهيدي الماجستير']
+      } else if (student['7عنوان تمهيدي الماجستير']) {
+        title = student['7عنوان تمهيدي الماجستير']
+      } else if (student['8عنوان تمهيدي الماجستير']) {
+        title = student['8عنوان تمهيدي الماجستير']
+      } else if (student['9عنوان تمهيدي الماجستير']) {
+        title = student['9عنوان تمهيدي الماجستير']
+      }
+    }
     const academicThesisData = {
       registerationType: student['تأكيد نوع التسجيل'],
-      toeflDegree: student['درجة امتحان التويفل - TOEFL']
-        ? student['درجة امتحان التويفل - TOEFL']
-        : '',
-      arabicTitle: student['عنوان الرسالة باللغة العربية'],
-      englishTitle: student['عنوان الرسالة بالغة الإنجليزية'],
-      courses: student['المقررات الملتحقة بالدراسة']
-        ? student['المقررات الملتحقة بالدراسة']
-        : '',
+      toeflDegree: student['درجة امتحان التويفل - TOEFL'] || '',
+      arabicTitle: student['عنوان الرسالة باللغة العربية'] || '',
+      englishTitle: student['عنوان الرسالة بالغة الإنجليزية'] || '',
+      department: student['القسم التابعة له هذه الدبلومة']
+        ? student['القسم التابعة له هذه الدبلومة']
+        : student['التخصص التابعة له هذه الرسالة'],
+      diplomaTitle: title,
+      courses:
+        student['المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'] ||
+        '',
     }
 
     mainForm.push(
