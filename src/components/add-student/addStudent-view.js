@@ -13,7 +13,7 @@ function AddStudent(props) {
             </div>
 
             <div className="main">
-                <Form className="text-right m-5 mb-2 form" noValidate validated={state.validated} onSubmit={state.handleSubmit}>
+                <Form className="text-right m-5 mb-5 form" noValidate validated={state.validated} onSubmit={state.handleSubmit}>
 
                     <Form.Group className="mb-5">
                         <Form.Label>الاسم بالعربية</Form.Label>
@@ -55,10 +55,10 @@ function AddStudent(props) {
                             custom
                         >
                             <option value="">اختر</option>
-                            <option>دبلومة</option>
-                            <option>تمهيدي</option>
-                            <option>ماجستير</option>
-                            <option>دكتوراه</option>
+                            <option>دكتوراه الفلسفة في العلوم</option>
+                            <option>الماجستير في العلوم</option>
+                            <option>تمهيدي الماجستير</option>
+                            <option>دبلومة الدراسات العليا</option>
                         </Form.Control>
                         <Form.Control.Feedback type='invalid'>
                             من فضلك اختر نوع الدراسة

@@ -25,7 +25,6 @@ const AddStudent = () => {
             setValidated(true)
             event.stopPropagation()
         } else {
-            console.log(JSON.stringify(student))
             swalReg()
         }
     }
@@ -48,6 +47,7 @@ const AddStudent = () => {
                     showConfirmButton: false,
                     timer: 2000
                 })
+                console.log(JSON.stringify(student))
                 setTimeout(() => {
                     window.location.href = window.location.pathname + window.location.search + window.location.hash;
                 }, 2000);
