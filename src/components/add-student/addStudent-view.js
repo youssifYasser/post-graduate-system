@@ -13,7 +13,7 @@ function AddStudent(props) {
             </div>
 
             <div className="main">
-                <Form className="text-right m-5 mb-2 form" noValidate validated={state.validated} onSubmit={state.handleSubmit}>
+                <Form className="text-right m-5 mb-5 form" noValidate validated={state.validated} onSubmit={state.handleSubmit}>
 
                     <Form.Group className="mb-5">
                         <Form.Label>الاسم بالعربية</Form.Label>
@@ -22,6 +22,7 @@ function AddStudent(props) {
                             placeholder="الاسم بالعربية"
                             onChange={state.handleChange}
                             pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                            required
                         />
                         <Form.Control.Feedback type='invalid'>
                             من فضلك أدخل الاسم باللغة العربية فقط.
@@ -36,6 +37,7 @@ function AddStudent(props) {
                             placeholder="example@email.com"
                             onChange={state.handleChange}
                             pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
+                            required
                         />
                         <Form.Control.Feedback type='invalid'>
                             من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
@@ -49,13 +51,18 @@ function AddStudent(props) {
                             as="select"
                             name="type"
                             onChange={state.handleChange}
+                            required
                             custom
                         >
-                            <option>دبلومة</option>
-                            <option>تمهيدي</option>
-                            <option>ماجستير</option>
-                            <option>دكتوراه</option>
+                            <option value="">اختر</option>
+                            <option>دكتوراه الفلسفة في العلوم</option>
+                            <option>الماجستير في العلوم</option>
+                            <option>تمهيدي الماجستير</option>
+                            <option>دبلومة الدراسات العليا</option>
                         </Form.Control>
+                        <Form.Control.Feedback type='invalid'>
+                            من فضلك اختر نوع الدراسة
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <div className="text-center">
