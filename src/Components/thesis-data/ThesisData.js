@@ -189,7 +189,9 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
             )}
             <Col md={5} sm={6}>
               <Form.Group controlId='courses'>
-                <Form.Label>المقررات الملتحقة بالدراسة</Form.Label>
+                <Form.Label>
+                  المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)
+                </Form.Label>
                 <Form.Control
                   className='form-input'
                   type='text'
