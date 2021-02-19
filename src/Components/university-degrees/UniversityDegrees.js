@@ -56,7 +56,7 @@ const UniversityDegrees = ({ universityDegrees, setUniDegrees, className }) => {
                   name={`${index}date`}
                   value={date}
                   onChange={handleChange}
-                  pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
+                  pattern='^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$'
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)

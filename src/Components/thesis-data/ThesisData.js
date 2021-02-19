@@ -8,7 +8,6 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
     const { name, value } = e.target
     setThesis({ ...thesis, [name]: value })
   }
-  console.log(thesis)
   React.useEffect(() => {
     setThesisData(thesis)
   }, [thesis])

@@ -10,14 +10,15 @@ import ThesisData from '../thesis-data/ThesisData'
 import UniversityDegrees from '../university-degrees/UniversityDegrees'
 import FileUpload from '../file-upload/FileUpload'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [students, setStudents] = useState([])
 
   const [personalInfo, setPersonalInfo] = useState({})
-  const [thesisData, setThesisData] = useState({})
   const [uniDegrees, setUniDegrees] = useState({})
+  const [thesisData, setThesisData] = useState({})
 
   const [page, setPage] = useState(1)
   const [studentNumber, setStudentNumber] = useState(0)
@@ -38,7 +39,7 @@ const StudentDataRegisteration = () => {
         for (const item in ws) {
           if (ws[item].t === 'n') {
             delete ws[item].w
-            ws[item].z = 'dd/mm/yyyy'
+            ws[item].z = 'yyyy/mm/dd'
             XLSX.utils.format_cell(ws[item])
           }
         }
@@ -115,9 +116,30 @@ const StudentDataRegisteration = () => {
                 confirmButtonText: 'حسنــاً',
                 confirmButtonColor: '#2f3944',
               })
-              console.log(JSON.stringify(personalInfo))
-              console.log(JSON.stringify(uniDegrees))
-              console.log(JSON.stringify(thesisData))
+              // console.log(JSON.stringify(personalInfo))
+              // console.log(JSON.stringify(uniDegrees))
+              // console.log(JSON.stringify(thesisData))
+
+              const options = {
+                url: `http://localhost:8000/api/student/${personalInfo.id}`,
+                method: 'put',
+                data: JSON.stringify(personalInfo),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(options)
+                .then((response) => {
+                  console.log(response)
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+
+              setPersonalInfo({})
+              setUniDegrees({})
+              setThesisData({})
               setStudentNumber(studentNumber + 1)
               setAnimate('animate__animated animate__fadeIn')
               setPage(1)
@@ -141,48 +163,98 @@ const StudentDataRegisteration = () => {
   const mainForm = []
   for (const student of students) {
     const personalData = {
-      image: student['الصورة الشخصية'],
-      id: student['الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني'],
-      arabicName: student['الاسم باللغة العربية'],
-      englishName: student['الاسم باللغة الإنجليزية'],
-      birthDate: student['تاريخ الميلاد'],
-      gender: student['الجنس'],
-      country: student['دولة الجنسية (مثال: مصر)'],
-      nationalID: student['الرقم القومي'],
-      birthCertificateSource: student['مصدر شهادة الميلاد'] || '',
-      address: student['العنوان'] || '',
-      phoneNumber: student['رقم الهاتف'],
-      email: student['البريد الإلكتروني'],
-      arabicJobName: student['الوظيفة باللغة العربية'],
-      englishJobName: student['الوظيفة باللغة الإنجليزية'] || '',
-      jobAddress: student['عنوان الوظيفة'] || '',
+      image: personalInfo.image
+        ? personalInfo.image
+        : student['الصورة الشخصية'],
+      id: personalInfo.id
+        ? personalInfo.id
+        : student['الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني'],
+      arabicName: personalInfo.arabicName
+        ? personalInfo.arabicName
+        : student['الاسم باللغة العربية'],
+      englishName: personalInfo.englishName
+        ? personalInfo.englishName
+        : student['الاسم باللغة الإنجليزية'],
+      birthdate: personalInfo.birthdate
+        ? personalInfo.birthdate
+        : student['تاريخ الميلاد'],
+      gender: personalInfo.gender ? personalInfo.gender : student['الجنس'],
+      nationality: personalInfo.nationality
+        ? personalInfo.nationality
+        : student['دولة الجنسية (مثال: مصر)'],
+      nationalityId: personalInfo.nationalityId
+        ? personalInfo.nationalityId
+        : student['الرقم القومي'],
+      birthdateSource: personalInfo.birthdateSource
+        ? personalInfo.birthdateSource
+        : student['مصدر شهادة الميلاد'] || '',
+      Add: personalInfo.Add ? personalInfo.Add : student['العنوان'] || '',
+      mobile: personalInfo.mobile ? personalInfo.mobile : student['رقم الهاتف'],
+      email: personalInfo.email
+        ? personalInfo.email
+        : student['البريد الإلكتروني'],
+      jobArabic: personalInfo.jobArabic
+        ? personalInfo.jobArabic
+        : student['الوظيفة باللغة العربية'],
+      jobEnglish: personalInfo.jobEnglish
+        ? personalInfo.jobEnglish
+        : student['الوظيفة باللغة الإنجليزية'] || '',
+      jobAdd: personalInfo.jobAdd
+        ? personalInfo.jobAdd
+        : student['عنوان الوظيفة'] || '',
     }
 
     const universityDegrees = [
       {
-        scientificDegree: student['الدرجة  العلمية'],
-        specialization: student['التخصص'],
-        date: student['تاريخ الحصول عليها'],
-        college: student['الكلية التي حصل الطالب على الدرجة العلمية منها'],
-        university: student['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
+        scientificDegree: uniDegrees[0]
+          ? uniDegrees[0].scientificDegree
+          : student['الدرجة  العلمية'],
+        specialization: uniDegrees[0]
+          ? uniDegrees[0].specialization
+          : student['التخصص'],
+        date: uniDegrees[0]
+          ? uniDegrees[0].date
+          : student['تاريخ الحصول عليها'],
+        college: uniDegrees[0]
+          ? uniDegrees[0].college
+          : student['الكلية التي حصل الطالب على الدرجة العلمية منها'],
+        university: uniDegrees[0]
+          ? uniDegrees[0].university
+          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
       },
       {
-        scientificDegree: student['الدرجة  العلمية2'] || '',
-        specialization: student['التخصص2'] || '',
-        date: student['تاريخ الحصول عليها2'] || '',
-        college:
-          student['الكلية التي حصل الطالب على الدرجة العلمية منها2'] || '',
-        university:
-          student['الجامعة التي حصل الطالب على الدرجة العلمية منها2'] || '',
+        scientificDegree: uniDegrees[1]
+          ? uniDegrees[1].scientificDegree
+          : student['الدرجة  العلمية2'] || '',
+        specialization: uniDegrees[1]
+          ? uniDegrees[1].specialization
+          : student['التخصص2'] || '',
+        date: uniDegrees[1]
+          ? uniDegrees[1].date
+          : student['تاريخ الحصول عليها2'] || '',
+        college: uniDegrees[1]
+          ? uniDegrees[1].college
+          : student['الكلية التي حصل الطالب على الدرجة العلمية منها2'] || '',
+        university: uniDegrees[1]
+          ? uniDegrees[1].university
+          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها2'] || '',
       },
       {
-        scientificDegree: student['الدرجة  العلمية3'] || '',
-        specialization: student['التخصص3'] || '',
-        date: student['تاريخ الحصول عليها3'] || '',
-        college:
-          student['الكلية التي حصل الطالب على الدرجة العلمية منها3'] || '',
-        university:
-          student['الجامعة التي حصل الطالب على الدرجة العلمية منها3'] || '',
+        scientificDegree: uniDegrees[2]
+          ? uniDegrees[2].scientificDegree
+          : student['الدرجة  العلمية3'] || '',
+        specialization: uniDegrees[2]
+          ? uniDegrees[2].specialization
+          : student['التخصص3'] || '',
+        date: uniDegrees[2]
+          ? uniDegrees[2].date
+          : student['تاريخ الحصول عليها3'] || '',
+        college: uniDegrees[2]
+          ? uniDegrees[2].college
+          : student['الكلية التي حصل الطالب على الدرجة العلمية منها3'] || '',
+        university: uniDegrees[2]
+          ? uniDegrees[2].university
+          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها3'] || '',
       },
     ]
 
@@ -229,17 +301,28 @@ const StudentDataRegisteration = () => {
       }
     }
     const academicThesisData = {
-      registerationType: student['تأكيد نوع التسجيل'],
-      toeflDegree: student['درجة امتحان التويفل - TOEFL'] || '',
-      arabicTitle: student['عنوان الرسالة باللغة العربية'] || '',
-      englishTitle: student['عنوان الرسالة بالغة الإنجليزية'] || '',
-      department: student['القسم التابعة له هذه الدبلومة']
+      registerationType: thesisData.registerationType
+        ? thesisData.registerationType
+        : student['تأكيد نوع التسجيل'],
+      toeflDegree: thesisData.toeflDegree
+        ? thesisData.toeflDegree
+        : student['درجة امتحان التويفل - TOEFL'] || '',
+      arabicTitle: thesisData.arabicTitle
+        ? thesisData.arabicTitle
+        : student['عنوان الرسالة باللغة العربية'] || '',
+      englishTitle: thesisData.englishTitle
+        ? thesisData.englishTitle
+        : student['عنوان الرسالة بالغة الإنجليزية'] || '',
+      department: thesisData.department
+        ? thesisData.department
+        : student['القسم التابعة له هذه الدبلومة']
         ? student['القسم التابعة له هذه الدبلومة']
         : student['التخصص التابعة له هذه الرسالة'],
-      diplomaTitle: title,
-      courses:
-        student['المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'] ||
-        '',
+      diplomaTitle: thesisData.diplomaTitle ? thesisData.diplomaTitle : title,
+      courses: thesisData.courses
+        ? thesisData.courses
+        : student['المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'] ||
+          '',
     }
 
     mainForm.push(
@@ -358,6 +441,9 @@ const StudentDataRegisteration = () => {
                               confirmButtonColor: '#2f3944',
                             })
                             document.documentElement.scrollTop = 0
+                            setPersonalInfo({})
+                            setUniDegrees({})
+                            setThesisData({})
                             setStudentNumber(studentNumber + 1)
                             setAnimate('animate__animated animate__fadeIn')
                             setPage(1)

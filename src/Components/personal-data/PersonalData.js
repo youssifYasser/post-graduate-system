@@ -63,10 +63,10 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='birthDate'
-                  value={student.birthDate}
+                  name='birthdate'
+                  value={student.birthdate}
                   onChange={handleChange}
-                  pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
+                  pattern='^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$'
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل التاريخ بالطريقة الصحيحة (مثال: 25/02/2015).
@@ -108,8 +108,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                     <Form.Control
                       className='form-input'
                       as='select'
-                      name='country'
-                      value={student.country}
+                      name='nationality'
+                      value={student.nationality}
                       onChange={handleChange}
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                       custom
@@ -130,8 +130,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='number'
-                  name='nationalID'
-                  value={student.nationalID}
+                  name='nationalityId'
+                  value={student.nationalityId}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -145,8 +145,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='birthCertificateSource'
-                  value={student.birthCertificateSource}
+                  name='birthdateSource'
+                  value={student.birthdateSource}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -199,8 +199,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='address'
-                  value={student.address}
+                  name='Add'
+                  value={student.Add}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'
                 />
@@ -215,8 +215,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='number'
-                  name='phoneNumber'
-                  value={student.phoneNumber}
+                  name='mobile'
+                  value={student.mobile}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -234,8 +234,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='arabicJobName'
-                  value={student.arabicJobName}
+                  name='jobArabic'
+                  value={student.jobArabic}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -250,8 +250,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='englishJobName'
-                  value={student.englishJobName}
+                  name='jobEnglish'
+                  value={student.jobEnglish}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                 />
@@ -268,8 +268,8 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='jobAddress'
-                  value={student.jobAddress}
+                  name='jobAdd'
+                  value={student.jobAdd}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'
                 />
