@@ -11,7 +11,7 @@ function navbar() {
             <Container>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav>
-                        <Link to="/AddStudent" className="link"> تسجيل طالب</Link>
+                        <Link to="/AddStudent" className="link"> إضافة طالب جديد </Link>
                         <Link to="/StudentData" className="link"> تسجيل بيانات الطالب</Link>
                     </Nav>
                 </Navbar.Collapse>
