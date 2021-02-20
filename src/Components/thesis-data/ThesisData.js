@@ -24,8 +24,8 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   as='select'
-                  name='registerationType'
-                  value={thesis.registerationType}
+                  name='study_type'
+                  value={thesis.study_type}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   custom
@@ -46,8 +46,8 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='number'
-                  name='toeflDegree'
-                  value={thesis.toeflDegree}
+                  name='toeflGrade'
+                  value={thesis.toeflGrade}
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -58,11 +58,11 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
           </Form.Row>
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
-              {(thesis.registerationType === 'تمهيدي الماجستير' ||
-                thesis.registerationType === 'دبلومة الدراسات العليا') && (
+              {(thesis.study_type === 'تمهيدي الماجستير' ||
+                thesis.study_type === 'دبلومة الدراسات العليا') && (
                 <Form.Group controlId='department'>
                   <Form.Label>
-                    {thesis.registerationType === 'دبلومة الدراسات العليا'
+                    {thesis.study_type === 'دبلومة الدراسات العليا'
                       ? 'القسم التابعة له هذه الدبلومة'
                       : 'القسم التابعة له دراسة تمهيدي الماجستير'}
                   </Form.Label>
@@ -90,8 +90,8 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                   </Form.Control.Feedback>
                 </Form.Group>
               )}
-              {thesis.registerationType === 'تمهيدي الماجستير' ||
-                thesis.registerationType === 'دبلومة الدراسات العليا' || (
+              {thesis.study_type === 'تمهيدي الماجستير' ||
+                thesis.study_type === 'دبلومة الدراسات العليا' || (
                   <Form.Group controlId='arThesis'>
                     <Form.Label>عنوان الرسالة باللغة العربية</Form.Label>
                     <Form.Control
@@ -109,25 +109,25 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                 )}
             </Col>
             <Col md={5} sm={6}>
-              {thesis.registerationType === 'تمهيدي الماجستير' ||
-              thesis.registerationType === 'دبلومة الدراسات العليا' ? (
+              {thesis.study_type === 'تمهيدي الماجستير' ||
+              thesis.study_type === 'دبلومة الدراسات العليا' ? (
                 <Form.Group controlId='diplomaTitle'>
                   <Form.Label>
-                    {thesis.registerationType === 'دبلومة الدراسات العليا'
+                    {thesis.study_type === 'دبلومة الدراسات العليا'
                       ? 'عنوان الدبلومة'
                       : 'عنوان تمهيدي الماجستير'}
                   </Form.Label>
                   <Form.Control
                     className='form-input'
                     type='text'
-                    name='diplomaTitle'
-                    value={thesis.diplomaTitle}
+                    name='arabicTitle'
+                    value={thesis.arabicTitle}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   />
 
                   <Form.Control.Feedback type='invalid'>
-                    {thesis.registerationType === 'دبلومة الدراسات العليا'
+                    {thesis.study_type === 'دبلومة الدراسات العليا'
                       ? 'من فضلك أدخل عنوان الدبلومة باللغة العربية فقط.'
                       : ' من فضلك أدخل عنوان تمهيدي الماجستير باللغة العربية فقط.'}
                   </Form.Control.Feedback>
@@ -151,8 +151,8 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
             </Col>
           </Form.Row>
           <Form.Row>
-            {(thesis.registerationType === 'دكتوراه الفلسفة في العلوم' ||
-              thesis.registerationType === 'الماجستير في العلوم') && (
+            {(thesis.study_type === 'دكتوراه الفلسفة في العلوم' ||
+              thesis.study_type === 'الماجستير في العلوم') && (
               <Col md={{ span: 5, offset: 2 }} sm={6}>
                 <Form.Group controlId='department'>
                   <Form.Label>التخصص التابعة له هذه الرسالة</Form.Label>
@@ -194,8 +194,8 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='courses'
-                  value={thesis.courses}
+                  name='requiredCourses'
+                  value={thesis.requiredCourses}
                   onChange={handleChange}
                 />
               </Form.Group>

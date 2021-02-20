@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
-import { countries } from '../countries'
+import { countries } from './countries'
 
 const PersonalData = ({ personalData, setPersonalInfo, className }) => {
   const [student, setStudent] = React.useState(personalData)
@@ -66,7 +66,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                   name='birthdate'
                   value={student.birthdate}
                   onChange={handleChange}
-                  pattern='^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$'
+                  pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل التاريخ بالطريقة الصحيحة (مثال: 25/02/2015).

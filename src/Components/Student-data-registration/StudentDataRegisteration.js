@@ -11,6 +11,7 @@ import UniversityDegrees from '../university-degrees/UniversityDegrees'
 import FileUpload from '../file-upload/FileUpload'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { saveAs } from 'file-saver'
 
 const StudentDataRegisteration = () => {
   const [showUpload, setShowUpload] = useState(true)
@@ -24,6 +25,8 @@ const StudentDataRegisteration = () => {
   const [studentNumber, setStudentNumber] = useState(0)
   const [validated, setValidated] = useState(false)
   const [animate, setAnimate] = useState('animate__animated animate__fadeIn')
+
+  const [canceledStudents, setCanceledStudents] = useState([])
 
   const handleFile = (e) => {
     setShowUpload(true)
@@ -39,7 +42,7 @@ const StudentDataRegisteration = () => {
         for (const item in ws) {
           if (ws[item].t === 'n') {
             delete ws[item].w
-            ws[item].z = 'yyyy/mm/dd'
+            ws[item].z = 'dd/mm/yyyy'
             XLSX.utils.format_cell(ws[item])
           }
         }
@@ -119,8 +122,9 @@ const StudentDataRegisteration = () => {
               // console.log(JSON.stringify(personalInfo))
               // console.log(JSON.stringify(uniDegrees))
               // console.log(JSON.stringify(thesisData))
+              // console.log(uniDegrees)
 
-              const options = {
+              const personalInfoAPI = {
                 url: `http://localhost:8000/api/student/${personalInfo.id}`,
                 method: 'put',
                 data: JSON.stringify(personalInfo),
@@ -129,13 +133,52 @@ const StudentDataRegisteration = () => {
                   'Content-Type': 'application/json;charset=UTF-8',
                 },
               }
-              axios(options)
+              axios(personalInfoAPI)
                 .then((response) => {
                   console.log(response)
                 })
                 .catch((err) => {
                   console.log(err)
                 })
+
+              const thesisDataAPI = {
+                url: 'http://localhost:8000/api/registrations',
+                method: 'post',
+                data: JSON.stringify({ ...thesisData, idS: personalInfo.id }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(thesisDataAPI)
+                .then((response) => {
+                  console.log(response.data)
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+
+              for (let index = 0; index < uniDegrees.length; index++) {
+                if (uniDegrees[index].degree) {
+                  console.log(uniDegrees[index])
+                  const pervStudiesAPI = {
+                    url: `http://localhost:8000/api/previousstudy/${personalInfo.id}`,
+                    method: 'post',
+                    data: JSON.stringify(uniDegrees[index]),
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                  }
+                  axios(pervStudiesAPI)
+                    .then((response) => {
+                      console.log(response)
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                    })
+                }
+              }
 
               setPersonalInfo({})
               setUniDegrees({})
@@ -153,10 +196,69 @@ const StudentDataRegisteration = () => {
     }
   }
 
+  const s2ab = (s) => {
+    var buf = new ArrayBuffer(s.length)
+    var view = new Uint8Array(buf)
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+    return buf
+  }
+
+  const handleCanceledStudents = (data) => {
+    const wb = XLSX.utils.book_new()
+    const ws = XLSX.utils.json_to_sheet(data, {
+      header: [
+        'الصورة الشخصية',
+        'الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني',
+        'الاسم باللغة العربية',
+        'الاسم باللغة الإنجليزية',
+        'تاريخ الميلاد',
+        'الجنس',
+        'دولة الجنسية (مثال: مصر)',
+        'الرقم القومي',
+        'العنوان',
+        'رقم الهاتف',
+        'البريد الإلكتروني',
+        'الوظيفة باللغة العربية',
+        'الوظيفة باللغة الإنجليزية',
+        'عنوان الوظيفة',
+        'الدرجة  العلمية',
+        'التخصص',
+        'تاريخ الحصول عليها',
+        'الكلية التي حصل الطالب على الدرجة العلمية منها',
+        'الجامعة التي حصل الطالب على الدرجة العلمية منها',
+        'الدرجة  العلمية2',
+        'التخصص2',
+        'تاريخ الحصول عليها2',
+        'الكلية التي حصل الطالب على الدرجة العلمية منها2',
+        'الجامعة التي حصل الطالب على الدرجة العلمية منها2',
+        'الدرجة  العلمية3',
+        'التخصص3',
+        'تاريخ الحصول عليها3',
+        'الكلية التي حصل الطالب على الدرجة العلمية منها3',
+        'الجامعة التي حصل الطالب على الدرجة العلمية منها3',
+        'تأكيد نوع التسجيل',
+        'درجة امتحان التويفل - TOEFL',
+        'التخصص التابعة له هذه الرسالة',
+        'عنوان الرسالة باللغة العربية',
+        'عنوان الرسالة بالغة الإنجليزية',
+        'المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)',
+      ],
+    })
+    wb.SheetNames.push('الطلبة الملغيين')
+    wb.Sheets['الطلبة الملغيين'] = ws
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+    saveAs(
+      new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+      'canceledStudents.xlsx'
+    )
+    setCanceledStudents([])
+  }
+
   useEffect(() => {
-    if (studentNumber >= students.length) {
+    if (studentNumber >= students.length && students.length !== 0) {
       setStudentNumber(0)
       setShowUpload(true)
+      handleCanceledStudents(canceledStudents)
     }
   }, [studentNumber])
 
@@ -206,51 +308,51 @@ const StudentDataRegisteration = () => {
 
     const universityDegrees = [
       {
-        scientificDegree: uniDegrees[0]
-          ? uniDegrees[0].scientificDegree
+        degree: uniDegrees[0]
+          ? uniDegrees[0].degree
           : student['الدرجة  العلمية'],
         specialization: uniDegrees[0]
           ? uniDegrees[0].specialization
           : student['التخصص'],
-        date: uniDegrees[0]
-          ? uniDegrees[0].date
+        dateObtained: uniDegrees[0]
+          ? uniDegrees[0].dateObtained
           : student['تاريخ الحصول عليها'],
-        college: uniDegrees[0]
-          ? uniDegrees[0].college
+        faculty: uniDegrees[0]
+          ? uniDegrees[0].faculty
           : student['الكلية التي حصل الطالب على الدرجة العلمية منها'],
         university: uniDegrees[0]
           ? uniDegrees[0].university
           : student['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
       },
       {
-        scientificDegree: uniDegrees[1]
-          ? uniDegrees[1].scientificDegree
+        degree: uniDegrees[1]
+          ? uniDegrees[1].degree
           : student['الدرجة  العلمية2'] || '',
         specialization: uniDegrees[1]
           ? uniDegrees[1].specialization
           : student['التخصص2'] || '',
-        date: uniDegrees[1]
-          ? uniDegrees[1].date
+        dateObtained: uniDegrees[1]
+          ? uniDegrees[1].dateObtained
           : student['تاريخ الحصول عليها2'] || '',
-        college: uniDegrees[1]
-          ? uniDegrees[1].college
+        faculty: uniDegrees[1]
+          ? uniDegrees[1].faculty
           : student['الكلية التي حصل الطالب على الدرجة العلمية منها2'] || '',
         university: uniDegrees[1]
           ? uniDegrees[1].university
           : student['الجامعة التي حصل الطالب على الدرجة العلمية منها2'] || '',
       },
       {
-        scientificDegree: uniDegrees[2]
-          ? uniDegrees[2].scientificDegree
+        degree: uniDegrees[2]
+          ? uniDegrees[2].degree
           : student['الدرجة  العلمية3'] || '',
         specialization: uniDegrees[2]
           ? uniDegrees[2].specialization
           : student['التخصص3'] || '',
-        date: uniDegrees[2]
-          ? uniDegrees[2].date
+        dateObtained: uniDegrees[2]
+          ? uniDegrees[2].dateObtained
           : student['تاريخ الحصول عليها3'] || '',
-        college: uniDegrees[2]
-          ? uniDegrees[2].college
+        faculty: uniDegrees[2]
+          ? uniDegrees[2].faculty
           : student['الكلية التي حصل الطالب على الدرجة العلمية منها3'] || '',
         university: uniDegrees[2]
           ? uniDegrees[2].university
@@ -301,15 +403,15 @@ const StudentDataRegisteration = () => {
       }
     }
     const academicThesisData = {
-      registerationType: thesisData.registerationType
-        ? thesisData.registerationType
+      study_type: thesisData.study_type
+        ? thesisData.study_type
         : student['تأكيد نوع التسجيل'],
-      toeflDegree: thesisData.toeflDegree
-        ? thesisData.toeflDegree
+      toeflGrade: thesisData.toeflGrade
+        ? thesisData.toeflGrade
         : student['درجة امتحان التويفل - TOEFL'] || '',
-      arabicTitle: thesisData.arabicTitle
-        ? thesisData.arabicTitle
-        : student['عنوان الرسالة باللغة العربية'] || '',
+      arabicTitle: title
+        ? thesisData.arabicTitle || title
+        : thesisData.arabicTitle || student['عنوان الرسالة باللغة العربية'],
       englishTitle: thesisData.englishTitle
         ? thesisData.englishTitle
         : student['عنوان الرسالة بالغة الإنجليزية'] || '',
@@ -318,9 +420,9 @@ const StudentDataRegisteration = () => {
         : student['القسم التابعة له هذه الدبلومة']
         ? student['القسم التابعة له هذه الدبلومة']
         : student['التخصص التابعة له هذه الرسالة'],
-      diplomaTitle: thesisData.diplomaTitle ? thesisData.diplomaTitle : title,
-      courses: thesisData.courses
-        ? thesisData.courses
+      // diplomaTitle: thesisData.diplomaTitle ? thesisData.diplomaTitle : title,
+      requiredCourses: thesisData.requiredCourses
+        ? thesisData.requiredCourses
         : student['المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'] ||
           '',
     }
@@ -444,6 +546,7 @@ const StudentDataRegisteration = () => {
                             setPersonalInfo({})
                             setUniDegrees({})
                             setThesisData({})
+                            setCanceledStudents([...canceledStudents, student])
                             setStudentNumber(studentNumber + 1)
                             setAnimate('animate__animated animate__fadeIn')
                             setPage(1)
