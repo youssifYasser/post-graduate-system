@@ -19,26 +19,26 @@ const UniversityDegrees = ({ universityDegrees, setUniDegrees, className }) => {
   }, [Degrees])
 
   const degrees = []
-  for (const [index, degree] of Degrees.entries()) {
+  for (const [index, degreeItem] of Degrees.entries()) {
     const {
-      scientificDegree,
+      degree,
       specialization,
-      date,
-      college,
+      dateObtained,
+      faculty,
       university,
-    } = degree
-    if (scientificDegree !== '') {
+    } = degreeItem
+    if (degree !== '') {
       degrees.push(
         <div key={index} className='degree'>
           <Form.Row>
             <Col>
-              <Form.Group controlId='scientificDegree'>
+              <Form.Group controlId='degree'>
                 <Form.Label>الدرجة العلمية</Form.Label>
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name={`${index}scientificDegree`}
-                  value={scientificDegree}
+                  name={`${index}degree`}
+                  value={degree}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
@@ -48,13 +48,13 @@ const UniversityDegrees = ({ universityDegrees, setUniDegrees, className }) => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId='date'>
+              <Form.Group controlId='dateObtained'>
                 <Form.Label>تاريخ الحصول عليها</Form.Label>
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name={`${index}date`}
-                  value={date}
+                  name={`${index}dateObtained`}
+                  value={dateObtained}
                   onChange={handleChange}
                   pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
                 />
@@ -82,13 +82,13 @@ const UniversityDegrees = ({ universityDegrees, setUniDegrees, className }) => {
           </Form.Row>
           <Form.Row>
             <Col>
-              <Form.Group controlId='college'>
+              <Form.Group controlId='faculty'>
                 <Form.Label>الكلية</Form.Label>
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name={`${index}college`}
-                  value={college}
+                  name={`${index}faculty`}
+                  value={faculty}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
