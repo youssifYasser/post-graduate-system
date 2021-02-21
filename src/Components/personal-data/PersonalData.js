@@ -214,7 +214,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                 <Form.Label>رقم الهاتف</Form.Label>
                 <Form.Control
                   className='form-input form-english'
-                  type='number'
+                  type='text'
                   name='mobile'
                   value={student.mobile}
                   onChange={handleChange}

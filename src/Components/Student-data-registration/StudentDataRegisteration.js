@@ -258,7 +258,7 @@ const StudentDataRegisteration = () => {
     if (studentNumber >= students.length && students.length !== 0) {
       setStudentNumber(0)
       setShowUpload(true)
-      handleCanceledStudents(canceledStudents)
+      canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
     }
   }, [studentNumber])
 
@@ -360,25 +360,26 @@ const StudentDataRegisteration = () => {
       },
     ]
 
+    console.log(student)
     let title = ''
     if (student['تأكيد نوع التسجيل'] === 'دبلومة الدراسات العليا') {
-      if (student['عنوان الدبلومة']) {
+      if (student['عنوان الدبلومة'] !== '') {
         title = student['عنوان الدبلومة']
-      } else if (student['2عنوان الدبلومة']) {
+      } else if (student['2عنوان الدبلومة'] != '') {
         title = student['2عنوان الدبلومة']
-      } else if (student['3عنوان الدبلومة']) {
+      } else if (student['3عنوان الدبلومة'] != '') {
         title = student['3عنوان الدبلومة']
-      } else if (student['4عنوان الدبلومة']) {
-        title = student['4عنوان الدبلومة']
-      } else if (student['5عنوان الدبلومة']) {
+      } else if (student['4عنوان الدبلومة'] != '') {
+        title = student['عنوان الدبلومة4']
+      } else if (student['5عنوان الدبلومة'] != '') {
         title = student['5عنوان الدبلومة']
-      } else if (student['6عنوان الدبلومة']) {
+      } else if (student['6عنوان الدبلومة'] != '') {
         title = student['6عنوان الدبلومة']
-      } else if (student['7عنوان الدبلومة']) {
+      } else if (student['7عنوان الدبلومة'] != '') {
         title = student['7عنوان الدبلومة']
-      } else if (student['8عنوان الدبلومة']) {
+      } else if (student['8عنوان الدبلومة'] != '') {
         title = student['8عنوان الدبلومة']
-      } else if (student['9عنوان الدبلومة']) {
+      } else if (student['9عنوان الدبلومة'] != '') {
         title = student['9عنوان الدبلومة']
       }
     } else if (student['تأكيد نوع التسجيل'] === 'تمهيدي الماجستير') {
