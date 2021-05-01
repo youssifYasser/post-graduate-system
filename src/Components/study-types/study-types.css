@@ -1,0 +1,45 @@
+.header {
+  background-color: #2f3944;
+  margin: 50px auto 75px auto;
+  padding: 25px 25px;
+  text-align: center;
+  border-radius: 10px;
+  width: max-content !important;
+  color: #ece8e1;
+}
+
+.form-input {
+  background-color: #fff !important;
+  color: #373636 !important;
+  border-radius: 5px !important;
+  border: 1px solid #2f3944 !important;
+  font-size: 1.1em !important;
+}
+
+.form-control {
+  color: #373636 !important;
+  border-radius: 5px !important;
+  border: 1px solid #2f3944 !important;
+  font-size: 1.1em !important;
+}
+
+.next-btn {
+  color: #ece8e1 !important;
+  background-color: #2f3944 !important;
+  border: 2px solid #2f3944 !important;
+  font-size: 1.2em !important;
+  border-radius: 5px !important;
+  transition: background-color 0.3s ease-out;
+  width: 100%;
+  height: 35px;
+  vertical-align: middle;
+  padding-top: 1px !important;
+  margin-top: 3px;
+  margin-right: 10px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 17px;
+  top: 7px;
+}
