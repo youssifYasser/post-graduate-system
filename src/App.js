@@ -6,6 +6,7 @@ import Navbar from './Components/navbar/navbar-container'
 import AddStudent from './Components/add-student/addStudent-container'
 import StudentData from './Components/Student-data-registration/StudentDataRegisteration'
 import AddDepartment from './Components/add-department/addDepartment-container'
+import StudyType from './Components/add-study-type/studyType-container'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route exact path='/AddStudent' component={AddStudent} />
         <Route exact path='/StudentData' component={StudentData} />
         <Route exact path='/AddDepartment' component={AddDepartment}/>
+        <Route exact path='/StudyType' component={StudyType}/>
       </Switch>
     </BrowserRouter>
   )

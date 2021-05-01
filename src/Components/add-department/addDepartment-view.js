@@ -6,7 +6,7 @@ import './addDepartment-style.css'
 function AddDepartment(props) {
   const state = props
   return (
-    <Container className='addStudent mt-5 mb-5'>
+    <Container className='addDepartment mt-5 mb-5'>
       <div className='header'>
         <p className='text-center'>اضافة قسم</p>
       </div>
