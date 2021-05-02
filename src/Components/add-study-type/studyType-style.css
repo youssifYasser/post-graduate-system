@@ -17,6 +17,7 @@
 .studyType .header p{
     margin-top: 16px;
 }
+
 .studyType .main{
     padding: 20px 5px;
     background-color: #fff;
@@ -28,14 +29,14 @@
     transition: box-shadow 0.3s linear;
 }
 
-.studyType .main .form-control{
+.studyType .main .subject .form-control{
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: solid #bebdbc 2px;
     border-radius: 0;
 }
-.studyType .main .form-control:focus{
+.studyType .main .subject .form-control:focus{
     border-radius: 0.25rem;
     border: none;
     background-color: #edf0f6;
@@ -43,17 +44,45 @@
 .studyType .main .form-label{
     font-size: 1.2rem;
 }
+
 .studyType .regBtn{
     background: #2f3944;
     color: #ece8e1;
     padding: 5px 50px;
     border-radius: 2rem;
     font-size: 30px;
+    margin-bottom: -35px;
+}
 
+.studyType .addCourse{
+    font-size: 20px;
+    color: black;
+    background-color: #A5A4A4;
+    border-color:#707070;
+    border-radius: 2rem;
+    margin-bottom: 10px;
 }
 
 .studyType .custom-select{
     border-radius: 1.25rem;
+}
+
+
+.studyType .main .courses{
+    margin: 20px 32px 15px 10px;
+}
+.studyType .main .courses .invalid-feedback{
+    margin-right: 12px;
+}
+.studyType .main .courses .form-control{
+    border: solid #8e949b 1px;
+    border-radius: 1em;
+}
+
+.studyType .main .courses .course .col-md-6,
+.studyType .main .courses .course .col-md-2{
+    padding: 0;
+    padding-left: 10px;
 }
 
 /*start of Responsive*/
@@ -76,6 +105,18 @@
     }
     .studyType .main{
         padding: 20px;
+    }
+    .studyType .main .courses .invalid-feedback{
+        margin-right: 0px;
+    }
+}
+@media (max-width:768px){
+    .studyType .main .course{
+        border-bottom: 2px solid #5a6268;
+        border-bottom-width: thin;
+    }
+    .studyType .main .course:last-child{
+        border-bottom: 0px;
     }
 }
 @media (max-width:425px){

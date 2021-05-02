@@ -9,8 +9,11 @@ const StudyType = () => {
   const [validated, setValidated] = useState(false)
   const [study, setStudy] = useState({
     arabicName: '',
-    email: '',
-    study_type: '',
+    englishName: '',
+    academicCode: '',
+    study_type:'',
+    department: ''
+
   })
 
   const handleChange = (event) => {
