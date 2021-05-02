@@ -19,6 +19,10 @@ function navbar() {
               {' '}
               تسجيل بيانات الطالب
             </Link>
+            <Link to='/viewDepartments' className='link'>
+              {' '}
+              عرض الأقسام
+            </Link>
           </Nav>
         </Navbar.Collapse>
 
