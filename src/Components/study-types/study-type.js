@@ -5,9 +5,19 @@ import { MdDeleteForever } from 'react-icons/md'
 import { Col, Form, Button } from 'react-bootstrap'
 import Courses from './courses'
 
-const StudyType = ({ studytypes }) => {
+const StudyType = ({ studytype }) => {
   const [showCourses, setShowCourses] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+
+  const {
+    code,
+    arabicName,
+    englishName,
+    type,
+    department,
+    academicCode,
+    courses,
+  } = studytype
 
   let isDisabled = true
 
@@ -15,13 +25,18 @@ const StudyType = ({ studytypes }) => {
   else isDisabled = true
 
   return (
-    <div className={isEditing && 'edit-study-type'}>
+    <div
+      className={
+        isEditing && 'edit-study-type animate__animated animate__fadeInDown'
+      }
+    >
       <Form.Row className='study-type'>
         <Col md={1}>
           <Form.Control
             className='form-input'
             name='code'
             type='input'
+            value={code}
             disabled={isDisabled}
           />
         </Col>
@@ -30,6 +45,7 @@ const StudyType = ({ studytypes }) => {
             className='form-input'
             name='study-type'
             type='input'
+            value={type}
             disabled={isDisabled}
           />
         </Col>
@@ -38,6 +54,7 @@ const StudyType = ({ studytypes }) => {
             className='form-input'
             name='arabic-name'
             type='input'
+            value={arabicName}
             disabled={isDisabled}
           />
         </Col>
@@ -46,6 +63,7 @@ const StudyType = ({ studytypes }) => {
             className='form-input'
             name='english-name'
             type='input'
+            value={englishName}
             disabled={isDisabled}
           />
         </Col>
@@ -54,6 +72,7 @@ const StudyType = ({ studytypes }) => {
             className='form-input'
             name='dept'
             type='input'
+            value={department}
             disabled={isDisabled}
           />
         </Col>
@@ -62,6 +81,7 @@ const StudyType = ({ studytypes }) => {
             className='form-input'
             name='academic-code'
             type='input'
+            value={academicCode}
             disabled={isDisabled}
           />
         </Col>
@@ -92,7 +112,11 @@ const StudyType = ({ studytypes }) => {
         </Col>
       </Form.Row>
       {(showCourses || isEditing) && (
-        <Courses isEditing={isEditing} isDisabled={isDisabled} />
+        <Courses
+          isEditing={isEditing}
+          isDisabled={isDisabled}
+          courses={courses}
+        />
       )}
       {isEditing && (
         <Form.Row className='editing-btns animate__animated animate__fadeInDown'>
