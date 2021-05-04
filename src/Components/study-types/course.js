@@ -35,7 +35,7 @@ const Course = ({ isEditing, isDisabled, course }) => {
         <Col md={3}>
           <Form.Control
             name='course-english-name'
-            className='form-input'
+            className='form-input form-english'
             type='input'
             value={courseEnglishName}
             disabled={isDisabled}

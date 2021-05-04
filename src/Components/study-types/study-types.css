@@ -13,6 +13,16 @@
   margin: 0 100px;
 }
 
+.section {
+  margin-top: 45px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
+}
+
 .study-type {
   margin: 10px 0 20px 0;
 }
@@ -23,6 +33,11 @@
   border-radius: 10px !important;
   border: 1px solid #8e949b !important;
   font-size: 1em !important;
+}
+
+.form-english {
+  font-size: 1.1em !important;
+  text-align: left !important;
 }
 
 .form-input:disabled {
@@ -65,7 +80,6 @@
 }
 
 .study-labels {
-  margin-top: 50px;
   font-size: 1.15em;
   line-height: 2.5em;
 }
@@ -106,7 +120,8 @@
   font-size: 1.7em;
   stroke: black;
   border: none;
-  line-height: 1.3em;
+  line-height: 1.2em;
+  background: transparent;
   transition: all 0.2s ease-out;
 }
 
@@ -116,7 +131,7 @@
 }
 
 .icon.edit-icon {
-  color: #0d6dfd;
+  color: #0b58cc;
   stroke-width: 10px;
   margin-left: 4px;
 }
@@ -127,21 +142,47 @@
 }
 
 .editing-btns {
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  text-align: left;
+  max-width: 100% !important;
+  margin: 20px 0px !important;
+}
+
+.editing-btn {
+  margin-left: 1%;
+  font-size: 1.2em !important;
+  border: 1px solid #707070 !important;
+}
+
+.editing-btn:hover {
+  background-color: #edf0f6 !important;
 }
 
 .save-btn {
   background-color: #0f996d !important;
-  border: 1px solid #707070 !important;
-  padding-top: 4px !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.save-btn:hover {
+  color: #0f996d !important;
+  border-color: #0f996d !important;
 }
 
 .delete-btn {
   background-color: #cb0000 !important;
-  border: 1px solid #707070 !important;
-  font-size: 12px !important;
-  padding-top: 6px !important;
+}
+
+.delete-btn:hover {
+  color: #cb0000 !important;
+  border-color: #cb0000 !important;
+}
+
+.cancel-btn {
+  background-color: #2f3944 !important;
+}
+
+.cancel-btn:hover {
+  color: #2f3944 !important;
+  border-color: #2f3944 !important;
 }
 
 .delete-course {
@@ -151,9 +192,12 @@
   background: none;
 }
 
+.delete-course:hover {
+  font-size: 1.9em !important;
+  line-height: 1em;
+}
+
 .edit-study-type {
-  background-color: #bfc4ce;
-  border: 1px solid #707070;
-  border-radius: 10px;
-  padding: 10px 10px 0 10px;
+  background-color: #bfc4ce !important;
+  transition: all 0.4s ease-in-out;
 }

@@ -62,14 +62,6 @@ const StudyTypes = () => {
             </span>
           </Col>
         </Form.Row>
-        <Form.Row className='study-labels'>
-          <Col md={1}>الرقم الكودى</Col>
-          <Col md={2}>نوع الدراسة</Col>
-          <Col md={2}>اسم الدراسة باللغة العربية</Col>
-          <Col md={2}>اسم الدراسة باللغة الإنجليزية</Col>
-          <Col md={2}>القسم</Col>
-          <Col md={1}>الكود الجامعى</Col>
-        </Form.Row>
         {studytypes.map((studytype) => {
           return <StudyType studytype={studytype} key={studytype.code} />
         })}

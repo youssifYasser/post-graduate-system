@@ -14,6 +14,27 @@ const studytypes = [
         courseMaxDegree: '500',
         courseCreditHours: '3',
       },
+      {
+        courseCode: '99',
+        courseArabicName: 'مادة',
+        courseEnglishName: 'subject',
+        courseMaxDegree: '500',
+        courseCreditHours: '3',
+      },
+      {
+        courseCode: '21',
+        courseArabicName: 'مادة',
+        courseEnglishName: 'subject',
+        courseMaxDegree: '500',
+        courseCreditHours: '3',
+      },
+      {
+        courseCode: '12',
+        courseArabicName: 'مادة',
+        courseEnglishName: 'subject',
+        courseMaxDegree: '500',
+        courseCreditHours: '3',
+      },
     ],
   },
   {

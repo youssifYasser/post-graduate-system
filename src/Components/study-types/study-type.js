@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import './study-types.css'
 import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
-import { Col, Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import Courses from './courses'
 
 const StudyType = ({ studytype }) => {
@@ -24,12 +24,19 @@ const StudyType = ({ studytype }) => {
   if (isEditing) isDisabled = false
   else isDisabled = true
 
+  /* 
+        isEditing &&
+        'edit-study-type animate__animated animate__fadeInDown' */
   return (
-    <div
-      className={
-        isEditing && 'edit-study-type animate__animated animate__fadeInDown'
-      }
-    >
+    <div className={`${isEditing && 'edit-study-type'} section `}>
+      <Form.Row className='study-labels'>
+        <Col md={1}>الرقم الكودى</Col>
+        <Col md={2}>نوع الدراسة</Col>
+        <Col md={2}>اسم الدراسة باللغة العربية</Col>
+        <Col md={2}>اسم الدراسة باللغة الإنجليزية</Col>
+        <Col md={2}>القسم</Col>
+        <Col md={1}>الكود الجامعى</Col>
+      </Form.Row>
       <Form.Row className='study-type'>
         <Col md={1}>
           <Form.Control
@@ -60,7 +67,7 @@ const StudyType = ({ studytype }) => {
         </Col>
         <Col md={2}>
           <Form.Control
-            className='form-input'
+            className='form-input form-english'
             name='english-name'
             type='input'
             value={englishName}
@@ -119,23 +126,19 @@ const StudyType = ({ studytype }) => {
         />
       )}
       {isEditing && (
-        <Form.Row className='editing-btns animate__animated animate__fadeInDown'>
-          <Col md={1}>
-            <Button className='save-btn filter-btn'>حفظ </Button>
-          </Col>
-          <Col md={1}>
-            <Button className='delete-btn filter-btn'> مسح الدراسة </Button>
-          </Col>
-          <Col md={1}>
+        <Row className='animate__animated animate__fadeInDown'>
+          <Col className='editing-btns'>
+            <Button className='save-btn editing-btn'>حفظ </Button>
+            <Button className='delete-btn editing-btn'> مسح الدراسة </Button>
             <Button
-              className='cancel-btn filter-btn'
+              className='cancel-btn editing-btn'
               onClick={() => setIsEditing(false)}
             >
               {' '}
               إلغاء{' '}
             </Button>
           </Col>
-        </Form.Row>
+        </Row>
       )}
     </div>
   )
