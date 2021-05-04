@@ -11,29 +11,31 @@ const StudyType = () => {
     arabicName: '',
     englishName: '',
     academicCode: '',
-    study_type:'',
+    study_type: '',
     department: '',
-    courses: []
+    courses: [],
   })
+
+  const [coursesCount, setCoursesCount] = useState(0)
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setStudy({ ...study, [name]: value })
   }
-//COMP21022
+  //COMP21022
   const handleChange2 = (event) => {
     let { name, value } = event.target
 
-    let index = name.slice(-1)
-    name = name.slice(0,-1)
-
-    if (!isNaN(name.slice(-2))) {
-      index = name.slice(-2)
-      name = name.slice(0,-2)
+    let indexOfDash = name.lastIndexOf('-')
+    let index = name.slice(indexOfDash + 1)
+    name = name.slice(0, indexOfDash)
+    console.log('name: ', name)
+    console.log('index: ', index)
+    study.courses[index] = {
+      ...study.courses[index],
+      [name]: value,
     }
-
-    study.courses[index] = {...study.courses[index], [name]: value}
-    setStudy({...study, courses: study.courses})
+    setStudy({ ...study, courses: study.courses })
   }
 
   const handleSubmit = (event) => {
@@ -45,6 +47,23 @@ const StudyType = () => {
       event.stopPropagation()
     } else {
       swalReg()
+    }
+  }
+
+  const handleDelete = (id) => {
+    const newCourses = study.courses.filter((course) => {
+      return course.id !== id
+    })
+    setStudy({
+      ...study,
+      courses: newCourses,
+    })
+  }
+  const addCourse = () => {
+    {
+      setCoursesCount(coursesCount + 1)
+      study.courses.push({ id: coursesCount })
+      setStudy(study)
     }
   }
 
@@ -100,8 +119,9 @@ const StudyType = () => {
       handleChange={handleChange}
       handleChange2={handleChange2}
       handleSubmit={handleSubmit}
-      studyData={study}
-      setStudyData={setStudy}
+      handleDelete={handleDelete}
+      addCourse={addCourse}
+      study={study}
     />
   )
 }
