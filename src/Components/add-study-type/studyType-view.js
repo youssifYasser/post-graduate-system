@@ -7,12 +7,25 @@ import './studyType-style.css'
 
 function StudyType(props) {
   const state = props;
-  const data = [];
+  const studyData = state.studyData;
+  const setStudyData = props.setStudyData;
+  let data = []
+  //const [data, setData] = useState([])
   const [courses, setCourses] = useState(0)
  
   for (let index = 0; index < courses; index++) {
-    data.push(<Course key={index} count={index}/>)
+    data.push(<Course 
+      key={index} 
+      count={index} 
+      handleChange2={state.handleChange2} 
+      studyData={studyData} 
+      setStudyData={setStudyData} 
+      courses = {courses}
+      setCourses={setCourses}
+      data={data}
+      />)
   }
+  
 
   return (
     <Container className='studyType mt-5 mb-5'>
@@ -124,7 +137,11 @@ function StudyType(props) {
             </Row>
           </div>
 
-          <Button variant='secondary' className='addCourse' onClick={()=>setCourses(courses+1)}>
+          <Button variant='secondary' className='addCourse' onClick={()=>{
+            setCourses(courses+1)
+            studyData.courses = [...studyData.courses, {id:courses}]
+            //setData([...data,<Course key={courses} count={courses} handleChange2={state.handleChange2} studyData={studyData} setStudyData={setStudyData} data={data} setData={setData}/>])
+          }}>
             إضافة مقرر إن وجد
           </Button>
           <div className="courses">

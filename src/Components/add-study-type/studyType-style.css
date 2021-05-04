@@ -49,7 +49,7 @@
     background: #2f3944;
     color: #ece8e1;
     padding: 5px 50px;
-    border-radius: 2rem;
+    border-radius: 10px;
     font-size: 30px;
     margin-bottom: -35px;
 }
@@ -59,12 +59,12 @@
     color: black;
     background-color: #A5A4A4;
     border-color:#707070;
-    border-radius: 2rem;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
 .studyType .custom-select{
-    border-radius: 1.25rem;
+    border-radius: 10px;
 }
 
 
@@ -76,13 +76,29 @@
 }
 .studyType .main .courses .form-control{
     border: solid #8e949b 1px;
-    border-radius: 1em;
+    border-radius: 10px;
 }
 
 .studyType .main .courses .course .col-md-6,
 .studyType .main .courses .course .col-md-2{
     padding: 0;
     padding-left: 10px;
+}
+
+.studyType .main .courses button svg{
+    font-size: 35px;
+    color: #ff0000;
+    stroke-width: 0.6px;
+    stroke: black;
+    transition: transform .2s;
+}
+.studyType .main .course button svg:hover {
+    transform: scale(1.25);
+}
+.studyType .main .courses button{
+    background-color: transparent;
+    border: none;
+    padding: 0;
 }
 
 /*start of Responsive*/
