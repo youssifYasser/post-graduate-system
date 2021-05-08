@@ -41,6 +41,8 @@ function AddStudent(props) {
               onChange={state.handleChange}
               pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
               required
+              dir='ltr'
+              lang='en'
             />
             <Form.Control.Feedback type='invalid'>
               من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة

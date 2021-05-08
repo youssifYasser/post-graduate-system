@@ -58,6 +58,8 @@ const DepartmentRow = ({
               value={department.englishName}
               pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
               disabled={!isEditing}
+              dir='ltr'
+              lang='en'
             />
           </Col>
           {isEditing || (

@@ -51,6 +51,7 @@ const ViewDepartments = () => {
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
+    console.log(name, value, index)
 
     departments[index] = { ...departments[index], [name]: value }
     setDepartments([...departments])

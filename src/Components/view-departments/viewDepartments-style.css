@@ -35,7 +35,7 @@
   color: #373636;
   border-radius: 10px;
   border: 1px solid #8e949b;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 /* Department Rows start*/
@@ -93,15 +93,11 @@
   margin-left: 1%;
 }
 
-.view-department .main-form .section .form-row .col:nth-child(3) input {
-  text-align: left;
-}
-
 .view-department .main-form .section .form-row .col input {
   color: #373636;
   border-radius: 10px;
   border: 1px solid #8e949b;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 /* inputs end*/
 
