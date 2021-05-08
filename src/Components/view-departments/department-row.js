@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
-import {
-  Col,
-  Container,
-  Row,
-  Image,
-  Form,
-  Button,
-  Accordion,
-  Card,
-} from 'react-bootstrap'
+import { Col, Row, Form, Button } from 'react-bootstrap'
 
 import './viewDepartments-style.css'
 
-const DepartmentRow = ({ department, handleCancel, handleSave }) => {
+const DepartmentRow = ({
+  department,
+  index,
+  handleDelete,
+  handleSave,
+  handleChange,
+}) => {
   const [isEditing, setIsEditing] = useState(false)
 
   return (
@@ -35,16 +32,18 @@ const DepartmentRow = ({ department, handleCancel, handleSave }) => {
           <Col>
             <Form.Control
               type='number'
-              name='id'
+              name={`id-${index}`}
+              onChange={handleChange}
               value={department.id}
-              disabled={!isEditing}
+              disabled
             />
           </Col>
 
           <Col>
             <Form.Control
               type='text'
-              name='arabicName'
+              name={`arabicName-${index}`}
+              onChange={handleChange}
               value={department.arabicName}
               pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
               disabled={!isEditing}
@@ -54,7 +53,8 @@ const DepartmentRow = ({ department, handleCancel, handleSave }) => {
           <Col>
             <Form.Control
               type='text'
-              name='englishName'
+              name={`englishName-${index}`}
+              onChange={handleChange}
               value={department.englishName}
               pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
               disabled={!isEditing}
@@ -63,14 +63,17 @@ const DepartmentRow = ({ department, handleCancel, handleSave }) => {
           {isEditing || (
             <>
               <Col>
-                <Button type='button' onClick={() => setIsEditing(!isEditing)}>
+                <Button type='button' onClick={() => setIsEditing(true)}>
                   {' '}
                   <FaEdit />{' '}
                 </Button>
               </Col>
 
               <Col>
-                <Button type='button'>
+                <Button
+                  type='button'
+                  onClick={() => handleDelete(department.id)}
+                >
                   <MdDeleteForever />{' '}
                 </Button>
               </Col>
@@ -84,8 +87,10 @@ const DepartmentRow = ({ department, handleCancel, handleSave }) => {
               <Button type='button' onClick={() => handleSave(department)}>
                 حفظ
               </Button>
-              <Button type='button'>مسح القسم</Button>
-              <Button type='button' onClick={() => setIsEditing(!isEditing)}>
+              <Button type='button' onClick={() => handleDelete(department.id)}>
+                مسح القسم
+              </Button>
+              <Button type='button' onClick={() => setIsEditing(false)}>
                 إلغاء
               </Button>
             </Col>

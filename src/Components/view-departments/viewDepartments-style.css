@@ -156,7 +156,7 @@
   margin-left: 1%;
   background-color: #0f996d;
   border: 1px solid #707070;
-  font-size: 1.2em;
+  font-size: 1em;
   transition: background-color 0.3s ease-out;
 }
 .view-department
@@ -174,7 +174,7 @@
   margin-left: 1%;
   background-color: #cb0000;
   border: 1px solid #707070;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .view-department
@@ -192,7 +192,7 @@
   margin-left: 1%;
   background-color: #2f3944;
   border: 1px solid #707070;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .view-department
@@ -205,6 +205,12 @@
   color: #2f3944;
   border-color: #2f3944;
 }
+
+.view-department .main-form .no-items {
+  margin: 45px;
+  text-align: center;
+}
+
 /* Save/Del/Cancel buttons start */
 
 /* media screen */
