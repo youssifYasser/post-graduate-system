@@ -15,6 +15,16 @@ const Courses = ({ isEditing, courses }) => {
     })
     setSubjects(corses)
   }
+
+  const chandleChange = (e) => {
+    let { name, value } = e.target
+    let indexOfDash = name.lastIndexOf('-')
+    let index = name.slice(indexOfDash + 1)
+    name = name.slice(0, indexOfDash)
+    subjects[index] = { ...subjects[index], [name]: value }
+    setSubjects([...subjects])
+  }
+
   if (subjects.length === 0 && isEditing) {
     return <NoCourses />
   }
@@ -27,13 +37,15 @@ const Courses = ({ isEditing, courses }) => {
         <Col md={2}>الدرجة العظمى للمقرر</Col>
         <Col md={2}>عدد الساعات المعتمدة</Col>
       </Form.Row>
-      {subjects.map((course) => {
+      {subjects.map((course, index) => {
         return (
           <Course
+            index={index}
             isEditing={isEditing}
             key={course.courseCode}
             course={course}
             deleteCourse={deleteCourse}
+            chandleChange={chandleChange}
           />
         )
       })}
