@@ -3,9 +3,21 @@ import './study-types.css'
 import { FaSearch } from 'react-icons/fa'
 import StudyType from './study-type'
 import studytypes from './study-types-array'
+import NoStudies from './no-studies'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 
 const StudyTypes = () => {
+  const [studies, setStudies] = useState([...studytypes])
+
+  const handleDelete = (stID) => {
+    const sts = studies.filter((item) => {
+      return item.code !== stID
+    })
+    setStudies(sts)
+  }
+
+  const handleChange = (e) => {}
+
   return (
     <div className='study-types-view'>
       <Row>
@@ -13,8 +25,8 @@ const StudyTypes = () => {
           <h2>الدراسات العليا بكلية العلوم جامعة عين شمس</h2>
         </div>
       </Row>
-      <Form>
-        <Form.Row>
+      <Form className='studies-form'>
+        <Form.Row className='search-row'>
           <Col md={2}>
             <Form.Control
               className='info'
@@ -62,9 +74,21 @@ const StudyTypes = () => {
             </span>
           </Col>
         </Form.Row>
-        {studytypes.map((studytype) => {
-          return <StudyType studytype={studytype} key={studytype.code} />
-        })}
+        {studies.length !== 0 ? (
+          studies.map((studytype, index) => {
+            return (
+              <StudyType
+                studytype={studytype}
+                index={index}
+                key={studytype.code}
+                handleDelete={handleDelete}
+                handleChange={handleChange}
+              />
+            )
+          })
+        ) : (
+          <NoStudies />
+        )}
       </Form>
     </div>
   )

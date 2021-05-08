@@ -3,7 +3,7 @@ import './study-types.css'
 import { Col, Form } from 'react-bootstrap'
 import { MdDeleteForever } from 'react-icons/md'
 
-const Course = ({ isEditing, isDisabled, course }) => {
+const Course = ({ isEditing, course, deleteCourse }) => {
   const {
     courseCode,
     courseArabicName,
@@ -20,7 +20,7 @@ const Course = ({ isEditing, isDisabled, course }) => {
             className='form-input'
             type='input'
             value={courseCode}
-            disabled={isDisabled}
+            disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={3}>
@@ -29,7 +29,7 @@ const Course = ({ isEditing, isDisabled, course }) => {
             className='form-input'
             type='input'
             value={courseArabicName}
-            disabled={isDisabled}
+            disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={3}>
@@ -38,7 +38,7 @@ const Course = ({ isEditing, isDisabled, course }) => {
             className='form-input form-english'
             type='input'
             value={courseEnglishName}
-            disabled={isDisabled}
+            disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={2}>
@@ -47,7 +47,7 @@ const Course = ({ isEditing, isDisabled, course }) => {
             className='form-input'
             type='input'
             value={courseMaxDegree}
-            disabled={isDisabled}
+            disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={2}>
@@ -56,12 +56,16 @@ const Course = ({ isEditing, isDisabled, course }) => {
             className='form-input'
             type='input'
             value={courseCreditHours}
-            disabled={isDisabled}
+            disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={1}>
           {isEditing && (
-            <button className='icon delete-icon delete-course'>
+            <button
+              className='icon delete-icon delete-course'
+              onClick={() => deleteCourse(courseCode)}
+              type='button'
+            >
               <MdDeleteForever />
             </button>
           )}

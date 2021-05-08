@@ -1,9 +1,23 @@
-import React from 'react'
+import { React, useState } from 'react'
 import './study-types.css'
 import { Container, Col, Form } from 'react-bootstrap'
 import Course from './course'
+import NoCourses from './no-courses'
 
-const Courses = ({ isEditing, isDisabled, courses }) => {
+const Courses = ({ isEditing, courses }) => {
+  const [subjects, setSubjects] = useState([...courses])
+
+  const deleteCourse = (courseID) => {
+    console.log('courseID', courseID)
+    const corses = subjects.filter((item) => {
+      console.log(item.courseCode)
+      return item.courseCode !== courseID
+    })
+    setSubjects(corses)
+  }
+  if (subjects.length === 0 && isEditing) {
+    return <NoCourses />
+  }
   return (
     <Container className='courses animate__animated animate__fadeInDown'>
       <Form.Row className='course-labels'>
@@ -13,13 +27,13 @@ const Courses = ({ isEditing, isDisabled, courses }) => {
         <Col md={2}>الدرجة العظمى للمقرر</Col>
         <Col md={2}>عدد الساعات المعتمدة</Col>
       </Form.Row>
-      {courses.map((course) => {
+      {subjects.map((course) => {
         return (
           <Course
             isEditing={isEditing}
-            isDisabled={isDisabled}
             key={course.courseCode}
             course={course}
+            deleteCourse={deleteCourse}
           />
         )
       })}

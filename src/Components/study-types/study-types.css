@@ -1,6 +1,6 @@
 .header {
   background-color: #2f3944;
-  margin: 50px auto 75px auto;
+  margin: 45px auto;
   padding: 25px 25px;
   text-align: center;
   border-radius: 10px;
@@ -13,14 +13,17 @@
   margin: 0 100px;
 }
 
+.study-types-view .search-row {
+  margin-bottom: 45px;
+}
+
 .section {
-  margin-top: 45px;
   background-color: #fff;
   padding: 15px;
   border-radius: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-  transition: box-shadow 0.3s linear;
+  transition: all 0.3s linear;
 }
 
 .study-type {
@@ -118,26 +121,34 @@
 
 .icon {
   font-size: 1.7em;
-  stroke: black;
   border: none;
   line-height: 1.2em;
   background: transparent;
   transition: all 0.2s ease-out;
 }
 
+.icon svg {
+  stroke: black !important;
+}
+
 .icon:hover {
-  font-size: 1.9em;
-  line-height: 1em;
+  transform: scale(1.25);
 }
 
 .icon.edit-icon {
   color: #0b58cc;
-  stroke-width: 10px;
   margin-left: 4px;
+}
+
+.icon.edit-icon svg {
+  stroke-width: 10px !important;
 }
 
 .icon.delete-icon {
   color: #ff0000 !important;
+}
+
+.icon.delete-icon svg {
   stroke-width: 0.6px !important;
 }
 
@@ -193,11 +204,15 @@
 }
 
 .delete-course:hover {
-  font-size: 1.9em !important;
-  line-height: 1em;
+  transform: scale(1.25);
 }
 
 .edit-study-type {
   background-color: #bfc4ce !important;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in;
+}
+
+.study-types-view .studies-form .no-items {
+  margin-top: 45px;
+  text-align: center;
 }
