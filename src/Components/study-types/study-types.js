@@ -16,7 +16,15 @@ const StudyTypes = () => {
     setStudies(sts)
   }
 
-  const handleChange = (e) => {}
+  const handleChange = (e) => {
+    let { name, value } = e.target
+    let indexOfDash = name.lastIndexOf('-')
+    let index = name.slice(indexOfDash + 1)
+    name = name.slice(0, indexOfDash)
+    studies[index] = { ...studies[index], [name]: value }
+    console.log(name, value, index)
+    setStudies([...studies])
+  }
 
   return (
     <div className='study-types-view'>

@@ -37,13 +37,13 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
             type='input'
             value={code}
             onChange={handleChange}
-            disabled={!isEditing}
+            disabled
           />
         </Col>
         <Col md={2}>
           <Form.Control
             className='form-input'
-            name={`study-type-${index}`}
+            name={`type-${index}`}
             type='input'
             value={type}
             onChange={handleChange}
@@ -53,7 +53,7 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
         <Col md={2}>
           <Form.Control
             className='form-input'
-            name={`arabic-name-${index}`}
+            name={`arabicName-${index}`}
             type='input'
             value={arabicName}
             onChange={handleChange}
@@ -63,17 +63,19 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
         <Col md={2}>
           <Form.Control
             className='form-input form-english'
-            name={`english-name-${index}`}
+            name={`englishName-${index}`}
             type='input'
             value={englishName}
             onChange={handleChange}
             disabled={!isEditing}
+            dir='ltr'
+            lang='en'
           />
         </Col>
         <Col md={2}>
           <Form.Control
             className='form-input'
-            name={`dept-${index}`}
+            name={`department-${index}`}
             type='input'
             value={department}
             onChange={handleChange}
@@ -83,7 +85,7 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
         <Col md={1}>
           <Form.Control
             className='form-input'
-            name={`academic-code-${index}`}
+            name={`academicCode-${index}`}
             type='input'
             value={academicCode}
             onChange={handleChange}

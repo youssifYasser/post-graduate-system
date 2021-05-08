@@ -40,7 +40,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
               </Form.Group>
             </Col>
             <Col md={5} sm={6}>
-              <Form.Group controlId='enName'>
+              <Form.Group controlId='enName' dir='ltr' lang='en'>
                 <Form.Label>الاسم باللغة الإنجليزية</Form.Label>
                 <Form.Control
                   className='form-input form-english'
@@ -173,7 +173,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
               </Form.Group>
             </Col>
             <Col md={5} sm={6}>
-              <Form.Group controlId='email'>
+              <Form.Group controlId='email' dir='ltr' lang='en'>
                 <Form.Label>البريد الإلكترونى</Form.Label>
                 <Form.Control
                   className='form-input form-english'
@@ -245,7 +245,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
               </Form.Group>
             </Col>
             <Col md={5} xs={6}>
-              <Form.Group controlId='enJob'>
+              <Form.Group controlId='enJob' dir='ltr' lang='en'>
                 <Form.Label>الوظيفة باللغة الإنجليزية</Form.Label>
                 <Form.Control
                   className='form-input form-english'

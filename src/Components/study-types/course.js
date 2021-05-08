@@ -16,7 +16,7 @@ const Course = ({ isEditing, course, deleteCourse }) => {
       <Form.Row className='course'>
         <Col md={1}>
           <Form.Control
-            name='course-academic-code'
+            name='courseCode'
             className='form-input'
             type='input'
             value={courseCode}
@@ -25,16 +25,16 @@ const Course = ({ isEditing, course, deleteCourse }) => {
         </Col>
         <Col md={3}>
           <Form.Control
-            name='course-arabic-name'
+            name='courseArabicName'
             className='form-input'
             type='input'
             value={courseArabicName}
             disabled={!isEditing}
           ></Form.Control>
         </Col>
-        <Col md={3}>
+        <Col md={3} dir='ltr' lang='en'>
           <Form.Control
-            name='course-english-name'
+            name='courseEnglishName'
             className='form-input form-english'
             type='input'
             value={courseEnglishName}
@@ -43,7 +43,7 @@ const Course = ({ isEditing, course, deleteCourse }) => {
         </Col>
         <Col md={2}>
           <Form.Control
-            name='course-max-degree'
+            name='courseMaxDegree'
             className='form-input'
             type='input'
             value={courseMaxDegree}
@@ -52,7 +52,7 @@ const Course = ({ isEditing, course, deleteCourse }) => {
         </Col>
         <Col md={2}>
           <Form.Control
-            name='course-credit-hours'
+            name='courseCreditHours'
             className='form-input'
             type='input'
             value={courseCreditHours}
