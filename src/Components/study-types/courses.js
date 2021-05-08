@@ -4,7 +4,7 @@ import { Container, Col, Form } from 'react-bootstrap'
 import Course from './course'
 import NoCourses from './no-courses'
 
-const Courses = ({ isEditing, courses }) => {
+const Courses = ({ isEditing, courses, setShowCourses }) => {
   const [subjects, setSubjects] = useState([...courses])
 
   const deleteCourse = (courseID) => {
@@ -26,15 +26,17 @@ const Courses = ({ isEditing, courses }) => {
   }
 
   if (subjects.length === 0 && isEditing) {
+    setShowCourses(false)
     return <NoCourses />
   }
   return (
     <Container className='courses animate__animated animate__fadeInDown'>
       <Form.Row className='course-labels'>
+        <Col md={1}>الرقم الكودي</Col>
         <Col md={1}>كود المقرر</Col>
         <Col md={3}>اسم المقرر بالعربية</Col>
         <Col md={3}>اسم المقرر بالإنجليزية</Col>
-        <Col md={2}>الدرجة العظمى للمقرر</Col>
+        <Col md={1}>الدرجة العظمى</Col>
         <Col md={2}>عدد الساعات المعتمدة</Col>
       </Form.Row>
       {subjects.map((course, index) => {
@@ -42,7 +44,7 @@ const Courses = ({ isEditing, courses }) => {
           <Course
             index={index}
             isEditing={isEditing}
-            key={course.courseCode}
+            key={course.courseID}
             course={course}
             deleteCourse={deleteCourse}
             chandleChange={chandleChange}

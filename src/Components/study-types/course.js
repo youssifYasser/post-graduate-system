@@ -5,6 +5,7 @@ import { MdDeleteForever } from 'react-icons/md'
 
 const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
   const {
+    courseID,
     courseCode,
     courseArabicName,
     courseEnglishName,
@@ -14,6 +15,16 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
   return (
     <>
       <Form.Row className='course'>
+        <Col md={1}>
+          <Form.Control
+            name={`courseID-${index}`}
+            className='form-input'
+            type='input'
+            value={courseCreditHours}
+            onChange={chandleChange}
+            disabled
+          ></Form.Control>
+        </Col>
         <Col md={1}>
           <Form.Control
             name={`courseCode-${index}`}
@@ -44,7 +55,7 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
             disabled={!isEditing}
           ></Form.Control>
         </Col>
-        <Col md={2}>
+        <Col md={1}>
           <Form.Control
             name={`courseMaxDegree-${index}`}
             className='form-input'

@@ -22,12 +22,12 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
   return (
     <div className={`${isEditing && 'edit-study-type'} section `}>
       <Form.Row className='study-labels'>
-        <Col md={1}>الرقم الكودى</Col>
+        <Col md={1}>الرقم الكودي</Col>
         <Col md={2}>نوع الدراسة</Col>
         <Col md={2}>اسم الدراسة باللغة العربية</Col>
         <Col md={2}>اسم الدراسة باللغة الإنجليزية</Col>
         <Col md={2}>القسم</Col>
-        <Col md={1}>الكود الجامعى</Col>
+        <Col md={1}>الكود الجامعي</Col>
       </Form.Row>
       <Form.Row className='study-type'>
         <Col md={1}>
@@ -121,7 +121,11 @@ const StudyType = ({ studytype, handleDelete, handleChange, index }) => {
         )}
       </Form.Row>
       {(showCourses || isEditing) && (
-        <Courses isEditing={isEditing} courses={courses} />
+        <Courses
+          isEditing={isEditing}
+          courses={courses}
+          setShowCourses={setShowCourses}
+        />
       )}
       {isEditing && (
         <Row className='animate__animated animate__fadeInDown'>

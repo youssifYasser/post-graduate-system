@@ -8,6 +8,7 @@ const studytypes = [
     academicCode: '123',
     courses: [
       {
+        courseID: '1',
         courseCode: '22',
         courseArabicName: 'مادة',
         courseEnglishName: 'subject',
@@ -15,6 +16,7 @@ const studytypes = [
         courseCreditHours: '3',
       },
       {
+        courseID: '2',
         courseCode: '99',
         courseArabicName: 'مادة',
         courseEnglishName: 'subject',
@@ -22,6 +24,7 @@ const studytypes = [
         courseCreditHours: '3',
       },
       {
+        courseID: '3',
         courseCode: '21',
         courseArabicName: 'مادة',
         courseEnglishName: 'subject',
@@ -29,6 +32,7 @@ const studytypes = [
         courseCreditHours: '3',
       },
       {
+        courseID: '4',
         courseCode: '12',
         courseArabicName: 'مادة',
         courseEnglishName: 'subject',
@@ -46,6 +50,7 @@ const studytypes = [
     academicCode: '456',
     courses: [
       {
+        courseID: '5',
         courseCode: '33',
         courseArabicName: 'كورس',
         courseEnglishName: 'course',
@@ -63,6 +68,7 @@ const studytypes = [
     academicCode: '789',
     courses: [
       {
+        courseID: '6',
         courseCode: '11',
         courseArabicName: 'كتاب',
         courseEnglishName: 'book',
