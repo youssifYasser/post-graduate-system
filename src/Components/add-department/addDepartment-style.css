@@ -52,6 +52,7 @@
     padding: 5px 50px;
     border-radius: 2rem;
     font-size: 30px;
+    margin-bottom: -35px;
 
 }
 
@@ -91,6 +92,7 @@
 
     .addDepartment .regBtn{
         font-size: 25px;
+        margin-bottom: 0px
     }
 }
 /*End of Responsive*/

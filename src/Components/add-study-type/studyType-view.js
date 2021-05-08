@@ -79,7 +79,7 @@ function StudyType(props) {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={12} md={3}>
                 <Form.Group
                   controlId='exampleForm.SelectCustom'
                   className='mb-5'
@@ -104,7 +104,7 @@ function StudyType(props) {
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col xs={12} md={3}>
                 <Form.Group
                   controlId='exampleForm.SelectCustom'
                   className='mb-5'

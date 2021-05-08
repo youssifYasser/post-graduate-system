@@ -69,7 +69,7 @@ const Course = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col lg={1}>
+        <Col xs={{ order: 'first' }} md={12}  lg={1, { order: 'last' }} className="text-left deleteBtn">
           <Button onClick={() => handleDelete(id)}>
             <MdDeleteForever />
           </Button>
