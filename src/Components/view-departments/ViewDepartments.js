@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { FaSearch } from 'react-icons/fa'
 import {
   Col,
   Container,
@@ -9,10 +10,11 @@ import {
   Accordion,
   Card,
 } from 'react-bootstrap'
-import { FaSearch, FaEdit } from 'react-icons/fa'
-import { MdDeleteForever } from 'react-icons/md'
+
 import './viewDepartments-style.css'
 import 'animate.css/animate.min.css'
+
+import DepartmentRow from './department-row'
 
 const ViewDepartments = () => {
   const [departments, setDepartments] = useState([
@@ -32,8 +34,6 @@ const ViewDepartments = () => {
       id: '3',
     },
   ])
-
-  const [editing, setEditing] = useState(1)
 
   // let EditingMode
 
@@ -123,82 +123,14 @@ const ViewDepartments = () => {
             <Form.Control type='text' placeholder='ابحث عن القسم' />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Form.Label>الرقم الكودي</Form.Label>
-          </Col>
-          <Col>
-            <Form.Label>اسم القسم باللغة العربية</Form.Label>
-          </Col>
-          <Col>
-            <Form.Label>اسم القسم باللغة الإنجليزية</Form.Label>
-          </Col>
-        </Row>
 
         {departments.map((department) => {
           return (
-            <div id={department.id} key={department.id}>
-              <Form.Row>
-                <Col>
-                  <Form.Control
-                    type='number'
-                    name='id'
-                    value={department.id}
-                    disabled
-                  />
-                </Col>
-
-                <Col>
-                  <Form.Control
-                    type='text'
-                    name='arabicName'
-                    value={department.arabicName}
-                    pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                    disabled
-                  />
-                </Col>
-
-                <Col>
-                  <Form.Control
-                    type='text'
-                    name='englishName'
-                    value={department.englishName}
-                    pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
-                    disabled
-                  />
-                </Col>
-                <Col className={department.id}>
-                  <Button type='button' onClick={() => handleEdit(department)}>
-                    {' '}
-                    <FaEdit />{' '}
-                  </Button>
-                </Col>
-
-                <Col className={department.id}>
-                  <Button type='button'>
-                    <MdDeleteForever />{' '}
-                  </Button>
-                </Col>
-              </Form.Row>
-
-              <Row
-                className='buttons-row animate__animated animate__fadeInDown'
-                style={{ display: 'none' }}
-              >
-                <Col>
-                  <Button type='button' onClick={() => handleSave(department)}>
-                    حفظ
-                  </Button>
-                  <Button type='button'>مسح القسم</Button>
-                  <Button
-                    type='button'
-                    onClick={() => handleCancel(department)}
-                  >
-                    إلغاء
-                  </Button>
-                </Col>
-              </Row>
-            </div>
+            <DepartmentRow
+              department={department}
+              handleSave={handleSave}
+              handleCancel={handleCancel}
+            />
           )
         })}
       </div>
