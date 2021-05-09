@@ -25,13 +25,13 @@
 
 .view-department .main-form .row:nth-child(2) .col svg {
   position: absolute;
-  top: 11px;
+  top: 12.2px;
   left: 25px;
 }
 
 .view-department .main-form .row:nth-child(2) .col input {
   display: inline;
-  width: 24%;
+  width: 29.6%;
   color: #373636;
   border-radius: 10px;
   border: 1px solid #8e949b;
@@ -218,6 +218,18 @@
   .view-department .main-form .row:nth-child(2) .col input {
     width: 35%;
   }
+
+  .view-department .main-form .section .row .col {
+    font-size: 1.05em !important;
+  }
+
+  .view-department .main-form .form-row .col button svg {
+    font-size: 1.6em !important;
+  }
+
+  .view-department .main-form .section .form-row .col input {
+    font-size: 1.05em;
+  }
 }
 
 @media screen and (max-width: 767.98px) {
@@ -226,10 +238,37 @@
   }
 
   .view-department .main-form .row:nth-child(2) .col svg {
-    left: 137px;
+    left: 148px;
   }
 
   .view-department .main-form .row:nth-child(2) .col input {
     width: 50%;
+  }
+
+  .view-department .main-form .section .row .col:nth-child(2) label,
+  .view-department .main-form .section .row .col:nth-child(3) label {
+    margin-top: 16.4px;
+  }
+
+  .view-department .main-form .form-row .col button svg {
+    font-size: 1.4em !important;
+  }
+
+  .view-department .main-form .section .form-row .col input {
+    font-size: 1.05em;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .view-department .main-form .header {
+    max-width: 30%;
+  }
+
+  .view-department .main-form .header h1 {
+    font-size: 1.7em;
+  }
+
+  .view-department .main-form .row:nth-child(2) .col svg {
+    left: 116px;
   }
 }

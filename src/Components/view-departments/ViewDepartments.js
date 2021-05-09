@@ -26,6 +26,7 @@ const ViewDepartments = () => {
       id: '3',
     },
   ])
+  const [copyDepts, setCopyDepts] = useState(departments)
 
   const handleSave = (department) => {
     let element = document.getElementById(department.id)
@@ -40,10 +41,10 @@ const ViewDepartments = () => {
   }
 
   const handleDelete = (deptID) => {
-    const newDepartments = departments.filter((department) => {
+    const newDepartments = copyDepts.filter((department) => {
       return department.id !== deptID
     })
-    setDepartments(newDepartments)
+    setCopyDepts(newDepartments)
   }
 
   const handleChange = (e) => {
@@ -53,8 +54,20 @@ const ViewDepartments = () => {
     name = name.slice(0, indexOfDash)
     console.log(name, value, index)
 
-    departments[index] = { ...departments[index], [name]: value }
-    setDepartments([...departments])
+    copyDepts[index] = { ...copyDepts[index], [name]: value }
+    setCopyDepts([...copyDepts])
+  }
+
+  const search = (e) => {
+    const value = e.target.value
+    const resultDepts = departments.filter((dept) => {
+      if (dept.arabicName.includes(value)) {
+        return dept
+      } else if (dept.englishName.toLowerCase().includes(value.toLowerCase())) {
+        return dept
+      }
+    })
+    setCopyDepts(resultDepts)
   }
 
   return (
@@ -68,11 +81,15 @@ const ViewDepartments = () => {
         <Row>
           <Col>
             <FaSearch />
-            <Form.Control type='text' placeholder='ابحث عن القسم' />
+            <Form.Control
+              type='text'
+              placeholder='ابحث عن القسم'
+              onChange={search}
+            />
           </Col>
         </Row>
-        {departments.length !== 0 ? (
-          departments.map((department, index) => {
+        {copyDepts.length !== 0 ? (
+          copyDepts.map((department, index) => {
             return (
               <DepartmentRow
                 key={department.id}
