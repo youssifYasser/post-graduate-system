@@ -41,6 +41,7 @@
 .form-input:disabled {
   background-color: #edf0f6 !important;
   border-color: #2f3944 !important;
+  opacity: 1;
 }
 
 .info {
@@ -68,13 +69,18 @@
 .filter-btn:hover {
   color: #edf0f6 !important;
   background-color: #000 !important;
-  border-color: #2f3944 !important;
 }
 
 .search-icon {
   position: absolute;
   left: 17px;
   top: 7px;
+}
+
+.was-validated .form-input:valid,
+.form-input.is-valid {
+  background-image: none !important;
+  padding-right: 15px !important;
 }
 
 .study-labels {

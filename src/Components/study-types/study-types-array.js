@@ -1,7 +1,7 @@
 const studytypes = [
   {
     code: '1',
-    type: 'الدبلومة',
+    type: 'دبلومة الدراسات العليا',
     arabicName: 'هاهاها',
     englishName: 'hehehe',
     department: 'قسم الرياضيات',
@@ -43,7 +43,7 @@ const studytypes = [
   },
   {
     code: '2',
-    type: 'الدكتوراه',
+    type: 'دكتوراه الفلسفة في العلوم',
     arabicName: '  هوهوهو ها',
     englishName: 'hohoho',
     department: 'قسم الرياضيات',
@@ -61,7 +61,7 @@ const studytypes = [
   },
   {
     code: '3',
-    type: 'الدبلومة',
+    type: 'دبلومة الدراسات العليا',
     arabicName: 'هيهيهي',
     englishName: 'hahaha',
     department: 'قسم الفيزياء',

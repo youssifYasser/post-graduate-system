@@ -9,6 +9,17 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 const StudyTypes = () => {
   const [studies, setStudies] = useState([...studytypes])
   const [copyStudies, setCopyStudies] = useState(studies)
+  const [filterValidated, setFilterValidated] = useState(false)
+  const [validated, setValidated] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+    }
+  }
 
   const handleDelete = (stID) => {
     const sts = copyStudies.filter((item) => {
@@ -45,30 +56,39 @@ const StudyTypes = () => {
     setCopyStudies(newStudies)
   }
 
-  const filterStudies = () => {
+  const filterStudies = (e) => {
+    e.preventDefault()
     const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
       .value
     const departmentFilter = document.getElementsByName('department-filter')[0]
-      .options[document.getElementsByName('department-filter')[0].selectedIndex]
-      .text
-    const newStudies = studies.filter((study) => {
-      if (studyTypeFilter === 'نوع الدراسة' || departmentFilter === 'القسم') {
-        if (study.type === studyTypeFilter) {
-          return study
-        }
-        if (study.department === departmentFilter) {
-          return study
-        }
-      } else {
-        if (
-          study.type === studyTypeFilter &&
-          study.department === departmentFilter
-        ) {
-          return study
-        }
+      .value
+    if (studyTypeFilter === '' && departmentFilter === '') {
+      const form = e.currentTarget
+      if (form.checkValidity() === false) {
+        e.stopPropagation()
+        setValidated(true)
+        console.log('mama zmanha gaya')
       }
-    })
-    setCopyStudies(newStudies)
+    } else {
+      const newStudies = studies.filter((study) => {
+        if (studyTypeFilter === '' || departmentFilter === '') {
+          if (study.type === studyTypeFilter) {
+            return study
+          }
+          if (study.department === departmentFilter) {
+            return study
+          }
+        } else {
+          if (
+            study.type === studyTypeFilter &&
+            study.department === departmentFilter
+          ) {
+            return study
+          }
+        }
+      })
+      setCopyStudies(newStudies)
+    }
   }
 
   return (
@@ -78,43 +98,66 @@ const StudyTypes = () => {
           <h2>الدراسات العليا بكلية العلوم جامعة عين شمس</h2>
         </div>
       </Row>
-      <Form className='studies-form'>
+      <Form
+        className='studies-form'
+        noValidate
+        validated={validated}
+        onSubmit={filterStudies}
+      >
         <Form.Row className='search-row'>
           <Col md={2}>
-            <Form.Control
-              className='info'
-              as='select'
-              name='study-type-filter'
-              custom
-            >
-              <option value='نوع الدراسة'>نوع الدراسة</option>
-              <option value='الدبلومة'>الدبلومة</option>
-              <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
-              <option value='الماجيستير'>الماجيستير</option>
-              <option value='الدكتوراه'>الدكتوراه</option>
-            </Form.Control>
+            <section className='form-group' controlId='study-type-filter'>
+              <Form.Control
+                className='info'
+                as='select'
+                name='study-type-filter'
+                custom
+                required
+              >
+                <option value=''>نوع الدراسة</option>
+                <option value='دبلومة الدراسات العليا'>
+                  دبلومة الدراسات العليا
+                </option>
+                <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
+                <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+                <option value='دكتوراه الفلسفة في العلوم'>
+                  دكتوراه الفلسفة في العلوم
+                </option>
+              </Form.Control>
+              <article className='invalid-feedback' type='invalid'>
+                من فضلك اختر نوع الدراسة
+              </article>
+            </section>
           </Col>
           <Col md={2}>
-            <Form.Control
-              className='info'
-              as='select'
-              name='department-filter'
-              custom
-            >
-              <option>القسم</option>
-              <option>قسم الفيزياء</option>
-              <option>قسم الكيمياء</option>
-              <option>قسم الكيمياء الحيوية</option>
-              <option>قسم علم الحشرات</option>
-              <option>قسم الرياضيات</option>
-              <option>قسم الجيولوجيا</option>
-              <option>قسم الجيوفيزياء</option>
-              <option>قسم علم الحيوان</option>
-              <option>قسم علم النبات</option>
-            </Form.Control>
+            <section className='form-group' controlId='department-filter'>
+              <Form.Control
+                className='info'
+                as='select'
+                name='department-filter'
+                custom
+                required
+              >
+                <option value=''>القسم</option>
+                <option value='قسم الفيزياء'>قسم الفيزياء</option>
+                <option value='قسم الكيمياء'>قسم الكيمياء</option>
+                <option value='قسم الكيمياء الحيوية'>
+                  قسم الكيمياء الحيوية
+                </option>
+                <option value='قسم علم الحشرات'>قسم علم الحشرات</option>
+                <option value='قسم الرياضيات'>قسم الرياضيات</option>
+                <option value='قسم الجيولوجيا'>قسم الجيولوجيا</option>
+                <option value='قسم الجيوفيزياء'>قسم الجيوفيزياء</option>
+                <option value='قسم علم الحيوان'>قسم علم الحيوان</option>
+                <option value='قسم علم النبات'>قسم علم النبات</option>
+              </Form.Control>
+              <article className='invalid-feedback' type='invalid'>
+                من فضلك اختر القسم
+              </article>
+            </section>
           </Col>
           <Col md={{ span: '1', offset: '4' }}>
-            <Button className='filter-btn' onClick={() => filterStudies()}>
+            <Button className='filter-btn' type='submit'>
               {' '}
               إعرض{' '}
             </Button>
@@ -132,6 +175,8 @@ const StudyTypes = () => {
             </span>
           </Col>
         </Form.Row>
+      </Form>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         {copyStudies.length !== 0 ? (
           copyStudies.map((studytype, index) => {
             return (
