@@ -1,10 +1,10 @@
 const studytypes = [
   {
     code: '1',
-    type: 'Master',
+    type: 'الدبلومة',
     arabicName: 'هاهاها',
     englishName: 'hehehe',
-    department: 'math',
+    department: 'قسم الرياضيات',
     academicCode: '123',
     courses: [
       {
@@ -43,10 +43,10 @@ const studytypes = [
   },
   {
     code: '2',
-    type: 'Tamheedy Master',
-    arabicName: 'هوهوهو',
+    type: 'الدكتوراه',
+    arabicName: '  هوهوهو ها',
     englishName: 'hohoho',
-    department: 'physics',
+    department: 'قسم الرياضيات',
     academicCode: '456',
     courses: [
       {
@@ -61,10 +61,10 @@ const studytypes = [
   },
   {
     code: '3',
-    type: 'doctoraha',
+    type: 'الدبلومة',
     arabicName: 'هيهيهي',
     englishName: 'hahaha',
-    department: 'chemistry',
+    department: 'قسم الفيزياء',
     academicCode: '789',
     courses: [
       {

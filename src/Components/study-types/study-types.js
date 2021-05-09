@@ -8,12 +8,13 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 
 const StudyTypes = () => {
   const [studies, setStudies] = useState([...studytypes])
+  const [copyStudies, setCopyStudies] = useState(studies)
 
   const handleDelete = (stID) => {
-    const sts = studies.filter((item) => {
+    const sts = copyStudies.filter((item) => {
       return item.code !== stID
     })
-    setStudies(sts)
+    setCopyStudies(sts)
   }
 
   const handleChange = (e) => {
@@ -21,9 +22,53 @@ const StudyTypes = () => {
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
-    studies[index] = { ...studies[index], [name]: value }
+    copyStudies[index] = { ...copyStudies[index], [name]: value }
     console.log(name, value, index)
-    setStudies([...studies])
+    setCopyStudies([...copyStudies])
+  }
+
+  const handleSearch = (e) => {
+    const value = e.target.value
+    const newStudies = studies.filter((study) => {
+      if (study.arabicName.includes(value)) {
+        return study
+      } else if (
+        study.englishName.toLowerCase().includes(value.toLowerCase())
+      ) {
+        return study
+      } else if (
+        study.academicCode.toLowerCase().includes(value.toLowerCase())
+      ) {
+        return study
+      }
+    })
+    setCopyStudies(newStudies)
+  }
+
+  const filterStudies = () => {
+    const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
+      .value
+    const departmentFilter = document.getElementsByName('department-filter')[0]
+      .options[document.getElementsByName('department-filter')[0].selectedIndex]
+      .text
+    const newStudies = studies.filter((study) => {
+      if (studyTypeFilter === 'نوع الدراسة' || departmentFilter === 'القسم') {
+        if (study.type === studyTypeFilter) {
+          return study
+        }
+        if (study.department === departmentFilter) {
+          return study
+        }
+      } else {
+        if (
+          study.type === studyTypeFilter &&
+          study.department === departmentFilter
+        ) {
+          return study
+        }
+      }
+    })
+    setCopyStudies(newStudies)
   }
 
   return (
@@ -69,21 +114,26 @@ const StudyTypes = () => {
             </Form.Control>
           </Col>
           <Col md={{ span: '1', offset: '4' }}>
-            <Button className='filter-btn'> إعرض </Button>
+            <Button className='filter-btn' onClick={() => filterStudies()}>
+              {' '}
+              إعرض{' '}
+            </Button>
           </Col>
           <Col md={3}>
             <Form.Control
               className='info'
               name='study-type-search'
               type='input'
+              placeholder='ابحث عن الدراسة'
+              onChange={handleSearch}
             />
             <span className='search-icon'>
               <FaSearch />
             </span>
           </Col>
         </Form.Row>
-        {studies.length !== 0 ? (
-          studies.map((studytype, index) => {
+        {copyStudies.length !== 0 ? (
+          copyStudies.map((studytype, index) => {
             return (
               <StudyType
                 studytype={studytype}
