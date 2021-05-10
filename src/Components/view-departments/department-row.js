@@ -9,8 +9,9 @@ const DepartmentRow = ({
   department,
   index,
   handleDelete,
-  handleSave,
   handleChange,
+  handleSubmit,
+  validated,
 }) => {
   const [isEditing, setIsEditing] = useState(false)
 
@@ -27,7 +28,7 @@ const DepartmentRow = ({
           <Form.Label>اسم القسم باللغة الإنجليزية</Form.Label>
         </Col>
       </Row>
-      <div>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Row>
           <Col>
             <Form.Control
@@ -40,27 +41,37 @@ const DepartmentRow = ({
           </Col>
 
           <Col>
-            <Form.Control
-              type='text'
-              name={`arabicName-${index}`}
-              onChange={handleChange}
-              value={department.arabicName}
-              pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-              disabled={!isEditing}
-            />
+            <Form.Group controlId={`arabicName-${index}`}>
+              <Form.Control
+                type='text'
+                name={`arabicName-${index}`}
+                onChange={handleChange}
+                value={department.arabicName}
+                pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                disabled={!isEditing}
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك أدخل اسم القسم باللغة العربية فقط.
+              </Form.Control.Feedback>
+            </Form.Group>
           </Col>
 
           <Col>
-            <Form.Control
-              type='text'
-              name={`englishName-${index}`}
-              onChange={handleChange}
-              value={department.englishName}
-              pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
-              disabled={!isEditing}
-              dir='ltr'
-              lang='en'
-            />
+            <Form.Group>
+              <Form.Control
+                type='text'
+                name={`englishName-${index}`}
+                onChange={handleChange}
+                value={department.englishName}
+                pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
+                disabled={!isEditing}
+                dir='ltr'
+                lang='en'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك أدخل اسم القسم باللغة الإنجليزية فقط.
+              </Form.Control.Feedback>
+            </Form.Group>
           </Col>
           {isEditing || (
             <>
@@ -86,9 +97,7 @@ const DepartmentRow = ({
         {isEditing && (
           <Row className='buttons-row animate__animated animate__fadeInDown'>
             <Col>
-              <Button type='button' onClick={() => handleSave(department)}>
-                حفظ
-              </Button>
+              <Button type='submit'>حفظ</Button>
               <Button type='button' onClick={() => handleDelete(department.id)}>
                 مسح القسم
               </Button>
@@ -98,7 +107,7 @@ const DepartmentRow = ({
             </Col>
           </Row>
         )}
-      </div>
+      </Form>
     </section>
   )
 }

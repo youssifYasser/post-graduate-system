@@ -97,7 +97,17 @@
   color: #373636;
   border-radius: 10px;
   border: 1px solid #8e949b;
-  font-size: 1.1em;
+  font-size: 1.2em;
+}
+
+.invalid-feedback {
+  font-size: 1em !important;
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  background-image: none !important;
+  padding-right: 0.75em !important;
 }
 /* inputs end*/
 

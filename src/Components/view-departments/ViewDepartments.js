@@ -27,17 +27,27 @@ const ViewDepartments = () => {
     },
   ])
   const [copyDepts, setCopyDepts] = useState(departments)
+  const [validated, setValidated] = useState(false)
 
-  const handleSave = (department) => {
-    let element = document.getElementById(department.id)
-    for (let i = 0; i < 3; i++) {
-      element.children[0].childNodes[i].firstChild.disabled = true
+  // const handleSave = (department) => {
+  //   let element = document.getElementById(department.id)
+  //   for (let i = 0; i < 3; i++) {
+  //     element.children[0].childNodes[i].firstChild.disabled = true
+  //   }
+  //   element.className = 'animate__animated animate__fadeInUp'
+  //   element.lastChild.style.display = 'none'
+
+  //   document.getElementsByClassName(department.id)[0].style.display = 'block'
+  //   document.getElementsByClassName(department.id)[1].style.display = 'block'
+  // }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
     }
-    element.className = 'animate__animated animate__fadeInUp'
-    element.lastChild.style.display = 'none'
-
-    document.getElementsByClassName(department.id)[0].style.display = 'block'
-    document.getElementsByClassName(department.id)[1].style.display = 'block'
   }
 
   const handleDelete = (deptID) => {
@@ -95,9 +105,10 @@ const ViewDepartments = () => {
                 key={department.id}
                 index={index}
                 department={department}
-                handleSave={handleSave}
                 handleDelete={handleDelete}
                 handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                validated={validated}
               />
             )
           })
