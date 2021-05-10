@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import { Col, Row, Form, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
 import './viewDepartments-style.css'
 
@@ -10,11 +12,94 @@ const DepartmentRow = ({
   index,
   handleDelete,
   handleChange,
-  handleSubmit,
-  validated,
+  setCopyDepts,
+  copyDepts,
+  departments,
+  setDepartments,
 }) => {
   const [isEditing, setIsEditing] = useState(false)
+  const [validated, setValidated] = useState(false)
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    console.log(e.currentTarget)
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+      Swal.fire({
+        icon: 'error',
+        title: 'حدث خطأ',
+        text: '.من فضلك راجع البيانات',
+        confirmButtonText: 'حسنــاً',
+        confirmButtonColor: '#2f3944',
+      })
+    } else {
+      setValidated(true)
+      Swal.fire({
+        icon: 'info',
+        title: 'هل أنت متأكد من حفظ تغيير بيانات القسم؟',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#01ad01',
+        confirmButtonText: 'نعم ، احفظ',
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم تغيير بيانات القسم بنجاح',
+            confirmButtonText: 'حسنــاً',
+            confirmButtonColor: '#2f3944',
+          })
+          setIsEditing(false)
+
+          const updateDepartmentsAPI = {
+            url: `http://localhost:8000/api/departments/${department.idDept}`,
+            method: 'put',
+            data: JSON.stringify(department),
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(updateDepartmentsAPI)
+            .then((response) => {
+              setDepartments([...copyDepts])
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
+    }
+  }
+
+  const handleCancel = () => {
+    if (copyDepts[index] !== departments[index]) {
+      Swal.fire({
+        icon: 'warning',
+        title: '!لن يتم حفظ البيانات التي قمت بتعديلها',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، إلغاء`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          copyDepts[index] = departments[index]
+          setCopyDepts([...copyDepts])
+          setIsEditing(false)
+        }
+      })
+    } else {
+      setIsEditing(false)
+    }
+  }
   return (
     <section className={`section ${isEditing && 'editing'}`}>
       <Row>
@@ -33,9 +118,9 @@ const DepartmentRow = ({
           <Col>
             <Form.Control
               type='number'
-              name={`id-${index}`}
+              name={`idDept-${index}`}
               onChange={handleChange}
-              value={department.id}
+              value={department.idDept}
               disabled
             />
           </Col>
@@ -63,7 +148,7 @@ const DepartmentRow = ({
                 name={`englishName-${index}`}
                 onChange={handleChange}
                 value={department.englishName}
-                pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
+                pattern='^[a-zA-Z ]+$'
                 disabled={!isEditing}
                 dir='ltr'
                 lang='en'
@@ -85,7 +170,7 @@ const DepartmentRow = ({
               <Col>
                 <Button
                   type='button'
-                  onClick={() => handleDelete(department.id)}
+                  onClick={() => handleDelete(department.idDept)}
                 >
                   <MdDeleteForever />{' '}
                 </Button>
@@ -98,10 +183,18 @@ const DepartmentRow = ({
           <Row className='buttons-row animate__animated animate__fadeInDown'>
             <Col>
               <Button type='submit'>حفظ</Button>
-              <Button type='button' onClick={() => handleDelete(department.id)}>
+              <Button
+                type='button'
+                onClick={() => handleDelete(department.idDept)}
+              >
                 مسح القسم
               </Button>
-              <Button type='button' onClick={() => setIsEditing(false)}>
+              <Button
+                type='button'
+                onClick={() => {
+                  handleCancel()
+                }}
+              >
                 إلغاء
               </Button>
             </Col>
