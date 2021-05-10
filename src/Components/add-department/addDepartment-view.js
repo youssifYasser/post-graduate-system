@@ -41,12 +41,14 @@ function AddDepartment(props) {
               onChange={state.handleChange}
               pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
               required
+              dir='ltr'
+              lang='en'
             />
             <Form.Control.Feedback type='invalid'>
               من فضلك أدخل الاسم باللغة الإنجليزية فقط.
             </Form.Control.Feedback>
           </Form.Group>
-          
+
           <div className='text-center pt-3'>
             <Button variant='dark' className='regBtn' type='submit'>
               تسجيل
