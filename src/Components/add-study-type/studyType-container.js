@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import 'animate.css/animate.min.css'
 import axios from 'axios'
@@ -17,6 +17,7 @@ const StudyType = () => {
   })
 
   const [coursesCount, setCoursesCount] = useState(0)
+  const [departments, setDepartments] = useState([])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -76,37 +77,35 @@ const StudyType = () => {
         })
         console.log(JSON.stringify(study))
 
-        // const options = {
-        //   url: 'http://localhost:8000/api/addStudentData',
-        //   method: 'post',
-        //   data: JSON.stringify(study),
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json;charset=UTF-8',
-        //   },
-        // }
-        // axios(options)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
+        const options = {
+          url: 'http://localhost:8000/api/addstudytypeandcourse',
+          method: 'post',
+          data: JSON.stringify(study),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(options)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
 
-        setTimeout(() => {
-          window.location.href =
-            window.location.pathname +
-            window.location.search +
-            window.location.hash
-        }, 2000)
+        // setTimeout(() => {
+        //   window.location.href =
+        //     window.location.pathname +
+        //     window.location.search +
+        //     window.location.hash
+        // }, 2000)
       }
     })
   }
 
   const handleDelete = (id) => {
-    console.log(id)
     const newCourses = study.courses.filter((course) => {
-      console.log(course.id)
       return course.id !== id
     })
     setStudy({
@@ -123,6 +122,23 @@ const StudyType = () => {
     }
   }
 
+  useEffect(() => {
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
   return (
     <StudyTypeView
       validated={validated}
@@ -132,6 +148,7 @@ const StudyType = () => {
       handleDelete={handleDelete}
       addCourse={addCourse}
       study={study}
+      departments={departments}
     />
   )
 }
