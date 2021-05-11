@@ -1,31 +1,63 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './study-types.css'
 import { FaSearch } from 'react-icons/fa'
 import StudyType from './study-type'
 import studytypes from './study-types-array'
 import NoStudies from './no-studies'
 import { Row, Col, Form, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
+import axios from 'axios'
+import Loading from './loading'
 
 const StudyTypes = () => {
-  const [studies, setStudies] = useState([...studytypes])
-  const [copyStudies, setCopyStudies] = useState(studies)
-  const [filterValidated, setFilterValidated] = useState(false)
-  const [validated, setValidated] = useState(false)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    if (form.checkValidity() === false) {
-      e.stopPropagation()
-      setValidated(true)
-    }
-  }
+  const [studies, setStudies] = useState([])
+  const [copyStudies, setCopyStudies] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [departments, setDepartments] = useState([])
+  // const [filterValidated, setFilterValidated] = useState(false)
 
   const handleDelete = (stID) => {
-    const sts = copyStudies.filter((item) => {
-      return item.code !== stID
+    Swal.fire({
+      icon: 'warning',
+      title: 'هل أنت متأكد من إزالة الدراسة',
+      showDenyButton: true,
+      showCancelButton: true,
+      showConfirmButton: false,
+      denyButtonText: `نعم ، امسح الدراسة`,
+      cancelButtonText: 'لا ، عودة',
+      cancelButtonColor: '#2f3944',
+      denyButtonColor: '#be0707',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        Swal.fire({
+          icon: 'success',
+          title: 'تمت إزالة الدراسة بنجاح',
+          confirmButtonText: 'حسنــاً',
+          confirmButtonColor: '#2f3944',
+        })
+        const sts = copyStudies.filter((item) => {
+          return item.code !== stID
+        })
+        setCopyStudies(sts)
+
+        // const deleteDepartmentsAPI = {
+        //   url: `http://localhost:8000/api/departments/${deptID}`,
+        //   method: 'delete',
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'application/json;charset=UTF-8',
+        //   },
+        // }
+        // axios(deleteDepartmentsAPI)
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
+      }
     })
-    setCopyStudies(sts)
   }
 
   const handleChange = (e) => {
@@ -56,39 +88,96 @@ const StudyTypes = () => {
     setCopyStudies(newStudies)
   }
 
-  const filterStudies = (e) => {
-    e.preventDefault()
-    const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
-      .value
-    const departmentFilter = document.getElementsByName('department-filter')[0]
-      .value
-    if (studyTypeFilter === '' && departmentFilter === '') {
-      const form = e.currentTarget
-      if (form.checkValidity() === false) {
-        e.stopPropagation()
-        setValidated(true)
-        console.log('mama zmanha gaya')
-      }
-    } else {
-      const newStudies = studies.filter((study) => {
-        if (studyTypeFilter === '' || departmentFilter === '') {
-          if (study.type === studyTypeFilter) {
-            return study
-          }
-          if (study.department === departmentFilter) {
-            return study
-          }
-        } else {
-          if (
-            study.type === studyTypeFilter &&
-            study.department === departmentFilter
-          ) {
-            return study
-          }
+  const filterStudies = () => {
+    const studyTypeFilter =
+      document.getElementsByName('study-type-filter')[0].value
+    const departmentFilter =
+      document.getElementsByName('department-filter')[0].value
+    const newStudies = studies.filter((study) => {
+      if (studyTypeFilter === '' && departmentFilter === '') {
+        return study
+      } else if (studyTypeFilter === '' && departmentFilter !== '') {
+        if (study.department === departmentFilter) {
+          return study
         }
-      })
-      setCopyStudies(newStudies)
+      } else if (studyTypeFilter !== '' && departmentFilter === '') {
+        if (study.type === studyTypeFilter) {
+          return study
+        }
+      } else {
+        if (
+          study.type === studyTypeFilter &&
+          study.department === departmentFilter
+        ) {
+          return study
+        }
+      }
+    })
+    setCopyStudies(newStudies)
+  }
+
+  useEffect(() => {
+    const studyTypesAPI = {
+      url: 'http://localhost:8000/api/getallstudytype',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
     }
+    axios(studyTypesAPI)
+      .then((response) => {
+        // console.log(response.data)
+        setStudies([...response.data])
+        setCopyStudies([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 700)
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        // console.log(response.data)
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  useEffect(() => {
+    for (let i = 0; i < studies.length; i++) {
+      for (let j = 0; j < departments.length; j++) {
+        if (studies[i].idDeptF === departments[j].idDept) {
+          // console.log(departments[j].arabicName)
+          studies[i] = {
+            ...studies[i],
+            ['department']: departments[j].arabicName,
+          }
+          setStudies([...studies])
+          copyStudies[i] = {
+            ...copyStudies[i],
+            ['department']: departments[j].arabicName,
+          }
+          setCopyStudies([...copyStudies])
+        }
+      }
+    }
+  }, [departments])
+
+  if (isLoading) {
+    return <Loading />
   }
 
   return (
@@ -98,12 +187,7 @@ const StudyTypes = () => {
           <h2>الدراسات العليا بكلية العلوم جامعة عين شمس</h2>
         </div>
       </Row>
-      <Form
-        className='studies-form'
-        noValidate
-        validated={validated}
-        onSubmit={filterStudies}
-      >
+      <Form className='studies-form'>
         <Form.Row className='search-row'>
           <Col md={2}>
             <section className='form-group' controlId='study-type-filter'>
@@ -139,17 +223,16 @@ const StudyTypes = () => {
                 required
               >
                 <option value=''>القسم</option>
-                <option value='قسم الفيزياء'>قسم الفيزياء</option>
-                <option value='قسم الكيمياء'>قسم الكيمياء</option>
-                <option value='قسم الكيمياء الحيوية'>
-                  قسم الكيمياء الحيوية
-                </option>
-                <option value='قسم علم الحشرات'>قسم علم الحشرات</option>
-                <option value='قسم الرياضيات'>قسم الرياضيات</option>
-                <option value='قسم الجيولوجيا'>قسم الجيولوجيا</option>
-                <option value='قسم الجيوفيزياء'>قسم الجيوفيزياء</option>
-                <option value='قسم علم الحيوان'>قسم علم الحيوان</option>
-                <option value='قسم علم النبات'>قسم علم النبات</option>
+                {departments.map((department) => {
+                  return (
+                    <option
+                      key={department.idDept}
+                      value={department.arabicName}
+                    >
+                      {department.arabicName}
+                    </option>
+                  )
+                })}
               </Form.Control>
               <article className='invalid-feedback' type='invalid'>
                 من فضلك اختر القسم
@@ -157,7 +240,11 @@ const StudyTypes = () => {
             </section>
           </Col>
           <Col md={{ span: '1', offset: '4' }}>
-            <Button className='filter-btn' type='submit'>
+            <Button
+              className='filter-btn'
+              type='button'
+              onClick={filterStudies}
+            >
               {' '}
               إعرض{' '}
             </Button>
@@ -176,23 +263,26 @@ const StudyTypes = () => {
           </Col>
         </Form.Row>
       </Form>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        {copyStudies.length !== 0 ? (
-          copyStudies.map((studytype, index) => {
-            return (
-              <StudyType
-                studytype={studytype}
-                index={index}
-                key={studytype.code}
-                handleDelete={handleDelete}
-                handleChange={handleChange}
-              />
-            )
-          })
-        ) : (
-          <NoStudies />
-        )}
-      </Form>
+
+      {copyStudies.length !== 0 ? (
+        copyStudies.map((studytype, index) => {
+          return (
+            <StudyType
+              studytype={studytype}
+              index={index}
+              key={studytype.code}
+              handleDelete={handleDelete}
+              handleChange={handleChange}
+              studies={studies}
+              copyStudies={copyStudies}
+              setCopyStudies={setCopyStudies}
+              departments={departments}
+            />
+          )
+        })
+      ) : (
+        <NoStudies />
+      )}
     </div>
   )
 }

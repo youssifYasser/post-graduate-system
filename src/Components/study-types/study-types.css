@@ -213,7 +213,8 @@
   transition: all 0.4s ease-in-out;
 }
 
-.study-types-view .no-items {
+.study-types-view .no-items,
+.no-items {
   margin-top: 45px;
   text-align: center;
 }
