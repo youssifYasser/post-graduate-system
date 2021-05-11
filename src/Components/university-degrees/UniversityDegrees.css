@@ -56,3 +56,14 @@
     margin-left: 0;
   }
 }
+
+@media screen and (max-width: 576px) {
+  .form-two,
+  .form-input,
+  .form-english {
+    font-size: 1em;
+  }
+  .form-two .title {
+    font-size: 1.4em;
+  }
+}

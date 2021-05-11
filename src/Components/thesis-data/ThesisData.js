@@ -100,7 +100,7 @@ const ThesisData = ({ academicThesisData, setThesisData, className }) => {
                       name='arabicTitle'
                       value={thesis.arabicTitle}
                       onChange={handleChange}
-                      pattern='^[\u0621-\u064A0-9 ]+$'
+                      pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     />
                     <Form.Control.Feedback type='invalid'>
                       من فضلك أدخل عنوان الرسالة باللغة العربية فقط.

@@ -28,9 +28,13 @@
   color: #373636 !important;
   border-radius: 10px !important;
   border: 1px solid #8e949b !important;
-  font-size: 1em !important;
+  font-size: 1.1em !important;
 }
 
-.form-english {
-  font-size: 1.1em !important;
+@media screen and (max-width: 576px) {
+  .form-three,
+  .form-input,
+  .form-english {
+    font-size: 1em !important;
+  }
 }
