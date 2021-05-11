@@ -3,17 +3,15 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import { MdDeleteForever } from 'react-icons/md'
 
 const Course = (props) => {
-  const { handleChange2, handleDelete } = props
-  const id = props.count
-  const [show, setShow] = useState(true)
+  const { handleChange2, handleDelete, deleteIndex, insertIndex } = props
 
   return (
-    <div className='course mb-3' id={id}>
+    <div className='course mb-3'>
       <Row>
         <Col xs={12} md={6} lg={2}>
           <Form.Group>
             <Form.Control
-              name={'courseCode-' + id}
+              name={'courseCode-' + insertIndex}
               placeholder=' كود المقرر'
               onChange={handleChange2}
               pattern='[A-Za-z0-9]+'
@@ -28,7 +26,7 @@ const Course = (props) => {
         <Col xs={12} md={6} lg={3}>
           <Form.Group>
             <Form.Control
-              name={'ArNameOfCourse-' + id}
+              name={'arNameOfCourse-' + insertIndex}
               placeholder='اسم المقرر بالعربية'
               onChange={handleChange2}
               pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -43,7 +41,7 @@ const Course = (props) => {
         <Col xs={12} md={6} lg={3}>
           <Form.Group>
             <Form.Control
-              name={'EnNameOfCourse-' + id}
+              name={'enNameOfCourse-' + insertIndex}
               placeholder='اسم المقرر بالإنجليزية'
               onChange={handleChange2}
               pattern='^[a-zA-Z ]+$'
@@ -58,7 +56,7 @@ const Course = (props) => {
         <Col xs={12} md={6} lg={3}>
           <Form.Group>
             <Form.Control
-              name={'markOfCourse-' + id}
+              name={'maxDegreeOfCourse-' + insertIndex}
               placeholder='الدرجة العظمى للمقرر'
               onChange={handleChange2}
               pattern='[0-9]+'
@@ -69,8 +67,13 @@ const Course = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs={{ order: 'first' }} md={12}  lg={1, { order: 'last' }} className="text-left deleteBtn">
-          <Button onClick={() => handleDelete(id)}>
+        <Col
+          xs={{ order: 'first' }}
+          md={12}
+          lg={(1, { order: 'last' })}
+          className='text-left deleteBtn'
+        >
+          <Button onClick={() => handleDelete(deleteIndex)}>
             <MdDeleteForever />
           </Button>
         </Col>

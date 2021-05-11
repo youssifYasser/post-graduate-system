@@ -11,7 +11,7 @@ const StudyType = () => {
     arabicName: '',
     englishName: '',
     academicCode: '',
-    study_type: '',
+    studyType: '',
     department: '',
     courses: [],
   })
@@ -22,15 +22,21 @@ const StudyType = () => {
     const { name, value } = event.target
     setStudy({ ...study, [name]: value })
   }
-  //COMP21022
+
   const handleChange2 = (event) => {
     let { name, value } = event.target
 
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
-    console.log('name: ', name)
-    console.log('index: ', index)
+    if (name === 'maxDegreeOfCourse') {
+      let creditHours = value / 50
+      study.courses[index] = {
+        ...study.courses[index],
+        ['creditHours']: creditHours,
+      }
+      setStudy({ ...study, courses: study.courses })
+    }
     study.courses[index] = {
       ...study.courses[index],
       [name]: value,
@@ -47,23 +53,6 @@ const StudyType = () => {
       event.stopPropagation()
     } else {
       swalReg()
-    }
-  }
-
-  const handleDelete = (id) => {
-    const newCourses = study.courses.filter((course) => {
-      return course.id !== id
-    })
-    setStudy({
-      ...study,
-      courses: newCourses,
-    })
-  }
-  const addCourse = () => {
-    {
-      setCoursesCount(coursesCount + 1)
-      study.courses.push({ id: coursesCount })
-      setStudy(study)
     }
   }
 
@@ -87,22 +76,22 @@ const StudyType = () => {
         })
         console.log(JSON.stringify(study))
 
-        const options = {
-          url: 'http://localhost:8000/api/addStudentData',
-          method: 'post',
-          data: JSON.stringify(study),
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-        }
-        axios(options)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        // const options = {
+        //   url: 'http://localhost:8000/api/addStudentData',
+        //   method: 'post',
+        //   data: JSON.stringify(study),
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'application/json;charset=UTF-8',
+        //   },
+        // }
+        // axios(options)
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
 
         setTimeout(() => {
           window.location.href =
@@ -113,6 +102,27 @@ const StudyType = () => {
       }
     })
   }
+
+  const handleDelete = (id) => {
+    console.log(id)
+    const newCourses = study.courses.filter((course) => {
+      console.log(course.id)
+      return course.id !== id
+    })
+    setStudy({
+      ...study,
+      courses: newCourses,
+    })
+  }
+
+  const addCourse = () => {
+    {
+      setCoursesCount(coursesCount + 1)
+      study.courses.push({ id: coursesCount })
+      // setStudy(study)
+    }
+  }
+
   return (
     <StudyTypeView
       validated={validated}
