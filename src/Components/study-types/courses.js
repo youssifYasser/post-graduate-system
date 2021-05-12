@@ -4,15 +4,59 @@ import { Container, Col, Form } from 'react-bootstrap'
 import Course from './course'
 import NoCourses from './no-courses'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
-const Courses = ({ isEditing, setShowCourses, courses, setCopyCourses }) => {
+const Courses = ({
+  isEditing,
+  setShowCourses,
+  showCourses,
+  copyCourses,
+  setCopyCourses,
+  setCourses,
+}) => {
   const deleteCourse = (courseID) => {
-    console.log('courseID', courseID)
-    const corses = courses.filter((item) => {
-      console.log(item.courseCode)
-      return item.idCourse !== courseID
+    Swal.fire({
+      icon: 'warning',
+      title: 'هل أنت متأكد من إزالة المقرر',
+      showDenyButton: true,
+      showCancelButton: true,
+      showConfirmButton: false,
+      denyButtonText: `نعم ، امسح المقرر`,
+      cancelButtonText: 'لا ، عودة',
+      cancelButtonColor: '#2f3944',
+      denyButtonColor: '#be0707',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        Swal.fire({
+          icon: 'success',
+          title: 'تمت إزالة المقرر بنجاح',
+          confirmButtonText: 'حسنــاً',
+          confirmButtonColor: '#2f3944',
+        })
+        const corses = copyCourses.filter((item) => {
+          return item.idCourse !== courseID
+        })
+        setCopyCourses([...corses])
+        setCourses([...corses])
+
+        const deleteCoursesAPI = {
+          url: `http://localhost:8000/api/deletecourse/${courseID}`,
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(deleteCoursesAPI)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     })
-    setCopyCourses(corses)
   }
 
   const chandleChange = (e) => {
@@ -21,11 +65,10 @@ const Courses = ({ isEditing, setShowCourses, courses, setCopyCourses }) => {
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
     copyCourses[index] = { ...copyCourses[index], [name]: value }
-    setCopyCourses([...courses])
+    setCopyCourses([...copyCourses])
   }
 
-  if (copyCourses.length === 0 && isEditing) {
-    setShowCourses(false)
+  if (copyCourses.length === 0 && (isEditing || showCourses)) {
     return <NoCourses />
   }
   return (
@@ -43,7 +86,7 @@ const Courses = ({ isEditing, setShowCourses, courses, setCopyCourses }) => {
           <Course
             index={index}
             isEditing={isEditing}
-            key={course.courseID}
+            key={course.idCourse}
             course={course}
             deleteCourse={deleteCourse}
             chandleChange={chandleChange}

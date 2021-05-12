@@ -39,7 +39,8 @@ const StudyTypes = () => {
         const sts = copyStudies.filter((item) => {
           return item.idStudyType !== stID
         })
-        setCopyStudies(sts)
+        setCopyStudies([...sts])
+        setStudies([...sts])
 
         const deleteStudiesAPI = {
           url: `http://localhost:8000/api/deletestudytype/${stID}`,
@@ -80,7 +81,7 @@ const StudyTypes = () => {
       ) {
         return study
       } else if (
-        study.academicCode.toLowerCase().includes(value.toLowerCase())
+        study.universityCode.toLowerCase().includes(value.toLowerCase())
       ) {
         return study
       }
@@ -89,10 +90,13 @@ const StudyTypes = () => {
   }
 
   const filterStudies = () => {
-    const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
-      .value
-    const departmentFilter = document.getElementsByName('department-filter')[0]
-      .value
+    const studyTypeFilter =
+      document.getElementsByName('study-type-filter')[0].value
+    const departmentFilter =
+      document.getElementsByName('department-filter')[0].value
+
+    document.getElementsByName('study-type-search')[0].value = ''
+
     const newStudies = studies.filter((study) => {
       if (studyTypeFilter === '' && departmentFilter === '') {
         return study
@@ -254,7 +258,7 @@ const StudyTypes = () => {
               className='info'
               name='study-type-search'
               type='input'
-              placeholder='ابحث عن الدراسة'
+              placeholder='ابحث بالكود الجامعي أو بالأسم'
               onChange={handleSearch}
             />
             <span className='search-icon'>
@@ -274,6 +278,7 @@ const StudyTypes = () => {
               handleDelete={handleDelete}
               handleChange={handleChange}
               studies={studies}
+              setStudies={setStudies}
               copyStudies={copyStudies}
               setCopyStudies={setCopyStudies}
               departments={departments}

@@ -77,11 +77,11 @@
   top: 7px;
 }
 
-.was-validated .form-input:valid,
+/* .was-validated .form-input:valid,
 .form-input.is-valid {
   background-image: none !important;
   padding-right: 15px !important;
-}
+} */
 
 .study-labels {
   font-size: 1.15em;

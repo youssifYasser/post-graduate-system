@@ -6,6 +6,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 import Courses from './courses'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import isEqual from 'lodash/isEqual'
 
 const StudyType = ({
   studytype,
@@ -13,6 +14,7 @@ const StudyType = ({
   handleChange,
   index,
   studies,
+  setStudies,
   copyStudies,
   setCopyStudies,
   departments,
@@ -33,6 +35,7 @@ const StudyType = ({
   } = studytype
 
   useEffect(() => {
+    //NOTE: deal with courses when equal 0
     const coursesAPI = {
       url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
       method: 'get',
@@ -43,9 +46,14 @@ const StudyType = ({
     }
     axios(coursesAPI)
       .then((response) => {
-        console.log(response.data)
-        setCourses([...response.data])
-        setCopyCourses([...response.data])
+        console.log(idStudyType, response.data)
+        if (response.data === 'not have any course') {
+          setCourses([])
+          setCopyCourses([])
+        } else {
+          setCourses([...response.data])
+          setCopyCourses([...response.data])
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -69,7 +77,7 @@ const StudyType = ({
       setValidated(true)
       Swal.fire({
         icon: 'info',
-        title: 'هل أنت متأكد من حفظ تغيير بيانات الدراسة؟',
+        title: 'هل أنت متأكد من حفظ التغييرات؟',
         showCancelButton: true,
         showConfirmButton: true,
         confirmButtonColor: '#01ad01',
@@ -86,23 +94,48 @@ const StudyType = ({
             confirmButtonColor: '#2f3944',
           })
           setIsEditing(false)
+          setValidated(false)
 
-          // const updateDepartmentsAPI = {
-          //   url: `http://localhost:8000/api/departments/${department.idDept}`,
-          //   method: 'put',
-          //   data: JSON.stringify(department),
-          //   headers: {
-          //     Accept: 'application/json',
-          //     'Content-Type': 'application/json;charset=UTF-8',
-          //   },
-          // }
-          // axios(updateDepartmentsAPI)
-          //   .then((response) => {
-          //     setDepartments([...copyDepts])
-          //   })
-          //   .catch((err) => {
-          //     console.log(err)
-          //   })
+          const updateStudyTypesAPI = {
+            url: `http://localhost:8000/api/updatestudytype/${studytype.idStudyType}`,
+            method: 'put',
+            data: JSON.stringify(studytype),
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(updateStudyTypesAPI)
+            .then((response) => {
+              setStudies([...copyStudies])
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+
+          if (courses.length !== 0) {
+            // let updatedCourses = []
+            for (let i = 0; i < courses.length; i++) {
+              if (!isEqual(courses[i], copyCourses[i])) {
+                const updateCoursesAPI = {
+                  url: `http://localhost:8000/api/updatecourses/${copyCourses[i].idCourse}`,
+                  method: 'put',
+                  data: JSON.stringify(copyCourses[i]),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(updateCoursesAPI)
+                  .then((response) => {
+                    setCourses([...copyCourses])
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+            }
+          }
         }
       })
     }
@@ -110,8 +143,8 @@ const StudyType = ({
 
   const handleCancel = () => {
     if (
-      copyStudies[index] !== studies[index] ||
-      copyCourses[index] !== courses[index]
+      !isEqual(copyStudies[index], studies[index]) ||
+      (copyCourses.length !== 0 && !isEqual(copyCourses[index], courses[index]))
     ) {
       Swal.fire({
         icon: 'warning',
@@ -125,15 +158,19 @@ const StudyType = ({
         denyButtonColor: '#be0707',
       }).then((result) => {
         if (result.isDenied) {
-          copyCourses[index] = courses[index]
-          setCopyCourses([...copyCourses])
+          if (copyCourses.length !== 0) {
+            copyCourses[index] = courses[index]
+            setCopyCourses([...copyCourses])
+          }
           copyStudies[index] = studies[index]
           setCopyStudies([...copyStudies])
           setIsEditing(false)
+          setValidated(false)
         }
       })
     } else {
       setIsEditing(false)
+      setValidated(false)
     }
   }
 
@@ -160,7 +197,7 @@ const StudyType = ({
             />
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId={`type-${index}`}>
+            <section className='form-group'>
               <Form.Control
                 className='form-input'
                 as='select'
@@ -187,7 +224,7 @@ const StudyType = ({
             </section>
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId={`arabicName-${index}`}>
+            <section className='form-group'>
               <Form.Control
                 className='form-input'
                 name={`arabicName-${index}`}
@@ -203,7 +240,7 @@ const StudyType = ({
             </section>
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId={`englishName-${index}`}>
+            <section className='form-group'>
               <Form.Control
                 className='form-input form-english'
                 name={`englishName-${index}`}
@@ -213,7 +250,7 @@ const StudyType = ({
                 disabled={!isEditing}
                 dir='ltr'
                 lang='en'
-                pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
+                pattern='^[a-zA-Z ]+$'
               />
               <article className='invalid-feedback' type='invalid'>
                 من فضلك أدخل عنوان الرسالة باللغة الإنجليزية فقط.
@@ -221,7 +258,7 @@ const StudyType = ({
             </section>
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId={`department-${index}`}>
+            <section className='form-group'>
               <Form.Control
                 className='form-input'
                 as='select'
@@ -250,10 +287,7 @@ const StudyType = ({
             </section>
           </Col>
           <Col md={1}>
-            <section
-              className='form-group'
-              controlId={`universityCode-${index}`}
-            >
+            <section className='form-group'>
               <Form.Control
                 className='form-input'
                 name={`universityCode-${index}`}
@@ -272,7 +306,10 @@ const StudyType = ({
             {isEditing || (
               <Button
                 className='view-btn'
-                onClick={() => setShowCourses(!showCourses)}
+                onClick={() => {
+                  setShowCourses(!showCourses)
+                  console.log('done')
+                }}
               >
                 {showCourses ? 'إخفاء المقررات' : 'عرض المقررات'}
               </Button>
@@ -301,8 +338,10 @@ const StudyType = ({
           <Courses
             isEditing={isEditing}
             setShowCourses={setShowCourses}
-            courses={courses}
+            showCourses={showCourses}
+            copyCourses={copyCourses}
             setCopyCourses={setCopyCourses}
+            setCourses={setCourses}
           />
         )}
         {isEditing && (
