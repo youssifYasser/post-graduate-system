@@ -46,7 +46,7 @@ const StudyType = ({
     }
     axios(coursesAPI)
       .then((response) => {
-        console.log(idStudyType, response.data)
+        // console.log(idStudyType, response.data)
         if (response.data === 'not have any course') {
           setCourses([])
           setCopyCourses([])
@@ -114,27 +114,30 @@ const StudyType = ({
             })
 
           if (courses.length !== 0) {
-            // let updatedCourses = []
+            let updatedCourses = []
             for (let i = 0; i < courses.length; i++) {
               if (!isEqual(courses[i], copyCourses[i])) {
-                const updateCoursesAPI = {
-                  url: `http://localhost:8000/api/updatecourses/${copyCourses[i].idCourse}`,
-                  method: 'put',
-                  data: JSON.stringify(copyCourses[i]),
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8',
-                  },
-                }
-                axios(updateCoursesAPI)
-                  .then((response) => {
-                    setCourses([...copyCourses])
-                  })
-                  .catch((err) => {
-                    console.log(err)
-                  })
+                updatedCourses.push(copyCourses[i])
               }
             }
+            // console.log({['courses']: updatedCourses })
+            const updateCoursesAPI = {
+              url: 'http://localhost:8000/api/updatecourses',
+              method: 'put',
+              data: JSON.stringify({ ['courses']: updatedCourses }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateCoursesAPI)
+              .then((response) => {
+                // console.log(response)
+                setCourses([...copyCourses])
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           }
         }
       })
