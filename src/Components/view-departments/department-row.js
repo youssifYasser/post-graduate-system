@@ -4,6 +4,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import { Col, Row, Form, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import isEqual from 'lodash/isEqual'
 
 import './viewDepartments-style.css'
 
@@ -55,6 +56,7 @@ const DepartmentRow = ({
             confirmButtonColor: '#2f3944',
           })
           setIsEditing(false)
+          setValidated(false)
 
           const updateDepartmentsAPI = {
             url: `http://localhost:8000/api/departments/${department.idDept}`,
@@ -78,7 +80,7 @@ const DepartmentRow = ({
   }
 
   const handleCancel = () => {
-    if (copyDepts[index] !== departments[index]) {
+    if (!isEqual(copyDepts[index], departments[index])) {
       Swal.fire({
         icon: 'warning',
         title: '!لن يتم حفظ البيانات التي قمت بتعديلها',
@@ -94,12 +96,15 @@ const DepartmentRow = ({
           copyDepts[index] = departments[index]
           setCopyDepts([...copyDepts])
           setIsEditing(false)
+          setValidated(false)
         }
       })
     } else {
       setIsEditing(false)
+      setValidated(false)
     }
   }
+
   return (
     <section className={`section ${isEditing && 'editing'}`}>
       <Row>

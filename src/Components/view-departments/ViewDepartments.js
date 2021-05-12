@@ -9,10 +9,12 @@ import 'animate.css/animate.min.css'
 
 import DepartmentRow from './department-row'
 import NoDepartments from './no-departments'
+import Loading from './loading'
 
 const ViewDepartments = () => {
   const [departments, setDepartments] = useState([])
   const [copyDepts, setCopyDepts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleDelete = (deptID) => {
     Swal.fire({
@@ -37,7 +39,8 @@ const ViewDepartments = () => {
         const newDepartments = copyDepts.filter((department) => {
           return department.idDept !== deptID
         })
-        setCopyDepts(newDepartments)
+        setCopyDepts([...newDepartments])
+        setDepartments([...newDepartments])
 
         const deleteDepartmentsAPI = {
           url: `http://localhost:8000/api/departments/${deptID}`,
@@ -98,7 +101,15 @@ const ViewDepartments = () => {
       .catch((err) => {
         console.log(err)
       })
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
   }, [])
+
+  if (isLoading) {
+    return <Loading />
+  }
   return (
     <Container className='view-department'>
       <div className='main-form'>

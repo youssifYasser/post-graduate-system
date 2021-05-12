@@ -104,11 +104,11 @@
   font-size: 1em !important;
 }
 
-.was-validated .form-control:valid,
+/* .was-validated .form-control:valid,
 .form-control.is-valid {
   background-image: none !important;
   padding-right: 0.75em !important;
-}
+} */
 /* inputs end*/
 
 /* buttons start*/
@@ -212,7 +212,8 @@
   border-color: #2f3944;
 }
 
-.view-department .main-form .no-items {
+.view-department .main-form .no-items,
+.no-items {
   margin: 45px;
   text-align: center;
 }
