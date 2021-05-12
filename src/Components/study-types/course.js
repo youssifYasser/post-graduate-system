@@ -5,22 +5,22 @@ import { MdDeleteForever } from 'react-icons/md'
 
 const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
   const {
-    courseID,
+    idCourse,
     courseCode,
-    courseArabicName,
-    courseEnglishName,
-    courseMaxDegree,
-    courseCreditHours,
+    arabicName,
+    englishName,
+    maxGrade,
+    creditHours,
   } = course
   return (
     <>
       <Form.Row className='course'>
         <Col md={1}>
           <Form.Control
-            name={`courseID-${index}`}
+            name={`idCourse-${index}`}
             className='form-input'
             type='input'
-            value={courseCreditHours}
+            value={idCourse}
             onChange={chandleChange}
             disabled
           ></Form.Control>
@@ -37,40 +37,40 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
         </Col>
         <Col md={3}>
           <Form.Control
-            name={`courseArabicName-${index}`}
+            name={`arabicName-${index}`}
             className='form-input'
             type='input'
-            value={courseArabicName}
+            value={arabicName}
             onChange={chandleChange}
             disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={3} dir='ltr' lang='en'>
           <Form.Control
-            name={`courseEnglishName-${index}`}
+            name={`englishName-${index}`}
             className='form-input form-english'
             type='input'
-            value={courseEnglishName}
+            value={englishName}
             onChange={chandleChange}
             disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={1}>
           <Form.Control
-            name={`courseMaxDegree-${index}`}
+            name={`maxGrade-${index}`}
             className='form-input'
             type='input'
-            value={courseMaxDegree}
+            value={maxGrade}
             onChange={chandleChange}
             disabled={!isEditing}
           ></Form.Control>
         </Col>
         <Col md={2}>
           <Form.Control
-            name={`courseCreditHours-${index}`}
+            name={`creditHours-${index}`}
             className='form-input'
             type='input'
-            value={courseCreditHours}
+            value={creditHours}
             onChange={chandleChange}
             disabled={!isEditing}
           ></Form.Control>
@@ -79,7 +79,7 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
           {isEditing && (
             <button
               className='icon delete-icon delete-course'
-              onClick={() => deleteCourse(courseCode)}
+              onClick={() => deleteCourse(idCourse)}
               type='button'
             >
               <MdDeleteForever />

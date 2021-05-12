@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import './study-types.css'
 import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
@@ -20,6 +20,8 @@ const StudyType = ({
   const [showCourses, setShowCourses] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [validated, setValidated] = useState(false)
+  const [courses, setCourses] = useState([])
+  const [copyCourses, setCopyCourses] = useState([])
 
   const {
     idStudyType,
@@ -29,6 +31,26 @@ const StudyType = ({
     department,
     universityCode,
   } = studytype
+
+  useEffect(() => {
+    const coursesAPI = {
+      url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(coursesAPI)
+      .then((response) => {
+        console.log(response.data)
+        setCourses([...response.data])
+        setCopyCourses([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -87,7 +109,10 @@ const StudyType = ({
   }
 
   const handleCancel = () => {
-    if (copyStudies[index] !== studies[index]) {
+    if (
+      copyStudies[index] !== studies[index] ||
+      copyCourses[index] !== courses[index]
+    ) {
       Swal.fire({
         icon: 'warning',
         title: '!لن يتم حفظ البيانات التي قمت بتعديلها',
@@ -100,6 +125,8 @@ const StudyType = ({
         denyButtonColor: '#be0707',
       }).then((result) => {
         if (result.isDenied) {
+          copyCourses[index] = courses[index]
+          setCopyCourses([...copyCourses])
           copyStudies[index] = studies[index]
           setCopyStudies([...copyStudies])
           setIsEditing(false)
@@ -245,30 +272,7 @@ const StudyType = ({
             {isEditing || (
               <Button
                 className='view-btn'
-                onClick={() => {
-                  const studyTypesAPI = {
-                    url: `http://localhost:8000/api/getallcourses/${JSON.stringify(
-                      studytype
-                    )}`,
-                    method: 'get',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json;charset=UTF-8',
-                    },
-                  }
-                  axios(studyTypesAPI)
-                    .then((response) => {
-                      console.log(response.data)
-                      courses = response.data
-                      // setStudies([...response.data])
-                      // setCopyStudies([...response.data])
-                    })
-                    .catch((err) => {
-                      console.log(err)
-                    })
-
-                  setShowCourses(!showCourses)
-                }}
+                onClick={() => setShowCourses(!showCourses)}
               >
                 {showCourses ? 'إخفاء المقررات' : 'عرض المقررات'}
               </Button>
@@ -293,13 +297,14 @@ const StudyType = ({
             </Col>
           )}
         </Form.Row>
-        {/* {(showCourses || isEditing) && (
+        {(showCourses || isEditing) && (
           <Courses
             isEditing={isEditing}
-            courses={courses}
             setShowCourses={setShowCourses}
+            courses={courses}
+            setCopyCourses={setCopyCourses}
           />
-        )} */}
+        )}
         {isEditing && (
           <Row className='animate__animated animate__fadeInDown'>
             <Col className='editing-btns'>

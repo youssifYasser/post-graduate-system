@@ -37,25 +37,25 @@ const StudyTypes = () => {
           confirmButtonColor: '#2f3944',
         })
         const sts = copyStudies.filter((item) => {
-          return item.code !== stID
+          return item.idStudyType !== stID
         })
         setCopyStudies(sts)
 
-        // const deleteDepartmentsAPI = {
-        //   url: `http://localhost:8000/api/departments/${deptID}`,
-        //   method: 'delete',
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json;charset=UTF-8',
-        //   },
-        // }
-        // axios(deleteDepartmentsAPI)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
+        const deleteStudiesAPI = {
+          url: `http://localhost:8000/api/deletestudytype/${stID}`,
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(deleteStudiesAPI)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     })
   }
@@ -89,10 +89,10 @@ const StudyTypes = () => {
   }
 
   const filterStudies = () => {
-    const studyTypeFilter =
-      document.getElementsByName('study-type-filter')[0].value
-    const departmentFilter =
-      document.getElementsByName('department-filter')[0].value
+    const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
+      .value
+    const departmentFilter = document.getElementsByName('department-filter')[0]
+      .value
     const newStudies = studies.filter((study) => {
       if (studyTypeFilter === '' && departmentFilter === '') {
         return study

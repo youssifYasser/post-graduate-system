@@ -1,19 +1,18 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import './study-types.css'
 import { Container, Col, Form } from 'react-bootstrap'
 import Course from './course'
 import NoCourses from './no-courses'
+import axios from 'axios'
 
-const Courses = ({ isEditing, courses, setShowCourses }) => {
-  const [subjects, setSubjects] = useState([...courses])
-
+const Courses = ({ isEditing, setShowCourses, courses, setCopyCourses }) => {
   const deleteCourse = (courseID) => {
     console.log('courseID', courseID)
-    const corses = subjects.filter((item) => {
+    const corses = courses.filter((item) => {
       console.log(item.courseCode)
-      return item.courseCode !== courseID
+      return item.idCourse !== courseID
     })
-    setSubjects(corses)
+    setCopyCourses(corses)
   }
 
   const chandleChange = (e) => {
@@ -21,11 +20,11 @@ const Courses = ({ isEditing, courses, setShowCourses }) => {
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
-    subjects[index] = { ...subjects[index], [name]: value }
-    setSubjects([...subjects])
+    copyCourses[index] = { ...copyCourses[index], [name]: value }
+    setCopyCourses([...courses])
   }
 
-  if (subjects.length === 0 && isEditing) {
+  if (copyCourses.length === 0 && isEditing) {
     setShowCourses(false)
     return <NoCourses />
   }
@@ -39,7 +38,7 @@ const Courses = ({ isEditing, courses, setShowCourses }) => {
         <Col md={1}>الدرجة العظمى</Col>
         <Col md={2}>عدد الساعات المعتمدة</Col>
       </Form.Row>
-      {subjects.map((course, index) => {
+      {copyCourses.map((course, index) => {
         return (
           <Course
             index={index}
