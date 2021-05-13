@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './study-types.css'
 import { FaSearch } from 'react-icons/fa'
+import { RiFileExcel2Fill } from 'react-icons/ri'
 import StudyType from './study-type'
 import studytypes from './study-types-array'
 import NoStudies from './no-studies'
@@ -8,6 +9,8 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import Loading from './loading'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 
 const StudyTypes = () => {
   const [studies, setStudies] = useState([])
@@ -118,6 +121,39 @@ const StudyTypes = () => {
       }
     })
     setCopyStudies(newStudies)
+  }
+
+  const s2ab = (s) => {
+    var buf = new ArrayBuffer(s.length)
+    var view = new Uint8Array(buf)
+    for (var i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+    return buf
+  }
+
+  const printExcel = (data) => {
+    let newData = []
+    for (const item of data) {
+      newData.push({
+        ['الرقم الكودي']: item.idDept,
+        ['اسم القسم باللغة العربية']: item.arabicName,
+        ['اسم القسم باللغة الإنجليزية']: item.englishName,
+      })
+    }
+    const wb = XLSX.utils.book_new()
+    const ws = XLSX.utils.json_to_sheet(newData, {
+      header: [
+        'الرقم الكودي',
+        'اسم القسم باللغة العربية',
+        'اسم القسم باللغة الإنجليزية',
+      ],
+    })
+    wb.SheetNames.push('أقسام الكلية')
+    wb.Sheets['أقسام الكلية'] = ws
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+    saveAs(
+      new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+      'أقسام الكلية.xlsx'
+    )
   }
 
   useEffect(() => {
@@ -287,6 +323,20 @@ const StudyTypes = () => {
         })
       ) : (
         <NoStudies />
+      )}
+
+      {copyStudies.length !== 0 && (
+        <Row>
+          <Col className='excel-col'>
+            <Button
+              type='button'
+              className='excel-btn'
+              onClick={() => printExcel(copyStudies)}
+            >
+              تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+            </Button>
+          </Col>
+        </Row>
       )}
     </div>
   )
