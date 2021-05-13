@@ -9,7 +9,7 @@ const AddDepartment = () => {
   const [validated, setValidated] = useState(false)
   const [department, setDepartment] = useState({
     arabicName: '',
-    englishName: ''
+    englishName: '',
   })
 
   const handleChange = (event) => {
@@ -49,8 +49,8 @@ const AddDepartment = () => {
         })
         console.log(JSON.stringify(department))
 
-        const options = {
-          url: 'http://localhost:8000/api/addStudentData',
+        const addDepartmentAPI = {
+          url: 'http://localhost:8000/api/departments',
           method: 'post',
           data: JSON.stringify(department),
           headers: {
@@ -58,7 +58,7 @@ const AddDepartment = () => {
             'Content-Type': 'application/json;charset=UTF-8',
           },
         }
-        axios(options)
+        axios(addDepartmentAPI)
           .then((response) => {
             console.log(response)
           })

@@ -50,8 +50,9 @@
     background: #2f3944;
     color: #ece8e1;
     padding: 5px 50px;
-    border-radius: 2rem;
+    border-radius: 10px;
     font-size: 30px;
+    margin-bottom: -35px;
 
 }
 
@@ -91,6 +92,7 @@
 
     .addDepartment .regBtn{
         font-size: 25px;
+        margin-bottom: 0px
     }
 }
 /*End of Responsive*/

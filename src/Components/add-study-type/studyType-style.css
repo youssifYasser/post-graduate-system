@@ -134,6 +134,9 @@
     .studyType .main .course:last-child{
         border-bottom: 0px;
     }
+    .studyType .main .courses .deleteBtn{
+        margin-bottom: 7px;
+    }
 }
 @media (max-width:425px){
     .studyType .header{
@@ -156,6 +159,7 @@
 
     .studyType .regBtn{
         font-size: 25px;
+        margin-bottom: 0px
     }
 }
 /*End of Responsive*/

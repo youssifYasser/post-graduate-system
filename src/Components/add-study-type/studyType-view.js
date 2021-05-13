@@ -13,6 +13,7 @@ function StudyType(props) {
     handleDelete,
     addCourse,
     study,
+    departments,
   } = props
 
   return (
@@ -79,7 +80,7 @@ function StudyType(props) {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={12} md={3}>
                 <Form.Group
                   controlId='exampleForm.SelectCustom'
                   className='mb-5'
@@ -87,7 +88,7 @@ function StudyType(props) {
                   <Form.Label>نوع الدراسة</Form.Label>
                   <Form.Control
                     as='select'
-                    name='study_type'
+                    name='studyType'
                     onChange={handleChange}
                     required
                     custom
@@ -104,7 +105,7 @@ function StudyType(props) {
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col xs={12} md={3}>
                 <Form.Group
                   controlId='exampleForm.SelectCustom'
                   className='mb-5'
@@ -118,10 +119,16 @@ function StudyType(props) {
                     custom
                   >
                     <option value=''>اختر</option>
-                    <option>دكتوراه الفلسفة في العلوم</option>
-                    <option>الماجستير في العلوم</option>
-                    <option>تمهيدي الماجستير</option>
-                    <option>دبلومة الدراسات العليا</option>
+                    {departments.map((department) => {
+                      return (
+                        <option
+                          key={department.idDept}
+                          value={department.arabicName}
+                        >
+                          {department.arabicName}
+                        </option>
+                      )
+                    })}
                   </Form.Control>
                   <Form.Control.Feedback type='invalid'>
                     من فضلك اختر القسم
@@ -133,6 +140,7 @@ function StudyType(props) {
           <Button
             variant='secondary'
             className='addCourse'
+            type='button'
             onClick={() => addCourse()}
           >
             إضافة مقرر إن وجد
@@ -140,11 +148,12 @@ function StudyType(props) {
           <div className='courses'>
             {
               <>
-                {study.courses.map((course) => {
+                {study.courses.map((course, index) => {
                   return (
                     <Course
                       key={course.id}
-                      count={course.id}
+                      deleteIndex={course.id}
+                      insertIndex={index}
                       handleChange2={handleChange2}
                       handleDelete={handleDelete}
                     />
