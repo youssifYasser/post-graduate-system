@@ -60,7 +60,7 @@ const StudyType = () => {
   const swalReg = () => {
     Swal.fire({
       icon: 'info',
-      title: 'هل أنت متأكد من تسجيل الطالب ؟',
+      title: 'هل أنت متأكد من تسجيل الدراسة ؟',
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonColor: '#01ad01',
@@ -71,7 +71,7 @@ const StudyType = () => {
       if (result.isConfirmed) {
         Swal.fire({
           icon: 'success',
-          title: 'تمت إضافة الطالب بنجاح',
+          title: 'تمت إضافة الدراسة بنجاح',
           showConfirmButton: false,
           timer: 2000,
         })
@@ -94,12 +94,12 @@ const StudyType = () => {
             console.log(err)
           })
 
-        // setTimeout(() => {
-        //   window.location.href =
-        //     window.location.pathname +
-        //     window.location.search +
-        //     window.location.hash
-        // }, 2000)
+        setTimeout(() => {
+          window.location.href =
+            window.location.pathname +
+            window.location.search +
+            window.location.hash
+        }, 2000)
       }
     })
   }
