@@ -245,6 +245,7 @@ const StudentDataRegisteration = () => {
     })
     wb.SheetNames.push('الطلبة الملغيين')
     wb.Sheets['الطلبة الملغيين'] = ws
+    wb.Workbook = { ['Views']: [{ RTL: true }] }
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),

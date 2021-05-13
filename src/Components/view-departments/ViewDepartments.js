@@ -102,7 +102,7 @@ const ViewDepartments = () => {
         ['اسم القسم باللغة الإنجليزية']: item.englishName,
       })
     }
-    const wb = XLSX.utils.book_new()
+    let wb = XLSX.utils.book_new()
     const ws = XLSX.utils.json_to_sheet(newData, {
       header: [
         'الرقم الكودي',
@@ -112,6 +112,7 @@ const ViewDepartments = () => {
     })
     wb.SheetNames.push('أقسام الكلية')
     wb.Sheets['أقسام الكلية'] = ws
+    wb.Workbook = { ['Views']: [{ RTL: true }] }
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
@@ -130,7 +131,7 @@ const ViewDepartments = () => {
     }
     axios(departmentsAPI)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setDepartments([...response.data])
         setCopyDepts([...response.data])
       })
