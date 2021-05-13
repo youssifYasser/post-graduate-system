@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { Col, Container, Row, Form } from 'react-bootstrap'
+import { RiFileExcel2Fill } from 'react-icons/ri'
+import { Col, Container, Row, Form, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 
 import './viewDepartments-style.css'
 import 'animate.css/animate.min.css'
@@ -14,7 +17,7 @@ import Loading from './loading'
 const ViewDepartments = () => {
   const [departments, setDepartments] = useState([])
   const [copyDepts, setCopyDepts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleDelete = (deptID) => {
     Swal.fire({
@@ -83,6 +86,39 @@ const ViewDepartments = () => {
     setCopyDepts(resultDepts)
   }
 
+  const s2ab = (s) => {
+    var buf = new ArrayBuffer(s.length)
+    var view = new Uint8Array(buf)
+    for (var i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+    return buf
+  }
+
+  const printExcel = (data) => {
+    let newData = []
+    for (const item of data) {
+      newData.push({
+        ['الرقم الكودي']: item.idDept,
+        ['اسم القسم باللغة العربية']: item.arabicName,
+        ['اسم القسم باللغة الإنجليزية']: item.englishName,
+      })
+    }
+    const wb = XLSX.utils.book_new()
+    const ws = XLSX.utils.json_to_sheet(newData, {
+      header: [
+        'الرقم الكودي',
+        'اسم القسم باللغة العربية',
+        'اسم القسم باللغة الإنجليزية',
+      ],
+    })
+    wb.SheetNames.push('أقسام الكلية')
+    wb.Sheets['أقسام الكلية'] = ws
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+    saveAs(
+      new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+      'أقسام الكلية.xlsx'
+    )
+  }
+
   useEffect(() => {
     const departmentsAPI = {
       url: 'http://localhost:8000/api/departments',
@@ -146,6 +182,19 @@ const ViewDepartments = () => {
           })
         ) : (
           <NoDepartments />
+        )}
+        {copyDepts.length !== 0 && (
+          <Row>
+            <Col className='excel-col'>
+              <Button
+                type='button'
+                className='excel-btn'
+                onClick={() => printExcel(copyDepts)}
+              >
+                تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+              </Button>
+            </Col>
+          </Row>
         )}
       </div>
     </Container>

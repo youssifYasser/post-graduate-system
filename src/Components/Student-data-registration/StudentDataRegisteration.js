@@ -76,9 +76,8 @@ const StudentDataRegisteration = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           setTimeout(() => {
-            const element = document.getElementsByClassName(
-              'invalid-feedback'
-            )[0]
+            const element =
+              document.getElementsByClassName('invalid-feedback')[0]
             const offset = 70
             const bodyRect = document.body.getBoundingClientRect().top
             const elementRect = element.getBoundingClientRect().top
