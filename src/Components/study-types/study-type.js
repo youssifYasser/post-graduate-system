@@ -113,31 +113,43 @@ const StudyType = ({
               console.log(err)
             })
 
-          if (courses.length !== 0) {
+          if (copyCourses.length !== 0) {
+            let newCourses = []
+            for (let i = 0; i < copyCourses.length; i++) {
+              if (copyCourses[i].new) {
+                newCourses.push(copyCourses[i])
+                copyCourses.splice(i, 1)
+                i = i - 1
+              }
+            }
+            console.log({ ['new courses']: newCourses })
+
             let updatedCourses = []
-            for (let i = 0; i < courses.length; i++) {
+            for (let i = 0; i < copyCourses.length; i++) {
               if (!isEqual(courses[i], copyCourses[i])) {
                 updatedCourses.push(copyCourses[i])
               }
             }
-            // console.log({['courses']: updatedCourses })
-            const updateCoursesAPI = {
-              url: 'http://localhost:8000/api/updatecourses',
-              method: 'put',
-              data: JSON.stringify({ ['courses']: updatedCourses }),
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
-              },
-            }
-            axios(updateCoursesAPI)
-              .then((response) => {
-                // console.log(response)
-                setCourses([...copyCourses])
-              })
-              .catch((err) => {
-                console.log(err)
-              })
+
+            setCopyCourses([...copyCourses, ...newCourses])
+            console.log({ ['courses']: updatedCourses })
+            // const updateCoursesAPI = {
+            //   url: 'http://localhost:8000/api/updatecourses',
+            //   method: 'put',
+            //   data: JSON.stringify({ ['courses']: updatedCourses }),
+            //   headers: {
+            //     Accept: 'application/json',
+            //     'Content-Type': 'application/json;charset=UTF-8',
+            //   },
+            // }
+            // axios(updateCoursesAPI)
+            //   .then((response) => {
+            //     // console.log(response)
+            //     setCourses([...copyCourses])
+            //   })
+            //   .catch((err) => {
+            //     console.log(err)
+            //   })
           }
         }
       })
@@ -147,7 +159,8 @@ const StudyType = ({
   const handleCancel = () => {
     if (
       !isEqual(copyStudies[index], studies[index]) ||
-      (copyCourses.length !== 0 && !isEqual(copyCourses[index], courses[index]))
+      (copyCourses.length !== 0 &&
+        JSON.stringify(copyCourses) !== JSON.stringify(courses))
     ) {
       Swal.fire({
         icon: 'warning',
@@ -162,8 +175,7 @@ const StudyType = ({
       }).then((result) => {
         if (result.isDenied) {
           if (copyCourses.length !== 0) {
-            copyCourses[index] = courses[index]
-            setCopyCourses([...copyCourses])
+            setCopyCourses([...courses])
           }
           copyStudies[index] = studies[index]
           setCopyStudies([...copyStudies])
@@ -175,6 +187,16 @@ const StudyType = ({
       setIsEditing(false)
       setValidated(false)
     }
+  }
+
+  const addCourse = () => {
+    const lastID =
+      copyCourses.length !== 0
+        ? copyCourses[copyCourses.length - 1].idCourse
+        : 0
+    // console.log(lastID)
+    copyCourses.push({ idCourse: lastID + 1, new: true })
+    setCopyCourses([...copyCourses])
   }
 
   return (
@@ -349,6 +371,11 @@ const StudyType = ({
         )}
         {isEditing && (
           <Row className='animate__animated animate__fadeInDown'>
+            <Col className='add-course-btn'>
+              <Button type='button' onClick={() => addCourse()}>
+                إضافة مقرر
+              </Button>
+            </Col>
             <Col className='editing-btns'>
               <Button className='save-btn editing-btn' type='submit'>
                 حفظ{' '}

@@ -64,6 +64,14 @@ const Courses = ({
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
+    if (name === 'maxGrade') {
+      let creditHours = value / 50
+      copyCourses[index] = {
+        ...copyCourses[index],
+        ['creditHours']: creditHours,
+      }
+      setCopyCourses([...copyCourses])
+    }
     copyCourses[index] = { ...copyCourses[index], [name]: value }
     setCopyCourses([...copyCourses])
   }
@@ -75,11 +83,11 @@ const Courses = ({
     <Container className='courses animate__animated animate__fadeInDown'>
       <Form.Row className='course-labels'>
         <Col md={1}>الرقم الكودي</Col>
-        <Col md={1}>كود المقرر</Col>
+        <Col md={2}>كود المقرر</Col>
         <Col md={3}>اسم المقرر بالعربية</Col>
         <Col md={3}>اسم المقرر بالإنجليزية</Col>
         <Col md={1}>الدرجة العظمى</Col>
-        <Col md={2}>عدد الساعات المعتمدة</Col>
+        <Col md={1}>عدد الساعات المعتمدة</Col>
       </Form.Row>
       {copyCourses.map((course, index) => {
         return (

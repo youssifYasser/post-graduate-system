@@ -37,6 +37,8 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
               onChange={chandleChange}
               disabled={!isEditing}
               pattern='^[a-zA-Z0-9 ]+$'
+              dir='ltr'
+              lang='en'
             />
             <article className='invalid-feedback' type='invalid'>
               من فضلك أدخل كود المقرر بالطريقة الصحيحة.
@@ -69,6 +71,8 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
               onChange={chandleChange}
               disabled={!isEditing}
               pattern='^[a-zA-Z ]+$'
+              dir='ltr'
+              lang='en'
             />
             <article className='invalid-feedback' type='invalid'>
               من فضلك أدخل عنوان المقرر باللغة الإنجليزية فقط.
