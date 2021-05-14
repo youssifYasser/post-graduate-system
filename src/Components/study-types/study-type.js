@@ -69,7 +69,7 @@ const StudyType = ({
   useEffect(() => {
     //deal with the deleting the copyCourses object in tempCourses when deleting the whole Study
     let courseObj = { [`courses-${index}`]: [...courses] }
-    console.log(courseObj)
+    // console.log(courseObj)
     if (courseObj[`courses-${index}`].length !== 0) {
       for (let i = 0; i < courseObj[`courses-${index}`].length; i++) {
         courseObj[`courses-${index}`][i] = {
@@ -150,6 +150,7 @@ const StudyType = ({
                 .then((response) => {
                   // console.log(response)
                   courses.splice(i, 1)
+                  i = i - 1
                   setCourses([...courses])
                 })
                 .catch((err) => {
@@ -176,8 +177,7 @@ const StudyType = ({
               }
             }
 
-            setCopyCourses([...copyCourses, ...newCourses])
-            console.log({ ['courses']: updatedCourses })
+            // console.log({ ['courses']: updatedCourses })
             const updateCoursesAPI = {
               url: 'http://localhost:8000/api/updatecourses',
               method: 'put',
@@ -191,6 +191,25 @@ const StudyType = ({
               .then((response) => {
                 // console.log(response)
                 setCourses([...copyCourses])
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+
+            const addCourseAPI = {
+              url: `http://localhost:8000/api/addcourses/${idStudyType}`,
+              method: 'post',
+              data: JSON.stringify({ ['courses']: newCourses }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(addCourseAPI)
+              .then((response) => {
+                console.log(response)
+                setCopyCourses([...copyCourses, ...newCourses])
+                setCourses([...copyCourses, ...newCourses])
               })
               .catch((err) => {
                 console.log(err)
