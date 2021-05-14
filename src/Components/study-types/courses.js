@@ -12,7 +12,7 @@ const Courses = ({
   showCourses,
   copyCourses,
   setCopyCourses,
-  setCourses,
+  courses,
 }) => {
   const deleteCourse = (courseID) => {
     Swal.fire({
@@ -34,27 +34,25 @@ const Courses = ({
           confirmButtonText: 'حسنــاً',
           confirmButtonColor: '#2f3944',
         })
-        const corses = copyCourses.filter((item) => {
-          return item.idCourse !== courseID
+        let deletedCourse
+        const corses = copyCourses.filter((item, index) => {
+          if (item.idCourse !== courseID) {
+            return item
+          } else {
+            deletedCourse = item.idCourse
+          }
         })
         setCopyCourses([...corses])
-        setCourses([...corses])
 
-        const deleteCoursesAPI = {
-          url: `http://localhost:8000/api/deletecourse/${courseID}`,
-          method: 'delete',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
+        for (let i = 0; i < courses.length; i++) {
+          if (courses[i].idCourse === deletedCourse) {
+            courses[i] = {
+              ...courses[i],
+              ['deleted']: true,
+            }
+            break
+          }
         }
-        axios(deleteCoursesAPI)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
       }
     })
   }

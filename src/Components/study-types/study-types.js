@@ -17,6 +17,8 @@ const StudyTypes = () => {
   const [copyStudies, setCopyStudies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [departments, setDepartments] = useState([])
+  const [tempCourses, setTempCourses] = useState([])
+
   // const [filterValidated, setFilterValidated] = useState(false)
 
   const handleDelete = (stID) => {
@@ -40,26 +42,30 @@ const StudyTypes = () => {
           confirmButtonColor: '#2f3944',
         })
         const sts = copyStudies.filter((item) => {
-          return item.idStudyType !== stID
+          if (item.idStudyType !== stID) {
+            return item
+          } else {
+            tempCourses.splice(item.index, 1)
+          }
         })
         setCopyStudies([...sts])
         setStudies([...sts])
 
-        const deleteStudiesAPI = {
-          url: `http://localhost:8000/api/deletestudytype/${stID}`,
-          method: 'delete',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-        }
-        axios(deleteStudiesAPI)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        // const deleteStudiesAPI = {
+        //   url: `http://localhost:8000/api/deletestudytype/${stID}`,
+        //   method: 'delete',
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'application/json;charset=UTF-8',
+        //   },
+        // }
+        // axios(deleteStudiesAPI)
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
       }
     })
   }
@@ -70,7 +76,6 @@ const StudyTypes = () => {
     let index = name.slice(indexOfDash + 1)
     name = name.slice(0, indexOfDash)
     copyStudies[index] = { ...copyStudies[index], [name]: value }
-    console.log(name, value, index)
     setCopyStudies([...copyStudies])
   }
 
@@ -131,28 +136,49 @@ const StudyTypes = () => {
   }
 
   const printExcel = (data) => {
-    let newData = []
-    for (const item of data) {
-      newData.push({
-        ['الرقم الكودي']: item.idDept,
-        ['اسم القسم باللغة العربية']: item.arabicName,
-        ['اسم القسم باللغة الإنجليزية']: item.englishName,
+    let newStudies = []
+    for (const item of data['copyStudies']) {
+      newStudies.push({
+        ['الرقم الكودي']: item.idStudyType,
+        ['نوع الدراسة']: item.type,
+        ['اسم الدراسة باللغة العربية']: item.arabicName,
+        ['اسم الدراسة باللغة الإنجليزية']: item.englishName,
+        ['القسم التابعة له هذه الدراسة']: item.department,
+        ['الكود الجامعي']: item.universityCode,
       })
     }
+    console.log(data['tempCourses'])
+    let newCourses = []
+    for (let i = 0; i < data['tempCourses'].length; i++) {
+      if (data['tempCourses'][i].length !== 0) {
+        for (const item of data['tempCourses'][i]) {
+          newCourses.push({
+            ['الرقم الكودي']: item.idCourse,
+            ['كود المقرر']: item.courseCode,
+            ['اسم المقرر بالعربية']: item.arabicName,
+            ['اسم المقرر بالإنجليزية']: item.englishName,
+            ['الدرجة العظمى']: item.maxGrade,
+            ['عدد الساعات المعتمدة']: item.creditHours,
+            ['الكود الجامعي للدراسة التابع لها هذا الكورس']:
+              item.studyUniversityCode,
+          })
+        }
+      }
+    }
+
     const wb = XLSX.utils.book_new()
-    const ws = XLSX.utils.json_to_sheet(newData, {
-      header: [
-        'الرقم الكودي',
-        'اسم القسم باللغة العربية',
-        'اسم القسم باللغة الإنجليزية',
-      ],
-    })
-    wb.SheetNames.push('أقسام الكلية')
-    wb.Sheets['أقسام الكلية'] = ws
+    wb.Workbook = { ['Views']: [{ RTL: true }] }
+    const ws = XLSX.utils.json_to_sheet(newStudies)
+    wb.SheetNames.push('الدراسات المسجلة')
+    wb.Sheets['الدراسات المسجلة'] = ws
+
+    const wsCourses = XLSX.utils.json_to_sheet(newCourses)
+    wb.SheetNames.push('الكورسات التابعة للدراسات')
+    wb.Sheets['الكورسات التابعة للدراسات'] = wsCourses
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-      'أقسام الكلية.xlsx'
+      'الدراسات العليا بكلية العلوم.xlsx'
     )
   }
 
@@ -167,7 +193,6 @@ const StudyTypes = () => {
     }
     axios(studyTypesAPI)
       .then((response) => {
-        // console.log(response.data)
         setStudies([...response.data])
         setCopyStudies([...response.data])
       })
@@ -188,7 +213,6 @@ const StudyTypes = () => {
     }
     axios(departmentsAPI)
       .then((response) => {
-        // console.log(response.data)
         setDepartments([...response.data])
       })
       .catch((err) => {
@@ -200,7 +224,6 @@ const StudyTypes = () => {
     for (let i = 0; i < studies.length; i++) {
       for (let j = 0; j < departments.length; j++) {
         if (studies[i].idDeptF === departments[j].idDept) {
-          // console.log(departments[j].arabicName)
           studies[i] = {
             ...studies[i],
             ['department']: departments[j].arabicName,
@@ -230,7 +253,7 @@ const StudyTypes = () => {
       <Form className='studies-form'>
         <Form.Row className='search-row'>
           <Col md={2}>
-            <section className='form-group' controlId='study-type-filter'>
+            <section className='form-group'>
               <Form.Control
                 className='info'
                 as='select'
@@ -254,7 +277,7 @@ const StudyTypes = () => {
             </section>
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId='department-filter'>
+            <section className='form-group'>
               <Form.Control
                 className='info'
                 as='select'
@@ -310,7 +333,7 @@ const StudyTypes = () => {
             <StudyType
               studytype={studytype}
               index={index}
-              key={studytype.code}
+              key={studytype.idStudyType}
               handleDelete={handleDelete}
               handleChange={handleChange}
               studies={studies}
@@ -318,6 +341,8 @@ const StudyTypes = () => {
               copyStudies={copyStudies}
               setCopyStudies={setCopyStudies}
               departments={departments}
+              tempCourses={tempCourses}
+              setTempCourses={setTempCourses}
             />
           )
         })
@@ -331,7 +356,12 @@ const StudyTypes = () => {
             <Button
               type='button'
               className='excel-btn'
-              onClick={() => printExcel(copyStudies)}
+              onClick={() =>
+                printExcel({
+                  ['copyStudies']: [...copyStudies],
+                  ['tempCourses']: [...tempCourses],
+                })
+              }
             >
               تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
             </Button>

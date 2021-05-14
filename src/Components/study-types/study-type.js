@@ -18,12 +18,17 @@ const StudyType = ({
   copyStudies,
   setCopyStudies,
   departments,
+  tempCourses,
+  setTempCourses,
 }) => {
   const [showCourses, setShowCourses] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [validated, setValidated] = useState(false)
   const [courses, setCourses] = useState([])
   const [copyCourses, setCopyCourses] = useState([])
+
+  copyStudies[index] = { ...copyStudies[index], ['index']: index }
+  studies[index] = { ...studies[index], ['index']: index }
 
   const {
     idStudyType,
@@ -36,29 +41,46 @@ const StudyType = ({
 
   useEffect(() => {
     //NOTE: deal with courses when equal 0
-    const coursesAPI = {
-      url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(coursesAPI)
-      .then((response) => {
-        // console.log(idStudyType, response.data)
-        if (response.data === 'not have any course') {
-          setCourses([])
-          setCopyCourses([])
-        } else {
-          setCourses([...response.data])
-          setCopyCourses([...response.data])
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    setTimeout(() => {
+      const coursesAPI = {
+        url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+      }
+      axios(coursesAPI)
+        .then((response) => {
+          if (response.data === 'not have any course') {
+            setCourses([])
+            setCopyCourses([])
+          } else {
+            setCourses([...response.data])
+            setCopyCourses([...response.data])
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }, 2000)
   }, [])
+
+  useEffect(() => {
+    //deal with the deleting the copyCourses object in tempCourses when deleting the whole Study
+    let courseObj = { [`courses-${index}`]: [...courses] }
+    console.log(courseObj)
+    if (courseObj[`courses-${index}`].length !== 0) {
+      for (let i = 0; i < courseObj[`courses-${index}`].length; i++) {
+        courseObj[`courses-${index}`][i] = {
+          ...courseObj[`courses-${index}`][i],
+          ['studyUniversityCode']: universityCode,
+        }
+      }
+    }
+    tempCourses[index] = [...courseObj[`courses-${index}`]]
+    setTempCourses([...tempCourses])
+  }, [courses])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -113,6 +135,29 @@ const StudyType = ({
               console.log(err)
             })
 
+          //deleting Courses
+          for (let i = 0; i < courses.length; i++) {
+            if (courses[i].deleted === true) {
+              const deleteCoursesAPI = {
+                url: `http://localhost:8000/api/deletecourse/${courses[i].idCourse}`,
+                method: 'delete',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(deleteCoursesAPI)
+                .then((response) => {
+                  // console.log(response)
+                  courses.splice(i, 1)
+                  setCourses([...courses])
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+            }
+          }
+
           if (copyCourses.length !== 0) {
             let newCourses = []
             for (let i = 0; i < copyCourses.length; i++) {
@@ -133,23 +178,23 @@ const StudyType = ({
 
             setCopyCourses([...copyCourses, ...newCourses])
             console.log({ ['courses']: updatedCourses })
-            // const updateCoursesAPI = {
-            //   url: 'http://localhost:8000/api/updatecourses',
-            //   method: 'put',
-            //   data: JSON.stringify({ ['courses']: updatedCourses }),
-            //   headers: {
-            //     Accept: 'application/json',
-            //     'Content-Type': 'application/json;charset=UTF-8',
-            //   },
-            // }
-            // axios(updateCoursesAPI)
-            //   .then((response) => {
-            //     // console.log(response)
-            //     setCourses([...copyCourses])
-            //   })
-            //   .catch((err) => {
-            //     console.log(err)
-            //   })
+            const updateCoursesAPI = {
+              url: 'http://localhost:8000/api/updatecourses',
+              method: 'put',
+              data: JSON.stringify({ ['courses']: updatedCourses }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateCoursesAPI)
+              .then((response) => {
+                // console.log(response)
+                setCourses([...copyCourses])
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           }
         }
       })
@@ -333,7 +378,6 @@ const StudyType = ({
                 className='view-btn'
                 onClick={() => {
                   setShowCourses(!showCourses)
-                  console.log('done')
                 }}
               >
                 {showCourses ? 'إخفاء المقررات' : 'عرض المقررات'}
@@ -366,7 +410,7 @@ const StudyType = ({
             showCourses={showCourses}
             copyCourses={copyCourses}
             setCopyCourses={setCopyCourses}
-            setCourses={setCourses}
+            courses={courses}
           />
         )}
         {isEditing && (
