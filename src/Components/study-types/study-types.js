@@ -5,12 +5,15 @@ import StudyType from './study-type'
 import studytypes from './study-types-array'
 import NoStudies from './no-studies'
 import { Row, Col, Form, Button } from 'react-bootstrap'
+import Pagination from './pagination'
 
 const StudyTypes = () => {
   const [studies, setStudies] = useState([...studytypes])
   const [copyStudies, setCopyStudies] = useState(studies)
   const [filterValidated, setFilterValidated] = useState(false)
   const [validated, setValidated] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [studiesPerPage, setStudiesPerPage] = useState(5)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -58,10 +61,10 @@ const StudyTypes = () => {
 
   const filterStudies = (e) => {
     e.preventDefault()
-    const studyTypeFilter = document.getElementsByName('study-type-filter')[0]
-      .value
-    const departmentFilter = document.getElementsByName('department-filter')[0]
-      .value
+    const studyTypeFilter =
+      document.getElementsByName('study-type-filter')[0].value
+    const departmentFilter =
+      document.getElementsByName('department-filter')[0].value
     if (studyTypeFilter === '' && departmentFilter === '') {
       const form = e.currentTarget
       if (form.checkValidity() === false) {
@@ -90,6 +93,10 @@ const StudyTypes = () => {
       setCopyStudies(newStudies)
     }
   }
+
+  const indexOfLastStudy = currentPage * studiesPerPage
+  const indexOfFirstStudy = indexOfLastStudy - studiesPerPage
+  const currentStudies = copyStudies.slice(indexOfFirstStudy, indexOfLastStudy)
 
   return (
     <div className='study-types-view'>
@@ -178,7 +185,7 @@ const StudyTypes = () => {
       </Form>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         {copyStudies.length !== 0 ? (
-          copyStudies.map((studytype, index) => {
+          currentStudies.map((studytype, index) => {
             return (
               <StudyType
                 studytype={studytype}
@@ -192,6 +199,12 @@ const StudyTypes = () => {
         ) : (
           <NoStudies />
         )}
+        <Pagination
+          studiesPerPage={studiesPerPage}
+          totalStudies={copyStudies.length}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </Form>
     </div>
   )
