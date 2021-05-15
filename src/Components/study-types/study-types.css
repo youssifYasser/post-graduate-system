@@ -270,3 +270,23 @@
 .invalid-feedback {
   font-size: 1em !important;
 }
+
+.pagination {
+  justify-content: flex-end;
+  font-size: 1.2em;
+}
+
+.pagination .page-item svg {
+  color: #2f3944;
+  margin: 0 5px 2px 5px;
+  transition: all 0.2s ease-out;
+}
+
+.pagination .page-item svg:hover {
+  transform: scale(1.35);
+}
+
+.pagination .active-page {
+  margin: 0 10px;
+  color: #2f3944;
+}
