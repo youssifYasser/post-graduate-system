@@ -40,30 +40,27 @@ const StudyType = ({
   } = studytype
 
   useEffect(() => {
-    //NOTE: deal with courses when equal 0
-    setTimeout(() => {
-      const coursesAPI = {
-        url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
-        method: 'get',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-      }
-      axios(coursesAPI)
-        .then((response) => {
-          if (response.data === 'not have any course') {
-            setCourses([])
-            setCopyCourses([])
-          } else {
-            setCourses([...response.data])
-            setCopyCourses([...response.data])
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }, 2000)
+    const coursesAPI = {
+      url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(coursesAPI)
+      .then((response) => {
+        if (response.data === 'not have any course') {
+          setCourses([])
+          setCopyCourses([])
+        } else {
+          setCourses([...response.data])
+          setCopyCourses([...response.data])
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   useEffect(() => {
