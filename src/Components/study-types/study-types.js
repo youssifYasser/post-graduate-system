@@ -3,7 +3,7 @@ import './study-types.css'
 import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
 import StudyType from './study-type'
-import studytypes from './study-types-array'
+// import studytypes from './study-types-array'
 import NoStudies from './no-studies'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
@@ -11,12 +11,15 @@ import axios from 'axios'
 import Loading from './loading'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
+import Pagination from './pagination'
 
 const StudyTypes = () => {
   const [studies, setStudies] = useState([])
   const [copyStudies, setCopyStudies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [departments, setDepartments] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [studiesPerPage, setStudiesPerPage] = useState(5)
   // const [filterValidated, setFilterValidated] = useState(false)
 
   const handleDelete = (stID) => {
@@ -216,6 +219,10 @@ const StudyTypes = () => {
     }
   }, [departments])
 
+  const indexOfLastStudy = currentPage * studiesPerPage
+  const indexOfFirstStudy = indexOfLastStudy - studiesPerPage
+  const currentStudies = copyStudies.slice(indexOfFirstStudy, indexOfLastStudy)
+
   if (isLoading) {
     return <Loading />
   }
@@ -305,7 +312,7 @@ const StudyTypes = () => {
       </Form>
 
       {copyStudies.length !== 0 ? (
-        copyStudies.map((studytype, index) => {
+        currentStudies.map((studytype, index) => {
           return (
             <StudyType
               studytype={studytype}
@@ -337,6 +344,15 @@ const StudyTypes = () => {
             </Button>
           </Col>
         </Row>
+      )}
+
+      {copyStudies.length !== 0 && (
+        <Pagination
+          studiesPerPage={studiesPerPage}
+          totalStudies={copyStudies.length}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       )}
     </div>
   )
