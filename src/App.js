@@ -5,7 +5,7 @@ import Home from './Components/home-page/homePage-container'
 import Navbar from './Components/navbar/navbar-container'
 import AddStudent from './Components/add-student/addStudent-container'
 import StudentData from './Components/Student-data-registration/StudentDataRegisteration'
-import StudyTypes from './Components/study-types/study-types'
+import StudyTypes from './Components/view-study-types/study-types'
 
 const App = () => {
   return (
