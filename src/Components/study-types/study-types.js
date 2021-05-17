@@ -326,6 +326,24 @@ const StudyTypes = () => {
           </Col>
         </Form.Row>
       </Form>
+      {copyStudies.length !== 0 && (
+        <Row>
+          <Col className='excel-col'>
+            <Button
+              type='button'
+              className='excel-btn'
+              onClick={() => {
+                printExcel({
+                  ['copyStudies']: [...copyStudies],
+                  ['tempCourses']: [...tempCourses],
+                })
+              }}
+            >
+              تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+            </Button>
+          </Col>
+        </Row>
+      )}
 
       {copyStudies.length !== 0 ? (
         copyStudies.map((studytype, index) => {
@@ -348,25 +366,6 @@ const StudyTypes = () => {
         })
       ) : (
         <NoStudies />
-      )}
-
-      {copyStudies.length !== 0 && (
-        <Row>
-          <Col className='excel-col'>
-            <Button
-              type='button'
-              className='excel-btn'
-              onClick={() =>
-                printExcel({
-                  ['copyStudies']: [...copyStudies],
-                  ['tempCourses']: [...tempCourses],
-                })
-              }
-            >
-              تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
-            </Button>
-          </Col>
-        </Row>
       )}
     </div>
   )

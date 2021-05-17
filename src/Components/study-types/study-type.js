@@ -80,7 +80,7 @@ const StudyType = ({
     }
     tempCourses[index] = [...courseObj[`courses-${index}`]]
     setTempCourses([...tempCourses])
-  }, [courses])
+  }, [courses, copyStudies])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -114,6 +114,13 @@ const StudyType = ({
             title: 'تم تغيير بيانات الدراسة بنجاح',
             confirmButtonText: 'حسنــاً',
             confirmButtonColor: '#2f3944',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href =
+                window.location.pathname +
+                window.location.search +
+                window.location.hash
+            }
           })
           setIsEditing(false)
           setValidated(false)
