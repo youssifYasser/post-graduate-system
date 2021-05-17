@@ -1,4 +1,11 @@
-.header {
+.study-types-view {
+  text-align: center;
+  margin: 0 100px;
+}
+
+/* Header */
+
+.study-types-view .row .header {
   background-color: #2f3944;
   margin: 45px auto;
   padding: 25px 25px;
@@ -8,50 +15,22 @@
   color: #ece8e1;
 }
 
-.study-types-view {
-  text-align: center;
-  margin: 0 100px;
-}
+/* Header */
 
-.study-types-view .studies-form .search-row div {
+/* Filter n' Search */
+
+.study-types-view .search-form .search-row div {
   margin-bottom: 45px;
 }
 
-.section {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease-in-out;
-}
-
-.study-type {
-  margin: 10px 0 20px 0;
-}
-
-.form-input {
-  background-color: #fff !important;
-  color: #373636 !important;
-  border-radius: 10px !important;
-  border: 1px solid #8e949b !important;
-  font-size: 1.1em !important;
-}
-
-.form-input:disabled {
-  background-color: #edf0f6 !important;
-  border-color: #2f3944 !important;
-  opacity: 1;
-}
-
-.info {
+.study-types-view .search-form .info {
   color: #373636 !important;
   border-radius: 10px !important;
   border: 1px solid #2f3944 !important;
   font-size: 1.1em !important;
 }
 
-.filter-btn {
+.study-types-view .search-form .col-md-1 .filter-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 2px solid #2f3944 !important;
@@ -66,15 +45,59 @@
   margin-right: 10px;
 }
 
-.filter-btn:hover {
+.study-types-view .search-form .col-md-1 .filter-btn:hover {
   color: #edf0f6 !important;
   background-color: #000 !important;
 }
 
-.search-icon {
+.study-types-view .search-form .col-md-3:last-child .search-icon {
   position: absolute;
   left: 17px;
   top: 7px;
+}
+
+/* Filter n' Search */
+
+/* study type */
+
+.study-types-view .section {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.study-types-view .section:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.study-types-view .section .study-labels {
+  font-size: 1.15em;
+  line-height: 2.5em;
+}
+
+.study-types-view .section .study-type {
+  margin: 10px 0 20px 0;
+}
+
+/* study type n' courses inputs */
+
+.study-types-view .section .study-type .form-input,
+.study-types-view .section .courses .form-input {
+  background-color: #fff !important;
+  color: #373636 !important;
+  border-radius: 10px !important;
+  border: 1px solid #8e949b !important;
+  font-size: 1.1em !important;
+}
+
+.study-types-view .section .study-type .form-input:disabled,
+.study-types-view .section .courses .form-input:disabled {
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
+  opacity: 1;
 }
 
 .was-validated .form-input:valid,
@@ -83,26 +106,11 @@
   padding-right: 15px !important;
 }
 
-.study-labels {
-  font-size: 1.15em;
-  line-height: 2.5em;
-}
+/* study type n' courses inputs */
 
-.course-labels {
-  margin: 5px 0;
-  font-size: 1em;
-}
+/* Edit n' Delete */
 
-.courses {
-  margin-right: 0px !important;
-  margin-bottom: 30px;
-}
-
-.course {
-  margin-bottom: 10px;
-}
-
-.view-btn {
+.study-types-view .section .study-type .col-md-1 .view-btn {
   color: #000 !important;
   background-color: #bdbcbc !important;
   height: 35px;
@@ -114,13 +122,14 @@
   padding-top: 5px !important;
 }
 
-.view-btn:hover {
+.study-types-view .section .study-type .col-md-1 .view-btn:hover {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 1px solid #2f3944 !important;
 }
 
-.icon {
+.study-types-view .section .study-type .col-md-1:last-child .icon,
+.study-types-view .section .courses .course .col-md-1:last-child .icon {
   font-size: 1.7em;
   border: none;
   line-height: 1.2em;
@@ -128,112 +137,166 @@
   transition: all 0.2s ease-out;
 }
 
-.icon svg {
+.study-types-view .section .study-type .col-md-1:last-child .icon svg,
+.study-types-view
+  .section
+  .courses
+  .course
+  .col-md-1:last-child
+  .icon.delete-icon.delete-course
+  svg {
   stroke: black !important;
 }
 
-.icon:hover {
+.study-types-view .section .study-type .col-md-1:last-child .icon:hover,
+.study-types-view .section .courses .course .col-md-1:last-child .icon:hover {
   transform: scale(1.25);
 }
 
-.icon.edit-icon {
+.study-types-view .section .study-type .col-md-1:last-child .icon.edit-icon {
   color: #0b58cc;
   margin-left: 4px;
 }
 
-.icon.edit-icon svg {
+.study-types-view
+  .section
+  .study-type
+  .col-md-1:last-child
+  .icon.edit-icon
+  svg {
   stroke-width: 10px !important;
 }
 
-.icon.delete-icon {
+.study-types-view .section .study-type .col-md-1:last-child .icon.delete-icon,
+.study-types-view
+  .section
+  .courses
+  .course
+  .col-md-1:last-child
+  .delete-course {
   color: #ff0000 !important;
 }
 
-.icon.delete-icon svg {
+.study-types-view
+  .section
+  .study-type
+  .col-md-1:last-child
+  .icon.delete-icon
+  svg,
+.study-types-view
+  .section
+  .courses
+  .course
+  .col-md-1:last-child
+  .icon.delete-icon.delete-course
+  svg {
   stroke-width: 0.6px !important;
 }
 
-.editing-btns {
-  text-align: left;
-  max-width: 100% !important;
-  margin: 20px 0px !important;
+/* Edit n' Delete */
+
+/* Courses */
+
+.study-types-view .section .courses .course-labels {
+  margin: 5px 0;
+  font-size: 1em;
 }
 
-.editing-btn {
-  margin-left: 1%;
-  font-size: 1.2em !important;
-  border: 1px solid #707070 !important;
+.study-types-view .section .courses {
+  margin-right: 0px !important;
+  margin-bottom: 30px;
 }
 
-.editing-btn:hover {
-  background-color: #edf0f6 !important;
+.study-types-view .section .courses .course {
+  margin-bottom: 10px;
 }
 
-.save-btn {
-  background-color: #0f996d !important;
-  transition: background-color 0.3s ease-out;
-}
-
-.save-btn:hover {
-  color: #0f996d !important;
-  border-color: #0f996d !important;
-}
-
-.delete-btn {
-  background-color: #cb0000 !important;
-}
-
-.delete-btn:hover {
-  color: #cb0000 !important;
-  border-color: #cb0000 !important;
-}
-
-.cancel-btn {
-  background-color: #2f3944 !important;
-}
-
-.cancel-btn:hover {
-  color: #2f3944 !important;
-  border-color: #2f3944 !important;
-}
-
-.delete-course {
+.study-types-view
+  .section
+  .courses
+  .course
+  .col-md-1:last-child
+  .delete-course {
   font-size: 1.7em !important;
   line-height: 1.3em !important;
   margin-left: 40px;
   background: none;
 }
 
-.delete-course:hover {
+.study-types-view
+  .section
+  .courses
+  .course
+  .col-md-1:last-child
+  .delete-course
+  .delete-course:hover {
   transform: scale(1.25);
 }
 
-.edit-study-type {
+/* Courses */
+
+/* Edit Study Type */
+
+.study-types-view .edit-study-type {
   background-color: #bfc4ce !important;
   transition: all 0.4s ease-in-out;
 }
+
+/* Editing Buttons */
+
+.study-types-view .section .row .editing-btns {
+  text-align: left;
+  max-width: 100% !important;
+  margin: 20px 0px !important;
+}
+
+.study-types-view .section .row .editing-btns .editing-btn {
+  margin-left: 1%;
+  font-size: 1.2em !important;
+  border: 1px solid #707070 !important;
+}
+
+.study-types-view .section .row .editing-btns .editing-btn:hover {
+  background-color: #edf0f6 !important;
+}
+
+.study-types-view .section .row .editing-btns .save-btn {
+  background-color: #0f996d !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.study-types-view .section .row .editing-btns .save-btn:hover {
+  color: #0f996d !important;
+  border-color: #0f996d !important;
+}
+
+.study-types-view .section .row .editing-btns .delete-btn {
+  background-color: #cb0000 !important;
+}
+
+.study-types-view .section .row .editing-btns .delete-btn:hover {
+  color: #cb0000 !important;
+  border-color: #cb0000 !important;
+}
+
+.study-types-view .section .row .editing-btns .cancel-btn {
+  background-color: #2f3944 !important;
+}
+
+.study-types-view .section .row .editing-btns .cancel-btn:hover {
+  color: #2f3944 !important;
+  border-color: #2f3944 !important;
+}
+
+/* Editing Buttons */
+
+/* Edit Study Type */
+
+/* NO ITEMS */
 
 .study-types-view .no-items {
   margin-top: 45px;
   text-align: center;
 }
 
-.pagination {
-  justify-content: flex-end;
-  font-size: 1.2em;
-}
-
-.pagination .page-item svg {
-  color: #2f3944;
-  margin: 0 5px 2px 5px;
-  transition: all 0.2s ease-out;
-}
-
-.pagination .page-item svg:hover {
-  transform: scale(1.35);
-}
-
-.pagination .active-page {
-  margin: 0 10px;
-  color: #2f3944;
-}
+/* NO ITEMS */

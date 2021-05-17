@@ -106,14 +106,14 @@ const StudyTypes = () => {
         </div>
       </Row>
       <Form
-        className='studies-form'
+        className='search-form'
         noValidate
         validated={validated}
         onSubmit={filterStudies}
       >
         <Form.Row className='search-row'>
           <Col md={2}>
-            <section className='form-group' controlId='study-type-filter'>
+            <section className='form-group' id='study-type-filter'>
               <Form.Control
                 className='info'
                 as='select'
@@ -137,7 +137,7 @@ const StudyTypes = () => {
             </section>
           </Col>
           <Col md={2}>
-            <section className='form-group' controlId='department-filter'>
+            <section className='form-group' id='department-filter'>
               <Form.Control
                 className='info'
                 as='select'
@@ -199,12 +199,14 @@ const StudyTypes = () => {
         ) : (
           <NoStudies />
         )}
-        <Pagination
-          studiesPerPage={studiesPerPage}
-          totalStudies={copyStudies.length}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
+        {copyStudies.length !== 0 && (
+          <Pagination
+            studiesPerPage={studiesPerPage}
+            totalStudies={copyStudies.length}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
+        )}
       </Form>
     </div>
   )
