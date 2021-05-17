@@ -250,7 +250,7 @@ const StudyTypes = () => {
           <h2>الدراسات العليا بكلية العلوم جامعة عين شمس</h2>
         </div>
       </Row>
-      <Form className='studies-form'>
+      <Form className='search-form'>
         <Form.Row className='search-row'>
           <Col md={2}>
             <section className='form-group'>
