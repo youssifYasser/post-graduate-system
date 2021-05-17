@@ -84,7 +84,7 @@
 } */
 
 .study-labels {
-  font-size: 1.15em;
+  font-size: 1.2em;
   line-height: 2.5em;
 }
 
@@ -265,4 +265,8 @@
   color: #1d6f42 !important;
   border-color: #1d6f42 !important;
   background-color: #edf0f6 !important;
+}
+
+.invalid-feedback {
+  font-size: 1em !important;
 }
