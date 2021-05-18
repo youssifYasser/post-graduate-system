@@ -2,57 +2,57 @@
     font-family: 'Markazi Text', serif;
 } */
 
-.addDepartment .header{
-    padding: 20px;
-    background: #2f3944 !important;
-    color: #ece8e1;
-    font-size: 55px;
-    border-radius: 1rem 1rem 0rem 0rem;
-    max-width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-    transition: box-shadow 0.3s linear;
+.addDepartment .header {
+  padding: 20px;
+  background: #2f3944 !important;
+  color: #ece8e1;
+  font-size: 55px;
+  border-radius: 1rem 1rem 0rem 0rem;
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
 }
-.addDepartment .header p{
-    margin-top: 16px;
+.addDepartment .header p {
+  margin-top: 16px;
 }
-.addDepartment .main{
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 0rem 0rem 1rem 1rem;
-    max-width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-    transition: box-shadow 0.3s linear;
+.addDepartment .main {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 0rem 0rem 1rem 1rem;
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s linear;
 }
 /* .addDepartment .main:hover,
 .addDepartment .header:hover{
     box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 } */
-.addDepartment .main .form-control{
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid #bebdbc 2px;
-    border-radius: 0;
+.addDepartment .main .form-control {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid #bebdbc 2px;
+  border-radius: 0;
 }
-.addDepartment .main .form-control:focus{
-    border-radius: 0.25rem;
-    border: none;
-    background-color: #edf0f6;
+.addDepartment .main .form-control:focus {
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #edf0f6;
 }
-.addDepartment .main .form-label{
-    font-size: 1.2rem;
+.addDepartment .main .form-label {
+  font-size: 1.2rem;
 }
-.addDepartment .regBtn{
-    background: #2f3944;
-    color: #ece8e1;
-    padding: 5px 50px;
-    border-radius: 2rem;
-    font-size: 30px;
-
+.addDepartment .regBtn {
+  background: #2f3944;
+  color: #ece8e1;
+  padding: 5px 50px;
+  border-radius: 10px;
+  font-size: 30px;
+  margin-bottom: -35px;
 }
 
 /*start of Responsive*/
@@ -68,29 +68,30 @@
     }
 }*/
 
-@media (max-width:992px){
-    .addDepartment .header,
-    .addDepartment .main{
-        max-width: 90%;
-    }
+@media (max-width: 992px) {
+  .addDepartment .header,
+  .addDepartment .main {
+    max-width: 90%;
+  }
 }
 
-@media (max-width:360px){
-    .addDepartment .header{
-        font-size: 40px;
-    }
+@media (max-width: 360px) {
+  .addDepartment .header {
+    font-size: 40px;
+  }
 
-    .addDepartment .header,
-    .addDepartment .main{
-        max-width: 100%;
-    }
+  .addDepartment .header,
+  .addDepartment .main {
+    max-width: 100%;
+  }
 
-    .addDepartment .main .form{
-        margin: 0 !important;
-    }
+  .addDepartment .main .form {
+    margin: 0 !important;
+  }
 
-    .addDepartment .regBtn{
-        font-size: 25px;
-    }
+  .addDepartment .regBtn {
+    font-size: 25px;
+    margin-bottom: 0px;
+  }
 }
 /*End of Responsive*/

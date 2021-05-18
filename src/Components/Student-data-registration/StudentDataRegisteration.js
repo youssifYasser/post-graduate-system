@@ -76,9 +76,8 @@ const StudentDataRegisteration = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           setTimeout(() => {
-            const element = document.getElementsByClassName(
-              'invalid-feedback'
-            )[0]
+            const element =
+              document.getElementsByClassName('invalid-feedback')[0]
             const offset = 70
             const bodyRect = document.body.getBoundingClientRect().top
             const elementRect = element.getBoundingClientRect().top
@@ -152,7 +151,7 @@ const StudentDataRegisteration = () => {
               }
               axios(thesisDataAPI)
                 .then((response) => {
-                  console.log(response.data)
+                  console.log(response)
                 })
                 .catch((err) => {
                   console.log(err)
@@ -199,7 +198,7 @@ const StudentDataRegisteration = () => {
   const s2ab = (s) => {
     var buf = new ArrayBuffer(s.length)
     var view = new Uint8Array(buf)
-    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+    for (var i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
     return buf
   }
 
@@ -246,6 +245,7 @@ const StudentDataRegisteration = () => {
     })
     wb.SheetNames.push('الطلبة الملغيين')
     wb.Sheets['الطلبة الملغيين'] = ws
+    wb.Workbook = { ['Views']: [{ RTL: true }] }
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
@@ -258,7 +258,7 @@ const StudentDataRegisteration = () => {
     if (studentNumber >= students.length && students.length !== 0) {
       setStudentNumber(0)
       setShowUpload(true)
-      handleCanceledStudents(canceledStudents)
+      canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
     }
   }, [studentNumber])
 
@@ -362,44 +362,32 @@ const StudentDataRegisteration = () => {
 
     let title = ''
     if (student['تأكيد نوع التسجيل'] === 'دبلومة الدراسات العليا') {
-      if (student['عنوان الدبلومة']) {
-        title = student['عنوان الدبلومة']
-      } else if (student['2عنوان الدبلومة']) {
-        title = student['2عنوان الدبلومة']
-      } else if (student['3عنوان الدبلومة']) {
-        title = student['3عنوان الدبلومة']
-      } else if (student['4عنوان الدبلومة']) {
-        title = student['4عنوان الدبلومة']
-      } else if (student['5عنوان الدبلومة']) {
-        title = student['5عنوان الدبلومة']
-      } else if (student['6عنوان الدبلومة']) {
-        title = student['6عنوان الدبلومة']
-      } else if (student['7عنوان الدبلومة']) {
-        title = student['7عنوان الدبلومة']
-      } else if (student['8عنوان الدبلومة']) {
-        title = student['8عنوان الدبلومة']
-      } else if (student['9عنوان الدبلومة']) {
-        title = student['9عنوان الدبلومة']
+      for (let index = 1; index <= 9; index++) {
+        if (index === 1) {
+          if (student['عنوان الدبلومة']) {
+            title = student['عنوان الدبلومة']
+            break
+          }
+        } else {
+          if (student[`عنوان الدبلومة${index}`]) {
+            title = student[`عنوان الدبلومة${index}`]
+            break
+          }
+        }
       }
     } else if (student['تأكيد نوع التسجيل'] === 'تمهيدي الماجستير') {
-      if (student['عنوان تمهيدي الماجستير']) {
-        title = student['عنوان تمهيدي الماجستير']
-      } else if (student['2عنوان تمهيدي الماجستير']) {
-        title = student['2عنوان تمهيدي الماجستير']
-      } else if (student['3عنوان تمهيدي الماجستير']) {
-        title = student['3عنوان تمهيدي الماجستير']
-      } else if (student['4عنوان تمهيدي الماجستير']) {
-        title = student['4عنوان تمهيدي الماجستير']
-      } else if (student['5عنوان تمهيدي الماجستير']) {
-        title = student['5عنوان تمهيدي الماجستير']
-      } else if (student['6عنوان تمهيدي الماجستير']) {
-        title = student['6عنوان تمهيدي الماجستير']
-      } else if (student['7عنوان تمهيدي الماجستير']) {
-        title = student['7عنوان تمهيدي الماجستير']
-      } else if (student['8عنوان تمهيدي الماجستير']) {
-        title = student['8عنوان تمهيدي الماجستير']
-      } else if (student['9عنوان تمهيدي الماجستير']) {
-        title = student['9عنوان تمهيدي الماجستير']
+      for (let index = 1; index <= 9; index++) {
+        if (index === 1) {
+          if (student['عنوان تمهيدي الماجستير']) {
+            title = student['عنوان تمهيدي الماجستير']
+            break
+          }
+        } else {
+          if (student[`عنوان تمهيدي الماجستير${index}`]) {
+            title = student[`عنوان تمهيدي الماجستير${index}`]
+            break
+          }
+        }
       }
     }
     const academicThesisData = {

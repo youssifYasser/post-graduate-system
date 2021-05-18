@@ -8,7 +8,7 @@ function AddStudent(props) {
   return (
     <Container className='addStudent mt-5 mb-5'>
       <div className='header'>
-        <p className='text-center'>اضافة طالب</p>
+        <p className='text-center'>إضافة طالب</p>
       </div>
 
       <div className='main'>
@@ -41,6 +41,8 @@ function AddStudent(props) {
               onChange={state.handleChange}
               pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
               required
+              dir='ltr'
+              lang='en'
             />
             <Form.Control.Feedback type='invalid'>
               من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
