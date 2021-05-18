@@ -30,8 +30,8 @@ const Courses = ({
         Swal.fire({
           icon: 'success',
           title: 'تمت إزالة المقرر بنجاح',
-          confirmButtonText: 'حسنــاً',
-          confirmButtonColor: '#2f3944',
+          showConfirmButton: false,
+          timer: 1500,
         })
         let deletedCourse
         const corses = copyCourses.filter((item, index) => {

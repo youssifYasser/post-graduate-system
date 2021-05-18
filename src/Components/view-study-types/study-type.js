@@ -115,15 +115,8 @@ const StudyType = ({
             Swal.fire({
               icon: 'success',
               title: 'تم تغيير بيانات الدراسة بنجاح',
-              confirmButtonText: 'حسنــاً',
-              confirmButtonColor: '#2f3944',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href =
-                  window.location.pathname +
-                  window.location.search +
-                  window.location.hash
-              }
+              showConfirmButton: false,
+              timer: 1500,
             })
             setIsEditing(false)
             setValidated(false)
@@ -223,6 +216,12 @@ const StudyType = ({
           }
         })
       }
+      setTimeout(() => {
+        window.location.href =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash
+      }, 2000)
     } else {
       setIsEditing(false)
       setValidated(false)
