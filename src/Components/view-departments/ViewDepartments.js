@@ -156,9 +156,10 @@ const ViewDepartments = () => {
           </Col>
         </Row>
         <Row>
-          {copyDepts.length !== 0 && (
+          {
             <Col className='excel-col'>
               <Button
+                disabled={copyDepts.length === 0}
                 type='button'
                 className='excel-btn'
                 onClick={() => printExcel(copyDepts)}
@@ -166,7 +167,7 @@ const ViewDepartments = () => {
                 تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
               </Button>
             </Col>
-          )}
+          }
           <Col>
             <FaSearch />
             <Form.Control

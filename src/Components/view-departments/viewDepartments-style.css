@@ -43,19 +43,28 @@
   background-color: #edf0f6 !important;
 }
 
-.view-department .main-form .row:nth-child(2) .col:last-child {
+.view-department
+  .main-form
+  .row:nth-child(2)
+  .excel-col
+  .excel-btn:disabled:hover {
+  color: #fff !important;
+  background-color: #1d6f42 !important;
+}
+
+.view-department .main-form .row:nth-child(2) .col:nth-child(2) {
   position: relative;
   text-align: left;
   margin-bottom: 45px;
 }
 
-.view-department .main-form .row:nth-child(2) .col:last-child svg {
+.view-department .main-form .row:nth-child(2) .col:nth-child(2) svg {
   position: absolute;
   top: 12.2px;
   left: 25px;
 }
 
-.view-department .main-form .row:nth-child(2) .col:last-child input {
+.view-department .main-form .row:nth-child(2) .col:nth-child(2) input {
   display: inline;
   max-width: 60%;
   color: #373636;
