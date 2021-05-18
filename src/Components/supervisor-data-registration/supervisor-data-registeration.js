@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Container, Form, Col, Row } from 'react-bootstrap'
+import { Container, Form, Col, Row, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { TiUserAdd } from 'react-icons/ti'
 
 import { countries } from './countries'
 import './supervisor-data-registeration.css'
@@ -255,6 +256,14 @@ const SupervisorDataRegisteration = () => {
               </Col>
             </Form.Row>
           </section>
+          <Form.Row>
+            <Col className='btn-col'>
+              <Button type='submit' className='submit-btn'>
+                تسجيل
+                <TiUserAdd className='btn-submit' />
+              </Button>
+            </Col>
+          </Form.Row>
         </Form>
       </div>
     </Container>
