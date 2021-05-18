@@ -50,22 +50,6 @@ const StudyTypes = () => {
         })
         setCopyStudies([...sts])
         setStudies([...sts])
-
-        // const deleteStudiesAPI = {
-        //   url: `http://localhost:8000/api/deletestudytype/${stID}`,
-        //   method: 'delete',
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json;charset=UTF-8',
-        //   },
-        // }
-        // axios(deleteStudiesAPI)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
       }
     })
   }

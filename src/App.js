@@ -9,15 +9,15 @@ import StudyTypes from './Components/view-study-types/study-types'
 
 const App = () => {
   return (
-    // <BrowserRouter>
-    //   <Navbar />
-    //   <Switch>
-    //     <Route exact path='/' component={Home} />
-    //     <Route exact path='/AddStudent' component={AddStudent} />
-    //     <Route exact path='/StudentData' component={StudentData} />
-    //   </Switch>
-    // </BrowserRouter>
-    <StudyTypes />
+    <BrowserRouter>
+      <Navbar />
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/AddStudent' component={AddStudent} />
+        <Route exact path='/StudentData' component={StudentData} />
+        <Route exact path='/StudyTypes' component={StudyTypes} />
+      </Switch>
+    </BrowserRouter>
   )
 }
 
