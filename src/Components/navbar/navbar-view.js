@@ -19,11 +19,15 @@ function navbar() {
               {' '}
               تسجيل بيانات الطالب
             </Link>
+            <Link to='/viewDepartments' className='link'>
+              {' '}
+              عرض الأقسام
+            </Link>
           </Nav>
         </Navbar.Collapse>
 
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-        <Link to='/' exact>
+        <Link to='/'>
           <Navbar.Brand>
             <img
               src={logo}
