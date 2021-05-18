@@ -8,7 +8,7 @@ function AddDepartment(props) {
   return (
     <Container className='addDepartment mt-5 mb-5'>
       <div className='header'>
-        <p className='text-center'>اضافة قسم</p>
+        <p className='text-center'>إضافة قسم</p>
       </div>
 
       <div className='main'>

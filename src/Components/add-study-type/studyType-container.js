@@ -75,6 +75,7 @@ const StudyType = () => {
           showConfirmButton: false,
           timer: 2000,
         })
+
         console.log(JSON.stringify(study))
 
         const options = {
@@ -94,12 +95,14 @@ const StudyType = () => {
             console.log(err)
           })
 
-        // setTimeout(() => {
-        //   window.location.href =
-        //     window.location.pathname +
-        //     window.location.search +
-        //     window.location.hash
-        // }, 2000)
+        setValidated(false)
+
+        setTimeout(() => {
+          window.location.href =
+            window.location.pathname +
+            window.location.search +
+            window.location.hash
+        }, 2000)
       }
     })
   }
