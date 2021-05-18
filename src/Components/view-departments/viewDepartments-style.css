@@ -16,22 +16,48 @@
   margin: 10px auto;
 }
 
+.view-department .main-form .no-items,
+.no-items {
+  margin: 45px;
+  text-align: center;
+}
+
 /* search row */
-.view-department .main-form .row:nth-child(2) .col {
+.view-department .main-form .row:nth-child(2) .excel-col {
+  text-align: right !important;
+  max-width: 50% !important;
+  margin-bottom: 5px !important;
+}
+
+.view-department .main-form .row:nth-child(2) .excel-col .excel-btn {
+  background-color: #1d6f42 !important;
+  border: 1px solid #707070 !important;
+  font-size: 1.2em;
+  margin-bottom: 5px !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.view-department .main-form .row:nth-child(2) .excel-col .excel-btn:hover {
+  color: #1d6f42 !important;
+  border-color: #1d6f42 !important;
+  background-color: #edf0f6 !important;
+}
+
+.view-department .main-form .row:nth-child(2) .col:last-child {
   position: relative;
   text-align: left;
   margin-bottom: 45px;
 }
 
-.view-department .main-form .row:nth-child(2) .col svg {
+.view-department .main-form .row:nth-child(2) .col:last-child svg {
   position: absolute;
   top: 12.2px;
   left: 25px;
 }
 
-.view-department .main-form .row:nth-child(2) .col input {
+.view-department .main-form .row:nth-child(2) .col:last-child input {
   display: inline;
-  width: 29.6%;
+  max-width: 60%;
   color: #373636;
   border-radius: 10px;
   border: 1px solid #8e949b;
@@ -104,11 +130,6 @@
   font-size: 1em !important;
 }
 
-/* .was-validated .form-control:valid,
-.form-control.is-valid {
-  background-image: none !important;
-  padding-right: 0.75em !important;
-} */
 /* inputs end*/
 
 /* buttons start*/
@@ -158,84 +179,53 @@
   margin: 5px 0px 0px !important;
 }
 
-.view-department .main-form .section .buttons-row .col button:nth-child(1) {
+.view-department .main-form .section .buttons-row .col .save-btn {
   margin-left: 1%;
   background-color: #0f996d;
   border: 1px solid #707070;
   font-size: 1em;
   transition: background-color 0.3s ease-out;
 }
-.view-department
-  .main-form
-  .section
-  .buttons-row
-  .col
-  button:nth-child(1):hover {
+.view-department .main-form .section .buttons-row .col .save-btn:hover {
   background-color: #edf0f6;
   color: #0f996d;
   border-color: #0f996d;
 }
 
-.view-department .main-form .section .buttons-row .col button:nth-child(2) {
+.view-department
+  .main-form
+  .section
+  .buttons-row
+  .col
+  .save-btn:disabled:hover {
+  background-color: #0f996d;
+  color: #fff;
+}
+
+.view-department .main-form .section .buttons-row .col .delete-btn {
   margin-left: 1%;
   background-color: #cb0000;
   border: 1px solid #707070;
   font-size: 1em;
 }
 
-.view-department
-  .main-form
-  .section
-  .buttons-row
-  .col
-  button:nth-child(2):hover {
+.view-department .main-form .section .buttons-row .col .delete-btn:hover {
   background-color: #edf0f6;
   color: #cb0000;
   border-color: #cb0000;
 }
 
-.view-department .main-form .section .buttons-row .col button:nth-child(3) {
+.view-department .main-form .section .buttons-row .col .cancel-btn {
   margin-left: 1%;
   background-color: #2f3944;
   border: 1px solid #707070;
   font-size: 1em;
 }
 
-.view-department
-  .main-form
-  .section
-  .buttons-row
-  .col
-  button:nth-child(3):hover {
+.view-department .main-form .section .buttons-row .col .cancel-btn:hover {
   background-color: #edf0f6;
   color: #2f3944;
   border-color: #2f3944;
-}
-
-.view-department .main-form .no-items,
-.no-items {
-  margin: 45px;
-  text-align: center;
-}
-
-/* .view-department .main-form .excel-col {
-  text-align: left !important;
-  max-width: 100% !important;
-  margin-bottom: 5px !important;
-} */
-
-.view-department .main-form .excel-btn {
-  background-color: #28a745 !important;
-  border: 1px solid #707070 !important;
-  font-size: 1.2em;
-  margin-bottom: 5px !important;
-  transition: background-color 0.3s ease-out;
-}
-
-.view-department .main-form .excel-btn:hover {
-  color: #28a745 !important;
-  border-color: #28a745 !important;
-  background-color: #edf0f6 !important;
 }
 
 /* Save/Del/Cancel buttons end */

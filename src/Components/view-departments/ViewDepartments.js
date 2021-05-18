@@ -17,7 +17,8 @@ import Loading from './loading'
 const ViewDepartments = () => {
   const [departments, setDepartments] = useState([])
   const [copyDepts, setCopyDepts] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [showSave, setShowSave] = useState(false)
 
   const handleDelete = (deptID) => {
     Swal.fire({
@@ -31,7 +32,6 @@ const ViewDepartments = () => {
       cancelButtonColor: '#2f3944',
       denyButtonColor: '#be0707',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isDenied) {
         Swal.fire({
           icon: 'success',
@@ -65,6 +65,7 @@ const ViewDepartments = () => {
   }
 
   const handleChange = (e) => {
+    setShowSave(true)
     let { name, value } = e.target
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
@@ -131,7 +132,6 @@ const ViewDepartments = () => {
     }
     axios(departmentsAPI)
       .then((response) => {
-        // console.log(response.data)
         setDepartments([...response.data])
         setCopyDepts([...response.data])
       })
@@ -156,6 +156,17 @@ const ViewDepartments = () => {
           </Col>
         </Row>
         <Row>
+          {copyDepts.length !== 0 && (
+            <Col className='excel-col'>
+              <Button
+                type='button'
+                className='excel-btn'
+                onClick={() => printExcel(copyDepts)}
+              >
+                تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+              </Button>
+            </Col>
+          )}
           <Col>
             <FaSearch />
             <Form.Control
@@ -178,24 +189,13 @@ const ViewDepartments = () => {
                 setDepartments={setDepartments}
                 copyDepts={copyDepts}
                 setCopyDepts={setCopyDepts}
+                setShowSave={setShowSave}
+                showSave={showSave}
               />
             )
           })
         ) : (
           <NoDepartments />
-        )}
-        {copyDepts.length !== 0 && (
-          <Row>
-            <Col className='excel-col'>
-              <Button
-                type='button'
-                className='excel-btn'
-                onClick={() => printExcel(copyDepts)}
-              >
-                تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
-              </Button>
-            </Col>
-          </Row>
         )}
       </div>
     </Container>

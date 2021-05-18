@@ -17,65 +17,73 @@ const DepartmentRow = ({
   copyDepts,
   departments,
   setDepartments,
+  setShowSave,
+  showSave,
 }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [validated, setValidated] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const form = e.currentTarget
-    console.log(e.currentTarget)
-    if (form.checkValidity() === false) {
-      e.stopPropagation()
-      setValidated(true)
-      Swal.fire({
-        icon: 'error',
-        title: 'حدث خطأ',
-        text: '.من فضلك راجع البيانات',
-        confirmButtonText: 'حسنــاً',
-        confirmButtonColor: '#2f3944',
-      })
-    } else {
-      setValidated(true)
-      Swal.fire({
-        icon: 'info',
-        title: 'هل أنت متأكد من حفظ تغيير بيانات القسم؟',
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonColor: '#01ad01',
-        confirmButtonText: 'نعم ، احفظ',
-        cancelButtonText: 'لا ، عودة',
-        cancelButtonColor: '#2f3944',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: 'success',
-            title: 'تم تغيير بيانات القسم بنجاح',
-            confirmButtonText: 'حسنــاً',
-            confirmButtonColor: '#2f3944',
-          })
-          setIsEditing(false)
-          setValidated(false)
+    if (!isEqual(copyDepts[index], departments[index])) {
+      const form = e.currentTarget
+      console.log(e.currentTarget)
+      if (form.checkValidity() === false) {
+        e.stopPropagation()
+        setValidated(true)
+        Swal.fire({
+          icon: 'error',
+          title: 'حدث خطأ',
+          text: '.من فضلك راجع البيانات',
+          confirmButtonText: 'حسنــاً',
+          confirmButtonColor: '#2f3944',
+        })
+      } else {
+        setValidated(true)
+        Swal.fire({
+          icon: 'info',
+          title: 'هل أنت متأكد من حفظ تغيير بيانات القسم؟',
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#01ad01',
+          confirmButtonText: 'نعم ، احفظ',
+          cancelButtonText: 'لا ، عودة',
+          cancelButtonColor: '#2f3944',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              icon: 'success',
+              title: 'تم تغيير بيانات القسم بنجاح',
+              confirmButtonText: 'حسنــاً',
+              confirmButtonColor: '#2f3944',
+            })
+            setIsEditing(false)
+            setValidated(false)
+            setShowSave(false)
 
-          const updateDepartmentsAPI = {
-            url: `http://localhost:8000/api/departments/${department.idDept}`,
-            method: 'put',
-            data: JSON.stringify(department),
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json;charset=UTF-8',
-            },
+            const updateDepartmentsAPI = {
+              url: `http://localhost:8000/api/departments/${department.idDept}`,
+              method: 'put',
+              data: JSON.stringify(department),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateDepartmentsAPI)
+              .then((response) => {
+                setDepartments([...copyDepts])
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           }
-          axios(updateDepartmentsAPI)
-            .then((response) => {
-              setDepartments([...copyDepts])
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        }
-      })
+        })
+      }
+    } else {
+      setIsEditing(false)
+      setValidated(false)
+      setShowSave(false)
     }
   }
 
@@ -97,10 +105,12 @@ const DepartmentRow = ({
           setCopyDepts([...copyDepts])
           setIsEditing(false)
           setValidated(false)
+          setShowSave(false)
         }
       })
     } else {
       setIsEditing(false)
+      setShowSave(false)
       setValidated(false)
     }
   }
@@ -187,15 +197,20 @@ const DepartmentRow = ({
         {isEditing && (
           <Row className='buttons-row animate__animated animate__fadeInDown'>
             <Col>
-              <Button type='submit'>حفظ</Button>
+              <Button type='submit' className='save-btn' disabled={!showSave}>
+                حفظ
+              </Button>
+
               <Button
                 type='button'
+                className='delete-btn'
                 onClick={() => handleDelete(department.idDept)}
               >
                 مسح القسم
               </Button>
               <Button
                 type='button'
+                className='cancel-btn'
                 onClick={() => {
                   handleCancel()
                 }}
