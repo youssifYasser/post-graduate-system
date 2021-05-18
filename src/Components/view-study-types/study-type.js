@@ -268,7 +268,16 @@ const StudyType = ({
       copyCourses.length !== 0
         ? copyCourses[copyCourses.length - 1].idCourse
         : 0
-    copyCourses.push({ idCourse: lastID + 1, new: true })
+    // console.log(lastID)
+    copyCourses.push({
+      idCourse: lastID + 1,
+      new: true,
+      courseCode: '',
+      arabicName: '',
+      englishName: '',
+      maxGrade: '',
+      creditHours: '',
+    })
     setCopyCourses([...copyCourses])
   }
 
@@ -331,6 +340,7 @@ const StudyType = ({
                 onChange={handleChange}
                 disabled={!isEditing}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                required
               />
               <article className='invalid-feedback' type='invalid'>
                 من فضلك أدخل عنوان الرسالة باللغة العربية فقط.
@@ -349,6 +359,7 @@ const StudyType = ({
                 dir='ltr'
                 lang='en'
                 pattern='^[a-zA-Z ]+$'
+                required
               />
               <article className='invalid-feedback' type='invalid'>
                 من فضلك أدخل عنوان الرسالة باللغة الإنجليزية فقط.
