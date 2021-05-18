@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Form, Col, Row, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -9,6 +9,131 @@ import './supervisor-data-registeration.css'
 
 const SupervisorDataRegisteration = () => {
   const [validated, setValidated] = useState(false)
+  const [departments, setDepartments] = useState([])
+  const [supervisor, setSupervisor] = useState({
+    arabicName: '',
+    englishName: '',
+    nationalityId: '',
+    gender: '',
+    nationality: '',
+    idDegreeF: '',
+    specialization: '',
+    department: '',
+    faculty: '',
+    university: '',
+    email: '',
+    mobile: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    type === 'checkbox'
+      ? setSupervisor({ ...supervisor, [name]: checked })
+      : setSupervisor({ ...supervisor, [name]: value })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+      Swal.fire({
+        icon: 'error',
+        title: 'حدث خطأ',
+        text: '.من فضلك راجع البيانات',
+        confirmButtonText: 'حسنــاً',
+        confirmButtonColor: '#2f3944',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setTimeout(() => {
+            const element =
+              document.getElementsByClassName('invalid-feedback')[0]
+            const offset = 100
+            const bodyRect = document.body.getBoundingClientRect().top
+            const elementRect = element.getBoundingClientRect().top
+            const elementPosition = elementRect - bodyRect
+            const offsetPosition = elementPosition - offset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }, 300)
+        }
+      })
+    } else {
+      setValidated(true)
+      Swal.fire({
+        icon: 'info',
+        title: 'هل أنت متأكد من تسجيل بيانات المشرف؟',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#01ad01',
+        confirmButtonText: 'نعم ، سجل',
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم تسجيل بيانات المشرف بنجاح',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setValidated(false)
+
+          // console.log(JSON.stringify(supervisor))
+          const registerSupervisor = {
+            url: 'http://localhost:8000/api/supervisors',
+            method: 'post',
+            data: JSON.stringify(supervisor),
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(registerSupervisor)
+            .then((response) => {
+              setSupervisor({
+                arabicName: '',
+                englishName: '',
+                nationalityId: '',
+                email: '',
+                position: '',
+                university: '',
+                faculty: '',
+                department: '',
+                nationality: '',
+                specialization: '',
+                gender: '',
+                mobile: '',
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   return (
     <Container className='supervisor-reg'>
@@ -18,7 +143,7 @@ const SupervisorDataRegisteration = () => {
             <h1>تسجيل بيانات المشرف</h1>
           </Col>
         </Row>
-        <Form noValidate validated={validated}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <section className='section'>
             <Form.Row>
               <Col>
@@ -28,8 +153,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='arabicName'
-                    // value={student.arabicName}
-                    // onChange={handleChange}
+                    value={supervisor.arabicName}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     required
                   />
@@ -45,8 +170,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='englishName'
-                    // value={student.englishName}
-                    // onChange={handleChange}
+                    value={supervisor.englishName}
+                    onChange={handleChange}
                     pattern='^[a-zA-Z ]+$'
                     dir='ltr'
                     lang='en'
@@ -66,8 +191,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='number'
                     name='nationalityId'
-                    // value={student.nationalityId}
-                    // onChange={handleChange}
+                    value={supervisor.nationalityId}
+                    onChange={handleChange}
                     dir='ltr'
                     lang='en'
                   />
@@ -89,8 +214,8 @@ const SupervisorDataRegisteration = () => {
                           value='ذكر'
                           name='gender'
                           className='form-check-male'
-                          // checked={student.gender === 'ذكر'}
-                          // onChange={handleChange}
+                          checked={supervisor.gender === 'ذكر'}
+                          onChange={handleChange}
                         />
                         <Form.Check
                           inline
@@ -99,8 +224,8 @@ const SupervisorDataRegisteration = () => {
                           label='أنثى'
                           name='gender'
                           className='form-check-female'
-                          // checked={student.gender === 'أنثى'}
-                          // onChange={handleChange}
+                          checked={supervisor.gender === 'أنثى'}
+                          onChange={handleChange}
                         />
                       </div>
                     </Form.Group>
@@ -112,8 +237,8 @@ const SupervisorDataRegisteration = () => {
                         className='form-input'
                         as='select'
                         name='nationality'
-                        // value={student.nationality}
-                        // onChange={handleChange}
+                        value={supervisor.nationality}
+                        onChange={handleChange}
                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                         custom
                         required
@@ -142,16 +267,16 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     as='select'
                     name='idDegreeF'
-                    // value={student.nationality}
-                    // onChange={handleChange}
+                    value={supervisor.idDegreeF}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     custom
                     required
                   >
                     <option value=''>اختر الدرجة العلمية</option>
-                    <option value='مدرس جامعي'>مدرس جامعي</option>
-                    <option value='استاذ مساعد'>استاذ مساعد</option>
-                    <option value='استاذ'>استاذ</option>
+                    <option value='1'>مدرس جامعي</option>
+                    <option value='2'>استاذ مساعد</option>
+                    <option value='3'>استاذ</option>
                   </Form.Control>
                 </Form.Group>
               </Col>
@@ -162,8 +287,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='specialization'
-                    // value={student.arabicName}
-                    // onChange={handleChange}
+                    value={supervisor.specialization}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     required
                   />
@@ -179,12 +304,22 @@ const SupervisorDataRegisteration = () => {
                   <Form.Label>القسم</Form.Label>
                   <Form.Control
                     className='form-input'
-                    type='text'
+                    as='select'
                     name='department'
-                    // value={student.arabicName}
-                    // onChange={handleChange}
+                    value={supervisor.department}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                  />
+                    custom
+                  >
+                    <option value=''>اختر القسم</option>
+                    {departments.map((dept) => {
+                      return (
+                        <option key={dept.idDept} value={dept.arabicName}>
+                          {dept.arabicName}
+                        </option>
+                      )
+                    })}
+                  </Form.Control>
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل ألقسم باللغة العربية فقط.
                   </Form.Control.Feedback>
@@ -197,8 +332,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='faculty'
-                    // value={student.arabicName}
-                    // onChange={handleChange}
+                    value={supervisor.faculty}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     required
                   />
@@ -216,8 +351,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='university'
-                    // value={student.arabicName}
-                    // onChange={handleChange}
+                    value={supervisor.university}
+                    onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     required
                   />
@@ -237,8 +372,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='email'
                     name='email'
-                    // value={student.email}
-                    // onChange={handleChange}
+                    value={supervisor.email}
+                    onChange={handleChange}
                     pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                     dir='ltr'
                     lang='en'
@@ -256,8 +391,8 @@ const SupervisorDataRegisteration = () => {
                     className='form-input'
                     type='text'
                     name='mobile'
-                    // value={student.mobile}
-                    // onChange={handleChange}
+                    value={supervisor.mobile}
+                    onChange={handleChange}
                     dir='ltr'
                     lang='en'
                   />
