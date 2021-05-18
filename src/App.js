@@ -9,6 +9,8 @@ import StudyTypes from './Components/view-study-types/study-types'
 import viewDepartments from './Components/view-departments/ViewDepartments'
 import AddDepartment from './Components/add-department/addDepartment-container'
 import StudyType from './Components/add-study-type/studyType-container'
+import RefExcelReg from './Components/referee-data/registeration/ref-excel-reg'
+import RefManualReg from './Components/referee-data/registeration/ref-manual-reg'
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
         <Route exact path='/viewStudyTypes' component={StudyTypes} />
         <Route exact path='/addDepartment' component={AddDepartment} />
         <Route exact path='/viewDepartments' component={viewDepartments} />
+        <Route exact path='/RefExcelReg' component={RefExcelReg} />
+        <Route exact path='/RefManualReg' component={RefManualReg} />
       </Switch>
     </BrowserRouter>
   )

@@ -62,6 +62,22 @@ function navbar() {
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
+            <NavDropdown
+              title='المحكمين'
+              id='basic-nav-dropdown'
+              className='link'
+            >
+              <NavDropdown.Item>
+                <Link to='/RefExcelReg' className='link'>
+                  تسجيل محكم بالإكسل{' '}
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/RefManualReg' className='link'>
+                  تسجيل محكم يدويا{' '}
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
 
