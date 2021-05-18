@@ -1,0 +1,79 @@
+.supervisor-reg {
+  color: #2f3944;
+  font-size: 1.2em;
+}
+
+.supervisor-reg .main-form {
+  /* text-align: right; */
+  margin: 10px;
+}
+
+.supervisor-reg .main-form .header {
+  background-color: #2f3944;
+  margin: 45px auto;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 32%;
+  color: #ece8e1;
+}
+
+.supervisor-reg .main-form .header h1 {
+  margin: 10px auto;
+}
+
+.supervisor-reg .main-form .section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease-out;
+}
+
+.supervisor-reg .main-form .section:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.form-check-input.is-valid ~ .form-check-label,
+.was-validated .form-check-input:valid ~ .form-check-label {
+  color: #2f3944 !important;
+}
+
+.supervisor-reg .main-form .section .form-row .col {
+  max-width: 45%;
+}
+
+.supervisor-reg .main-form .section .form-row .col:first-child {
+  margin-left: 10%;
+}
+
+.supervisor-reg .main-form .section .form-row .gender-col {
+  max-width: 33% !important;
+  margin-left: 0% !important;
+}
+
+.supervisor-reg .main-form .section .gender {
+  margin-right: -24px;
+  padding: 5px;
+}
+
+.supervisor-reg .main-form .section .nation-col {
+  max-width: 67% !important;
+}
+
+.supervisor-reg .main-form .section .form-input {
+  background-color: #edf0f6 !important;
+  color: #373636 !important;
+  border-radius: 10px !important;
+  border: 1px solid #8e949b !important;
+  font-size: 1.1em !important;
+}
+
+.supervisor-reg .main-form .section .form-check-label {
+  margin-right: 3px;
+}
+
+.supervisor-reg .main-form .section .form-check-male {
+  margin-left: 10px;
+}
