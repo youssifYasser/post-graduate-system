@@ -295,8 +295,8 @@
 }
 
 .study-types-view .section .row .editing-btns .save-btn:disabled:hover {
-  background-color: #0f996d;
-  color: #fff;
+  background-color: #0f996d !important;
+  color: #fff !important;
 }
 
 .study-types-view .section .row .editing-btns .delete-btn {

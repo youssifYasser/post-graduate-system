@@ -255,11 +255,13 @@ const StudyType = ({
           setCopyStudies([...copyStudies])
           setIsEditing(false)
           setValidated(false)
+          setShowSave(false)
         }
       })
     } else {
       setIsEditing(false)
       setValidated(false)
+      setShowSave(false)
     }
   }
 
