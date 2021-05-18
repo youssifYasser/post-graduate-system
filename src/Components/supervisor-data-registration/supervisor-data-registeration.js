@@ -31,6 +31,7 @@ const SupervisorDataRegisteration = () => {
                     // value={student.arabicName}
                     // onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                    required
                   />
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل الاسم باللغة العربية فقط.
@@ -49,6 +50,7 @@ const SupervisorDataRegisteration = () => {
                     pattern='^[a-zA-Z ]+$'
                     dir='ltr'
                     lang='en'
+                    required
                   />
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل الاسم باللغة الإنجليزية فقط.
@@ -114,9 +116,15 @@ const SupervisorDataRegisteration = () => {
                         // onChange={handleChange}
                         pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                         custom
+                        required
                       >
+                        <option value=''>اختر الجنسية</option>
                         {countries.map((country, index) => {
-                          return <option key={index}>{country}</option>
+                          return (
+                            <option key={index} value={country}>
+                              {country}
+                            </option>
+                          )
                         })}
                       </Form.Control>
                     </Form.Group>
@@ -138,6 +146,7 @@ const SupervisorDataRegisteration = () => {
                     // onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     custom
+                    required
                   >
                     <option value=''>اختر الدرجة العلمية</option>
                     <option value='مدرس جامعي'>مدرس جامعي</option>
@@ -156,6 +165,7 @@ const SupervisorDataRegisteration = () => {
                     // value={student.arabicName}
                     // onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                    required
                   />
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل التخصص باللغة العربية فقط.
@@ -190,6 +200,7 @@ const SupervisorDataRegisteration = () => {
                     // value={student.arabicName}
                     // onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                    required
                   />
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل الكلية باللغة العربية فقط.
@@ -208,6 +219,7 @@ const SupervisorDataRegisteration = () => {
                     // value={student.arabicName}
                     // onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                    required
                   />
                   <Form.Control.Feedback type='invalid'>
                     من فضلك أدخل الجامعة باللغة العربية فقط.
