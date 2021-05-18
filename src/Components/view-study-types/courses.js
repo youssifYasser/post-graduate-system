@@ -26,7 +26,6 @@ const Courses = ({
       cancelButtonColor: '#2f3944',
       denyButtonColor: '#be0707',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isDenied) {
         Swal.fire({
           icon: 'success',

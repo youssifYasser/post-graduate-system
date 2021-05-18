@@ -40,7 +40,6 @@ const StudyType = ({
   } = studytype
 
   useEffect(() => {
-    //NOTE: deal with courses when equal 0
     setTimeout(() => {
       const coursesAPI = {
         url: `http://localhost:8000/api/getallcourses/${idStudyType}`,
@@ -67,9 +66,7 @@ const StudyType = ({
   }, [])
 
   useEffect(() => {
-    //deal with the deleting the copyCourses object in tempCourses when deleting the whole Study
     let courseObj = { [`courses-${index}`]: [...courses] }
-    // console.log(courseObj)
     if (courseObj[`courses-${index}`].length !== 0) {
       for (let i = 0; i < courseObj[`courses-${index}`].length; i++) {
         courseObj[`courses-${index}`][i] = {
@@ -155,7 +152,6 @@ const StudyType = ({
               }
               axios(deleteCoursesAPI)
                 .then((response) => {
-                  // console.log(response)
                   courses.splice(i, 1)
                   i = i - 1
                   setCourses([...courses])
@@ -175,7 +171,6 @@ const StudyType = ({
                 i = i - 1
               }
             }
-            console.log({ ['new courses']: newCourses })
 
             let updatedCourses = []
             for (let i = 0; i < copyCourses.length; i++) {
@@ -184,7 +179,6 @@ const StudyType = ({
               }
             }
 
-            // console.log({ ['courses']: updatedCourses })
             const updateCoursesAPI = {
               url: 'http://localhost:8000/api/updatecourses',
               method: 'put',
@@ -196,7 +190,6 @@ const StudyType = ({
             }
             axios(updateCoursesAPI)
               .then((response) => {
-                // console.log(response)
                 setCourses([...copyCourses])
               })
               .catch((err) => {
@@ -214,7 +207,6 @@ const StudyType = ({
             }
             axios(addCourseAPI)
               .then((response) => {
-                console.log(response)
                 setCopyCourses([...copyCourses, ...newCourses])
                 setCourses([...copyCourses, ...newCourses])
               })
@@ -265,7 +257,6 @@ const StudyType = ({
       copyCourses.length !== 0
         ? copyCourses[copyCourses.length - 1].idCourse
         : 0
-    // console.log(lastID)
     copyCourses.push({ idCourse: lastID + 1, new: true })
     setCopyCourses([...copyCourses])
   }
