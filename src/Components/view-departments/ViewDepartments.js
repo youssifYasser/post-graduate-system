@@ -36,8 +36,8 @@ const ViewDepartments = () => {
         Swal.fire({
           icon: 'success',
           title: 'تمت إزالة القسم بنجاح',
-          confirmButtonText: 'حسنــاً',
-          confirmButtonColor: '#2f3944',
+          showConfirmButton: false,
+          timer: 1500,
         })
         const newDepartments = copyDepts.filter((department) => {
           return department.idDept !== deptID
