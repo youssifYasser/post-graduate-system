@@ -19,6 +19,9 @@ function navbar() {
               {' '}
               تسجيل بيانات الطالب
             </Link>
+            <Link to='/StudyTypes' className='link'>
+              {' '}
+              الدراسات العليا بجامعة عين شمس
             <Link to='/viewDepartments' className='link'>
               {' '}
               عرض الأقسام
