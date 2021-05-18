@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './ref-reg-style.css'
 import { countries } from '../../personal-data/countries'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 
 const RefExcelReg = () => {
+  const [ref, setRef] = useState({
+    arabicName: '',
+    englishName: '',
+    nationalityId: '',
+    email: '',
+    position: '',
+    university: '',
+    faculty: '',
+    department: '',
+    nationality: '',
+    specialization: '',
+    gender: '',
+    mobile: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    type === 'checkbox'
+      ? setRef({ ...ref, [name]: checked })
+      : setRef({ ...ref, [name]: value })
+  }
   return (
     <Container className='ref-form'>
       <Row>
@@ -21,8 +42,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='arabicName'
-                  // value={arabicName}
-                  // onChange={handleChange}
+                  value={ref.arabicName}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   required
                 />
@@ -39,8 +60,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='englishName'
-                  // value={englishName}
-                  // onChange={handleChange}
+                  value={ref.englishName}
+                  onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
                   required
                 />
@@ -58,8 +79,8 @@ const RefExcelReg = () => {
                   className='form-input form-english'
                   type='number'
                   name='nationalityId'
-                  // value={nationalityId}
-                  // onChange={handleChange}
+                  value={ref.nationalityId}
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الرقم القومى بالطريقة الصحيحية (أرقام فقط).
@@ -79,8 +100,8 @@ const RefExcelReg = () => {
                         value='ذكر'
                         name='gender'
                         className='form-check-male'
-                        // checked={gender === 'ذكر'}
-                        // onChange={handleChange}
+                        checked={ref.gender === 'ذكر'}
+                        onChange={handleChange}
                       />
                       <Form.Check
                         inline
@@ -89,8 +110,8 @@ const RefExcelReg = () => {
                         label='أنثى'
                         name='gender'
                         className='form-check-female'
-                        // checked={gender === 'أنثى'}
-                        // onChange={handleChange}
+                        checked={ref.gender === 'أنثى'}
+                        onChange={handleChange}
                       />
                     </Col>
                   </Form.Group>
@@ -102,8 +123,8 @@ const RefExcelReg = () => {
                       className='form-input'
                       as='select'
                       name='nationality'
-                      // value={nationality}
-                      // onChange={handleChange}
+                      value={ref.nationality}
+                      onChange={handleChange}
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                       custom
                       required
@@ -132,8 +153,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   as='select'
                   name='degree'
-                  // value={degree}
-                  // onChange={handleChange}
+                  value={ref.degree}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   custom
                 >
@@ -154,8 +175,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='specialization'
-                  // value={specialization}
-                  // onChange={handleChange}
+                  value={ref.specialization}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   required
                 />
@@ -174,8 +195,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='position'
-                  // value={position}
-                  // onChange={handleChange}
+                  value={ref.position}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
 
@@ -191,8 +212,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='university'
-                  // value={university}
-                  // onChange={handleChange}
+                  value={ref.university}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   required
                 />
@@ -211,8 +232,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='faculty'
-                  // value={faculty}
-                  // onChange={handleChange}
+                  value={ref.faculty}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   required
                 />
@@ -229,8 +250,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='department'
-                  // value={department}
-                  // onChange={handleChange}
+                  value={ref.department}
+                  onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
 
@@ -250,8 +271,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='email'
                   name='email'
-                  // value={email}
-                  // onChange={handleChange}
+                  value={ref.email}
+                  onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -267,8 +288,8 @@ const RefExcelReg = () => {
                   className='form-input'
                   type='text'
                   name='mobile'
-                  // value={mobile}
-                  // onChange={handleChange}
+                  value={ref.mobile}
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل رقم الهاتف بالطريقة الصحيحة(أرقام فقط).
