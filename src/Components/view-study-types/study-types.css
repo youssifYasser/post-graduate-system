@@ -294,6 +294,11 @@
   border-color: #0f996d !important;
 }
 
+.study-types-view .section .row .editing-btns .save-btn:disabled:hover {
+  background-color: #0f996d;
+  color: #fff;
+}
+
 .study-types-view .section .row .editing-btns .delete-btn {
   background-color: #cb0000 !important;
 }

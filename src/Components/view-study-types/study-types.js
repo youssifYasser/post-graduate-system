@@ -3,7 +3,6 @@ import './study-types.css'
 import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
 import StudyType from './study-type'
-import studytypes from './study-types-array'
 import NoStudies from './no-studies'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
@@ -18,6 +17,7 @@ const StudyTypes = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [departments, setDepartments] = useState([])
   const [tempCourses, setTempCourses] = useState([])
+  const [showSave, setShowSave] = useState(false)
 
   // const [filterValidated, setFilterValidated] = useState(false)
 
@@ -55,6 +55,7 @@ const StudyTypes = () => {
   }
 
   const handleChange = (e) => {
+    setShowSave(true)
     let { name, value } = e.target
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
@@ -345,6 +346,8 @@ const StudyTypes = () => {
               departments={departments}
               tempCourses={tempCourses}
               setTempCourses={setTempCourses}
+              showSave={showSave}
+              setShowSave={setShowSave}
             />
           )
         })

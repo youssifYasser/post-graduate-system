@@ -20,6 +20,8 @@ const StudyType = ({
   departments,
   tempCourses,
   setTempCourses,
+  showSave,
+  setShowSave,
 }) => {
   const [showCourses, setShowCourses] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -81,141 +83,150 @@ const StudyType = ({
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const form = e.currentTarget
-    if (form.checkValidity() === false) {
-      e.stopPropagation()
-      setValidated(true)
-      Swal.fire({
-        icon: 'error',
-        title: 'حدث خطأ',
-        text: '.من فضلك راجع البيانات',
-        confirmButtonText: 'حسنــاً',
-        confirmButtonColor: '#2f3944',
-      })
-    } else {
-      setValidated(true)
-      Swal.fire({
-        icon: 'info',
-        title: 'هل أنت متأكد من حفظ التغييرات؟',
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonColor: '#01ad01',
-        confirmButtonText: 'نعم ، احفظ',
-        cancelButtonText: 'لا ، عودة',
-        cancelButtonColor: '#2f3944',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: 'success',
-            title: 'تم تغيير بيانات الدراسة بنجاح',
-            confirmButtonText: 'حسنــاً',
-            confirmButtonColor: '#2f3944',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href =
-                window.location.pathname +
-                window.location.search +
-                window.location.hash
+    if (
+      !isEqual(copyStudies[index], studies[index]) ||
+      (copyCourses.length !== 0 &&
+        JSON.stringify(copyCourses) !== JSON.stringify(courses))
+    ) {
+      const form = e.currentTarget
+      if (form.checkValidity() === false) {
+        e.stopPropagation()
+        setValidated(true)
+        Swal.fire({
+          icon: 'error',
+          title: 'حدث خطأ',
+          text: '.من فضلك راجع البيانات',
+          confirmButtonText: 'حسنــاً',
+          confirmButtonColor: '#2f3944',
+        })
+      } else {
+        setValidated(true)
+        Swal.fire({
+          icon: 'info',
+          title: 'هل أنت متأكد من حفظ التغييرات؟',
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#01ad01',
+          confirmButtonText: 'نعم ، احفظ',
+          cancelButtonText: 'لا ، عودة',
+          cancelButtonColor: '#2f3944',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              icon: 'success',
+              title: 'تم تغيير بيانات الدراسة بنجاح',
+              confirmButtonText: 'حسنــاً',
+              confirmButtonColor: '#2f3944',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href =
+                  window.location.pathname +
+                  window.location.search +
+                  window.location.hash
+              }
+            })
+            setIsEditing(false)
+            setValidated(false)
+            setShowSave(false)
+            const updateStudyTypesAPI = {
+              url: `http://localhost:8000/api/updatestudytype/${studytype.idStudyType}`,
+              method: 'put',
+              data: JSON.stringify(studytype),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
             }
-          })
-          setIsEditing(false)
-          setValidated(false)
+            axios(updateStudyTypesAPI)
+              .then((response) => {
+                setStudies([...copyStudies])
+              })
+              .catch((err) => {
+                console.log(err)
+              })
 
-          const updateStudyTypesAPI = {
-            url: `http://localhost:8000/api/updatestudytype/${studytype.idStudyType}`,
-            method: 'put',
-            data: JSON.stringify(studytype),
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json;charset=UTF-8',
-            },
-          }
-          axios(updateStudyTypesAPI)
-            .then((response) => {
-              setStudies([...copyStudies])
-            })
-            .catch((err) => {
-              console.log(err)
-            })
+            //deleting Courses
+            for (let i = 0; i < courses.length; i++) {
+              if (courses[i].deleted === true) {
+                const deleteCoursesAPI = {
+                  url: `http://localhost:8000/api/deletecourse/${courses[i].idCourse}`,
+                  method: 'delete',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(deleteCoursesAPI)
+                  .then((response) => {
+                    courses.splice(i, 1)
+                    i = i - 1
+                    setCourses([...courses])
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+            }
 
-          //deleting Courses
-          for (let i = 0; i < courses.length; i++) {
-            if (courses[i].deleted === true) {
-              const deleteCoursesAPI = {
-                url: `http://localhost:8000/api/deletecourse/${courses[i].idCourse}`,
-                method: 'delete',
+            if (copyCourses.length !== 0) {
+              let newCourses = []
+              for (let i = 0; i < copyCourses.length; i++) {
+                if (copyCourses[i].new) {
+                  newCourses.push(copyCourses[i])
+                  copyCourses.splice(i, 1)
+                  i = i - 1
+                }
+              }
+
+              let updatedCourses = []
+              for (let i = 0; i < copyCourses.length; i++) {
+                if (!isEqual(courses[i], copyCourses[i])) {
+                  updatedCourses.push(copyCourses[i])
+                }
+              }
+
+              const updateCoursesAPI = {
+                url: 'http://localhost:8000/api/updatecourses',
+                method: 'put',
+                data: JSON.stringify({ ['courses']: updatedCourses }),
                 headers: {
                   Accept: 'application/json',
                   'Content-Type': 'application/json;charset=UTF-8',
                 },
               }
-              axios(deleteCoursesAPI)
+              axios(updateCoursesAPI)
                 .then((response) => {
-                  courses.splice(i, 1)
-                  i = i - 1
-                  setCourses([...courses])
+                  setCourses([...copyCourses])
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+
+              const addCourseAPI = {
+                url: `http://localhost:8000/api/addcourses/${idStudyType}`,
+                method: 'post',
+                data: JSON.stringify({ ['courses']: newCourses }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(addCourseAPI)
+                .then((response) => {
+                  setCopyCourses([...copyCourses, ...newCourses])
+                  setCourses([...copyCourses, ...newCourses])
                 })
                 .catch((err) => {
                   console.log(err)
                 })
             }
           }
-
-          if (copyCourses.length !== 0) {
-            let newCourses = []
-            for (let i = 0; i < copyCourses.length; i++) {
-              if (copyCourses[i].new) {
-                newCourses.push(copyCourses[i])
-                copyCourses.splice(i, 1)
-                i = i - 1
-              }
-            }
-
-            let updatedCourses = []
-            for (let i = 0; i < copyCourses.length; i++) {
-              if (!isEqual(courses[i], copyCourses[i])) {
-                updatedCourses.push(copyCourses[i])
-              }
-            }
-
-            const updateCoursesAPI = {
-              url: 'http://localhost:8000/api/updatecourses',
-              method: 'put',
-              data: JSON.stringify({ ['courses']: updatedCourses }),
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
-              },
-            }
-            axios(updateCoursesAPI)
-              .then((response) => {
-                setCourses([...copyCourses])
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-
-            const addCourseAPI = {
-              url: `http://localhost:8000/api/addcourses/${idStudyType}`,
-              method: 'post',
-              data: JSON.stringify({ ['courses']: newCourses }),
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
-              },
-            }
-            axios(addCourseAPI)
-              .then((response) => {
-                setCopyCourses([...copyCourses, ...newCourses])
-                setCourses([...copyCourses, ...newCourses])
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-          }
-        }
-      })
+        })
+      }
+    } else {
+      setIsEditing(false)
+      setValidated(false)
+      setShowSave(false)
     }
   }
 
@@ -423,11 +434,11 @@ const StudyType = ({
         {(showCourses || isEditing) && (
           <Courses
             isEditing={isEditing}
-            setShowCourses={setShowCourses}
             showCourses={showCourses}
             copyCourses={copyCourses}
             setCopyCourses={setCopyCourses}
             courses={courses}
+            setShowSave={setShowSave}
           />
         )}
         {isEditing && (
@@ -438,7 +449,11 @@ const StudyType = ({
               </Button>
             </Col>
             <Col className='editing-btns'>
-              <Button className='save-btn editing-btn' type='submit'>
+              <Button
+                className='save-btn editing-btn'
+                type='submit'
+                disabled={!showSave}
+              >
                 حفظ{' '}
               </Button>
 

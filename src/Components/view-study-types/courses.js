@@ -8,11 +8,11 @@ import Swal from 'sweetalert2'
 
 const Courses = ({
   isEditing,
-  setShowCourses,
   showCourses,
   copyCourses,
   setCopyCourses,
   courses,
+  setShowSave,
 }) => {
   const deleteCourse = (courseID) => {
     Swal.fire({
@@ -57,6 +57,7 @@ const Courses = ({
   }
 
   const chandleChange = (e) => {
+    setShowSave(true)
     let { name, value } = e.target
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)
