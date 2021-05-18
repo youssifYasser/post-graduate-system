@@ -62,6 +62,24 @@ function navbar() {
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown
+              title='المشرفين'
+              id='basic-nav-dropdown'
+              className='link'
+            >
+              {/* <NavDropdown.Item>
+                <Link to='/addDepartment' className='link'>
+                  إضافة قسم{' '}
+                </Link>
+              </NavDropdown.Item> */}
+              <NavDropdown.Item to='/StudentData'>
+                <Link to='/SupervisorDataRegisteration' className='link'>
+                  {' '}
+                  تسجيل بيانات مشرف
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
 
