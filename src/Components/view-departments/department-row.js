@@ -54,8 +54,8 @@ const DepartmentRow = ({
             Swal.fire({
               icon: 'success',
               title: 'تم تغيير بيانات القسم بنجاح',
-              confirmButtonText: 'حسنــاً',
-              confirmButtonColor: '#2f3944',
+              showConfirmButton: false,
+              timer: 1500,
             })
             setIsEditing(false)
             setValidated(false)
