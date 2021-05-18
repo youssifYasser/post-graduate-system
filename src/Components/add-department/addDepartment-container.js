@@ -3,19 +3,18 @@ import Swal from 'sweetalert2'
 import 'animate.css/animate.min.css'
 import axios from 'axios'
 
-import AddStudentView from './addStudent-view'
+import AddDepartmentView from './addDepartment-view'
 
-const AddStudent = () => {
+const AddDepartment = () => {
   const [validated, setValidated] = useState(false)
-  const [student, setStudent] = useState({
+  const [department, setDepartment] = useState({
     arabicName: '',
-    email: '',
-    study_type: '',
+    englishName: '',
   })
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    setStudent({ ...student, [name]: value })
+    setDepartment({ ...department, [name]: value })
   }
 
   const handleSubmit = (event) => {
@@ -33,7 +32,7 @@ const AddStudent = () => {
   const swalReg = () => {
     Swal.fire({
       icon: 'info',
-      title: 'هل أنت متأكد من تسجيل الطالب ؟',
+      title: 'هل أنت متأكد من تسجيل القسم ؟',
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonColor: '#01ad01',
@@ -44,28 +43,29 @@ const AddStudent = () => {
       if (result.isConfirmed) {
         Swal.fire({
           icon: 'success',
-          title: 'تمت إضافة الطالب بنجاح',
+          title: 'تمت إضافة القسم بنجاح',
           showConfirmButton: false,
           timer: 2000,
         })
-        console.log(JSON.stringify(student))
+        console.log(JSON.stringify(department))
 
-        const options = {
-          url: 'http://localhost:8000/api/addStudentData',
+        const addDepartmentAPI = {
+          url: 'http://localhost:8000/api/departments',
           method: 'post',
-          data: JSON.stringify(student),
+          data: JSON.stringify(department),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json;charset=UTF-8',
           },
         }
-        axios(options)
+        axios(addDepartmentAPI)
           .then((response) => {
             console.log(response)
           })
           .catch((err) => {
             console.log(err)
           })
+
         setValidated(false)
         setTimeout(() => {
           window.location.href =
@@ -77,7 +77,7 @@ const AddStudent = () => {
     })
   }
   return (
-    <AddStudentView
+    <AddDepartmentView
       validated={validated}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
@@ -85,4 +85,4 @@ const AddStudent = () => {
   )
 }
 
-export default AddStudent
+export default AddDepartment
