@@ -16,12 +16,12 @@ const App = () => {
       <Navbar />
       <Switch>
         <Route exact path='/' component={Home} />
-        <Route exact path='/AddStudent' component={AddStudent} />
-        <Route exact path='/StudentData' component={StudentData} />
-        <Route exact path='/StudyTypes' component={StudyTypes} />
+        <Route exact path='/addStudent' component={AddStudent} />
+        <Route exact path='/StudentDataExcelReg' component={StudentData} />
+        <Route exact path='/addStudyType' component={StudyType} />
+        <Route exact path='/viewStudyTypes' component={StudyTypes} />
+        <Route exact path='/addDepartment' component={AddDepartment} />
         <Route exact path='/viewDepartments' component={viewDepartments} />
-        <Route exact path='/AddDepartment' component={AddDepartment}/>
-        <Route exact path='/StudyType' component={StudyType}/>
       </Switch>
     </BrowserRouter>
   )
