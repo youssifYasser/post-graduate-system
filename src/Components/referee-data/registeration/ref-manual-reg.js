@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './ref-reg-style.css'
+import '../ref-style.css'
 import { countries } from '../../personal-data/countries'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { TiUserAdd } from 'react-icons/ti'
@@ -101,7 +101,7 @@ const RefManualReg = () => {
     <Container className='ref-form'>
       <Row>
         <div className='header'>
-          <h1>تسجيل بيانات المحكــم</h1>
+          <h1>تسجيل بيانات الـمـحـكـــم</h1>
         </div>
       </Row>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>

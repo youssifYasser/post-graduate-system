@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './ref-reg-style.css'
+import '../ref-style.css'
 import { countries } from '../../personal-data/countries'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { TiUserAdd } from 'react-icons/ti'
@@ -101,7 +101,7 @@ const RefExcelReg = () => {
     <Container className='ref-form'>
       <Row>
         <div className='header'>
-          <h1>تسجيل بيانات المحكــم</h1>
+          <h1>تسجيل بيانات الـمـحـكـــم</h1>
         </div>
       </Row>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -161,7 +161,7 @@ const RefExcelReg = () => {
             </Col>
             <Col>
               <Row>
-                <Col xs={6} md={5} lg={6}>
+                <Col xs={6} md={5} lg={5}>
                   <Form.Group controlId='gender'>
                     <Form.Label>الجنس</Form.Label>
                     <Col className='gender'>
@@ -188,7 +188,7 @@ const RefExcelReg = () => {
                     </Col>
                   </Form.Group>
                 </Col>
-                <Col xs={6} md={7} lg={6}>
+                <Col xs={6} md={7} lg={7}>
                   <Form.Group controlId='nationality'>
                     <Form.Label>الجنسية</Form.Label>
                     <Form.Control

@@ -77,6 +77,11 @@ function navbar() {
                   تسجيل محكم يدويا{' '}
                 </Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/Referees' className='link'>
+                  عرض المحكمين{' '}
+                </Link>
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
