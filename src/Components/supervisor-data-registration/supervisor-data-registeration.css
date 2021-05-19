@@ -97,3 +97,19 @@
   font-size: 1.2em;
   margin-right: 3px;
 }
+
+/* upload Form */
+
+.upload-form .header {
+  background-color: #2f3944;
+  margin: 45px auto;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 32%;
+  color: #ece8e1;
+}
+
+.upload-form .header h1 {
+  margin: 10px auto;
+}

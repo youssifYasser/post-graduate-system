@@ -323,7 +323,7 @@ const StudyTypes = () => {
                 })
               }}
             >
-              تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+              تحويل البيانات لملف إكسل <RiFileExcel2Fill />
             </Button>
           </Col>
         </Row>

@@ -301,7 +301,7 @@ const SupervisorDataRegisteration = () => {
             <Form.Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>القسم</Form.Label>
+                  <Form.Label>القسم الذي به المشرف</Form.Label>
                   <Form.Control
                     className='form-input'
                     as='select'
@@ -327,7 +327,7 @@ const SupervisorDataRegisteration = () => {
               </Col>
               <Col>
                 <Form.Group>
-                  <Form.Label>الكلية</Form.Label>
+                  <Form.Label>الكلية التي بها المشرف</Form.Label>
                   <Form.Control
                     className='form-input'
                     type='text'
@@ -346,7 +346,7 @@ const SupervisorDataRegisteration = () => {
             <Form.Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>الجامعة</Form.Label>
+                  <Form.Label>الجامعة التي بها المشرف</Form.Label>
                   <Form.Control
                     className='form-input'
                     type='text'

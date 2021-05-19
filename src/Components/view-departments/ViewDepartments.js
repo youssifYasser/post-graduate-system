@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
-import { Col, Container, Row, Form, Button } from 'react-bootstrap'
+import { Col, Container, Row, Form, Button, InputGroup } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import * as XLSX from 'xlsx'
@@ -164,17 +164,25 @@ const ViewDepartments = () => {
                 className='excel-btn'
                 onClick={() => printExcel(copyDepts)}
               >
-                تحويل البيانات لملف اكسيل <RiFileExcel2Fill />
+                تحويل البيانات لملف إكسل <RiFileExcel2Fill />
               </Button>
             </Col>
           }
           <Col>
-            <FaSearch />
-            <Form.Control
-              type='text'
-              placeholder='ابحث عن القسم'
-              onChange={handleSearch}
-            />
+            <InputGroup>
+              <Form.Control
+                type='text'
+                placeholder='ابحث عن القسم'
+                aria-label='ابحث عن القسم'
+                aria-describedby='basic-addon1'
+                onChange={handleSearch}
+              />
+              <InputGroup.Prepend>
+                <InputGroup.Text id='basic-addon1'>
+                  <FaSearch icon='search' />
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+            </InputGroup>
           </Col>
         </Row>
         {copyDepts.length !== 0 ? (

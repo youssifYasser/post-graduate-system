@@ -33,7 +33,7 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
-              <NavDropdown.Item to='/StudentData'>
+              <NavDropdown.Item>
                 <Link to='/addStudyType' className='link'>
                   إضافة دراسة{' '}
                 </Link>
@@ -55,7 +55,7 @@ function navbar() {
                   إضافة قسم{' '}
                 </Link>
               </NavDropdown.Item>
-              <NavDropdown.Item to='/StudentData'>
+              <NavDropdown.Item>
                 <Link to='/viewDepartments' className='link'>
                   {' '}
                   عرض الأقسام
@@ -73,10 +73,16 @@ function navbar() {
                   إضافة قسم{' '}
                 </Link>
               </NavDropdown.Item> */}
-              <NavDropdown.Item to='/StudentData'>
+              <NavDropdown.Item>
                 <Link to='/SupervisorDataRegisteration' className='link'>
                   {' '}
                   تسجيل بيانات مشرف
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/uploadExcel' className='link'>
+                  {' '}
+                  تسجيل بيانات مشرف بالإكسل
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
