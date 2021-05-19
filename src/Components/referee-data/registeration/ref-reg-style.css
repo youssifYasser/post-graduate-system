@@ -42,3 +42,24 @@
 .ref-form .section .form-check-label {
   font-size: 1.2em;
 }
+
+.ref-form .submit-col {
+  text-align: center !important;
+  max-width: 100% !important;
+  margin: 15px 0 25px 0;
+}
+
+.ref-form .submit-col .submit-btn {
+  background-color: #2f3944 !important;
+  border: 1px solid #707070 !important;
+  font-size: 1.3em;
+  margin-bottom: 5px !important;
+  transition: background-color 0.3s ease-out;
+  width: 25%;
+}
+
+.ref-form .submit-col .submit-btn:hover {
+  color: #1d6f42 !important;
+  border: 2px solid #1d6f42 !important;
+  background-color: #edf0f6 !important;
+}

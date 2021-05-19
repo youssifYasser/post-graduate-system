@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './ref-reg-style.css'
 import { countries } from '../../personal-data/countries'
-import { Container, Row, Col, Form } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { TiUserAdd } from 'react-icons/ti'
+import Swal from 'sweetalert2'
 
 const RefExcelReg = () => {
   const [ref, setRef] = useState({
@@ -18,6 +20,7 @@ const RefExcelReg = () => {
     gender: '',
     mobile: '',
   })
+  const [validated, setValidated] = useState(false)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -25,6 +28,75 @@ const RefExcelReg = () => {
       ? setRef({ ...ref, [name]: checked })
       : setRef({ ...ref, [name]: value })
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+      Swal.fire({
+        icon: 'error',
+        title: 'حدث خطأ',
+        text: '.من فضلك راجع البيانات',
+        confirmButtonText: 'حسنــاً',
+        confirmButtonColor: '#2f3944',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setTimeout(() => {
+            const element =
+              document.getElementsByClassName('invalid-feedback')[0]
+            const offset = 100
+            const bodyRect = document.body.getBoundingClientRect().top
+            const elementRect = element.getBoundingClientRect().top
+            const elementPosition = elementRect - bodyRect
+            const offsetPosition = elementPosition - offset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }, 300)
+        }
+      })
+    } else {
+      setValidated(true)
+      Swal.fire({
+        icon: 'info',
+        title: 'هل أنت متأكد من حفظ تسجيل بيانات المحكم؟',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#01ad01',
+        confirmButtonText: 'نعم ، احفظ',
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم تسجيل بيانات المحكم بنجاح',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setValidated(false)
+          setRef({
+            arabicName: '',
+            englishName: '',
+            nationalityId: '',
+            email: '',
+            position: '',
+            university: '',
+            faculty: '',
+            department: '',
+            nationality: '',
+            specialization: '',
+            gender: '',
+            mobile: '',
+          })
+        }
+      })
+    }
+  }
+
   return (
     <Container className='ref-form'>
       <Row>
@@ -32,7 +104,7 @@ const RefExcelReg = () => {
           <h1>تسجيل بيانات المحكــم</h1>
         </div>
       </Row>
-      <Form>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <section className='section'>
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
@@ -138,6 +210,9 @@ const RefExcelReg = () => {
                         )
                       })}
                     </Form.Control>
+                    <Form.Control.Feedback type='invalid'>
+                      من فضلك أدخل الجنسية.
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
               </Row>
@@ -157,6 +232,7 @@ const RefExcelReg = () => {
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   custom
+                  required
                 >
                   <option value=''>الدرجة العلمية</option>
                   <option value='مدرس جامعي'>مدرس جامعي</option>
@@ -298,6 +374,13 @@ const RefExcelReg = () => {
             </Col>
           </Row>
         </section>
+        <Row className='submit-row'>
+          <Col className='submit-col'>
+            <Button type='submit' className='submit-btn'>
+              تسجيـــل <TiUserAdd className='btn-submit' />
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Container>
   )
