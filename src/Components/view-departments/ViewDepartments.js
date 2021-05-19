@@ -156,18 +156,17 @@ const ViewDepartments = () => {
           </Col>
         </Row>
         <Row>
-          {
-            <Col className='excel-col'>
-              <Button
-                disabled={copyDepts.length === 0}
-                type='button'
-                className='excel-btn'
-                onClick={() => printExcel(copyDepts)}
-              >
-                تحويل البيانات لملف إكسل <RiFileExcel2Fill />
-              </Button>
-            </Col>
-          }
+          <Col className='excel-col'>
+            <Button
+              disabled={copyDepts.length === 0}
+              type='button'
+              className='excel-btn'
+              onClick={() => printExcel(copyDepts)}
+            >
+              تحويل البيانات لملف إكسل <RiFileExcel2Fill />
+            </Button>
+          </Col>
+
           <Col>
             <InputGroup>
               <Form.Control

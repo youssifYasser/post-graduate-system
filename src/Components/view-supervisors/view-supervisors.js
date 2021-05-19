@@ -1,0 +1,359 @@
+import React, { useEffect, useState } from 'react'
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap'
+import { FaSearch } from 'react-icons/fa'
+import { RiFileExcel2Fill } from 'react-icons/ri'
+import Swal from 'sweetalert2'
+import axios from 'axios'
+
+import SupervisorRow from './supervisor-row'
+import Loading from './loading'
+import NoSupervisors from './no-supervisors'
+import './view-supervisors-style.css'
+
+const ViewSupervisors = () => {
+  const [supervisors, setSupervisors] = useState([])
+  const [copySupervisors, setCopySupervisors] = useState([])
+  const [universityPositions, setUniversityPositions] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const supervisorsAPI = {
+      url: 'http://localhost:8000/api/supervisors',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(supervisorsAPI)
+      .then((response) => {
+        setSupervisors([...response.data])
+        setCopySupervisors([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const universityPositionsAPI = {
+      url: 'http://localhost:8000/api/universityPositions',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(universityPositionsAPI)
+      .then((response) => {
+        setUniversityPositions([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  useEffect(() => {
+    for (let i = 0; i < copySupervisors.length; i++) {
+      for (let j = 0; j < universityPositions.length; j++) {
+        if (
+          copySupervisors[i].idDegreeF ===
+          universityPositions[j].idUniversityPosition
+        ) {
+          copySupervisors[i] = {
+            ...copySupervisors[i],
+            ['sciDegree']: universityPositions[j].arabicDegreeName,
+          }
+          break
+        }
+      }
+    }
+    setSupervisors([...copySupervisors])
+    setCopySupervisors([...copySupervisors])
+  }, [universityPositions])
+
+  const handleSearch = (e) => {
+    const value = e.target.value
+    const newSupervisors = supervisors.filter((supervisor) => {
+      if (supervisor.arabicName.includes(value)) {
+        return supervisor
+      }
+      //  else if (
+      //   study.englishName.toLowerCase().includes(value.toLowerCase())
+      // ) {
+      //   return study
+      // } else if (
+      //   study.universityCode.toLowerCase().includes(value.toLowerCase())
+      // ) {
+      //   return study
+      // }
+    })
+    setCopySupervisors(newSupervisors)
+  }
+
+  const filterStudies = () => {
+    const sciDegreeFilter =
+      document.getElementsByName('sci-degree-filter')[0].value
+    const departmentFilter = document.getElementsByName('dept-filter')[0].value
+
+    const specFilter = document.getElementsByName('spec-filter')[0].value
+
+    document.getElementsByName('supervisors-search')[0].value = ''
+
+    const newSupervisors = supervisors.filter((supervisor) => {
+      if (
+        sciDegreeFilter === '' &&
+        departmentFilter === '' &&
+        specFilter === ''
+      ) {
+        return supervisor
+      } else if (
+        departmentFilter !== '' &&
+        sciDegreeFilter === '' &&
+        specFilter === ''
+      ) {
+        if (supervisor.department === departmentFilter) {
+          return supervisor
+        }
+      } else if (
+        sciDegreeFilter !== '' &&
+        departmentFilter === '' &&
+        specFilter === ''
+      ) {
+        if (supervisor.sciDegree === sciDegreeFilter) {
+          return supervisor
+        }
+      } else if (
+        specFilter !== '' &&
+        sciDegreeFilter === '' &&
+        departmentFilter === ''
+      ) {
+        if (supervisor.specialization === specFilter) {
+          return supervisor
+        }
+      } else {
+        if (
+          (supervisor.sciDegree === sciDegreeFilter &&
+            supervisor.department === departmentFilter) ||
+          (supervisor.sciDegree === sciDegreeFilter &&
+            supervisor.specialization === specFilter) ||
+          (supervisor.department === departmentFilter &&
+            supervisor.specialization === specFilter) ||
+          (supervisor.sciDegree === sciDegreeFilter &&
+            supervisor.department === departmentFilter &&
+            supervisor.specialization === specFilter)
+        ) {
+          return supervisor
+        }
+      }
+    })
+    setCopySupervisors(newSupervisors)
+  }
+
+  const handleDelete = (supervisorID) => {
+    Swal.fire({
+      icon: 'warning',
+      title: 'هل أنت متأكد من إزالة المشرف',
+      showDenyButton: true,
+      showCancelButton: true,
+      showConfirmButton: false,
+      denyButtonText: `نعم ، امسح المشرف`,
+      cancelButtonText: 'لا ، عودة',
+      cancelButtonColor: '#2f3944',
+      denyButtonColor: '#be0707',
+    }).then((result) => {
+      if (result.isDenied) {
+        Swal.fire({
+          icon: 'success',
+          title: 'تمت إزالة القسم بنجاح',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        const newSupervisors = copySupervisors.filter((supervisor) => {
+          return supervisor.idSupervisor !== supervisorID
+        })
+        setCopySupervisors([...newSupervisors])
+        setSupervisors([...newSupervisors])
+
+        const deleteSupervisorAPI = {
+          url: `http://localhost:8000/api/supervisors/${supervisorID}`,
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(deleteSupervisorAPI)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    })
+  }
+
+  if (isLoading) {
+    return <Loading />
+  }
+  return (
+    <div className='view-supervisors'>
+      <div className='main-form'>
+        <Row>
+          <Col className='header'>
+            <h1>المشرفيـن</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='sci-degree-filter'
+              custom
+            >
+              <option value=''>الدرجة العلمية</option>
+              {universityPositions.map((position) => {
+                return (
+                  <option
+                    key={position.idUniversityPosition}
+                    value={position.arabicDegreeName}
+                  >
+                    {position.arabicDegreeName}
+                  </option>
+                )
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='spec-filter'
+              custom
+            >
+              <option value=''>التخصص</option>
+              <option value='دبلومة الدراسات العليا'>
+                دبلومة الدراسات العليا
+              </option>
+              <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
+              <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+              <option value='دكتوراه الفلسفة في العلوم'>
+                دكتوراه الفلسفة في العلوم
+              </option>
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='dept-filter'
+              custom
+            >
+              <option value=''>القسم</option>
+              {departments.map((dept) => {
+                return (
+                  <option key={dept.idDept} value={dept.arabicName}>
+                    {dept.arabicName}
+                  </option>
+                )
+              })}
+            </Form.Control>
+          </Col>
+          <Col>
+            <Button
+              className='filter-btn'
+              type='button'
+              onClick={filterStudies}
+            >
+              {' '}
+              إعرض{' '}
+            </Button>
+          </Col>
+          <Col className='search-col'>
+            <InputGroup>
+              <Form.Control
+                // className='info'
+                type='text'
+                name='supervisors-search'
+                placeholder='ابحث بالاسم'
+                aria-label='ابحث بالاسم'
+                aria-describedby='basic-addon1'
+                onChange={handleSearch}
+              />
+              <InputGroup.Prepend>
+                <InputGroup.Text id='basic-addon1'>
+                  <FaSearch icon='search' />
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col className='excel-col'>
+            <Button
+              disabled={supervisors.length === 0}
+              type='button'
+              className='excel-btn'
+              // onClick={() => printExcel(supervisors)}
+            >
+              تحويل البيانات لملف إكسل <RiFileExcel2Fill />
+            </Button>
+          </Col>
+        </Row>
+        <Row className='labels-row'>
+          <Col>
+            <Form.Label>اسم المشرف</Form.Label>
+          </Col>
+          <Col>
+            <Form.Label>الدرجة العلمية</Form.Label>
+          </Col>
+          <Col>
+            <Form.Label>القسم</Form.Label>
+          </Col>
+          <Col>
+            <Form.Label>التخصص</Form.Label>
+          </Col>
+        </Row>
+        {copySupervisors.length !== 0 ? (
+          copySupervisors.map((supervisor, index) => {
+            return (
+              <SupervisorRow
+                key={supervisor.idSupervisor}
+                index={index}
+                supervisor={supervisor}
+                handleDelete={handleDelete}
+              />
+            )
+          })
+        ) : (
+          <NoSupervisors />
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default ViewSupervisors

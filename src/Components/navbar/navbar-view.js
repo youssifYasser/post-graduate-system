@@ -85,6 +85,12 @@ function navbar() {
                   تسجيل بيانات مشرف بالإكسل
                 </Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/viewSupervisors' className='link'>
+                  {' '}
+                  عرض المشرفين
+                </Link>
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
