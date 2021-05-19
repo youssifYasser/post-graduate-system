@@ -115,8 +115,8 @@ const StudentDataRegisteration = () => {
               Swal.fire({
                 icon: 'success',
                 title: 'تمت إضافة الطالب بنجاح',
-                confirmButtonText: 'حسنــاً',
-                confirmButtonColor: '#2f3944',
+                showConfirmButton: false,
+                timer: 1500,
               })
               // console.log(JSON.stringify(personalInfo))
               // console.log(JSON.stringify(uniDegrees))

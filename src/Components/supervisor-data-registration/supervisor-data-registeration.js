@@ -7,15 +7,24 @@ import { TiUserAdd } from 'react-icons/ti'
 import { countries } from './countries'
 import './supervisor-data-registeration.css'
 
-const SupervisorDataRegisteration = () => {
+const SupervisorDataRegisteration = ({
+  byExcel,
+  supervisors,
+  supervisorObj,
+  setSupervisorNumber,
+  supervisorNumber,
+  setShowUpload,
+}) => {
   const [validated, setValidated] = useState(false)
   const [departments, setDepartments] = useState([])
+  const [universityPositions, setUniversityPositions] = useState([])
   const [supervisor, setSupervisor] = useState({
     arabicName: '',
     englishName: '',
     nationalityId: '',
     gender: '',
     nationality: '',
+    sciDegree: '',
     idDegreeF: '',
     specialization: '',
     department: '',
@@ -81,37 +90,70 @@ const SupervisorDataRegisteration = () => {
             timer: 1500,
           })
           setValidated(false)
-
-          // console.log(JSON.stringify(supervisor))
-          const registerSupervisor = {
-            url: 'http://localhost:8000/api/supervisors',
-            method: 'post',
-            data: JSON.stringify(supervisor),
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json;charset=UTF-8',
-            },
+          for (const position of universityPositions) {
+            if (supervisor.sciDegree === position.arabicDegreeName) {
+              supervisor.idDegreeF = position.idUniversityPosition
+              break
+            }
           }
-          axios(registerSupervisor)
-            .then((response) => {
-              setSupervisor({
-                arabicName: '',
-                englishName: '',
-                nationalityId: '',
-                email: '',
-                position: '',
-                university: '',
-                faculty: '',
-                department: '',
-                nationality: '',
-                specialization: '',
-                gender: '',
-                mobile: '',
+
+          if (byExcel) {
+            const updateSupervisor = {
+              url: `http://localhost:8000/api/supervisors/${supervisor.idSupervisor}`,
+              method: 'put',
+              data: JSON.stringify(supervisor),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateSupervisor)
+              .then((response) => {
+                setTimeout(() => {
+                  document.documentElement.scrollTop = 0
+                  setSupervisorNumber(supervisorNumber + 1)
+                }, 1500)
               })
-            })
-            .catch((err) => {
-              console.log(err)
-            })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else {
+            // console.log(JSON.stringify(supervisor))
+            const registerSupervisor = {
+              url: 'http://localhost:8000/api/supervisors',
+              method: 'post',
+              data: JSON.stringify(supervisor),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(registerSupervisor)
+              .then((response) => {
+                setTimeout(() => {
+                  document.documentElement.scrollTop = 0
+                  setSupervisor({
+                    arabicName: '',
+                    englishName: '',
+                    nationalityId: '',
+                    email: '',
+                    position: '',
+                    university: '',
+                    faculty: '',
+                    sciDegree: '',
+                    idDegreeF: '',
+                    department: '',
+                    nationality: '',
+                    specialization: '',
+                    gender: '',
+                    mobile: '',
+                  })
+                }, 1500)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }
         }
       })
     }
@@ -133,7 +175,35 @@ const SupervisorDataRegisteration = () => {
       .catch((err) => {
         console.log(err)
       })
+
+    const universityPositionsAPI = {
+      url: 'http://localhost:8000/api/universityPositions',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(universityPositionsAPI)
+      .then((response) => {
+        setUniversityPositions([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
+
+  useEffect(() => {
+    // console.log(supervisorObj)
+    if (byExcel) {
+      if (supervisorNumber >= supervisors.length && supervisors.length !== 0) {
+        setSupervisorNumber(0)
+        setShowUpload(true)
+      } else {
+        setSupervisor({ ...supervisorObj })
+      }
+    }
+  }, [supervisorNumber])
 
   return (
     <Container className='supervisor-reg'>
@@ -266,17 +336,24 @@ const SupervisorDataRegisteration = () => {
                   <Form.Control
                     className='form-input'
                     as='select'
-                    name='idDegreeF'
-                    value={supervisor.idDegreeF}
+                    name='sciDegree'
+                    value={supervisor.sciDegree}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     custom
                     required
                   >
                     <option value=''>اختر الدرجة العلمية</option>
-                    <option value='1'>مدرس جامعي</option>
-                    <option value='2'>استاذ مساعد</option>
-                    <option value='3'>استاذ</option>
+                    {universityPositions.map((position) => {
+                      return (
+                        <option
+                          key={position.idUniversityPosition}
+                          value={position.arabicDegreeName}
+                        >
+                          {position.arabicDegreeName}
+                        </option>
+                      )
+                    })}
                   </Form.Control>
                 </Form.Group>
               </Col>
@@ -361,6 +438,25 @@ const SupervisorDataRegisteration = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
+              {byExcel && (
+                <Col>
+                  <Form.Group>
+                    <Form.Label>
+                      الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني
+                    </Form.Label>
+                    <Form.Control
+                      className='form-input'
+                      type='text'
+                      name='idSupervisor'
+                      value={supervisor.idSupervisor}
+                      onChange={handleChange}
+                      pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                      required
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+              )}
             </Form.Row>
           </section>
           <section className='section'>
