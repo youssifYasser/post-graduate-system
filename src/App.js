@@ -9,6 +9,8 @@ import StudyTypes from './Components/view-study-types/study-types'
 import viewDepartments from './Components/view-departments/ViewDepartments'
 import AddDepartment from './Components/add-department/addDepartment-container'
 import StudyType from './Components/add-study-type/studyType-container'
+import AddSupervisor from './Components/add-supervisor/addSupervisor-container'
+import AddReferee from './Components/add-referee/addReferee-container'
 
 const App = () => {
   return (
@@ -17,11 +19,13 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/addStudent' component={AddStudent} />
-        <Route exact path='/StudentDataExcelReg' component={StudentData} />
+        <Route exact path='/studentDataExcelReg' component={StudentData} />
         <Route exact path='/addStudyType' component={StudyType} />
         <Route exact path='/viewStudyTypes' component={StudyTypes} />
         <Route exact path='/addDepartment' component={AddDepartment} />
         <Route exact path='/viewDepartments' component={viewDepartments} />
+        <Route exact path='/addSupervisor' component={AddSupervisor} />
+        <Route exact path='/addReferee' component={AddReferee} />
       </Switch>
     </BrowserRouter>
   )

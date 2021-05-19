@@ -1,8 +1,8 @@
-/* .addStudent{
+/* .addReferee{
     font-family: 'Markazi Text', serif;
 } */
 
-.addStudent .header {
+.addReferee .header {
   padding: 20px;
   background: #2f3944 !important;
   color: #ece8e1;
@@ -14,10 +14,10 @@
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s linear;
 }
-.addStudent .header p {
+.addReferee .header p {
   margin-top: 16px;
 }
-.addStudent .main {
+.addReferee .main {
   padding: 20px;
   background-color: #fff;
   border-radius: 0rem 0rem 1rem 1rem;
@@ -27,26 +27,26 @@
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s linear;
 }
-/* .addStudent .main:hover,
-.addStudent .header:hover{
+/* .addReferee .main:hover,
+.addReferee .header:hover{
     box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 } */
-.addStudent .main .form-control {
+.addReferee .main .form-control {
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: solid #bebdbc 2px;
   border-radius: 0;
 }
-.addStudent .main .form-control:focus {
+.addReferee .main .form-control:focus {
   border-radius: 0.25rem;
   border: none;
   background-color: #edf0f6;
 }
-.addStudent .main .form-label {
+.addReferee .main .form-label {
   font-size: 1.2rem;
 }
-.addStudent .regBtn {
+.addReferee .regBtn {
   background: #2f3944;
   color: #ece8e1;
   padding: 5px 50px;
@@ -57,10 +57,10 @@
 
 /*start of Responsive*/
 /*@media (max-height: 695px){
-    .addStudent .main{
+    .addReferee .main{
         padding: 5px 20px
     }
-    .addStudent .regBtn{
+    .addReferee .regBtn{
         padding: 5px 50px;
         font-size: 25px;
         margin-top: -10px;
@@ -69,27 +69,27 @@
 }*/
 
 @media (max-width: 992px) {
-  .addStudent .header,
-  .addStudent .main {
+  .addReferee .header,
+  .addReferee .main {
     max-width: 90%;
   }
 }
 
 @media (max-width: 360px) {
-  .addStudent .header {
+  .addReferee .header {
     font-size: 40px;
   }
 
-  .addStudent .header,
-  .addStudent .main {
+  .addReferee .header,
+  .addReferee .main {
     max-width: 100%;
   }
 
-  .addStudent .main .form {
+  .addReferee .main .form {
     margin: 0 !important;
   }
 
-  .addStudent .regBtn {
+  .addReferee .regBtn {
     font-size: 25px;
     margin-bottom: 0px;
   }
