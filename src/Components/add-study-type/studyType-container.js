@@ -75,6 +75,7 @@ const StudyType = () => {
           showConfirmButton: false,
           timer: 2000,
         })
+
         console.log(JSON.stringify(study))
 
         const options = {
@@ -93,6 +94,8 @@ const StudyType = () => {
           .catch((err) => {
             console.log(err)
           })
+
+        setValidated(false)
 
         setTimeout(() => {
           window.location.href =

@@ -8,11 +8,11 @@ import Swal from 'sweetalert2'
 
 const Courses = ({
   isEditing,
-  setShowCourses,
   showCourses,
   copyCourses,
   setCopyCourses,
-  setCourses,
+  courses,
+  setShowSave,
 }) => {
   const deleteCourse = (courseID) => {
     Swal.fire({
@@ -26,40 +26,38 @@ const Courses = ({
       cancelButtonColor: '#2f3944',
       denyButtonColor: '#be0707',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isDenied) {
         Swal.fire({
           icon: 'success',
           title: 'تمت إزالة المقرر بنجاح',
-          confirmButtonText: 'حسنــاً',
-          confirmButtonColor: '#2f3944',
+          showConfirmButton: false,
+          timer: 1500,
         })
-        const corses = copyCourses.filter((item) => {
-          return item.idCourse !== courseID
+        let deletedCourse
+        const corses = copyCourses.filter((item, index) => {
+          if (item.idCourse !== courseID) {
+            return item
+          } else {
+            deletedCourse = item.idCourse
+          }
         })
         setCopyCourses([...corses])
-        setCourses([...corses])
 
-        const deleteCoursesAPI = {
-          url: `http://localhost:8000/api/deletecourse/${courseID}`,
-          method: 'delete',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
+        for (let i = 0; i < courses.length; i++) {
+          if (courses[i].idCourse === deletedCourse) {
+            courses[i] = {
+              ...courses[i],
+              ['deleted']: true,
+            }
+            break
+          }
         }
-        axios(deleteCoursesAPI)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
       }
     })
   }
 
   const chandleChange = (e) => {
+    setShowSave(true)
     let { name, value } = e.target
     let indexOfDash = name.lastIndexOf('-')
     let index = name.slice(indexOfDash + 1)

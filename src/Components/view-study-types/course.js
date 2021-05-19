@@ -28,7 +28,7 @@ const Course = ({ isEditing, course, deleteCourse, chandleChange, index }) => {
           </section>
         </Col>
         <Col md={2}>
-          <section className='form-group'>
+          <section className='form-group' id={`courseCode-${index}`}>
             <Form.Control
               name={`courseCode-${index}`}
               className='form-input'

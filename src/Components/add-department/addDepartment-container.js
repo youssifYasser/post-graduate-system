@@ -66,6 +66,7 @@ const AddDepartment = () => {
             console.log(err)
           })
 
+        setValidated(false)
         setTimeout(() => {
           window.location.href =
             window.location.pathname +
