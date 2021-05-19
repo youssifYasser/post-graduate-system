@@ -4,6 +4,8 @@ import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 
 import SupervisorRow from './supervisor-row'
 import Loading from './loading'
@@ -110,7 +112,7 @@ const ViewSupervisors = () => {
     setCopySupervisors(newSupervisors)
   }
 
-  const filterStudies = () => {
+  const handleFilter = () => {
     const sciDegreeFilter =
       document.getElementsByName('sci-degree-filter')[0].value
     const departmentFilter = document.getElementsByName('dept-filter')[0].value
@@ -169,6 +171,45 @@ const ViewSupervisors = () => {
     setCopySupervisors(newSupervisors)
   }
 
+  const s2ab = (s) => {
+    var buf = new ArrayBuffer(s.length)
+    var view = new Uint8Array(buf)
+    for (var i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+    return buf
+  }
+
+  const printExcel = (data) => {
+    let newData = []
+    for (const item of data) {
+      newData.push({
+        ['الرقم الكودي']: item.idSupervisor,
+        ['الاسم باللغة العربية']: item.arabicName,
+        ['الاسم باللغة الإنجليزية']: item.englishName,
+        ['الرقم القومي']: item.nationalityId,
+        ['الجنس']: item.gender,
+        ['دولة الجنسية']: item.nationality,
+        ['رقم الهاتف']: item.mobile,
+        ['البريد الإلكتروني']: item.email,
+        ['الدرجة العلمية']: item.sciDegree,
+        ['التخصص']: item.specialization,
+        ['القسم الذي به المشرف']: item.department,
+        ['الكلية التي بها المشرف']: item.faculty,
+        ['الجامعة التي بها المشرف']: item.university,
+      })
+    }
+
+    let wb = XLSX.utils.book_new()
+    const ws = XLSX.utils.json_to_sheet(newData)
+    wb.SheetNames.push('المشرفين')
+    wb.Sheets['المشرفين'] = ws
+    wb.Workbook = { ['Views']: [{ RTL: true }] }
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+    saveAs(
+      new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+      'المشرفين.xlsx'
+    )
+  }
+
   const handleDelete = (supervisorID) => {
     Swal.fire({
       icon: 'warning',
@@ -194,21 +235,21 @@ const ViewSupervisors = () => {
         setCopySupervisors([...newSupervisors])
         setSupervisors([...newSupervisors])
 
-        const deleteSupervisorAPI = {
-          url: `http://localhost:8000/api/supervisors/${supervisorID}`,
-          method: 'delete',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-        }
-        axios(deleteSupervisorAPI)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        // const deleteSupervisorAPI = {
+        //   url: `http://localhost:8000/api/supervisors/${supervisorID}`,
+        //   method: 'delete',
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'application/json;charset=UTF-8',
+        //   },
+        // }
+        // axios(deleteSupervisorAPI)
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
       }
     })
   }
@@ -283,11 +324,7 @@ const ViewSupervisors = () => {
             </Form.Control>
           </Col>
           <Col>
-            <Button
-              className='filter-btn'
-              type='button'
-              onClick={filterStudies}
-            >
+            <Button className='filter-btn' type='button' onClick={handleFilter}>
               {' '}
               إعرض{' '}
             </Button>
@@ -317,7 +354,7 @@ const ViewSupervisors = () => {
               disabled={supervisors.length === 0}
               type='button'
               className='excel-btn'
-              // onClick={() => printExcel(supervisors)}
+              onClick={() => printExcel(copySupervisors)}
             >
               تحويل البيانات لملف إكسل <RiFileExcel2Fill />
             </Button>
