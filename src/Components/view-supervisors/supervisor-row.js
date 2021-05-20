@@ -7,6 +7,8 @@ import axios from 'axios'
 import isEqual from 'lodash/isEqual'
 
 import './view-supervisors-style.css'
+import SupervisorDataRegisteration from '../supervisor-data-registration/supervisor-data-registeration'
+import { Link } from 'react-router-dom'
 
 const SupervisorRow = ({
   index,
@@ -24,16 +26,36 @@ const SupervisorRow = ({
           <Col>{supervisor.department}</Col>
           <Col>{supervisor.specialization}</Col>
           <Col className='section-edit-btns'>
-            <Button
-              type='button'
-              onClick={() => {
-                setEditIndex(index)
-                setIsEditing(true)
+            <Link
+              to={{
+                pathname: '/SupervisorDataRegisteration',
+                state: {
+                  supervisor: supervisor,
+                  isEditing,
+                  setIsEditing,
+                  editIndex,
+                  editSupervisor,
+                  handleDelete,
+                  handleCancel,
+                  setShowSave,
+                  showSave,
+                  copySupervisors,
+                  setCopySupervisors,
+                  setSupervisors,
+                },
               }}
             >
-              {' '}
-              <FaEdit />{' '}
-            </Button>
+              <Button
+                type='button'
+                // onClick={() => {
+                //   setEditIndex(index)
+                //   setIsEditing(true)
+                // }}
+              >
+                {' '}
+                <FaEdit />{' '}
+              </Button>
+            </Link>
           </Col>
 
           <Col className='section-del-btns'>

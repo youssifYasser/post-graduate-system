@@ -25,6 +25,7 @@ const SupervisorDataRegisteration = ({
   copySupervisors,
   setCopySupervisors,
   setSupervisors,
+  location,
 }) => {
   const [validated, setValidated] = useState(false)
   const [departments, setDepartments] = useState([])
@@ -45,6 +46,7 @@ const SupervisorDataRegisteration = ({
     mobile: '',
   })
 
+  console.log(location.state)
   const handleChange = (e) => {
     isEditing && setShowSave(true)
     const { name, value, type, checked } = e.target
