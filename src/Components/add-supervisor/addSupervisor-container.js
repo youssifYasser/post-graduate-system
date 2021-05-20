@@ -81,18 +81,18 @@ const AddSupervisor = () => {
         axios(options)
           .then((response) => {
             console.log(response)
-            setSupervisor({arabicName:'', email:'', idDegreeF: ''})
+            setSupervisor({ arabicName: '', email: '', idDegreeF: '' })
           })
           .catch((err) => {
             console.log(err)
           })
         setValidated(false)
-        setTimeout(() => {
-          window.location.href =
-            window.location.pathname +
-            window.location.search +
-            window.location.hash
-        }, 2000)
+        // setTimeout(() => {
+        //   window.location.href =
+        //     window.location.pathname +
+        //     window.location.search +
+        //     window.location.hash
+        // }, 2000)
       }
     })
   }
