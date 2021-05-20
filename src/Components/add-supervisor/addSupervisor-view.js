@@ -54,16 +54,22 @@ function AddSupervisor(props) {
             <Form.Label> الدرجة العلمية</Form.Label>
             <Form.Control
               as='select'
-              name='study_type'
+              name='idDegreeF'
               onChange={state.handleChange}
               required
               custom
             >
               <option value=''>اختر</option>
-              <option>مدرس جامعي</option>
-              <option>استاذ مساعد</option>
-              <option>تمهيدي الماجستير</option>
-              <option>استاذ</option>
+              {state.universityPositions.map((universityPosition) => {
+                return (
+                  <option
+                    key={universityPosition.idUniversityPosition}
+                    value={universityPosition.idUniversityPosition}
+                  >
+                    {universityPosition.arabicDegreeName}
+                  </option>
+                )
+              })}
             </Form.Control>
             <Form.Control.Feedback type='invalid'>
               من فضلك اختر الدرجة العلمية

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import 'animate.css/animate.min.css'
 import axios from 'axios'
@@ -7,10 +7,12 @@ import AddRefereeView from './addReferee-view'
 
 const AddReferee = () => {
   const [validated, setValidated] = useState(false)
+  const [universityPositions, setUniversityPositions] = useState([])
+
   const [referee, setReferee] = useState({
     arabicName: '',
     email: '',
-    degree: '',
+    idDegreeF: '',
   })
 
   const handleChange = (event) => {
@@ -29,6 +31,24 @@ const AddReferee = () => {
       swalReg()
     }
   }
+
+  useEffect(() => {
+    const universityPositionsAPI = {
+      url: 'http://localhost:8000/api/universityPositions',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(universityPositionsAPI)
+      .then((response) => {
+        setUniversityPositions([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const swalReg = () => {
     Swal.fire({
@@ -50,22 +70,22 @@ const AddReferee = () => {
         })
         console.log(JSON.stringify(referee))
 
-        // const options = {
-        //   url: 'http://localhost:8000/api/addStudentData',
-        //   method: 'post',
-        //   data: JSON.stringify(referee),
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json;charset=UTF-8',
-        //   },
-        // }
-        // axios(options)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
+        const options = {
+          url: 'http://localhost:8000/api/createrefress',
+          method: 'post',
+          data: JSON.stringify(referee),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(options)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         setValidated(false)
         setTimeout(() => {
           window.location.href =
@@ -81,6 +101,7 @@ const AddReferee = () => {
       validated={validated}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      universityPositions={universityPositions}
     />
   )
 }
