@@ -18,14 +18,38 @@ import './view-supervisors-style.css'
 const ViewSupervisors = () => {
   const [supervisors, setSupervisors] = useState([])
   const [copySupervisors, setCopySupervisors] = useState([])
-  const [universityPositions, setUniversityPositions] = useState([])
-  const [departments, setDepartments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [showSave, setShowSave] = useState(false)
 
+  const [universityPositions, setUniversityPositions] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [specFilter, setSpecFilter] = useState([])
+  const [nationFilter, setNationFilterr] = useState([])
+  const [facultyFilter, setFacultyFilter] = useState([])
+  const [univerFilter, setUniverFilter] = useState([])
+
   useEffect(() => {
+    const filterItems = {
+      url: 'http://localhost:8000/api/getdistinct',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        setSpecFilter([...response.data.specialization])
+        setFacultyFilter([...response.data.faculty])
+        setUniverFilter([...response.data.university])
+        setNationFilterr([...response.data.nationality])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
     const supervisorsAPI = {
       url: 'http://localhost:8000/api/supervisors',
       method: 'get',
@@ -118,12 +142,38 @@ const ViewSupervisors = () => {
     setCopySupervisors(newSupervisors)
   }
 
+  const filterChange = (e) => {
+    const { name, value } = e.target
+    const newSupervisors = supervisors.filter((supervisor) => {
+      // console.log(supervisor[name])
+      if (supervisor[name]) {
+        if (value) {
+          if (supervisor[name].includes(value)) {
+            return supervisor
+          }
+        } else {
+          return supervisor
+        }
+      }
+    })
+    setCopySupervisors(newSupervisors)
+  }
+
   const handleFilter = () => {
     const sciDegreeFilter =
       document.getElementsByName('sci-degree-filter')[0].value
     const departmentFilter = document.getElementsByName('dept-filter')[0].value
 
     const specFilter = document.getElementsByName('spec-filter')[0].value
+
+    const facultyFilter = document.getElementsByName('faculty-filter')[0].value
+
+    const univerFilter =
+      document.getElementsByName('university-filter')[0].value
+
+    const nationFilter = document.getElementsByName('nation-filter')[0].value
+
+    const genderFilter = document.getElementsByName('gender-filter')[0].value
 
     document.getElementsByName('supervisors-search')[0].value = ''
 
@@ -315,67 +365,14 @@ const ViewSupervisors = () => {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='sci-degree-filter'
-              custom
+          <Col className='excel-col'>
+            <Button
+              disabled={supervisors.length === 0}
+              type='button'
+              className='excel-btn'
+              onClick={() => printExcel(copySupervisors)}
             >
-              <option value=''>الدرجة العلمية</option>
-              {universityPositions.map((position) => {
-                return (
-                  <option
-                    key={position.idUniversityPosition}
-                    value={position.arabicDegreeName}
-                  >
-                    {position.arabicDegreeName}
-                  </option>
-                )
-              })}
-            </Form.Control>
-          </Col>
-
-          <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='spec-filter'
-              custom
-            >
-              <option value=''>التخصص</option>
-              <option value='دبلومة الدراسات العليا'>
-                دبلومة الدراسات العليا
-              </option>
-              <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
-              <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
-              <option value='دكتوراه الفلسفة في العلوم'>
-                دكتوراه الفلسفة في العلوم
-              </option>
-            </Form.Control>
-          </Col>
-
-          <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='dept-filter'
-              custom
-            >
-              <option value=''>القسم</option>
-              {departments.map((dept) => {
-                return (
-                  <option key={dept.idDept} value={dept.arabicName}>
-                    {dept.arabicName}
-                  </option>
-                )
-              })}
-            </Form.Control>
-          </Col>
-          <Col>
-            <Button className='filter-btn' type='button' onClick={handleFilter}>
-              {' '}
-              إعرض{' '}
+              تحويل البيانات لملف إكسل <RiFileExcel2Fill />
             </Button>
           </Col>
           <Col className='search-col'>
@@ -398,14 +395,149 @@ const ViewSupervisors = () => {
           </Col>
         </Row>
         <Row>
-          <Col className='excel-col'>
-            <Button
-              disabled={supervisors.length === 0}
-              type='button'
-              className='excel-btn'
-              onClick={() => printExcel(copySupervisors)}
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='sciDegree'
+              onChange={filterChange}
+              custom
             >
-              تحويل البيانات لملف إكسل <RiFileExcel2Fill />
+              <option value=''>الدرجة العلمية</option>
+              {universityPositions.map((position) => {
+                return (
+                  <option
+                    key={position.idUniversityPosition}
+                    value={position.arabicDegreeName}
+                  >
+                    {position.arabicDegreeName}
+                  </option>
+                )
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='specialization'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>التخصص</option>
+              {specFilter.map((spec, index) => {
+                if (spec.specialization) {
+                  return (
+                    <option key={index} value={spec.specialization}>
+                      {spec.specialization}
+                    </option>
+                  )
+                }
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='department'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>القسم</option>
+              {departments.map((dept) => {
+                return (
+                  <option key={dept.idDept} value={dept.arabicName}>
+                    {dept.arabicName}
+                  </option>
+                )
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='faculty'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>الكلية</option>
+              {facultyFilter.map((item, index) => {
+                if (item.faculty) {
+                  return (
+                    <option key={index} value={item.faculty}>
+                      {item.faculty}
+                    </option>
+                  )
+                }
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='university'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>الجامعة</option>
+              {univerFilter.map((item, index) => {
+                if (item.university) {
+                  return (
+                    <option key={index} value={item.university}>
+                      {item.university}
+                    </option>
+                  )
+                }
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='nationality'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>الجنسية</option>
+              {nationFilter.map((item, index) => {
+                if (item.nationality) {
+                  return (
+                    <option key={index} value={item.nationality}>
+                      {item.nationality}
+                    </option>
+                  )
+                }
+              })}
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Form.Control
+              className='info'
+              as='select'
+              name='gender'
+              onChange={filterChange}
+              custom
+            >
+              <option value=''>الجنس</option>
+              <option value='ذكر'>ذكر</option>
+              <option value='أنثى'>أنثى</option>
+            </Form.Control>
+          </Col>
+
+          <Col>
+            <Button className='filter-btn' type='button' onClick={handleFilter}>
+              {' '}
+              إعرض{' '}
             </Button>
           </Col>
         </Row>

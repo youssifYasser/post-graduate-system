@@ -11,7 +11,7 @@
 .view-supervisors .main-form .header {
   background-color: #2f3944;
   margin: 45px auto;
-  padding: 10px 20px;
+  padding: 5px 50px 10px;
   text-align: center;
   border-radius: 10px;
   max-width: max-content;
@@ -28,27 +28,78 @@
   text-align: center;
 }
 
-/* search & filter row start*/
+/* search & excel row start*/
 
-.view-supervisors .main-form .row:nth-child(2) .col {
-  max-width: fit-content;
-  /* margin-left: 1%; */
-  padding: 0px 5px;
+.view-supervisors .main-form .row:nth-child(2) .excel-col {
+  text-align: right !important;
+  /* max-width: 50% !important; */
+  padding: 0px;
 }
 
-.view-supervisors .main-form .row:nth-child(2) .info {
+.view-supervisors .main-form .row:nth-child(2) .excel-col .excel-btn {
+  background-color: #1d6f42 !important;
+  border: 1px solid #707070 !important;
+  font-size: 1.2em;
+  margin-bottom: 5px !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.view-supervisors .main-form .row:nth-child(2) .excel-col .excel-btn:hover {
+  color: #1d6f42 !important;
+  border-color: #1d6f42 !important;
+  background-color: #edf0f6 !important;
+}
+
+.view-supervisors
+  .main-form
+  .row:nth-child(2)
+  .excel-col
+  .excel-btn:disabled:hover {
+  color: #fff !important;
+  background-color: #1d6f42 !important;
+}
+
+.view-supervisors .main-form .row:nth-child(2) .search-col {
+  max-width: 27%;
+  margin-bottom: 40px;
+  padding: 0px;
+}
+
+.view-supervisors .main-form .row:nth-child(2) .search-col input {
+  color: #373636 !important;
+  border-radius: 0px 10px 10px 0px !important;
+  border: 1px solid #2f3944 !important;
+  font-size: 1.1em !important;
+}
+
+.view-supervisors .main-form .row:nth-child(2) .search-col .input-group-text {
+  border-radius: 5px 0px 0px 5px;
+  background-color: #2f3944;
+  color: #ece8e1;
+}
+
+/* search & excel row end*/
+
+/* filter row start*/
+
+.view-supervisors .main-form .row:nth-child(3) .col {
+  max-width: 13%;
+  padding: 0px 0px 0px 10px;
+  margin-bottom: 25px !important;
+}
+
+.view-supervisors .main-form .row:nth-child(3) .info {
   color: #373636 !important;
   border-radius: 10px !important;
   border: 1px solid #2f3944 !important;
   font-size: 1.1em !important;
 }
 
-.view-supervisors .main-form .row:nth-child(2) .col:nth-child(4) {
+.view-supervisors .main-form .row:nth-child(3) .col:last-child {
   max-width: 8%;
-  margin-left: auto;
 }
 
-.view-supervisors .main-form .row:nth-child(2) .col:nth-child(4) .filter-btn {
+.view-supervisors .main-form .row:nth-child(3) .col:last-child .filter-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 2px solid #2f3944 !important;
@@ -64,71 +115,14 @@
 
 .view-supervisors
   .main-form
-  .row:nth-child(2)
-  .col:nth-child(4)
+  .row:nth-child(3)
+  .col:last-child
   .filter-btn:hover {
   color: #edf0f6 !important;
   background-color: #000 !important;
 }
 
-.view-supervisors .main-form .row:nth-child(2) .search-col {
-  max-width: 27%;
-  /* text-align: left;
-  justify-content: flex-end; */
-}
-.view-supervisors .main-form .row:nth-child(2) .search-col .input-group {
-  /* position: relative; */
-  margin-bottom: 31px;
-}
-
-.view-supervisors .main-form .row:nth-child(2) .search-col input {
-  /* display: inline !important; */
-  /* max-width: 60%; */
-  color: #373636 !important;
-  border-radius: 0px 10px 10px 0px !important;
-  border: 1px solid #2f3944 !important;
-  font-size: 1.1em !important;
-}
-
-.view-supervisors .main-form .row:nth-child(2) .search-col .input-group-text {
-  border-radius: 5px 0px 0px 5px;
-  background-color: #2f3944;
-  color: #ece8e1;
-}
-
-/* search & filter row end*/
-
-/* excel row start*/
-.view-supervisors .main-form .row:nth-child(3) .excel-col {
-  text-align: left !important;
-  /* max-width: 50% !important; */
-  margin-bottom: 25px !important;
-  padding: 0px 5px;
-}
-
-.view-supervisors .main-form .row:nth-child(3) .excel-col .excel-btn {
-  background-color: #1d6f42 !important;
-  border: 1px solid #707070 !important;
-  font-size: 1.2em;
-  margin-bottom: 5px !important;
-  transition: background-color 0.3s ease-out;
-}
-
-.view-supervisors .main-form .row:nth-child(3) .excel-col .excel-btn:hover {
-  color: #1d6f42 !important;
-  border-color: #1d6f42 !important;
-  background-color: #edf0f6 !important;
-}
-
-.view-supervisors
-  .main-form
-  .row:nth-child(3)
-  .excel-col
-  .excel-btn:disabled:hover {
-  color: #fff !important;
-  background-color: #1d6f42 !important;
-}
-/* excel row end */
+/* filter row end */
 
 /* labels start */
 .view-supervisors .main-form .labels-row .col {
