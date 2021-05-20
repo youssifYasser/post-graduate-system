@@ -82,15 +82,63 @@
   background-color: #2f3944 !important;
   border: 2px solid #2f3944 !important;
   font-size: 1.2em !important;
-  width: 25%;
   border-radius: 10px !important;
   transition: background-color 0.3s ease-out;
+  width: 25%;
+}
+
+.supervisor-reg .main-form .btn-save .submit-btn {
+  background-color: #0f996d !important;
+  border: 2px solid #707070 !important;
+  width: 50%;
 }
 
 .supervisor-reg .main-form .btn-col .submit-btn:hover {
   color: #1d6f42 !important;
   background-color: #edf0f6 !important;
   border-color: #1d6f42 !important;
+}
+
+.supervisor-reg .main-form .btn-save .submit-btn:hover {
+  color: #0f996d !important;
+  background-color: #edf0f6 !important;
+  border-color: #0f996d !important;
+}
+
+.supervisor-reg .main-form .btn-save .submit-btn:disabled:hover {
+  color: #fff !important;
+  background-color: #0f996d !important;
+  border: 2px solid #707070 !important;
+}
+
+.supervisor-reg .main-form .btn-col .delete-btn {
+  background-color: #cb0000;
+  border: 2px solid #707070 !important;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
+  transition: background-color 0.3s ease-out;
+  width: 50%;
+}
+
+.supervisor-reg .main-form .btn-col .delete-btn:hover {
+  color: #cb0000 !important;
+  background-color: #edf0f6 !important;
+  border-color: #cb0000 !important;
+}
+
+.supervisor-reg .main-form .btn-col .cancel-btn {
+  background-color: #2f3944;
+  border: 2px solid #707070;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
+  transition: background-color 0.3s ease-out;
+  width: 50%;
+}
+
+.supervisor-reg .main-form .btn-col .cancel-btn:hover {
+  color: #2f3944 !important;
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
 }
 
 .supervisor-reg .main-form .btn-col .submit-btn .btn-submit {

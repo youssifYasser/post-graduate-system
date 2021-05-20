@@ -6,10 +6,13 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
+import isEqual from 'lodash/isEqual'
 
 import SupervisorRow from './supervisor-row'
 import Loading from './loading'
 import NoSupervisors from './no-supervisors'
+import SupervisorDataRegisteration from '../supervisor-data-registration/supervisor-data-registeration'
+
 import './view-supervisors-style.css'
 
 const ViewSupervisors = () => {
@@ -18,6 +21,9 @@ const ViewSupervisors = () => {
   const [universityPositions, setUniversityPositions] = useState([])
   const [departments, setDepartments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editIndex, setEditIndex] = useState(-1)
+  const [showSave, setShowSave] = useState(false)
 
   useEffect(() => {
     const supervisorsAPI = {
@@ -234,30 +240,73 @@ const ViewSupervisors = () => {
         })
         setCopySupervisors([...newSupervisors])
         setSupervisors([...newSupervisors])
+        isEditing && setIsEditing(false)
 
-        // const deleteSupervisorAPI = {
-        //   url: `http://localhost:8000/api/supervisors/${supervisorID}`,
-        //   method: 'delete',
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json;charset=UTF-8',
-        //   },
-        // }
-        // axios(deleteSupervisorAPI)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
+        const deleteSupervisorAPI = {
+          url: `http://localhost:8000/api/supervisors/${supervisorID}`,
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(deleteSupervisorAPI)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     })
+  }
+
+  const handleCancel = () => {
+    if (!isEqual(copySupervisors[editIndex], supervisors[editIndex])) {
+      Swal.fire({
+        icon: 'warning',
+        title: '!لن يتم حفظ البيانات التي قمت بتعديلها',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، إلغاء`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          copySupervisors[editIndex] = supervisors[editIndex]
+          setCopySupervisors([...copySupervisors])
+          setIsEditing(false)
+          // setValidated(false)
+          setShowSave(false)
+        }
+      })
+    } else {
+      setIsEditing(false)
+      setShowSave(false)
+      // setValidated(false)
+    }
   }
 
   if (isLoading) {
     return <Loading />
   }
-  return (
+  return isEditing ? (
+    <SupervisorDataRegisteration
+      isEditing={isEditing}
+      setIsEditing={setIsEditing}
+      editIndex={editIndex}
+      editSupervisor={copySupervisors[editIndex]}
+      handleDelete={handleDelete}
+      handleCancel={handleCancel}
+      setShowSave={setShowSave}
+      showSave={showSave}
+      copySupervisors={copySupervisors}
+      setCopySupervisors={setCopySupervisors}
+      setSupervisors={setSupervisors}
+    />
+  ) : (
     <div className='view-supervisors'>
       <div className='main-form'>
         <Row>
@@ -382,6 +431,8 @@ const ViewSupervisors = () => {
                 index={index}
                 supervisor={supervisor}
                 handleDelete={handleDelete}
+                setIsEditing={setIsEditing}
+                setEditIndex={setEditIndex}
               />
             )
           })

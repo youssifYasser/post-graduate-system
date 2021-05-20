@@ -14,6 +14,17 @@ const SupervisorDataRegisteration = ({
   setSupervisorNumber,
   supervisorNumber,
   setShowUpload,
+  isEditing,
+  setIsEditing,
+  editIndex,
+  editSupervisor,
+  handleDelete,
+  handleCancel,
+  setShowSave,
+  showSave,
+  copySupervisors,
+  setCopySupervisors,
+  setSupervisors,
 }) => {
   const [validated, setValidated] = useState(false)
   const [departments, setDepartments] = useState([])
@@ -35,10 +46,23 @@ const SupervisorDataRegisteration = ({
   })
 
   const handleChange = (e) => {
+    isEditing && setShowSave(true)
     const { name, value, type, checked } = e.target
-    type === 'checkbox'
-      ? setSupervisor({ ...supervisor, [name]: checked })
-      : setSupervisor({ ...supervisor, [name]: value })
+    if (type === 'checkbox') {
+      setSupervisor({ ...supervisor, [name]: checked })
+      isEditing &&
+        (copySupervisors[editIndex] = {
+          ...copySupervisors[editIndex],
+          [name]: checked,
+        })
+    } else {
+      setSupervisor({ ...supervisor, [name]: value })
+      isEditing &&
+        (copySupervisors[editIndex] = {
+          ...copySupervisors[editIndex],
+          [name]: value,
+        })
+    }
   }
 
   const handleSubmit = (e) => {
@@ -74,30 +98,56 @@ const SupervisorDataRegisteration = ({
       setValidated(true)
       Swal.fire({
         icon: 'info',
-        title: 'هل أنت متأكد من تسجيل بيانات المشرف؟',
+        title: 'هل أنت متأكد من حفظ تغيير بيانات المشرف؟',
         showCancelButton: true,
         showConfirmButton: true,
         confirmButtonColor: '#01ad01',
-        confirmButtonText: 'نعم ، سجل',
+        confirmButtonText: 'نعم ، احفظ',
         cancelButtonText: 'لا ، عودة',
         cancelButtonColor: '#2f3944',
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({
             icon: 'success',
-            title: 'تم تسجيل بيانات المشرف بنجاح',
+            title: 'تم تغيير بيانات المشرف بنجاح',
             showConfirmButton: false,
             timer: 1500,
           })
           setValidated(false)
-          for (const position of universityPositions) {
-            if (supervisor.sciDegree === position.arabicDegreeName) {
-              supervisor.idDegreeF = position.idUniversityPosition
-              break
+
+          if (!isEditing) {
+            for (const position of universityPositions) {
+              if (supervisor.sciDegree === position.arabicDegreeName) {
+                supervisor.idDegreeF = position.idUniversityPosition
+                break
+              }
             }
           }
 
-          if (byExcel) {
+          if (isEditing) {
+            const updateSupervisor = {
+              url: `http://localhost:8000/api/supervisors/${supervisor.idSupervisor}`,
+              method: 'put',
+              data: JSON.stringify(supervisor),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateSupervisor)
+              .then((response) => {
+                // setCopySupervisors([...copySupervisors])
+                setSupervisors([...copySupervisors])
+                setIsEditing(false)
+                setTimeout(() => {
+                  document.documentElement.scrollTop = 0
+                  setShowSave(false)
+                }, 1500)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else if (byExcel) {
             const updateSupervisor = {
               url: `http://localhost:8000/api/supervisors/${supervisor.idSupervisor}`,
               method: 'put',
@@ -205,12 +255,22 @@ const SupervisorDataRegisteration = ({
     }
   }, [supervisorNumber])
 
+  useEffect(() => {
+    if (isEditing) {
+      setSupervisor({ ...editSupervisor })
+    }
+  }, [editIndex])
+
   return (
     <Container className='supervisor-reg'>
       <div className='main-form'>
         <Row>
           <Col className='header'>
-            <h1>تسجيل بيانات المشرف</h1>
+            {isEditing ? (
+              <h1>تعديل بيانات المشرف</h1>
+            ) : (
+              <h1>تسجيل بيانات المشرف</h1>
+            )}
           </Col>
         </Row>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -438,12 +498,16 @@ const SupervisorDataRegisteration = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              {byExcel && (
+              {(byExcel || isEditing) && (
                 <Col>
                   <Form.Group>
-                    <Form.Label>
-                      الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني
-                    </Form.Label>
+                    {byExcel ? (
+                      <Form.Label>
+                        الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني
+                      </Form.Label>
+                    ) : (
+                      <Form.Label>الرقم الكودي</Form.Label>
+                    )}
                     <Form.Control
                       className='form-input'
                       type='text'
@@ -500,12 +564,45 @@ const SupervisorDataRegisteration = ({
             </Form.Row>
           </section>
           <Form.Row>
-            <Col className='btn-col'>
-              <Button type='submit' className='submit-btn'>
-                تسجيل
-                <TiUserAdd className='btn-submit' />
-              </Button>
-            </Col>
+            {!isEditing ? (
+              <Col className='btn-col'>
+                <Button type='submit' className='submit-btn'>
+                  تسجيل
+                  <TiUserAdd className='btn-submit' />
+                </Button>
+              </Col>
+            ) : (
+              <>
+                <Col className='btn-col btn-save'>
+                  <Button
+                    type='submit'
+                    className='submit-btn'
+                    disabled={!showSave}
+                  >
+                    حفظ
+                  </Button>
+                </Col>
+                <Col className='btn-col'>
+                  <Button
+                    type='button'
+                    className='delete-btn'
+                    onClick={() => handleDelete(supervisor.idSupervisor)}
+                  >
+                    مسح المشرف
+                  </Button>
+                </Col>
+
+                <Col className='btn-col'>
+                  <Button
+                    type='button'
+                    className='cancel-btn'
+                    onClick={() => handleCancel()}
+                  >
+                    إلغاء
+                  </Button>
+                </Col>
+              </>
+            )}
           </Form.Row>
         </Form>
       </div>

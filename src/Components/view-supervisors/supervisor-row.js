@@ -8,9 +8,13 @@ import isEqual from 'lodash/isEqual'
 
 import './view-supervisors-style.css'
 
-const SupervisorRow = ({ index, supervisor, handleDelete }) => {
-  const [editing, setEditing] = useState(false)
-
+const SupervisorRow = ({
+  index,
+  supervisor,
+  handleDelete,
+  setIsEditing,
+  setEditIndex,
+}) => {
   return (
     <Row className='animate__animated animate__flipInX'>
       <section className='section'>
@@ -20,7 +24,13 @@ const SupervisorRow = ({ index, supervisor, handleDelete }) => {
           <Col>{supervisor.department}</Col>
           <Col>{supervisor.specialization}</Col>
           <Col className='section-edit-btns'>
-            <Button type='button' onClick={() => setEditing(true)}>
+            <Button
+              type='button'
+              onClick={() => {
+                setEditIndex(index)
+                setIsEditing(true)
+              }}
+            >
               {' '}
               <FaEdit />{' '}
             </Button>
