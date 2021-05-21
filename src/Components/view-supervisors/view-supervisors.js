@@ -26,7 +26,7 @@ const ViewSupervisors = () => {
   const [universityPositions, setUniversityPositions] = useState([])
   const [departments, setDepartments] = useState([])
   const [specFilter, setSpecFilter] = useState([])
-  const [nationFilter, setNationFilterr] = useState([])
+  const [nationFilter, setNationFilter] = useState([])
   const [facultyFilter, setFacultyFilter] = useState([])
   const [univerFilter, setUniverFilter] = useState([])
 
@@ -44,7 +44,7 @@ const ViewSupervisors = () => {
         setSpecFilter([...response.data.specialization])
         setFacultyFilter([...response.data.faculty])
         setUniverFilter([...response.data.university])
-        setNationFilterr([...response.data.nationality])
+        setNationFilter([...response.data.nationality])
       })
       .catch((err) => {
         console.log(err)
@@ -279,12 +279,6 @@ const ViewSupervisors = () => {
       denyButtonColor: '#be0707',
     }).then((result) => {
       if (result.isDenied) {
-        Swal.fire({
-          icon: 'success',
-          title: 'تمت إزالة القسم بنجاح',
-          showConfirmButton: false,
-          timer: 1500,
-        })
         const newSupervisors = copySupervisors.filter((supervisor) => {
           return supervisor.idSupervisor !== supervisorID
         })
@@ -302,6 +296,12 @@ const ViewSupervisors = () => {
         }
         axios(deleteSupervisorAPI)
           .then((response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'تمت إزالة المشرف بنجاح',
+              showConfirmButton: false,
+              timer: 1500,
+            })
             console.log(response)
           })
           .catch((err) => {

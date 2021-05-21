@@ -76,6 +76,8 @@
   border-radius: 5px 0px 0px 5px;
   background-color: #2f3944;
   color: #ece8e1;
+  height: 41.7px;
+  margin-top: -0.5px;
 }
 
 /* search & excel row end*/
@@ -83,7 +85,7 @@
 /* filter row start*/
 
 .view-supervisors .main-form .row:nth-child(3) .col {
-  max-width: 13%;
+  max-width: fit-content;
   padding: 0px 0px 0px 10px;
   margin-bottom: 25px !important;
 }
