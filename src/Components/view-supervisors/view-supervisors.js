@@ -32,7 +32,7 @@ const ViewSupervisors = () => {
 
   useEffect(() => {
     const filterItems = {
-      url: 'http://localhost:8000/api/getdistinct',
+      url: 'http://localhost:8000/api/get-info',
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -41,10 +41,10 @@ const ViewSupervisors = () => {
     }
     axios(filterItems)
       .then((response) => {
-        setSpecFilter([...response.data.specialization])
-        setFacultyFilter([...response.data.faculty])
-        setUniverFilter([...response.data.university])
-        setNationFilter([...response.data.nationality])
+        setSpecFilter([...response.data.specializations])
+        setFacultyFilter([...response.data.faculties])
+        setUniverFilter([...response.data.universities])
+        setNationFilter([...response.data.nationalities])
       })
       .catch((err) => {
         console.log(err)
@@ -88,7 +88,7 @@ const ViewSupervisors = () => {
       })
 
     const universityPositionsAPI = {
-      url: 'http://localhost:8000/api/universityPositions',
+      url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -128,12 +128,10 @@ const ViewSupervisors = () => {
     const newSupervisors = supervisors.filter((supervisor) => {
       if (supervisor.arabicName.includes(value)) {
         return supervisor
+      } else if (supervisor.nationalityId.includes(value)) {
+        return supervisor
       }
-      //  else if (
-      //   study.englishName.toLowerCase().includes(value.toLowerCase())
-      // ) {
-      //   return study
-      // } else if (
+      // else if (
       //   study.universityCode.toLowerCase().includes(value.toLowerCase())
       // ) {
       //   return study
@@ -142,89 +140,57 @@ const ViewSupervisors = () => {
     setCopySupervisors(newSupervisors)
   }
 
-  const filterChange = (e) => {
-    const { name, value } = e.target
-    const newSupervisors = supervisors.filter((supervisor) => {
-      // console.log(supervisor[name])
-      if (supervisor[name]) {
-        if (value) {
-          if (supervisor[name].includes(value)) {
-            return supervisor
-          }
-        } else {
-          return supervisor
-        }
-      }
-    })
-    setCopySupervisors(newSupervisors)
-  }
+  // const filterChange = (e) => {
+  //   const { name, value } = e.target
+  //   const newSupervisors = supervisors.filter((supervisor) => {
+  //     // console.log(supervisor[name])
+  //     if (supervisor[name]) {
+  //       if (value) {
+  //         if (supervisor[name].includes(value)) {
+  //           return supervisor
+  //         }
+  //       } else {
+  //         return supervisor
+  //       }
+  //     }
+  //   })
+  //   setCopySupervisors(newSupervisors)
+  // }
 
   const handleFilter = () => {
-    const sciDegreeFilter =
-      document.getElementsByName('sci-degree-filter')[0].value
-    const departmentFilter = document.getElementsByName('dept-filter')[0].value
-
-    const specFilter = document.getElementsByName('spec-filter')[0].value
-
-    const facultyFilter = document.getElementsByName('faculty-filter')[0].value
-
-    const univerFilter =
-      document.getElementsByName('university-filter')[0].value
-
-    const nationFilter = document.getElementsByName('nation-filter')[0].value
-
-    const genderFilter = document.getElementsByName('gender-filter')[0].value
+    const filterObj = {
+      idDegreeF: document.getElementsByName('idDegreeF')[0].value,
+      department: document.getElementsByName('department')[0].value,
+      specialization: document.getElementsByName('specialization')[0].value,
+      faculty: document.getElementsByName('faculty')[0].value,
+      university: document.getElementsByName('university')[0].value,
+      nationality: document.getElementsByName('nationality')[0].value,
+      gender: document.getElementsByName('gender')[0].value,
+    }
 
     document.getElementsByName('supervisors-search')[0].value = ''
 
-    const newSupervisors = supervisors.filter((supervisor) => {
-      if (
-        sciDegreeFilter === '' &&
-        departmentFilter === '' &&
-        specFilter === ''
-      ) {
-        return supervisor
-      } else if (
-        departmentFilter !== '' &&
-        sciDegreeFilter === '' &&
-        specFilter === ''
-      ) {
-        if (supervisor.department === departmentFilter) {
-          return supervisor
-        }
-      } else if (
-        sciDegreeFilter !== '' &&
-        departmentFilter === '' &&
-        specFilter === ''
-      ) {
-        if (supervisor.sciDegree === sciDegreeFilter) {
-          return supervisor
-        }
-      } else if (
-        specFilter !== '' &&
-        sciDegreeFilter === '' &&
-        departmentFilter === ''
-      ) {
-        if (supervisor.specialization === specFilter) {
-          return supervisor
-        }
-      } else {
-        if (
-          (supervisor.sciDegree === sciDegreeFilter &&
-            supervisor.department === departmentFilter) ||
-          (supervisor.sciDegree === sciDegreeFilter &&
-            supervisor.specialization === specFilter) ||
-          (supervisor.department === departmentFilter &&
-            supervisor.specialization === specFilter) ||
-          (supervisor.sciDegree === sciDegreeFilter &&
-            supervisor.department === departmentFilter &&
-            supervisor.specialization === specFilter)
-        ) {
-          return supervisor
-        }
-      }
-    })
-    setCopySupervisors(newSupervisors)
+    console.log(filterObj)
+    const filterItems = {
+      url: 'http://localhost:8000/api/filter',
+      data: JSON.stringify(filterObj),
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        console.log(response.data)
+        setCopySupervisors([...response.data.supervisors])
+        setUniversityPositions([...universityPositions])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    // console.log(filterItems)
   }
 
   const s2ab = (s) => {
@@ -284,7 +250,6 @@ const ViewSupervisors = () => {
         })
         setCopySupervisors([...newSupervisors])
         setSupervisors([...newSupervisors])
-        isEditing && setIsEditing(false)
 
         const deleteSupervisorAPI = {
           url: `http://localhost:8000/api/supervisors/${supervisorID}`,
@@ -302,6 +267,7 @@ const ViewSupervisors = () => {
               showConfirmButton: false,
               timer: 1500,
             })
+            isEditing && setIsEditing(false)
             console.log(response)
           })
           .catch((err) => {
@@ -396,19 +362,13 @@ const ViewSupervisors = () => {
         </Row>
         <Row>
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='sciDegree'
-              onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='idDegreeF' custom>
               <option value=''>الدرجة العلمية</option>
               {universityPositions.map((position) => {
                 return (
                   <option
                     key={position.idUniversityPosition}
-                    value={position.arabicDegreeName}
+                    value={position.idUniversityPosition}
                   >
                     {position.arabicDegreeName}
                   </option>
@@ -422,30 +382,21 @@ const ViewSupervisors = () => {
               className='info'
               as='select'
               name='specialization'
-              onChange={filterChange}
               custom
             >
               <option value=''>التخصص</option>
               {specFilter.map((spec, index) => {
-                if (spec.specialization) {
-                  return (
-                    <option key={index} value={spec.specialization}>
-                      {spec.specialization}
-                    </option>
-                  )
-                }
+                return (
+                  <option key={index} value={spec}>
+                    {spec}
+                  </option>
+                )
               })}
             </Form.Control>
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='department'
-              onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='department' custom>
               <option value=''>القسم</option>
               {departments.map((dept) => {
                 return (
@@ -458,43 +409,27 @@ const ViewSupervisors = () => {
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='faculty'
-              onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='faculty' custom>
               <option value=''>الكلية</option>
               {facultyFilter.map((item, index) => {
-                if (item.faculty) {
-                  return (
-                    <option key={index} value={item.faculty}>
-                      {item.faculty}
-                    </option>
-                  )
-                }
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                )
               })}
             </Form.Control>
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='university'
-              onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='university' custom>
               <option value=''>الجامعة</option>
               {univerFilter.map((item, index) => {
-                if (item.university) {
-                  return (
-                    <option key={index} value={item.university}>
-                      {item.university}
-                    </option>
-                  )
-                }
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                )
               })}
             </Form.Control>
           </Col>
@@ -504,30 +439,21 @@ const ViewSupervisors = () => {
               className='info'
               as='select'
               name='nationality'
-              onChange={filterChange}
               custom
             >
               <option value=''>الجنسية</option>
               {nationFilter.map((item, index) => {
-                if (item.nationality) {
-                  return (
-                    <option key={index} value={item.nationality}>
-                      {item.nationality}
-                    </option>
-                  )
-                }
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                )
               })}
             </Form.Control>
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='gender'
-              onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='gender' custom>
               <option value=''>الجنس</option>
               <option value='ذكر'>ذكر</option>
               <option value='أنثى'>أنثى</option>

@@ -125,6 +125,7 @@ const SupervisorDataRegisteration = ({
           }
 
           if (isEditing) {
+            console.log(supervisor)
             const updateSupervisor = {
               url: `http://localhost:8000/api/supervisors/${supervisor.idSupervisor}`,
               method: 'put',
@@ -138,10 +139,13 @@ const SupervisorDataRegisteration = ({
               .then((response) => {
                 // setCopySupervisors([...copySupervisors])
                 setSupervisors([...copySupervisors])
-                setIsEditing(false)
                 setTimeout(() => {
-                  document.documentElement.scrollTop = 0
+                  // setIsEditing(false)
                   setShowSave(false)
+                  window.location.href =
+                    window.location.pathname +
+                    window.location.search +
+                    window.location.hash
                 }, 1500)
               })
               .catch((err) => {
@@ -227,7 +231,7 @@ const SupervisorDataRegisteration = ({
       })
 
     const universityPositionsAPI = {
-      url: 'http://localhost:8000/api/universityPositions',
+      url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -396,8 +400,8 @@ const SupervisorDataRegisteration = ({
                   <Form.Control
                     className='form-input'
                     as='select'
-                    name='sciDegree'
-                    value={supervisor.sciDegree}
+                    name='idDegreeF'
+                    value={supervisor.idDegreeF}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     custom
@@ -408,7 +412,7 @@ const SupervisorDataRegisteration = ({
                       return (
                         <option
                           key={position.idUniversityPosition}
-                          value={position.arabicDegreeName}
+                          value={position.idUniversityPosition}
                         >
                           {position.arabicDegreeName}
                         </option>
