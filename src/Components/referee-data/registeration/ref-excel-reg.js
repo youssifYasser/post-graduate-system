@@ -19,6 +19,7 @@ const RefExcelReg = () => {
     specialization: '',
     gender: '',
     mobile: '',
+    degree: '',
   })
   const [validated, setValidated] = useState(false)
 
@@ -78,20 +79,12 @@ const RefExcelReg = () => {
             timer: 1500,
           })
           setValidated(false)
-          setRef({
-            arabicName: '',
-            englishName: '',
-            nationalityId: '',
-            email: '',
-            position: '',
-            university: '',
-            faculty: '',
-            department: '',
-            nationality: '',
-            specialization: '',
-            gender: '',
-            mobile: '',
-          })
+          setTimeout(() => {
+            window.location.href =
+              window.location.pathname +
+              window.location.search +
+              window.location.hash
+          }, 1500)
         }
       })
     }

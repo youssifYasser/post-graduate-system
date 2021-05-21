@@ -1,6 +1,7 @@
 .ref-form,
 .view-ref {
   text-align: right;
+  margin: 0 150px;
 }
 
 .ref-form .row:first-child .header,
@@ -14,7 +15,12 @@
   color: #ece8e1;
 }
 
-.ref-form .section {
+.upload-form .header {
+  padding: 10px 40px 13px 40px;
+}
+
+.ref-form .section,
+.view-ref .section {
   background-color: #fff;
   padding: 15px;
   border-radius: 10px;
@@ -23,7 +29,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-.ref-form .section:hover {
+.ref-form .section:hover,
+.view-ref .section:hover {
   box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -49,13 +56,14 @@
   text-align: center !important;
   max-width: 100% !important;
   margin: 15px 0 25px 0;
+  font-size: 1.2em !important;
 }
 
 .ref-form .submit-col .submit-btn {
   background-color: #2f3944 !important;
-  border: 1px solid #707070 !important;
-  font-size: 1.3em;
-  margin-bottom: 5px !important;
+  border: 2px solid #2f3944 !important;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
   transition: background-color 0.3s ease-out;
   width: 25%;
 }
@@ -66,46 +74,215 @@
   background-color: #edf0f6 !important;
 }
 
+.ref-form .btn-save .submit-btn {
+  background-color: #0f996d !important;
+  border: 2px solid #707070 !important;
+  width: 50%;
+  font-size: 1.2em;
+}
+
+.ref-form .btn-save .submit-btn:hover {
+  color: #0f996d !important;
+  background-color: #edf0f6 !important;
+  border-color: #0f996d !important;
+}
+
+.ref-form .btn-save .submit-btn:disabled:hover {
+  color: #fff !important;
+  background-color: #0f996d !important;
+  border: 2px solid #707070 !important;
+}
+
+.ref-form .btn-col .delete-btn {
+  background-color: #cb0000;
+  border: 2px solid #707070 !important;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
+  transition: background-color 0.3s ease-out;
+  width: 50%;
+}
+
+.ref-form .btn-col .delete-btn:hover {
+  color: #cb0000 !important;
+  background-color: #edf0f6 !important;
+  border-color: #cb0000 !important;
+}
+
+.ref-form .btn-col .cancel-btn {
+  background-color: #2f3944;
+  border: 2px solid #707070;
+  font-size: 1.2em !important;
+  border-radius: 10px !important;
+  transition: background-color 0.3s ease-out;
+  width: 50%;
+}
+
+.ref-form .btn-col .cancel-btn:hover {
+  color: #2f3944 !important;
+  background-color: #edf0f6 !important;
+  border-color: #2f3944 !important;
+}
+
 /* End of Form */
 
 /* View */
 
-.view-ref .search-form .search-row .col {
-  margin-bottom: 15px;
-  max-width: 17%;
+.view-ref .search-form .row:first-child .excel-col {
+  text-align: right !important;
+  max-width: 100% !important;
+  margin-bottom: 40px !important;
+  padding: 0;
 }
 
-.view-ref .search-form .search-row .col .info {
+.view-ref .search-form .row:first-child .excel-col .excel-btn {
+  background-color: #1d6f42 !important;
+  border: 1px solid #707070 !important;
+  font-size: 1.2em;
+  margin-bottom: 5px !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.view-ref .search-form .row:first-child .excel-col .excel-btn:hover {
+  color: #1d6f42 !important;
+  border-color: #1d6f42 !important;
+  background-color: #edf0f6 !important;
+}
+
+.view-ref .search-form .row:first-child .search-col {
+  max-width: 27%;
+  margin-bottom: 40px;
+  padding: 0;
+}
+
+.view-ref .search-form .row:first-child .search-col input {
+  color: #373636 !important;
+  border-radius: 0px 10px 10px 0px !important;
+  border: 1px solid #2f3944 !important;
+  font-size: 1.1em !important;
+}
+
+.view-ref .search-form .row:first-child .search-col .input-group-text {
+  border-radius: 5px 0px 0px 5px;
+  background-color: #2f3944;
+  color: #ece8e1;
+  height: 42px;
+  margin-top: -1px;
+}
+
+.view-ref .search-form .row:first-child .search-col .search-icon {
+  position: absolute;
+  left: 25px;
+  top: 7px;
+}
+.view-ref .search-form .filter-row .col {
+  margin-bottom: 25px;
+  max-width: fit-content;
+  padding: 0 0 0 10px;
+}
+
+.view-ref .search-form .col .info {
   color: #373636 !important;
   border-radius: 10px !important;
   border: 1px solid #2f3944 !important;
   font-size: 1.1em !important;
 }
 
-.view-ref .search-form .search-row .col:nth-child(4) .filter-btn {
+.view-ref .search-form .filter-row .col:last-child {
+  max-width: 6.5%;
+}
+
+.view-ref .search-form .filter-row .col:last-child .filter-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 1px solid #2f3944 !important;
   font-size: 1.2em !important;
   border-radius: 10px !important;
   transition: background-color 0.3s ease-out;
-  height: 62%;
   padding-top: 1px !important;
   margin-top: 3px;
-  width: 50%;
+  width: 100%;
+  height: 35px;
 }
 
-.view-ref .search-form .search-row .col:nth-child(4) .filter-btn:hover {
+.view-ref .search-form .filter-row .col:last-child .filter-btn:hover {
   color: #edf0f6 !important;
   background-color: #000 !important;
 }
 
-.view-ref .search-form .search-row .search-col {
-  max-width: 32%;
+.view-ref .labels-row {
+  font-size: 1.3em;
+  line-height: 2.5em;
 }
 
-.view-ref .search-form .search-row .search-col .search-icon {
-  position: absolute;
-  left: 23px;
-  top: 7px;
+.view-ref .labels-row .label-col {
+  text-align: center;
+  color: #2f3944;
+  font-size: 1.2em;
+  max-width: 22.6%;
+}
+
+.view-ref .labels-row .col:nth-child(1) {
+  max-width: 23.8%;
+}
+
+.view-ref .labels-row .col:nth-child(2) {
+  max-width: 19%;
+}
+
+.view-ref .labels-row .col:nth-child(3) {
+  max-width: 24%;
+}
+
+.view-ref .labels-row .col:nth-child(4) {
+  max-width: 19.3%;
+}
+
+.view-ref .section .ref-info {
+  font-size: 1.2em;
+  padding: 10px;
+  text-align: center;
+  color: #2f3944;
+  max-width: 23%;
+}
+
+.view-ref .section .ref-btns {
+  text-align: left;
+  max-width: 12%;
+}
+
+.view-ref .section .ref-btns .icon:focus {
+  background-color: transparent;
+}
+
+.view-ref .section .ref-btns .icon {
+  font-size: 1.7em;
+  border: none;
+  line-height: 1.2em;
+  background: transparent;
+  transition: transform ease-in-out 0.2s;
+}
+
+.view-ref .section .ref-btns .icon:hover {
+  transform: scale(1.25);
+}
+
+.view-ref .section .ref-btns .icon svg {
+  stroke: black;
+}
+
+.view-ref .section .ref-btns .icon.edit-icon {
+  color: #0b58cc;
+  margin-left: 4px;
+}
+
+.view-ref .section .ref-btns .icon.edit-icon svg {
+  stroke-width: 10px;
+}
+
+.view-ref .section .ref-btns .icon.delete-icon {
+  color: #ff0000 !important;
+}
+
+.view-ref .section .ref-btns .icon.delete-icon svg {
+  stroke-width: 0.6px;
 }

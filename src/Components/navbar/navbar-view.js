@@ -68,7 +68,7 @@ function navbar() {
               className='link'
             >
               <NavDropdown.Item>
-                <Link to='/RefExcelReg' className='link'>
+                <Link to='/UploadExcel' className='link'>
                   تسجيل محكم بالإكسل{' '}
                 </Link>
               </NavDropdown.Item>

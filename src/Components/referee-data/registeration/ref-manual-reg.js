@@ -4,13 +4,35 @@ import { countries } from '../../personal-data/countries'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { TiUserAdd } from 'react-icons/ti'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
-const RefManualReg = () => {
+const RefManualReg = ({
+  byExcel,
+  refereeObj,
+  referees,
+  setRefNumber,
+  refNumber,
+  setShowUpload,
+  isEditing,
+  setIsEditing,
+  editIndex,
+  editRef,
+  handleDelete,
+  handleCancel,
+  setShowSave,
+  showSave,
+  copyRefs,
+  setCopyRefs,
+  setRefs,
+}) => {
+  const [degrees, setDegrees] = useState([])
+  const [departments, setDepartments] = useState([])
   const [ref, setRef] = useState({
     arabicName: '',
     englishName: '',
     nationalityId: '',
     email: '',
+    degree: '',
     position: '',
     university: '',
     faculty: '',
@@ -19,14 +41,80 @@ const RefManualReg = () => {
     specialization: '',
     gender: '',
     mobile: '',
+    idRefereed: '',
   })
   const [validated, setValidated] = useState(false)
 
+  useEffect(() => {
+    const degreesAPI = {
+      url: 'http://localhost:8000/api/getdegree',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(degreesAPI)
+      .then((response) => {
+        console.log('degrees', response.data)
+        setDegrees([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    console.log(degrees)
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (byExcel) {
+      if (refNumber >= referees.length && referees.length !== 0) {
+        setRefNumber(0)
+        setShowUpload(true)
+      } else {
+        setRef({ ...refereeObj })
+      }
+    }
+  }, [refNumber])
+
+  useEffect(() => {
+    if (isEditing) {
+      setRef({ ...editRef })
+    }
+  }, [editIndex])
+
   const handleChange = (e) => {
+    isEditing && setShowSave(true)
     const { name, value, type, checked } = e.target
-    type === 'checkbox'
-      ? setRef({ ...ref, [name]: checked })
-      : setRef({ ...ref, [name]: value })
+    if (type === 'checkbox') {
+      setRef({ ...ref, [name]: checked })
+      isEditing &&
+        (copyRefs[editIndex] = {
+          ...copyRefs[editIndex],
+          [name]: checked,
+        })
+    } else {
+      setRef({ ...ref, [name]: value })
+      isEditing &&
+        (copyRefs[editIndex] = {
+          ...copyRefs[editIndex],
+          [name]: value,
+        })
+    }
   }
 
   const handleSubmit = (e) => {
@@ -78,20 +166,73 @@ const RefManualReg = () => {
             timer: 1500,
           })
           setValidated(false)
-          setRef({
-            arabicName: '',
-            englishName: '',
-            nationalityId: '',
-            email: '',
-            position: '',
-            university: '',
-            faculty: '',
-            department: '',
-            nationality: '',
-            specialization: '',
-            gender: '',
-            mobile: '',
-          })
+          if (byExcel) {
+            const insertRefereeExcelAPI = {
+              url: `http://localhost:8000/api/updaterefress/${ref.idRefereed}`,
+              method: 'put',
+              data: JSON.stringify(ref),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(insertRefereeExcelAPI)
+              .then((response) => {
+                console.log(response)
+                setTimeout(() => {
+                  document.documentElement.scrollTop = 0
+                  setRefNumber(refNumber + 1)
+                }, 1500)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else if (isEditing) {
+            const editRefereeExcelAPI = {
+              url: `http://localhost:8000/api/updaterefress/${ref.idRefereed}`,
+              method: 'put',
+              data: JSON.stringify(ref),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(editRefereeExcelAPI)
+              .then((response) => {
+                setRefs([...copyRefs])
+                setIsEditing(false)
+                setTimeout(() => {
+                  document.documentElement.scrollTop = 0
+                  setShowSave(false)
+                }, 1500)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else {
+            const insertRefereeManuallyAPI = {
+              url: 'http://localhost:8000/api/insertnewrefree',
+              method: 'post',
+              data: JSON.stringify(ref),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(insertRefereeManuallyAPI)
+              .then((response) => {
+                console.log(response)
+                setTimeout(() => {
+                  window.location.href =
+                    window.location.pathname +
+                    window.location.search +
+                    window.location.hash
+                }, 1500)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }
         }
       })
     }
@@ -101,10 +242,19 @@ const RefManualReg = () => {
     <Container className='ref-form'>
       <Row>
         <div className='header'>
-          <h1>تسجيل بيانات الـمـحـكـــم</h1>
+          <h1>
+            {isEditing
+              ? 'تعديل بيانات الـمـحـكـــم'
+              : 'تسجيل بيانات الـمـحـكـــم'}
+          </h1>
         </div>
       </Row>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={validated}
+        onSubmit={handleSubmit}
+        className='main-form'
+      >
         <section className='section'>
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
@@ -218,6 +368,31 @@ const RefManualReg = () => {
               </Row>
             </Col>
           </Form.Row>
+          {(byExcel || isEditing) && (
+            <Form.Row>
+              <Col md={{ span: 5, offset: 2 }} xs={6}>
+                <Form.Group>
+                  {byExcel ? (
+                    <Form.Label>
+                      الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني
+                    </Form.Label>
+                  ) : (
+                    <Form.Label>الرقم الكودي</Form.Label>
+                  )}
+                  <Form.Control
+                    className='form-input'
+                    type='text'
+                    name='idRefereed'
+                    value={ref.idRefereed}
+                    onChange={handleChange}
+                    pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                    required
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+            </Form.Row>
+          )}
         </section>
         <section className='section'>
           <Row>
@@ -235,9 +410,13 @@ const RefManualReg = () => {
                   required
                 >
                   <option value=''>الدرجة العلمية</option>
-                  <option value='مدرس جامعي'>مدرس جامعي</option>
-                  <option value='استاذ مساعد'>استاذ مساعد</option>
-                  <option value='استاذ'>استاذ</option>
+                  {degrees.map((degree, index) => {
+                    return (
+                      <option key={index} value={degree.arabicDegreeName}>
+                        {degree.arabicDegreeName}
+                      </option>
+                    )
+                  })}
                 </Form.Control>
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الدرجة العلمية باللغة العربية فقط.
@@ -282,20 +461,31 @@ const RefManualReg = () => {
               </Form.Group>
             </Col>
             <Col md={5} sm={6}>
-              <Form.Group controlId='university'>
-                <Form.Label>الجامعة</Form.Label>
+              <Form.Group controlId='department'>
+                <Form.Label>القسم الذي به المحكم</Form.Label>
                 <Form.Control
                   className='form-input'
-                  type='text'
-                  name='university'
-                  value={ref.university}
+                  as='select'
+                  name='department'
+                  value={ref.department}
                   onChange={handleChange}
-                  pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  custom
                   required
-                />
-
+                >
+                  <option value=''>القسم</option>
+                  {departments.map((department) => {
+                    return (
+                      <option
+                        key={department.idDept}
+                        value={department.arabicName}
+                      >
+                        {department.arabicName}
+                      </option>
+                    )
+                  })}
+                </Form.Control>
                 <Form.Control.Feedback type='invalid'>
-                  من فضلك أدخل الجامعة باللغة العربية فقط.
+                  من فضلك أدخل القسم باللغة العربية فقط.
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -303,7 +493,7 @@ const RefManualReg = () => {
           <Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
               <Form.Group controlId='faculty'>
-                <Form.Label>الكلية</Form.Label>
+                <Form.Label>الكلية التي بها المحكم</Form.Label>
                 <Form.Control
                   className='form-input'
                   type='text'
@@ -319,20 +509,22 @@ const RefManualReg = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
             <Col md={5} sm={6}>
-              <Form.Group controlId='department'>
-                <Form.Label>القسم</Form.Label>
+              <Form.Group controlId='university'>
+                <Form.Label>الجامعة التي بها المحكم</Form.Label>
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='department'
-                  value={ref.department}
+                  name='university'
+                  value={ref.university}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  required
                 />
 
                 <Form.Control.Feedback type='invalid'>
-                  من فضلك أدخل القسم باللغة العربية فقط.
+                  من فضلك أدخل الجامعة باللغة العربية فقط.
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -350,6 +542,7 @@ const RefManualReg = () => {
                   value={ref.email}
                   onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
@@ -374,13 +567,47 @@ const RefManualReg = () => {
             </Col>
           </Row>
         </section>
-        <Row className='submit-row'>
-          <Col className='submit-col'>
-            <Button type='submit' className='submit-btn'>
-              تسجيـــل <TiUserAdd className='btn-submit' />
-            </Button>
-          </Col>
-        </Row>
+        <Form.Row>
+          {!isEditing ? (
+            <Col className='submit-col'>
+              <Button type='submit' className='submit-btn'>
+                تسجيل
+                <TiUserAdd className='btn-submit' />
+              </Button>
+            </Col>
+          ) : (
+            <>
+              <Col className='btn-col btn-save'>
+                <Button
+                  type='submit'
+                  className='submit-btn'
+                  disabled={!showSave}
+                >
+                  حفظ
+                </Button>
+              </Col>
+              <Col className='btn-col'>
+                <Button
+                  type='button'
+                  className='delete-btn'
+                  onClick={() => handleDelete(editRef.idRefereed)}
+                >
+                  مسح المحكم
+                </Button>
+              </Col>
+
+              <Col className='btn-col'>
+                <Button
+                  type='button'
+                  className='cancel-btn'
+                  onClick={() => handleCancel()}
+                >
+                  إلغاء
+                </Button>
+              </Col>
+            </>
+          )}
+        </Form.Row>
       </Form>
     </Container>
   )
