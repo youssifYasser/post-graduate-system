@@ -9,6 +9,9 @@ import StudyTypes from './Components/view-study-types/study-types'
 import viewDepartments from './Components/view-departments/ViewDepartments'
 import AddDepartment from './Components/add-department/addDepartment-container'
 import StudyType from './Components/add-study-type/studyType-container'
+import SupervisorDataRegisteration from './Components/supervisor-data-registration/supervisor-data-registeration'
+import UploadExcel from './Components/supervisor-data-registration/upload-excel'
+import ViewSupervisors from './Components/view-supervisors/view-supervisors'
 
 const App = () => {
   return (
@@ -22,6 +25,13 @@ const App = () => {
         <Route exact path='/viewStudyTypes' component={StudyTypes} />
         <Route exact path='/addDepartment' component={AddDepartment} />
         <Route exact path='/viewDepartments' component={viewDepartments} />
+        <Route exact path='/uploadExcel' component={UploadExcel} />
+        <Route exact path='/viewSupervisors' component={ViewSupervisors} />
+        <Route
+          exact
+          path='/SupervisorDataRegisteration'
+          component={SupervisorDataRegisteration}
+        />
       </Switch>
     </BrowserRouter>
   )
