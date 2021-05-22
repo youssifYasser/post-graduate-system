@@ -16,7 +16,7 @@ const SupervisorRow = ({
   setEditIndex,
 }) => {
   return (
-    <Row className='animate__animated animate__flipInX'>
+    <Row className='animate__animated animate__fadeIn'>
       <section className='section'>
         <Row>
           <Col>{supervisor.arabicName}</Col>

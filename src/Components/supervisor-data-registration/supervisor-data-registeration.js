@@ -146,7 +146,7 @@ const SupervisorDataRegisteration = ({
                     window.location.pathname +
                     window.location.search +
                     window.location.hash
-                }, 1500)
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
@@ -166,7 +166,7 @@ const SupervisorDataRegisteration = ({
                 setTimeout(() => {
                   document.documentElement.scrollTop = 0
                   setSupervisorNumber(supervisorNumber + 1)
-                }, 1500)
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
@@ -190,19 +190,18 @@ const SupervisorDataRegisteration = ({
                     arabicName: '',
                     englishName: '',
                     nationalityId: '',
-                    email: '',
-                    position: '',
-                    university: '',
-                    faculty: '',
+                    gender: '',
+                    nationality: '',
                     sciDegree: '',
                     idDegreeF: '',
-                    department: '',
-                    nationality: '',
                     specialization: '',
-                    gender: '',
+                    department: '',
+                    faculty: '',
+                    university: '',
+                    email: '',
                     mobile: '',
                   })
-                }, 1500)
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
@@ -214,22 +213,6 @@ const SupervisorDataRegisteration = ({
   }
 
   useEffect(() => {
-    const departmentsAPI = {
-      url: 'http://localhost:8000/api/departments',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(departmentsAPI)
-      .then((response) => {
-        setDepartments([...response.data])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
     const universityPositionsAPI = {
       url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
@@ -245,7 +228,40 @@ const SupervisorDataRegisteration = ({
       .catch((err) => {
         console.log(err)
       })
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
+
+  useEffect(() => {
+    if (supervisorObj) {
+      for (let j = 0; j < universityPositions.length; j++) {
+        if (
+          supervisorObj.sciDegree === universityPositions[j].arabicDegreeName
+        ) {
+          supervisorObj = {
+            ...supervisorObj,
+            ['idDegreeF']: universityPositions[j].idUniversityPosition,
+          }
+          break
+        }
+      }
+      setSupervisor({ ...supervisorObj })
+    }
+  }, [universityPositions])
 
   useEffect(() => {
     // console.log(supervisorObj)

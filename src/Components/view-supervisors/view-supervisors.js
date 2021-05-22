@@ -29,6 +29,7 @@ const ViewSupervisors = () => {
   const [nationFilter, setNationFilter] = useState([])
   const [facultyFilter, setFacultyFilter] = useState([])
   const [univerFilter, setUniverFilter] = useState([])
+  const [isFiltering, setIsFiltering] = useState(false)
 
   useEffect(() => {
     const filterItems = {
@@ -128,36 +129,18 @@ const ViewSupervisors = () => {
     const newSupervisors = supervisors.filter((supervisor) => {
       if (supervisor.arabicName.includes(value)) {
         return supervisor
-      } else if (supervisor.nationalityId.includes(value)) {
+      } else if (
+        supervisor.nationalityId &&
+        supervisor.nationalityId.includes(value)
+      ) {
         return supervisor
       }
-      // else if (
-      //   study.universityCode.toLowerCase().includes(value.toLowerCase())
-      // ) {
-      //   return study
-      // }
     })
     setCopySupervisors(newSupervisors)
   }
 
-  // const filterChange = (e) => {
-  //   const { name, value } = e.target
-  //   const newSupervisors = supervisors.filter((supervisor) => {
-  //     // console.log(supervisor[name])
-  //     if (supervisor[name]) {
-  //       if (value) {
-  //         if (supervisor[name].includes(value)) {
-  //           return supervisor
-  //         }
-  //       } else {
-  //         return supervisor
-  //       }
-  //     }
-  //   })
-  //   setCopySupervisors(newSupervisors)
-  // }
-
   const handleFilter = () => {
+    setIsFiltering(true)
     const filterObj = {
       idDegreeF: document.getElementsByName('idDegreeF')[0].value,
       department: document.getElementsByName('department')[0].value,
@@ -185,12 +168,11 @@ const ViewSupervisors = () => {
         console.log(response.data)
         setCopySupervisors([...response.data.supervisors])
         setUniversityPositions([...universityPositions])
+        setIsFiltering(false)
       })
       .catch((err) => {
         console.log(err)
       })
-
-    // console.log(filterItems)
   }
 
   const s2ab = (s) => {
@@ -248,8 +230,6 @@ const ViewSupervisors = () => {
         const newSupervisors = copySupervisors.filter((supervisor) => {
           return supervisor.idSupervisor !== supervisorID
         })
-        setCopySupervisors([...newSupervisors])
-        setSupervisors([...newSupervisors])
 
         const deleteSupervisorAPI = {
           url: `http://localhost:8000/api/supervisors/${supervisorID}`,
@@ -267,7 +247,15 @@ const ViewSupervisors = () => {
               showConfirmButton: false,
               timer: 1500,
             })
-            isEditing && setIsEditing(false)
+            setTimeout(() => {
+              setCopySupervisors([...newSupervisors])
+              setSupervisors([...newSupervisors])
+              window.location.href =
+                window.location.pathname +
+                window.location.search +
+                window.location.hash
+            }, 1100)
+            // isEditing && setIsEditing(false)
             console.log(response)
           })
           .catch((err) => {
@@ -347,8 +335,8 @@ const ViewSupervisors = () => {
                 // className='info'
                 type='text'
                 name='supervisors-search'
-                placeholder='ابحث بالاسم'
-                aria-label='ابحث بالاسم'
+                placeholder='ابحث بالاسم أو بالرقم القومي'
+                aria-label='ابحث بالاسم أو بالرقم القومي'
                 aria-describedby='basic-addon1'
                 onChange={handleSearch}
               />
@@ -482,18 +470,22 @@ const ViewSupervisors = () => {
           </Col>
         </Row>
         {copySupervisors.length !== 0 ? (
-          copySupervisors.map((supervisor, index) => {
-            return (
-              <SupervisorRow
-                key={supervisor.idSupervisor}
-                index={index}
-                supervisor={supervisor}
-                handleDelete={handleDelete}
-                setIsEditing={setIsEditing}
-                setEditIndex={setEditIndex}
-              />
-            )
-          })
+          isFiltering ? (
+            <Loading />
+          ) : (
+            copySupervisors.map((supervisor, index) => {
+              return (
+                <SupervisorRow
+                  key={supervisor.idSupervisor}
+                  index={index}
+                  supervisor={supervisor}
+                  handleDelete={handleDelete}
+                  setIsEditing={setIsEditing}
+                  setEditIndex={setEditIndex}
+                />
+              )
+            })
+          )
         ) : (
           <NoSupervisors />
         )}
