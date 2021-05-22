@@ -14,7 +14,7 @@ const Referee = ({
 }) => {
   return (
     <>
-      <Row className='section animate__animated animate__flipInX'>
+      <Row className='section animate__animated animate__fadeIn'>
         <Col className='ref-info'>{referee.arabicName}</Col>
         <Col className='ref-info'>{referee.degree}</Col>
         <Col className='ref-info'>{referee.department}</Col>

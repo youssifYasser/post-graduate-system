@@ -335,8 +335,8 @@ const Referees = () => {
               <Form.Control
                 type='text'
                 name='refs-search'
-                placeholder='ابحث بالاسم'
-                aria-label='ابحث بالاسم'
+                placeholder='ابحث بالاسم أو الرقم القومى'
+                aria-label='ابحث بالاسم أو الرقم القومى'
                 aria-describedby='basic-addon1'
                 onChange={handleSearch}
               />
