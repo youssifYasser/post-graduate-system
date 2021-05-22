@@ -14,7 +14,7 @@ function navbar() {
             <NavDropdown
               title='الطلاب'
               id='basic-nav-dropdown'
-              className='dropdown-item link'
+              className='link'
             >
               <Link to='/AddStudent' className='dropdown-item link'>
                 إضافة طالب جديد{' '}
@@ -28,7 +28,7 @@ function navbar() {
             <NavDropdown
               title='الدراسات'
               id='basic-nav-dropdown'
-              className='dropdown-item link'
+              className='link'
             >
               <Link to='/addStudyType' className='dropdown-item link'>
                 إضافة دراسة{' '}
@@ -41,7 +41,7 @@ function navbar() {
             <NavDropdown
               title='الأقسام'
               id='basic-nav-dropdown'
-              className='dropdown-item link'
+              className='link'
             >
               <Link to='/addDepartment' className='dropdown-item link'>
                 إضافة قسم{' '}
@@ -55,7 +55,7 @@ function navbar() {
             <NavDropdown
               title='المشرفين'
               id='basic-nav-dropdown'
-              className='dropdown-item link'
+              className='link'
             >
               {/* <NavDropdown.Item>
                 <Link to='/addDepartment' className='dropdown-item link'>
@@ -69,7 +69,7 @@ function navbar() {
                 {' '}
                 تسجيل بيانات مشرف
               </Link>
-              <Link to='/uploadExcel' className='dropdown-item link'>
+              <Link to='/UploadSupervisorExcel' className='dropdown-item link'>
                 {' '}
                 تسجيل بيانات مشرف بالإكسل
               </Link>
@@ -83,21 +83,21 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
-              <NavDropdown.Item>
-                <Link to='/UploadExcel' className='link'>
+              
+                <Link to='/UploadRefExcel' className='dropdown-item link'>
                   تسجيل محكم بالإكسل{' '}
                 </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/RefManualReg' className='link'>
+            
+              
+                <Link to='/RefManualReg' className='dropdown-item link'>
                   تسجيل محكم يدويا{' '}
                 </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/Referees' className='link'>
+            
+              
+                <Link to='/Referees' className='dropdown-item link'>
                   عرض المحكمين{' '}
                 </Link>
-              </NavDropdown.Item>
+            
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
