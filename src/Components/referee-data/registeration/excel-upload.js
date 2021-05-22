@@ -5,7 +5,7 @@ import RefManualReg from './ref-manual-reg'
 
 import '../ref-style.css'
 
-const UploadExcel = () => {
+const UploadRefExcel = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [byExcel, setByExcel] = useState(true)
   const [referees, setReferees] = useState([])
@@ -94,4 +94,4 @@ const UploadExcel = () => {
   }
 }
 
-export default UploadExcel
+export default UploadRefExcel
