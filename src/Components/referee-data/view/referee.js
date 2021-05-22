@@ -10,8 +10,8 @@ const Referee = ({
   setEditIndex,
   setIsEditing,
   index,
+  isFiltering,
 }) => {
-  console.log(referee)
   return (
     <>
       <Row className='section animate__animated animate__flipInX'>

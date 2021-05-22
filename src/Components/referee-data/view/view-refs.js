@@ -27,8 +27,50 @@ const Referees = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [showSave, setShowSave] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
 
   useEffect(() => {
+    const filterItems = {
+      url: 'http://localhost:8000/api/getdistinct',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        setSpecFilter([...response.data.specializations])
+        setPositionFilter([...response.data.positions])
+        setFacultyFilter([...response.data.faculties])
+        setUniverFilter([...response.data.universities])
+        setNationalityFilter([...response.data.nationalities])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const getReferees = {
+      url: 'http://localhost:8000/api/getreferees',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(getReferees)
+      .then((response) => {
+        setRefs([...response.data])
+        setCopyRefs([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+
     const departmentsAPI = {
       url: 'http://localhost:8000/api/departments',
       method: 'get',
@@ -44,43 +86,7 @@ const Referees = () => {
       .catch((err) => {
         console.log(err)
       })
-    const filterItems = {
-      url: 'http://localhost:8000/api/getdistinct',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(filterItems)
-      .then((response) => {
-        console.log(response.data)
-        setSpecFilter([...response.data.specializations])
-        setPositionFilter([...response.data.positions])
-        setFacultyFilter([...response.data.faculties])
-        setUniverFilter([...response.data.universities])
-        setNationalityFilter([...response.data.nationalities])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    const getReferees = {
-      url: 'http://localhost:8000/api/getreferees',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(getReferees)
-      .then((response) => {
-        console.log(response.data)
-        setRefs([...response.data])
-        setCopyRefs([...response.data])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+
     const universityPositionsAPI = {
       url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
@@ -91,15 +97,11 @@ const Referees = () => {
     }
     axios(universityPositionsAPI)
       .then((response) => {
-        console.log('degree', response.data)
         setDegrees([...response.data])
       })
       .catch((err) => {
         console.log(err)
       })
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
   }, [])
 
   useEffect(() => {
@@ -135,8 +137,6 @@ const Referees = () => {
         const newRefs = copyRefs.filter((ref) => {
           return ref.idRefereed !== ID
         })
-        setCopyRefs([...newRefs])
-        setRefs([...newRefs])
         isEditing && setIsEditing(false)
 
         const deleteRefereeAPI = {
@@ -155,7 +155,14 @@ const Referees = () => {
               showConfirmButton: false,
               timer: 1500,
             })
-            console.log(response)
+            setTimeout(() => {
+              setCopyRefs([...newRefs])
+              setRefs([...newRefs])
+              window.location.href =
+                window.location.pathname +
+                window.location.search +
+                window.location.hash
+            }, 1100)
           })
           .catch((err) => {
             console.log(err)
@@ -245,6 +252,7 @@ const Referees = () => {
   }
 
   const handleFilter = () => {
+    setIsFiltering(true)
     const filterObj = {
       idDegreeF: document.getElementsByName('idDegreeF')[0].value,
       department: document.getElementsByName('department')[0].value,
@@ -260,7 +268,7 @@ const Referees = () => {
 
     console.log(filterObj)
     const filterItems = {
-      url: 'http://localhost:8000/api/filter',
+      url: 'http://localhost:8000/api/filterRef',
       data: JSON.stringify(filterObj),
       method: 'post',
       headers: {
@@ -273,6 +281,7 @@ const Referees = () => {
         console.log(response.data)
         setCopyRefs([...response.data.referees])
         setDegrees([...degrees])
+        setIsFiltering(false)
       })
       .catch((err) => {
         console.log(err)
@@ -343,9 +352,12 @@ const Referees = () => {
           <Col>
             <Form.Control className='info' as='select' name='idDegreeF' custom>
               <option value=''>الدرجة العلمية</option>
-              {degrees.map((degree, index) => {
+              {degrees.map((degree) => {
                 return (
-                  <option key={index} value={degree.idDegreeF}>
+                  <option
+                    key={degree.idUniversityPosition}
+                    value={degree.idUniversityPosition}
+                  >
                     {degree.arabicDegreeName}
                   </option>
                 )
@@ -470,11 +482,7 @@ const Referees = () => {
           </Col>
 
           <Col>
-            <Button
-              className='filter-btn'
-              type='button'
-              // onClick={handleFilter}
-            >
+            <Button className='filter-btn' type='button' onClick={handleFilter}>
               {' '}
               إعرض{' '}
             </Button>
@@ -488,18 +496,23 @@ const Referees = () => {
         <Col className='label-col'>التخصص</Col>
       </Row>
       {copyRefs.length !== 0 ? (
-        copyRefs.map((referee, index) => {
-          return (
-            <Referee
-              key={referee.idRefereed}
-              referee={referee}
-              handleDelete={handleDelete}
-              index={index}
-              setIsEditing={setIsEditing}
-              setEditIndex={setEditIndex}
-            />
-          )
-        })
+        isFiltering ? (
+          <Loading />
+        ) : (
+          copyRefs.map((referee, index) => {
+            return (
+              <Referee
+                key={referee.idRefereed}
+                referee={referee}
+                handleDelete={handleDelete}
+                index={index}
+                setIsEditing={setIsEditing}
+                setEditIndex={setEditIndex}
+                isFiltering={isFiltering}
+              />
+            )
+          })
+        )
       ) : (
         <NoRefs />
       )}

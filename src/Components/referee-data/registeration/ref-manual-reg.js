@@ -41,6 +41,7 @@ const RefManualReg = ({
     gender: '',
     mobile: '',
     idRefereed: '',
+    idDegreeF: '',
   })
   const [validated, setValidated] = useState(false)
 
@@ -55,7 +56,6 @@ const RefManualReg = ({
     }
     axios(universityPositionsAPI)
       .then((response) => {
-        console.log('degree', response.data)
         setDegrees([...response.data])
       })
       .catch((err) => {
@@ -77,6 +77,21 @@ const RefManualReg = ({
         console.log(err)
       })
   }, [])
+
+  useEffect(() => {
+    if (refereeObj) {
+      for (let j = 0; j < degrees.length; j++) {
+        if (refereeObj.degree === degrees[j].arabicDegreeName) {
+          refereeObj = {
+            ...refereeObj,
+            ['idDegreeF']: degrees[j].idUniversityPosition,
+          }
+          break
+        }
+      }
+      setRef({ ...refereeObj })
+    }
+  }, [degrees])
 
   useEffect(() => {
     if (byExcel) {
@@ -184,17 +199,15 @@ const RefManualReg = ({
             }
             axios(insertRefereeExcelAPI)
               .then((response) => {
-                console.log(response)
                 setTimeout(() => {
                   document.documentElement.scrollTop = 0
                   setRefNumber(refNumber + 1)
-                }, 1500)
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
               })
           } else if (isEditing) {
-            console.log('refereeee', ref)
             const editRefereeExcelAPI = {
               url: `http://localhost:8000/api/updaterefress/${ref.idRefereed}`,
               method: 'put',
@@ -207,11 +220,14 @@ const RefManualReg = ({
             axios(editRefereeExcelAPI)
               .then((response) => {
                 setRefs([...copyRefs])
-                setIsEditing(false)
                 setTimeout(() => {
-                  document.documentElement.scrollTop = 0
+                  // setIsEditing(false)
                   setShowSave(false)
-                }, 1500)
+                  window.location.href =
+                    window.location.pathname +
+                    window.location.search +
+                    window.location.hash
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
@@ -228,13 +244,12 @@ const RefManualReg = ({
             }
             axios(insertRefereeManuallyAPI)
               .then((response) => {
-                console.log(response)
                 setTimeout(() => {
                   window.location.href =
                     window.location.pathname +
                     window.location.search +
                     window.location.hash
-                }, 1500)
+                }, 1100)
               })
               .catch((err) => {
                 console.log(err)
