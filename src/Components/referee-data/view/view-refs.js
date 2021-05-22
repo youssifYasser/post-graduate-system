@@ -55,11 +55,11 @@ const Referees = () => {
     axios(filterItems)
       .then((response) => {
         console.log(response.data)
-        setSpecFilter([...response.data.specialization])
-        setPositionFilter([...response.data.position])
-        setFacultyFilter([...response.data.faculty])
-        setUniverFilter([...response.data.university])
-        setNationalityFilter([...response.data.nationality])
+        setSpecFilter([...response.data.specializations])
+        setPositionFilter([...response.data.positions])
+        setFacultyFilter([...response.data.faculties])
+        setUniverFilter([...response.data.universities])
+        setNationalityFilter([...response.data.nationalities])
       })
       .catch((err) => {
         console.log(err)
@@ -82,7 +82,7 @@ const Referees = () => {
         console.log(err)
       })
     const universityPositionsAPI = {
-      url: 'http://localhost:8000/api/universityPositions',
+      url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -244,6 +244,41 @@ const Referees = () => {
     }
   }
 
+  const handleFilter = () => {
+    const filterObj = {
+      idDegreeF: document.getElementsByName('idDegreeF')[0].value,
+      department: document.getElementsByName('department')[0].value,
+      specialization: document.getElementsByName('specialization')[0].value,
+      faculty: document.getElementsByName('faculty')[0].value,
+      university: document.getElementsByName('university')[0].value,
+      nationality: document.getElementsByName('nationality')[0].value,
+      gender: document.getElementsByName('gender')[0].value,
+      position: document.getElementsByName('position')[0].value,
+    }
+
+    document.getElementsByName('refs-search')[0].value = ''
+
+    console.log(filterObj)
+    const filterItems = {
+      url: 'http://localhost:8000/api/filter',
+      data: JSON.stringify(filterObj),
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        console.log(response.data)
+        setCopyRefs([...response.data.referees])
+        setDegrees([...degrees])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   if (isLoading) {
     return <Loading />
   }
@@ -306,17 +341,11 @@ const Referees = () => {
         </Row>
         <Row className='filter-row'>
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='degree'
-              // onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='idDegreeF' custom>
               <option value=''>الدرجة العلمية</option>
               {degrees.map((degree, index) => {
                 return (
-                  <option key={index} value={degree.arabicDegreeName}>
+                  <option key={index} value={degree.idDegreeF}>
                     {degree.arabicDegreeName}
                   </option>
                 )
@@ -324,19 +353,13 @@ const Referees = () => {
             </Form.Control>
           </Col>
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='position'
-              // onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='position' custom>
               <option value=''>المنصب</option>
               {positionFilter.map((pos, index) => {
-                if (pos.position) {
+                if (pos) {
                   return (
-                    <option key={index} value={pos.position}>
-                      {pos.position}
+                    <option key={index} value={pos}>
+                      {pos}
                     </option>
                   )
                 }
@@ -348,15 +371,14 @@ const Referees = () => {
               className='info'
               as='select'
               name='specialization'
-              // onChange={filterChange}
               custom
             >
               <option value=''>التخصص</option>
               {specFilter.map((spec, index) => {
-                if (spec.specialization) {
+                if (spec) {
                   return (
-                    <option key={index} value={spec.specialization}>
-                      {spec.specialization}
+                    <option key={index} value={spec}>
+                      {spec}
                     </option>
                   )
                 }
@@ -365,13 +387,7 @@ const Referees = () => {
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='department'
-              // onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='department' custom>
               <option value=''>القسم</option>
               {departments.map((dept) => {
                 return (
@@ -384,19 +400,13 @@ const Referees = () => {
           </Col>
 
           <Col>
-            <Form.Control
-              className='info'
-              as='select'
-              name='faculty'
-              // onChange={filterChange}
-              custom
-            >
+            <Form.Control className='info' as='select' name='faculty' custom>
               <option value=''>الكلية</option>
               {facultyFilter.map((item, index) => {
-                if (item.faculty) {
+                if (item) {
                   return (
-                    <option key={index} value={item.faculty}>
-                      {item.faculty}
+                    <option key={index} value={item}>
+                      {item}
                     </option>
                   )
                 }
@@ -414,10 +424,10 @@ const Referees = () => {
             >
               <option value=''>الجامعة</option>
               {univerFilter.map((item, index) => {
-                if (item.university) {
+                if (item) {
                   return (
-                    <option key={index} value={item.university}>
-                      {item.university}
+                    <option key={index} value={item}>
+                      {item}
                     </option>
                   )
                 }
@@ -430,15 +440,14 @@ const Referees = () => {
               className='info'
               as='select'
               name='nationality'
-              // onChange={filterChange}
               custom
             >
               <option value=''>الجنسية</option>
               {nationalityFilter.map((item, index) => {
-                if (item.nationality) {
+                if (item) {
                   return (
-                    <option key={index} value={item.nationality}>
-                      {item.nationality}
+                    <option key={index} value={item}>
+                      {item}
                     </option>
                   )
                 }

@@ -22,7 +22,6 @@ const RefManualReg = ({
   setShowSave,
   showSave,
   copyRefs,
-  setCopyRefs,
   setRefs,
 }) => {
   const [degrees, setDegrees] = useState([])
@@ -46,23 +45,22 @@ const RefManualReg = ({
   const [validated, setValidated] = useState(false)
 
   useEffect(() => {
-    const degreesAPI = {
-      url: 'http://localhost:8000/api/getdegree',
+    const universityPositionsAPI = {
+      url: 'http://localhost:8000/api/uni-positions',
       method: 'get',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json;charset=UTF-8',
       },
     }
-    axios(degreesAPI)
+    axios(universityPositionsAPI)
       .then((response) => {
-        console.log('degrees', response.data)
+        console.log('degree', response.data)
         setDegrees([...response.data])
       })
       .catch((err) => {
         console.log(err)
       })
-    console.log(degrees)
     const departmentsAPI = {
       url: 'http://localhost:8000/api/departments',
       method: 'get',
@@ -166,6 +164,14 @@ const RefManualReg = ({
             timer: 1500,
           })
           setValidated(false)
+          if (!isEditing) {
+            for (const position of degrees) {
+              if (ref.degree === position.arabicDegreeName) {
+                ref.idDegreeF = position.idUniversityPosition
+                break
+              }
+            }
+          }
           if (byExcel) {
             const insertRefereeExcelAPI = {
               url: `http://localhost:8000/api/updaterefress/${ref.idRefereed}`,
@@ -188,6 +194,7 @@ const RefManualReg = ({
                 console.log(err)
               })
           } else if (isEditing) {
+            console.log('refereeee', ref)
             const editRefereeExcelAPI = {
               url: `http://localhost:8000/api/updaterefress/${ref.idRefereed}`,
               method: 'put',
@@ -402,17 +409,20 @@ const RefManualReg = ({
                 <Form.Control
                   className='form-input'
                   as='select'
-                  name='degree'
-                  value={ref.degree}
+                  name='idDegreeF'
+                  value={ref.idDegreeF}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   custom
                   required
                 >
                   <option value=''>الدرجة العلمية</option>
-                  {degrees.map((degree, index) => {
+                  {degrees.map((degree) => {
                     return (
-                      <option key={index} value={degree.arabicDegreeName}>
+                      <option
+                        key={degree.idUniversityPosition}
+                        value={degree.idUniversityPosition}
+                      >
                         {degree.arabicDegreeName}
                       </option>
                     )
