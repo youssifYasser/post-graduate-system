@@ -78,6 +78,27 @@ function navbar() {
                 عرض المشرفين
               </Link>
             </NavDropdown>
+            <NavDropdown
+              title='المحكمين'
+              id='basic-nav-dropdown'
+              className='link'
+            >
+              <NavDropdown.Item>
+                <Link to='/UploadExcel' className='link'>
+                  تسجيل محكم بالإكسل{' '}
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/RefManualReg' className='link'>
+                  تسجيل محكم يدويا{' '}
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/Referees' className='link'>
+                  عرض المحكمين{' '}
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
 
