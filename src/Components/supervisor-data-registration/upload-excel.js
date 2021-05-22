@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx'
 import SupervisorDataRegisteration from './supervisor-data-registeration'
 import './supervisor-data-registeration.css'
 
-const UploadExcel = () => {
+const UploadSupervisorExcel = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [byExcel, setByExcel] = useState(true)
   const [supervisors, setSupervisors] = useState([])
@@ -93,4 +93,4 @@ const UploadExcel = () => {
   }
 }
 
-export default UploadExcel
+export default UploadSupervisorExcel
