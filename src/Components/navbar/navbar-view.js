@@ -57,11 +57,11 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
-              {/* <NavDropdown.Item>
-                <Link to='/addDepartment' className='dropdown-item link'>
-                  إضافة قسم{' '}
+              
+                <Link to='/addSupervisor' className='dropdown-item link'>
+                  إضافة مشرف{' '}
                 </Link>
-              </NavDropdown.Item> */}
+            
               <Link
                 to='/SupervisorDataRegisteration'
                 className='dropdown-item link'
@@ -83,6 +83,10 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
+                
+                <Link to='/addReferee' className='dropdown-item link'>
+                  إضافة مشرف{' '}
+                </Link>
               
                 <Link to='/UploadRefExcel' className='dropdown-item link'>
                   تسجيل محكم بالإكسل{' '}
