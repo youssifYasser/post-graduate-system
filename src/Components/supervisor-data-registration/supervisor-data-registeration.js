@@ -534,8 +534,6 @@ const SupervisorDataRegisteration = ({
                       name='idSupervisor'
                       value={supervisor.idSupervisor}
                       onChange={handleChange}
-                      pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                      required
                       disabled
                     />
                   </Form.Group>
