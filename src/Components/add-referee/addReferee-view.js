@@ -5,6 +5,7 @@ import './addReferee-style.css'
 
 function AddReferee(props) {
   const state = props
+
   return (
     <Container className='addReferee mt-5 mb-5'>
       <div className='header'>
@@ -22,6 +23,7 @@ function AddReferee(props) {
             <Form.Label>الاسم بالعربية</Form.Label>
             <Form.Control
               name='arabicName'
+              value={state.referee.arabicName}
               placeholder='الاسم بالعربية'
               onChange={state.handleChange}
               pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -37,6 +39,7 @@ function AddReferee(props) {
             <Form.Control
               type='email'
               name='email'
+              value={state.referee.email}
               placeholder='example@email.com'
               onChange={state.handleChange}
               pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
@@ -55,6 +58,7 @@ function AddReferee(props) {
             <Form.Control
               as='select'
               name='idDegreeF'
+              value={state.referee.idDegreeF}
               onChange={state.handleChange}
               required
               custom

@@ -22,6 +22,7 @@ function AddSupervisor(props) {
             <Form.Label>الاسم بالعربية</Form.Label>
             <Form.Control
               name='arabicName'
+              value={state.supervisor.arabicName}
               placeholder='الاسم بالعربية'
               onChange={state.handleChange}
               pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -37,6 +38,7 @@ function AddSupervisor(props) {
             <Form.Control
               type='email'
               name='email'
+              value={state.supervisor.email}
               placeholder='example@email.com'
               onChange={state.handleChange}
               pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
@@ -55,6 +57,7 @@ function AddSupervisor(props) {
             <Form.Control
               as='select'
               name='idDegreeF'
+              value={state.supervisor.idDegreeF}
               onChange={state.handleChange}
               required
               custom

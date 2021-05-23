@@ -32,24 +32,6 @@ const AddReferee = () => {
     }
   }
 
-  useEffect(() => {
-    const universityPositionsAPI = {
-      url: 'http://localhost:8000/api/universityPositions',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(universityPositionsAPI)
-      .then((response) => {
-        setUniversityPositions([...response.data])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
   const swalReg = () => {
     Swal.fire({
       icon: 'info',
@@ -88,18 +70,31 @@ const AddReferee = () => {
             console.log(err)
           })
         setValidated(false)
-        // setTimeout(() => {
-        //   window.location.href =
-        //     window.location.pathname +
-        //     window.location.search +
-        //     window.location.hash
-        // }, 2000)
       }
     })
   }
+
+  useEffect(() => {
+    const universityPositionsAPI = {
+      url: 'http://localhost:8000/api/uni-positions dobn',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(universityPositionsAPI)
+      .then((response) => {
+        setUniversityPositions([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
   return (
     <AddRefereeView
       validated={validated}
+      referee={referee}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       universityPositions={universityPositions}
