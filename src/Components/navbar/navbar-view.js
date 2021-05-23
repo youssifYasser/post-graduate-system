@@ -16,16 +16,13 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
-              <NavDropdown.Item>
-                <Link to='/AddStudent' className='link'>
-                  إضافة طالب جديد{' '}
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/StudentDataExcelReg' className='link'>
-                  تسجيل بيانات الطالب{' '}
-                </Link>
-              </NavDropdown.Item>
+              <Link to='/AddStudent' className='dropdown-item link'>
+                إضافة طالب جديد{' '}
+              </Link>
+
+              <Link to='/StudentDataExcelReg' className='dropdown-item link'>
+                تسجيل بيانات الطالب{' '}
+              </Link>
             </NavDropdown>
 
             <NavDropdown
@@ -33,34 +30,74 @@ function navbar() {
               id='basic-nav-dropdown'
               className='link'
             >
-              <NavDropdown.Item to='/StudentData'>
-                <Link to='/addStudyType' className='link'>
-                  إضافة دراسة{' '}
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/viewStudyTypes' className='link'>
-                  {' '}
-                  الدراسات العليا بجامعة عين شمس
-                </Link>
-              </NavDropdown.Item>
+              <Link to='/addStudyType' className='dropdown-item link'>
+                إضافة دراسة{' '}
+              </Link>
+              <Link to='/viewStudyTypes' className='dropdown-item link'>
+                {' '}
+                الدراسات العليا بجامعة عين شمس
+              </Link>
             </NavDropdown>
             <NavDropdown
               title='الأقسام'
               id='basic-nav-dropdown'
               className='link'
             >
-              <NavDropdown.Item>
-                <Link to='/addDepartment' className='link'>
+              <Link to='/addDepartment' className='dropdown-item link'>
+                إضافة قسم{' '}
+              </Link>
+              <Link to='/viewDepartments' className='dropdown-item link'>
+                {' '}
+                عرض الأقسام
+              </Link>
+            </NavDropdown>
+
+            <NavDropdown
+              title='المشرفين'
+              id='basic-nav-dropdown'
+              className='link'
+            >
+              {/* <NavDropdown.Item>
+                <Link to='/addDepartment' className='dropdown-item link'>
                   إضافة قسم{' '}
                 </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item to='/StudentData'>
-                <Link to='/viewDepartments' className='link'>
-                  {' '}
-                  عرض الأقسام
+              </NavDropdown.Item> */}
+              <Link
+                to='/SupervisorDataRegisteration'
+                className='dropdown-item link'
+              >
+                {' '}
+                تسجيل بيانات مشرف
+              </Link>
+              <Link to='/UploadSupervisorExcel' className='dropdown-item link'>
+                {' '}
+                تسجيل بيانات مشرف بالإكسل
+              </Link>
+              <Link to='/viewSupervisors' className='dropdown-item link'>
+                {' '}
+                عرض المشرفين
+              </Link>
+            </NavDropdown>
+            <NavDropdown
+              title='المحكمين'
+              id='basic-nav-dropdown'
+              className='link'
+            >
+              
+                <Link to='/UploadRefExcel' className='dropdown-item link'>
+                  تسجيل محكم بالإكسل{' '}
                 </Link>
-              </NavDropdown.Item>
+            
+              
+                <Link to='/RefManualReg' className='dropdown-item link'>
+                  تسجيل محكم يدويا{' '}
+                </Link>
+            
+              
+                <Link to='/Referees' className='dropdown-item link'>
+                  عرض المحكمين{' '}
+                </Link>
+            
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
