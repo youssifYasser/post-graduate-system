@@ -13,9 +13,6 @@ const UploadStudentExcel = () => {
   const [showUpload, setShowUpload] = useState(true)
   const [byExcel, setByExcel] = useState(true)
   const [students, setStudents] = useState([])
-  const [personalInfo, setPersonalInfo] = useState([])
-  const [uniDegrees, setUniDegrees] = useState([])
-  const [thesisData, setThesisData] = useState([])
   const [studentNumber, setStudentNumber] = useState(0)
 
   const handleFile = (e) => {

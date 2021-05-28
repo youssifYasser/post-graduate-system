@@ -27,6 +27,8 @@ const StudentDataRegisteration = ({
   const [uniDegrees, setUniDegrees] = useState({})
   const [thesisData, setThesisData] = useState({})
 
+  const [student, setStudent] = useState([])
+
   const [page, setPage] = useState(1)
   const [validated, setValidated] = useState(false)
   const [animate, setAnimate] = useState('animate__animated animate__fadeIn')
@@ -230,10 +232,14 @@ const StudentDataRegisteration = ({
   }
 
   useEffect(() => {
-    if (studentNumber >= students.length && students.length !== 0) {
-      setStudentNumber(0)
-      setShowUpload(true)
-      canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
+    if (byExcel) {
+      if (studentNumber >= students.length && students.length !== 0) {
+        setStudentNumber(0)
+        setShowUpload(true)
+        canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
+      } else {
+        setStuden
+      }
     }
   }, [studentNumber])
 
