@@ -1,65 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
-import './StudentDataRegisteration.css'
-import * as XLSX from 'xlsx'
-import 'animate.css/animate.min.css'
-import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
-import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
-import PersonalData from '../personal-data/PersonalData'
-import ThesisData from '../thesis-data/ThesisData'
-import UniversityDegrees from '../university-degrees/UniversityDegrees'
-import FileUpload from '../file-upload/FileUpload'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
+import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
+import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 
-const StudentDataRegisteration = () => {
-  const [showUpload, setShowUpload] = useState(true)
-  const [students, setStudents] = useState([])
+import './StudentDataRegisteration.css'
+import 'animate.css/animate.min.css'
 
+import PersonalData from './PersonalData'
+import ThesisData from './ThesisData'
+import UniversityDegrees from './UniversityDegrees'
+import FileUpload from './FileUpload'
+
+const StudentDataRegisteration = ({
+  byExcel,
+  studentObj,
+  students,
+  setStudentNumber,
+  studentNumber,
+  setShowUpload,
+}) => {
   const [personalInfo, setPersonalInfo] = useState({})
   const [uniDegrees, setUniDegrees] = useState({})
   const [thesisData, setThesisData] = useState({})
 
   const [page, setPage] = useState(1)
-  const [studentNumber, setStudentNumber] = useState(0)
   const [validated, setValidated] = useState(false)
   const [animate, setAnimate] = useState('animate__animated animate__fadeIn')
 
   const [canceledStudents, setCanceledStudents] = useState([])
-
-  const handleFile = (e) => {
-    setShowUpload(true)
-    const file = e.target.files[0]
-    const fileReader = new FileReader()
-    fileReader.readAsArrayBuffer(file)
-    fileReader.onload = (e) => {
-      try {
-        const bufferArray = e.target.result
-        const wb = XLSX.read(bufferArray, { type: 'buffer' })
-        const wsname = wb.SheetNames[0]
-        const ws = wb.Sheets[wsname]
-        for (const item in ws) {
-          if (ws[item].t === 'n') {
-            delete ws[item].w
-            ws[item].z = 'dd/mm/yyyy'
-            XLSX.utils.format_cell(ws[item])
-          }
-        }
-        const data = XLSX.utils.sheet_to_json(ws, {
-          raw: false,
-        })
-        setStudents(data)
-        setShowUpload(false)
-      } catch (error) {
-        setShowUpload(false)
-        throw new Error('قم برفع ملف صحيح')
-      }
-    }
-    fileReader.onerror = (error) => {
-      throw new Error('Load error')
-    }
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -246,10 +218,13 @@ const StudentDataRegisteration = () => {
     wb.SheetNames.push('الطلبة الملغيين')
     wb.Sheets['الطلبة الملغيين'] = ws
     wb.Workbook = { ['Views']: [{ RTL: true }] }
+    const dat = new Date()
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-      'canceledStudents.xlsx'
+      `الطلبة الملغيين ${dat.getDate()}-${
+        dat.getMonth() + 1
+      }-${dat.getFullYear()}.xlsx`
     )
     setCanceledStudents([])
   }
@@ -513,22 +488,25 @@ const StudentDataRegisteration = () => {
                       onClick={() => {
                         Swal.fire({
                           icon: 'warning',
-                          title: 'هل أنت متأكد من إزالة الطالب؟',
+                          title:
+                            'هل تريد مسح الطالب نهائياً أم وضعه في ملف إكسل لمراجعته لاحقاً؟',
+                          showConfirmButton: true,
                           showDenyButton: true,
                           showCancelButton: true,
-                          showConfirmButton: false,
-                          denyButtonText: `نعم ، امسح الطالب`,
+                          confirmButtonText: 'ضع الطالب في ملف إكسل',
+                          confirmButtonColor: '#1d6f42',
+                          denyButtonText: 'امسح الطالب نهائياً',
                           cancelButtonText: 'لا ، عودة',
                           cancelButtonColor: '#2f3944',
                           denyButtonColor: '#be0707',
                         }).then((result) => {
                           /* Read more about isConfirmed, isDenied below */
-                          if (result.isDenied) {
+                          if (result.isConfirmed) {
                             Swal.fire({
                               icon: 'success',
-                              title: 'تمت إزالة الطالب بنجاح',
-                              confirmButtonText: 'حسنــاً',
-                              confirmButtonColor: '#2f3944',
+                              title: 'تم وضع الطالب في ملف إكسل',
+                              showConfirmButton: false,
+                              timer: 1500,
                             })
                             document.documentElement.scrollTop = 0
                             setPersonalInfo({})
@@ -538,6 +516,35 @@ const StudentDataRegisteration = () => {
                             setStudentNumber(studentNumber + 1)
                             setAnimate('animate__animated animate__fadeIn')
                             setPage(1)
+                          } else if (result.isDenied) {
+                            const deleteStudentAPI = {
+                              url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
+                              method: 'delete',
+                              headers: {
+                                Accept: 'application/json',
+                                'Content-Type':
+                                  'application/json;charset=UTF-8',
+                              },
+                            }
+                            axios(deleteStudentAPI)
+                              .then((response) => {
+                                Swal.fire({
+                                  icon: 'success',
+                                  title: 'تمت إزالة الطالب نهائياً',
+                                  showConfirmButton: false,
+                                  timer: 1500,
+                                })
+                                document.documentElement.scrollTop = 0
+                                setPersonalInfo({})
+                                setUniDegrees({})
+                                setThesisData({})
+                                setStudentNumber(studentNumber + 1)
+                                setAnimate('animate__animated animate__fadeIn')
+                                setPage(1)
+                              })
+                              .catch((err) => {
+                                console.log(err)
+                              })
                           }
                         })
                       }}
@@ -571,11 +578,7 @@ const StudentDataRegisteration = () => {
     )
   }
 
-  if (showUpload) {
-    return <FileUpload handleFile={handleFile} />
-  } else {
-    return <>{mainForm[studentNumber]}</>
-  }
+  return <>{mainForm[studentNumber]}</>
 }
 
 export default StudentDataRegisteration

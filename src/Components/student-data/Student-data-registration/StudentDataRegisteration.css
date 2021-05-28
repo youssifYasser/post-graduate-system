@@ -148,9 +148,9 @@
   font-size: 1.2em;
 }
 
-.swal2-confirm {
+/* .swal2-confirm {
   width: 30% !important;
-  border-radius: 10px !important;
+  border-radius: 30px !important;
 }
 
 .swal2-deny,
@@ -160,7 +160,7 @@
 
 .swal2-show {
   border-radius: 10px !important;
-}
+} */
 
 @media screen and (max-width: 992px) {
   .main-form .header {

@@ -166,6 +166,7 @@ const PersonalData = ({ personalData, setPersonalInfo, className }) => {
                   name='id'
                   value={student.id}
                   onChange={handleChange}
+                  disabled
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الرقم الكودى بالطريقة الصحيحة(أرقام فقط).

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../ref-style.css'
-import { countries } from '../../personal-data/countries'
+import { countries } from '../../student-data/Student-data-registration/countries'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { TiUserAdd } from 'react-icons/ti'
 import Swal from 'sweetalert2'
