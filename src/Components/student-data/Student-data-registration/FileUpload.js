@@ -185,9 +185,7 @@ const UploadStudentExcel = () => {
     return (
       <StudentDataRegisteration
         byExcel={byExcel}
-        personalObj={PersonalData[studentNumber]}
-        degreesObj={uniDegrees[studentNumber]}
-        thesisObj={thesisData[studentNumber]}
+        studentObj={students[studentNumber]}
         students={students}
         setStudentNumber={setStudentNumber}
         studentNumber={studentNumber}
