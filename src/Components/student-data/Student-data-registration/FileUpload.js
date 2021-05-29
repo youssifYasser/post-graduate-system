@@ -95,7 +95,9 @@ const UploadStudentExcel = () => {
           }
           // uniDegrees.push(degreesArr)
 
-          let title = ''
+          let title = '',
+            enTitle = '',
+            spec = ''
           if (data[i]['تأكيد نوع التسجيل'] === 'دبلومة الدراسات العليا') {
             for (let index = 1; index <= 9; index++) {
               if (index === 1) {
@@ -124,20 +126,39 @@ const UploadStudentExcel = () => {
                 }
               }
             }
+          } else if (
+            data[i]['تأكيد نوع التسجيل'] === 'الماجستير في العلوم' ||
+            data[i]['تأكيد نوع التسجيل'] === 'دكتوراه الفلسفة في العلوم'
+          ) {
+            for (let index = 1; index <= 10; index++) {
+              if (index === 1) {
+                if (data[i]['التخصص التابعة له هذه الرسالة']) {
+                  spec = data[i]['التخصص التابعة له هذه الرسالة']
+                  title = data[i]['عنوان الرسالة باللغة العربية']
+                  enTitle = data[i]['عنوان الرسالة بالغة الإنجليزية']
+                  break
+                }
+              } else {
+                if (data[i][`التخصص التابعة له هذه الرسالة${index}`]) {
+                  spec = data[i][`التخصص التابعة له هذه الرسالة${index}`]
+                  title = data[i][`عنوان الرسالة باللغة العربية${index}`]
+                  enTitle = data[i][`عنوان الرسالة بالغة الإنجليزية${index}`]
+                  break
+                }
+              }
+            }
           }
           studentObj['thesisData'] = {
             sciDegree: data[i]['تأكيد نوع التسجيل'],
             toeflGrade: data[i]['درجة امتحان التويفل - TOEFL'],
-            arabicTitle: title || data[i]['عنوان الرسالة باللغة العربية'],
-            englishTitle: data[i]['عنوان الرسالة بالغة الإنجليزية'] || '',
-            requiredCourses:
-              data[i][
-                'المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'
-              ],
+            arabicTitle: title,
+            englishTitle: enTitle,
+            spec: spec,
+            requiredCourses: data[i]['دراسات إضافية ببيان من القسم (إن وجدت)'],
             department:
               data[i]['القسم التابعة له هذه الدبلومة'] ||
               data[i]['القسم التابعة له دراسة تمهيدي الماجستير'] ||
-              data[i]['التخصص التابعة له هذه الرسالة'],
+              data[i]['القسم التابعة له هذه الرسالة'],
           }
           // thesisData.push(thesisObj)
 

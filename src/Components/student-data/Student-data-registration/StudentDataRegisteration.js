@@ -23,9 +23,33 @@ const StudentDataRegisteration = ({
   studentNumber,
   setShowUpload,
 }) => {
-  const [personalInfo, setPersonalInfo] = useState({})
-  const [uniDegrees, setUniDegrees] = useState({})
-  const [thesisData, setThesisData] = useState({})
+  const [personalInfo, setPersonalInfo] = useState({
+    image: '',
+    idS: '',
+    jobAdd: '',
+    jobEnglish: '',
+    jobArabic: '',
+    email: '',
+    mobile: '',
+    Add: '',
+    birthdateSource: '',
+    nationalityId: '',
+    nationality: '',
+    gender: '',
+    birthdate: '',
+    englishName: '',
+    arabicName: '',
+  })
+  const [uniDegrees, setUniDegrees] = useState([])
+  const [thesisData, setThesisData] = useState({
+    department: '',
+    requiredCourses: '',
+    spec: '',
+    englishTitle: '',
+    arabicTitle: '',
+    toeflGrade: '',
+    sciDegree: '',
+  })
 
   const [student, setStudent] = useState([])
 
@@ -238,353 +262,195 @@ const StudentDataRegisteration = ({
         setShowUpload(true)
         canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
       } else {
-        setStuden
+        setPersonalInfo({ ...studentObj['personalInfo'] })
+        setUniDegrees([...studentObj['uniDegrees']])
+        setThesisData({ ...studentObj['thesisData'] })
       }
     }
   }, [studentNumber])
 
-  const mainForm = []
-  for (const student of students) {
-    const personalData = {
-      image: personalInfo.image
-        ? personalInfo.image
-        : student['الصورة الشخصية'],
-      id: personalInfo.id
-        ? personalInfo.id
-        : student['الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني'],
-      arabicName: personalInfo.arabicName
-        ? personalInfo.arabicName
-        : student['الاسم باللغة العربية'],
-      englishName: personalInfo.englishName
-        ? personalInfo.englishName
-        : student['الاسم باللغة الإنجليزية'],
-      birthdate: personalInfo.birthdate
-        ? personalInfo.birthdate
-        : student['تاريخ الميلاد'],
-      gender: personalInfo.gender ? personalInfo.gender : student['الجنس'],
-      nationality: personalInfo.nationality
-        ? personalInfo.nationality
-        : student['دولة الجنسية (مثال: مصر)'],
-      nationalityId: personalInfo.nationalityId
-        ? personalInfo.nationalityId
-        : student['الرقم القومي'],
-      birthdateSource: personalInfo.birthdateSource
-        ? personalInfo.birthdateSource
-        : student['مصدر شهادة الميلاد'] || '',
-      Add: personalInfo.Add ? personalInfo.Add : student['العنوان'] || '',
-      mobile: personalInfo.mobile ? personalInfo.mobile : student['رقم الهاتف'],
-      email: personalInfo.email
-        ? personalInfo.email
-        : student['البريد الإلكتروني'],
-      jobArabic: personalInfo.jobArabic
-        ? personalInfo.jobArabic
-        : student['الوظيفة باللغة العربية'],
-      jobEnglish: personalInfo.jobEnglish
-        ? personalInfo.jobEnglish
-        : student['الوظيفة باللغة الإنجليزية'] || '',
-      jobAdd: personalInfo.jobAdd
-        ? personalInfo.jobAdd
-        : student['عنوان الوظيفة'] || '',
-    }
+  return (
+    <Container key={personalInfo.idS}>
+      <main className='main-form'>
+        <Row>
+          <Col xs={{ order: 2 }} md={{ order: 1 }}>
+            <Image src={personalInfo.image} className='person-img' />
+          </Col>
+          <Col
+            className='header'
+            xs={{ order: 1, span: 9 }}
+            md={{ order: 2, span: 5 }}
+            lg={{ span: 5 }}
+            xl={{ span: 5 }}
+          >
+            <h1>تسجيل بيانات الطالب</h1>
+          </Col>
+          <Col className='pages' xs={{ order: 3 }} md={{ order: 3 }}>
+            <Row>
+              <Col
+                className={
+                  page === 1 && 'active-page animate__animated animate__flipInX'
+                }
+              >
+                1
+              </Col>
+              <Col
+                className={
+                  page === 2 && 'active-page animate__animated animate__flipInX'
+                }
+              >
+                2
+              </Col>
+              <Col
+                className={
+                  page === 3 && 'active-page animate__animated animate__flipInX'
+                }
+              >
+                3
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form.Row>
+                {page === 1 && (
+                  <PersonalData
+                    className={animate}
+                    setPersonalInfo={setPersonalInfo}
+                    personalInfo={personalInfo}
+                  />
+                )}
+                {page === 2 && (
+                  <UniversityDegrees
+                    className={animate}
+                    uniDegrees={uniDegrees}
+                    setUniDegrees={setUniDegrees}
+                  />
+                )}
+                {page === 3 && (
+                  <ThesisData
+                    className={animate}
+                    thesisData={thesisData}
+                    setThesisData={setThesisData}
+                  />
+                )}
+              </Form.Row>
 
-    const universityDegrees = [
-      {
-        degree: uniDegrees[0]
-          ? uniDegrees[0].degree
-          : student['الدرجة  العلمية'],
-        specialization: uniDegrees[0]
-          ? uniDegrees[0].specialization
-          : student['التخصص'],
-        dateObtained: uniDegrees[0]
-          ? uniDegrees[0].dateObtained
-          : student['تاريخ الحصول عليها'],
-        faculty: uniDegrees[0]
-          ? uniDegrees[0].faculty
-          : student['الكلية التي حصل الطالب على الدرجة العلمية منها'],
-        university: uniDegrees[0]
-          ? uniDegrees[0].university
-          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها'],
-      },
-      {
-        degree: uniDegrees[1]
-          ? uniDegrees[1].degree
-          : student['الدرجة  العلمية2'] || '',
-        specialization: uniDegrees[1]
-          ? uniDegrees[1].specialization
-          : student['التخصص2'] || '',
-        dateObtained: uniDegrees[1]
-          ? uniDegrees[1].dateObtained
-          : student['تاريخ الحصول عليها2'] || '',
-        faculty: uniDegrees[1]
-          ? uniDegrees[1].faculty
-          : student['الكلية التي حصل الطالب على الدرجة العلمية منها2'] || '',
-        university: uniDegrees[1]
-          ? uniDegrees[1].university
-          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها2'] || '',
-      },
-      {
-        degree: uniDegrees[2]
-          ? uniDegrees[2].degree
-          : student['الدرجة  العلمية3'] || '',
-        specialization: uniDegrees[2]
-          ? uniDegrees[2].specialization
-          : student['التخصص3'] || '',
-        dateObtained: uniDegrees[2]
-          ? uniDegrees[2].dateObtained
-          : student['تاريخ الحصول عليها3'] || '',
-        faculty: uniDegrees[2]
-          ? uniDegrees[2].faculty
-          : student['الكلية التي حصل الطالب على الدرجة العلمية منها3'] || '',
-        university: uniDegrees[2]
-          ? uniDegrees[2].university
-          : student['الجامعة التي حصل الطالب على الدرجة العلمية منها3'] || '',
-      },
-    ]
-
-    let title = ''
-    if (student['تأكيد نوع التسجيل'] === 'دبلومة الدراسات العليا') {
-      for (let index = 1; index <= 9; index++) {
-        if (index === 1) {
-          if (student['عنوان الدبلومة']) {
-            title = student['عنوان الدبلومة']
-            break
-          }
-        } else {
-          if (student[`عنوان الدبلومة${index}`]) {
-            title = student[`عنوان الدبلومة${index}`]
-            break
-          }
-        }
-      }
-    } else if (student['تأكيد نوع التسجيل'] === 'تمهيدي الماجستير') {
-      for (let index = 1; index <= 9; index++) {
-        if (index === 1) {
-          if (student['عنوان تمهيدي الماجستير']) {
-            title = student['عنوان تمهيدي الماجستير']
-            break
-          }
-        } else {
-          if (student[`عنوان تمهيدي الماجستير${index}`]) {
-            title = student[`عنوان تمهيدي الماجستير${index}`]
-            break
-          }
-        }
-      }
-    }
-    const academicThesisData = {
-      study_type: thesisData.study_type
-        ? thesisData.study_type
-        : student['تأكيد نوع التسجيل'],
-      toeflGrade: thesisData.toeflGrade
-        ? thesisData.toeflGrade
-        : student['درجة امتحان التويفل - TOEFL'] || '',
-      arabicTitle: title
-        ? thesisData.arabicTitle || title
-        : thesisData.arabicTitle || student['عنوان الرسالة باللغة العربية'],
-      englishTitle: thesisData.englishTitle
-        ? thesisData.englishTitle
-        : student['عنوان الرسالة بالغة الإنجليزية'] || '',
-      department: thesisData.department
-        ? thesisData.department
-        : student['القسم التابعة له هذه الدبلومة']
-        ? student['القسم التابعة له هذه الدبلومة']
-        : student['التخصص التابعة له هذه الرسالة'],
-      // diplomaTitle: thesisData.diplomaTitle ? thesisData.diplomaTitle : title,
-      requiredCourses: thesisData.requiredCourses
-        ? thesisData.requiredCourses
-        : student['المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)'] ||
-          '',
-    }
-
-    mainForm.push(
-      <Container key={personalData.id}>
-        <main className='main-form'>
-          <Row>
-            <Col xs={{ order: 2 }} md={{ order: 1 }}>
-              <Image src={personalData.image} className='person-img' />
-            </Col>
-            <Col
-              className='header'
-              xs={{ order: 1, span: 9 }}
-              md={{ order: 2, span: 5 }}
-              lg={{ span: 5 }}
-              xl={{ span: 5 }}
-            >
-              <h1>تسجيل بيانات الطالب</h1>
-            </Col>
-            <Col className='pages' xs={{ order: 3 }} md={{ order: 3 }}>
-              <Row>
-                <Col
-                  className={
-                    page === 1 &&
-                    'active-page animate__animated animate__flipInX'
-                  }
-                >
-                  1
-                </Col>
-                <Col
-                  className={
-                    page === 2 &&
-                    'active-page animate__animated animate__flipInX'
-                  }
-                >
-                  2
-                </Col>
-                <Col
-                  className={
-                    page === 3 &&
-                    'active-page animate__animated animate__flipInX'
-                  }
-                >
-                  3
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Row>
-                  {page === 1 && (
-                    <PersonalData
-                      className={animate}
-                      setPersonalInfo={setPersonalInfo}
-                      personalData={personalData}
-                    />
-                  )}
-                  {page === 2 && (
-                    <UniversityDegrees
-                      className={animate}
-                      universityDegrees={universityDegrees}
-                      setUniDegrees={setUniDegrees}
-                    />
-                  )}
-                  {page === 3 && (
-                    <ThesisData
-                      className={animate}
-                      academicThesisData={academicThesisData}
-                      setThesisData={setThesisData}
-                    />
-                  )}
-                </Form.Row>
-
-                <Form.Row>
-                  {page === 1 || (
-                    <Col className='btn-col'>
-                      <Button
-                        size='lg'
-                        type='button'
-                        className='next-btn'
-                        onClick={() => {
-                          document.documentElement.scrollTop = 0
-                          setAnimate('animate__animated animate__fadeInRight')
-                          setPage(page - 1)
-                        }}
-                      >
-                        <BsFillCaretRightFill className='btn-previous' />
-                        السابق
-                      </Button>
-                    </Col>
-                  )}
+              <Form.Row>
+                {page === 1 || (
                   <Col className='btn-col'>
                     <Button
                       size='lg'
                       type='button'
-                      className='next-btn cancel-btn'
+                      className='next-btn'
                       onClick={() => {
-                        Swal.fire({
-                          icon: 'warning',
-                          title:
-                            'هل تريد مسح الطالب نهائياً أم وضعه في ملف إكسل لمراجعته لاحقاً؟',
-                          showConfirmButton: true,
-                          showDenyButton: true,
-                          showCancelButton: true,
-                          confirmButtonText: 'ضع الطالب في ملف إكسل',
-                          confirmButtonColor: '#1d6f42',
-                          denyButtonText: 'امسح الطالب نهائياً',
-                          cancelButtonText: 'لا ، عودة',
-                          cancelButtonColor: '#2f3944',
-                          denyButtonColor: '#be0707',
-                        }).then((result) => {
-                          /* Read more about isConfirmed, isDenied below */
-                          if (result.isConfirmed) {
-                            Swal.fire({
-                              icon: 'success',
-                              title: 'تم وضع الطالب في ملف إكسل',
-                              showConfirmButton: false,
-                              timer: 1500,
-                            })
-                            document.documentElement.scrollTop = 0
-                            setPersonalInfo({})
-                            setUniDegrees({})
-                            setThesisData({})
-                            setCanceledStudents([...canceledStudents, student])
-                            setStudentNumber(studentNumber + 1)
-                            setAnimate('animate__animated animate__fadeIn')
-                            setPage(1)
-                          } else if (result.isDenied) {
-                            const deleteStudentAPI = {
-                              url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
-                              method: 'delete',
-                              headers: {
-                                Accept: 'application/json',
-                                'Content-Type':
-                                  'application/json;charset=UTF-8',
-                              },
-                            }
-                            axios(deleteStudentAPI)
-                              .then((response) => {
-                                Swal.fire({
-                                  icon: 'success',
-                                  title: 'تمت إزالة الطالب نهائياً',
-                                  showConfirmButton: false,
-                                  timer: 1500,
-                                })
-                                document.documentElement.scrollTop = 0
-                                setPersonalInfo({})
-                                setUniDegrees({})
-                                setThesisData({})
-                                setStudentNumber(studentNumber + 1)
-                                setAnimate('animate__animated animate__fadeIn')
-                                setPage(1)
-                              })
-                              .catch((err) => {
-                                console.log(err)
-                              })
-                          }
-                        })
+                        document.documentElement.scrollTop = 0
+                        setAnimate('animate__animated animate__fadeInRight')
+                        setPage(page - 1)
                       }}
                     >
-                      إلغاء <TiUserDelete className='btn-submit' />
+                      <BsFillCaretRightFill className='btn-previous' />
+                      السابق
                     </Button>
                   </Col>
-                  <Col className='btn-col'>
-                    <Button
-                      size='lg'
-                      type='submit'
-                      className={`next-btn ${page === 3 && 'submit-btn'}`}
-                    >
-                      {page === 3 ? (
-                        <div>
-                          تسجيل <TiUserAdd className='btn-submit' />
-                        </div>
-                      ) : (
-                        <div>
-                          التالى <BsFillCaretLeftFill className='btn-next' />
-                        </div>
-                      )}
-                    </Button>
-                  </Col>
-                </Form.Row>
-              </Form>
-            </Col>
-          </Row>
-        </main>
-      </Container>
-    )
-  }
-
-  return <>{mainForm[studentNumber]}</>
+                )}
+                <Col className='btn-col'>
+                  <Button
+                    size='lg'
+                    type='button'
+                    className='next-btn cancel-btn'
+                    onClick={() => {
+                      Swal.fire({
+                        icon: 'warning',
+                        title:
+                          'هل تريد مسح الطالب نهائياً أم وضعه في ملف إكسل لمراجعته لاحقاً؟',
+                        showConfirmButton: true,
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'ضع الطالب في ملف إكسل',
+                        confirmButtonColor: '#1d6f42',
+                        denyButtonText: 'امسح الطالب نهائياً',
+                        cancelButtonText: 'لا ، عودة',
+                        cancelButtonColor: '#2f3944',
+                        denyButtonColor: '#be0707',
+                      }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'تم وضع الطالب في ملف إكسل',
+                            showConfirmButton: false,
+                            timer: 1500,
+                          })
+                          document.documentElement.scrollTop = 0
+                          setPersonalInfo({})
+                          setUniDegrees({})
+                          setThesisData({})
+                          setCanceledStudents([...canceledStudents, student])
+                          setStudentNumber(studentNumber + 1)
+                          setAnimate('animate__animated animate__fadeIn')
+                          setPage(1)
+                        } else if (result.isDenied) {
+                          const deleteStudentAPI = {
+                            url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
+                            method: 'delete',
+                            headers: {
+                              Accept: 'application/json',
+                              'Content-Type': 'application/json;charset=UTF-8',
+                            },
+                          }
+                          axios(deleteStudentAPI)
+                            .then((response) => {
+                              Swal.fire({
+                                icon: 'success',
+                                title: 'تمت إزالة الطالب نهائياً',
+                                showConfirmButton: false,
+                                timer: 1500,
+                              })
+                              document.documentElement.scrollTop = 0
+                              setPersonalInfo({})
+                              setUniDegrees({})
+                              setThesisData({})
+                              setStudentNumber(studentNumber + 1)
+                              setAnimate('animate__animated animate__fadeIn')
+                              setPage(1)
+                            })
+                            .catch((err) => {
+                              console.log(err)
+                            })
+                        }
+                      })
+                    }}
+                  >
+                    إلغاء <TiUserDelete className='btn-submit' />
+                  </Button>
+                </Col>
+                <Col className='btn-col'>
+                  <Button
+                    size='lg'
+                    type='submit'
+                    className={`next-btn ${page === 3 && 'submit-btn'}`}
+                  >
+                    {page === 3 ? (
+                      <div>
+                        تسجيل <TiUserAdd className='btn-submit' />
+                      </div>
+                    ) : (
+                      <div>
+                        التالى <BsFillCaretLeftFill className='btn-next' />
+                      </div>
+                    )}
+                  </Button>
+                </Col>
+              </Form.Row>
+            </Form>
+          </Col>
+        </Row>
+      </main>
+    </Container>
+  )
 }
 
 export default StudentDataRegisteration
