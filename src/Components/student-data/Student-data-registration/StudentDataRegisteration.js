@@ -59,6 +59,25 @@ const StudentDataRegisteration = ({
 
   const [canceledStudents, setCanceledStudents] = useState([])
 
+  const handleChange = (e) => {
+    let { name, value, type, checked } = e.target
+    let indexOfDash = name.lastIndexOf('-')
+    let compIndex = name.slice(indexOfDash + 1)
+    name = name.slice(0, indexOfDash)
+    if (compIndex === 'p') {
+      type === 'checkbox'
+        ? setPersonalInfo({ ...personalInfo, [name]: checked })
+        : setPersonalInfo({ ...personalInfo, [name]: value })
+    } else if (compIndex === 'u') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      uniDegrees[index] = { ...uniDegrees[index], [name]: value }
+      setUniDegrees([...uniDegrees])
+    } else if (compIndex === 't') {
+      setThesisData({ ...thesisData, [name]: value })
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     const form = e.currentTarget
@@ -320,6 +339,7 @@ const StudentDataRegisteration = ({
                     className={animate}
                     setPersonalInfo={setPersonalInfo}
                     personalInfo={personalInfo}
+                    handleChange={handleChange}
                   />
                 )}
                 {page === 2 && (
@@ -327,6 +347,7 @@ const StudentDataRegisteration = ({
                     className={animate}
                     uniDegrees={uniDegrees}
                     setUniDegrees={setUniDegrees}
+                    handleChange={handleChange}
                   />
                 )}
                 {page === 3 && (
@@ -334,6 +355,7 @@ const StudentDataRegisteration = ({
                     className={animate}
                     thesisData={thesisData}
                     setThesisData={setThesisData}
+                    handleChange={handleChange}
                   />
                 )}
               </Form.Row>

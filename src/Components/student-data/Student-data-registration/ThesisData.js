@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
-const ThesisData = ({ thesisData, setThesisData, className }) => {
+const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
   // const [thesis, setThesis] = useState(academicThesisData)
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setThesisData({ ...thesisData, [name]: value })
-  }
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target
+  //   setThesisData({ ...thesisData, [name]: value })
+  // }
 
   // React.useEffect(() => {
   //   setThesisData(thesis)
@@ -24,7 +24,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
               <Form.Control
                 className='form-input'
                 as='select'
-                name='sciDegree'
+                name='sciDegree-t'
                 value={thesisData.sciDegree}
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -46,7 +46,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
               <Form.Control
                 className='form-input'
                 type='number'
-                name='toeflGrade'
+                name='toeflGrade-t'
                 value={thesisData.toeflGrade}
                 onChange={handleChange}
                 dir='ltr'
@@ -71,7 +71,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
               <Form.Control
                 className='form-input'
                 as='select'
-                name='department'
+                name='department-t'
                 value={thesisData.department}
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -105,7 +105,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='arabicTitle'
+                  name='arabicTitle-t'
                   value={thesisData.arabicTitle}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -123,7 +123,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   as='select'
-                  name='spec'
+                  name='spec-t'
                   value={thesisData.spec}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -252,7 +252,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='arabicTitle'
+                  name='arabicTitle-t'
                   value={thesisData.arabicTitle}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -267,7 +267,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='requiredCourses'
+                  name='requiredCourses-t'
                   value={thesisData.requiredCourses}
                   onChange={handleChange}
                 />
@@ -282,7 +282,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='englishTitle'
+                  name='englishTitle-t'
                   value={thesisData.englishTitle}
                   onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
@@ -305,7 +305,7 @@ const ThesisData = ({ thesisData, setThesisData, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='requiredCourses'
+                  name='requiredCourses-t'
                   value={thesisData.requiredCourses}
                   onChange={handleChange}
                 />

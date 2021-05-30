@@ -3,15 +3,20 @@ import { Col, Form, Container, Row } from 'react-bootstrap'
 import './PersonalData.css'
 import { countries } from './countries'
 
-const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
+const PersonalData = ({
+  personalInfo,
+  setPersonalInfo,
+  className,
+  handleChange,
+}) => {
   // const [student, setStudent] = React.useState(personalData)
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    type === 'checkbox'
-      ? setPersonalInfo({ ...personalInfo, [name]: checked })
-      : setPersonalInfo({ ...personalInfo, [name]: value })
-  }
+  // const handleChange = (e) => {
+  //   const { name, value, type, checked } = e.target
+  //   type === 'checkbox'
+  //     ? setPersonalInfo({ ...personalInfo, [name]: checked })
+  //     : setPersonalInfo({ ...personalInfo, [name]: value })
+  // }
 
   // React.useEffect(() => {
   //   setPersonalInfo(student)
@@ -29,7 +34,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='arabicName'
+                  name='arabicName-p'
                   value={personalInfo.arabicName}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -45,7 +50,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='englishName'
+                  name='englishName-p'
                   value={personalInfo.englishName}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
@@ -63,7 +68,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='birthdate'
+                  name='birthdate-p'
                   value={personalInfo.birthdate}
                   onChange={handleChange}
                   pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
@@ -84,7 +89,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                         type='radio'
                         label='ذكر'
                         value='ذكر'
-                        name='gender'
+                        name='gender-p'
                         className='form-check-male'
                         checked={personalInfo.gender === 'ذكر'}
                         onChange={handleChange}
@@ -94,7 +99,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                         type='radio'
                         value='أنثى'
                         label='أنثى'
-                        name='gender'
+                        name='gender-p'
                         className='form-check-female'
                         checked={personalInfo.gender === 'أنثى'}
                         onChange={handleChange}
@@ -108,7 +113,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                     <Form.Control
                       className='form-input'
                       as='select'
-                      name='nationality'
+                      name='nationality-p'
                       value={personalInfo.nationality}
                       onChange={handleChange}
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -130,7 +135,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='number'
-                  name='nationalityId'
+                  name='nationalityId-p'
                   value={personalInfo.nationalityId}
                   onChange={handleChange}
                 />
@@ -145,7 +150,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='birthdateSource'
+                  name='birthdateSource-p'
                   value={personalInfo.birthdateSource}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -163,7 +168,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='number'
-                  name='idS'
+                  name='idS-p'
                   value={personalInfo.idS}
                   onChange={handleChange}
                   disabled
@@ -179,7 +184,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='email'
-                  name='email'
+                  name='email-p'
                   value={personalInfo.email}
                   onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
@@ -200,7 +205,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='Add'
+                  name='Add-p'
                   value={personalInfo.Add}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'
@@ -216,7 +221,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='mobile'
+                  name='mobile-p'
                   value={personalInfo.mobile}
                   onChange={handleChange}
                 />
@@ -235,7 +240,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='jobArabic'
+                  name='jobArabic-p'
                   value={personalInfo.jobArabic}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -251,7 +256,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input form-english'
                   type='text'
-                  name='jobEnglish'
+                  name='jobEnglish-p'
                   value={personalInfo.jobEnglish}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
@@ -269,7 +274,7 @@ const PersonalData = ({ personalInfo, setPersonalInfo, className }) => {
                 <Form.Control
                   className='form-input'
                   type='text'
-                  name='jobAdd'
+                  name='jobAdd-p'
                   value={personalInfo.jobAdd}
                   onChange={handleChange}
                   pattern='^[\u0621-\u064A-0-9 ]+$'

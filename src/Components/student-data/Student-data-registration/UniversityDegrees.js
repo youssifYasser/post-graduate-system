@@ -2,21 +2,26 @@ import React, { useState } from 'react'
 import { Col, Form, Container, Row } from 'react-bootstrap'
 import './UniversityDegrees.css'
 
-const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
+const UniversityDegrees = ({
+  uniDegrees,
+  setUniDegrees,
+  className,
+  handleChange,
+}) => {
   // const [Degrees, setDegrees] = useState(universityDegrees)
 
-  const handleChange = (e) => {
-    // const temp = e.target.name
-    // const name = temp.slice(1)
-    // const value = e.target.value
-    // let index = temp.slice(0, 1)
-    let { name, value } = e.target
-    let indexOfDash = name.lastIndexOf('-')
-    let index = name.slice(indexOfDash + 1)
-    name = name.slice(0, indexOfDash)
-    uniDegrees[index] = { ...uniDegrees[index], [name]: value }
-    setUniDegrees([...uniDegrees])
-  }
+  // const handleChange = (e) => {
+  //   // const temp = e.target.name
+  //   // const name = temp.slice(1)
+  //   // const value = e.target.value
+  //   // let index = temp.slice(0, 1)
+  //   let { name, value } = e.target
+  //   let indexOfDash = name.lastIndexOf('-')
+  //   let index = name.slice(indexOfDash + 1)
+  //   name = name.slice(0, indexOfDash)
+  //   uniDegrees[index] = { ...uniDegrees[index], [name]: value }
+  //   setUniDegrees([...uniDegrees])
+  // }
 
   // React.useEffect(() => {
   //   setUniDegrees(Degrees)
@@ -35,7 +40,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
                   <Form.Control
                     className='form-input'
                     type='text'
-                    name={`degree-${index}`}
+                    name={`degree-${index}-u`}
                     value={degree.degree}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -51,7 +56,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
                   <Form.Control
                     className='form-input form-english'
                     type='text'
-                    name={`dateObtained-${index}`}
+                    name={`dateObtained-${index}-u`}
                     value={degree.dateObtained}
                     onChange={handleChange}
                     pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
@@ -67,7 +72,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
                   <Form.Control
                     className='form-input'
                     type='text'
-                    name={`specialization-${index}`}
+                    name={`specialization-${index}-u`}
                     value={degree.specialization}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -85,7 +90,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
                   <Form.Control
                     className='form-input'
                     type='text'
-                    name={`faculty-${index}`}
+                    name={`faculty-${index}-u`}
                     value={degree.faculty}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
@@ -101,7 +106,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, className }) => {
                   <Form.Control
                     className='form-input'
                     type='text'
-                    name={`university-${index}`}
+                    name={`university-${index}-u`}
                     value={degree.university}
                     onChange={handleChange}
                     pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
