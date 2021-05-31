@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
-import { MdDeleteForever } from 'react-icons/md'
 
-const Supervisors = ({ className, handleChange }) => {
+const StudentSups = ({ className, handleChange }) => {
   return (
     <Container className={`form-four ${className}`}>
       <h5 className='title'>الســادة المشرفيــن</h5>
@@ -91,11 +90,11 @@ const Supervisors = ({ className, handleChange }) => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId='currentState-t'>
+            <Form.Group controlId='currentState-t' className='sup'>
               <Form.Label className='sups-refs-labels'>وضع الإشراف</Form.Label>
 
               <Form.Control
-                className='form-input'
+                className='form-input form-input-sup'
                 // name='currentState-t'
                 // value={thesisData.currentState}
                 onChange={handleChange}
@@ -126,4 +125,4 @@ const Supervisors = ({ className, handleChange }) => {
   )
 }
 
-export default Supervisors
+export default StudentSups

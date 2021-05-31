@@ -13,7 +13,7 @@ import 'animate.css/animate.min.css'
 import PersonalData from './PersonalData'
 import ThesisData from './ThesisData'
 import UniversityDegrees from './UniversityDegrees'
-import Supervisors from './supervisors'
+import StudentRefs from './referees'
 import FileUpload from './FileUpload'
 
 const StudentDataRegisteration = ({
@@ -352,7 +352,7 @@ const StudentDataRegisteration = ({
                   />
                 )}
                 {page === 3 && (
-                  <Supervisors
+                  <StudentRefs
                     className={animate}
                     // supervisors={supervisors}
                     // setSupervisors={setSupervisors}
