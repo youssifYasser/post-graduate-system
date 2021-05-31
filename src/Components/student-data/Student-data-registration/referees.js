@@ -25,7 +25,6 @@ const StudentRefs = ({ className, handleChange }) => {
               <Form.Label className='sups-refs-labels'>الرقم الكودي</Form.Label>
 
               <Form.Control
-                id='hehe'
                 className='form-input'
                 type='number'
                 // value={idRefereed}
@@ -45,7 +44,11 @@ const StudentRefs = ({ className, handleChange }) => {
                 // value={arabicName}
                 // name={`arabicName-${index}`}
                 onChange={handleChange}
+                pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
               />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل الاسم باللغة العربية فقط.
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col>
@@ -58,7 +61,11 @@ const StudentRefs = ({ className, handleChange }) => {
                 // value={specialization}
                 // name={`specialization-${index}`}
                 onChange={handleChange}
+                pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
               />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التخصص باللغة العربية فقط.
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col className='file'>
@@ -87,7 +94,11 @@ const StudentRefs = ({ className, handleChange }) => {
                 // value={cancelationDate	}
                 // name={`cancelationDate	-${index}`}
                 onChange={handleChange}
+                pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
               />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل حالة التقرير باللغة العربية فقط.
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col className='ref-rep-date-col'>
@@ -104,6 +115,7 @@ const StudentRefs = ({ className, handleChange }) => {
                 onChange={handleChange}
                 dir='ltr'
                 lang='en'
+                pattern='^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}$'
               />
               <Form.Control.Feedback type='invalid'>
                 من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
