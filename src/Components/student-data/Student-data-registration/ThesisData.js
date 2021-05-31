@@ -3,16 +3,6 @@ import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
 const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
-  // const [thesis, setThesis] = useState(academicThesisData)
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target
-  //   setThesisData({ ...thesisData, [name]: value })
-  // }
-
-  // React.useEffect(() => {
-  //   setThesisData(thesis)
-  // }, [thesis])
-
   return (
     <Container className={`form-three ${className}`}>
       <h5 className='title'> بيانات الرسالة</h5>
@@ -30,10 +20,15 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
               >
-                <option>دبلومة الدراسات العليا</option>
-                <option>تمهيدي الماجستير</option>
-                <option>الماجستير في العلوم</option>
-                <option>دكتوراه الفلسفة في العلوم</option>
+                <option value=''>اختر نوع الدراسة</option>
+                <option value='دبلومة الدراسات العليا'>
+                  دبلومة الدراسات العليا
+                </option>
+                <option value='تمهيدي الماجستير'>تمهيدي الماجستير</option>
+                <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+                <option value='دكتوراه الفلسفة في العلوم'>
+                  دكتوراه الفلسفة في العلوم
+                </option>
               </Form.Control>
               <Form.Control.Feedback type='invalid'>
                 من فضلك أدخل نوع الدراسة بالطريقة الصحيحة.
@@ -77,6 +72,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
               >
+                <option value=''>اختر القسم</option>
                 <option>قسم الفيزياء</option>
                 <option>قسم الكيمياء</option>
                 <option>قسم الكيمياء الحيوية</option>
@@ -313,6 +309,125 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
             </Col>
           </Form.Row>
         )}
+      </section>
+      <h5 className='title'> تواريــخ هامــة</h5>
+      <section className='section'>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='submition-date'>
+              <Form.Label>تاريخ تسجيل الاستمارة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='formDate-t'
+                value={thesisData.formDate}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='dept-accept-date'>
+              <Form.Label>تاريخ موافقة القسم</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                dir='ltr'
+                name='departmentApprovalDateRegistration'
+                value={thesisData.departmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='fac-accept-date'>
+              <Form.Label>تاريخ موافقة الكلية</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='facultyApprovalDateRegistration-t'
+                value={thesisData.facultyApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='com-accept-date'>
+              <Form.Label>تاريخ موافقة لجنة الدراسات</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                dir='ltr'
+                name='universitydepartmentApprovalDateRegistration-t'
+                value={thesisData.universitydepartmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='uni-accept-date'>
+              <Form.Label>تاريخ موافقة الجامعة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='universitydepartmentApprovalDateRegistration-t'
+                value={thesisData.universitydepartmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='form-status'>
+              <Form.Label>وضع الاستمارة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                name='currentState-t'
+                value={thesisData.currentState}
+                onChange={handleChange}
+                as='select'
+                custom
+              >
+                <option value=''>اختر وضع الاستمارة</option>
+                <option value='سارية'>سارية</option>
+                <option value='أجيزت'>أجيزت</option>
+                <option value='موقوفة'>موقوفة</option>
+                <option value='ملغية'>ملغية</option>
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Form.Row>
       </section>
     </Container>
   )

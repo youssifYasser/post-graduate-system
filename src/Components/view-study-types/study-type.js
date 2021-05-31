@@ -336,7 +336,7 @@ const StudyType = ({
               <Form.Control
                 className='form-input'
                 name={`arabicName-${index}`}
-                type='input'
+                type='text'
                 value={arabicName}
                 onChange={handleChange}
                 disabled={!isEditing}
@@ -353,7 +353,7 @@ const StudyType = ({
               <Form.Control
                 className='form-input form-english'
                 name={`englishName-${index}`}
-                type='input'
+                type='text'
                 value={englishName}
                 onChange={handleChange}
                 disabled={!isEditing}
@@ -401,7 +401,7 @@ const StudyType = ({
               <Form.Control
                 className='form-input'
                 name={`universityCode-${index}`}
-                type='input'
+                type='text'
                 value={universityCode}
                 onChange={handleChange}
                 disabled={!isEditing}
