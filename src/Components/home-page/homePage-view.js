@@ -79,25 +79,25 @@ function homePage() {
 
                             <div className="links mt-5">
                                 <Row className="row-1">
-                                    <Col lg={12} xl={{ span: 5, offset: 2 }}>
+                                    <Col lg={12} xl={{ span: 5, offset: 2 }} className="sp2">
                                         <div className="link">
                                             <Row>
-                                                <Col>
+                                                <Col xs={7} md={9}>
                                                     <p className="textOflink text-center">إضافة طالب</p>
                                                 </Col>
-                                                <Col md={3}>
+                                                <Col xs={5} md={3}>
                                                     <MdAddCircle className="icon2" />
                                                 </Col>
                                             </Row>
                                         </div>
                                     </Col>
-                                    <Col lg={12} xl={5}>
+                                    <Col lg={12} xl={5} className="sp2">
                                         <div className="link">
                                             <Row>
-                                                <Col>
+                                                <Col xs={7} md={9}>
                                                     <p className="textOflink text-center">عرض / بحث/ تعديل</p>
                                                 </Col>
-                                                <Col md={4}>
+                                                <Col xs={5} md={3}>
                                                     <FaEdit className="icon2" />
                                                 </Col>
                                             </Row>
@@ -108,10 +108,10 @@ function homePage() {
                                     <Col lg={12} xl={{ span: 5, offset: 2 }}>
                                         <div className="link">
                                             <Row>
-                                                <Col>
+                                                <Col xs={7} md={9}>
                                                     <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
                                                 </Col>
-                                                <Col md={3}>
+                                                <Col xs={5} md={3}>
                                                     <GiHandOk className="icon2" />
                                                 </Col>
                                             </Row>
@@ -120,10 +120,10 @@ function homePage() {
                                     <Col lg={12} xl={5}>
                                         <div className="link">
                                             <Row>
-                                                <Col>
+                                                <Col xs={9} md={9}>
                                                     <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
                                                 </Col>
-                                                <Col md={3}>
+                                                <Col xs={3} md={3}>
                                                     <RiFileExcel2Line className="icon2" />
                                                 </Col>
                                             </Row>
@@ -138,35 +138,66 @@ function homePage() {
                     </Col>
                 </Row>
             </div>
-            <Container className="stats mb-5">
+
+            <div className="stats mt-5 mb-5">
+                <Row>
+                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
+                        <div className="stat sp animate__animated animate__fadeInDown aanimate__delay-.5s">
+                            <p className="title">دبلومة الدراسات العليا</p>
+                            <p className="count">14,123</p>
+                        </div>
+                    </Col>
+                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
+                        <div className="stat animate__animated animate__fadeInDown animate__fast">
+                            <p className="title">تمهيدي الماجستير</p>
+                            <p className="count">4,35</p>
+                        </div>
+                    </Col>
+                    <Col className="mb-3  col" xs={12} md={6} xl={3}>
+                        <div className="stat sp animate__animated animate__fadeInDown animate__slow">
+                            <p className="title">الماجستير في العلوم</p>
+                            <p className="count">1,113</p>
+                        </div>
+                    </Col>
+
+                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
+                        <div className="stat  animate__animated animate__fadeInDown  animate__slower">
+                            <p className="title">دكتوراه الفلسفة في العلوم</p>
+                            <p className="count">69</p>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+            
+            {/* <Container className="stats mb-5">
                 <h1 className="mb-5">عدد الطلاب فى كل دراسة</h1>
                 <Row>
-                    <Col>
+                    <Col xs={12} md={6} lg={3}>
                         <div className="circle">
                             <h2 className="count">561</h2>
                             <h3>دبلومة الدراسات العليا</h3>
                         </div>
                     </Col>
-                    <Col>
+                    <Col xs={12} md={6} lg={3}>
                         <div className="circle">
                             <h2 className="count">2,212</h2>
                             <h3>تمهيدي الماجستير</h3>
                         </div>
                     </Col>
-                    <Col>
+                    <Col xs={12} md={6} lg={3}>
                         <div className="circle">
                             <h2 className="count">14,154</h2>
                             <h3>الماجستير في العلوم</h3>
                         </div>
                     </Col>
-                    <Col>
+                    <Col xs={12} md={6} lg={3}>
                         <div className="circle">
                             <h2 className="count">1,981</h2>
                             <h3>دكتوراه الفلسفة في العلوم</h3>
                         </div>
                     </Col>
                 </Row>
-            </Container>
+            </Container> */}
         </div>
 
     )
