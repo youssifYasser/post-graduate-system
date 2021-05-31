@@ -16,6 +16,7 @@ import UniversityDegrees from './UniversityDegrees'
 import StudentRefs from './referees'
 import StudentReports from './reports'
 import StudentExcuses from './excuses'
+import StudentPayments from './payments'
 import FileUpload from './FileUpload'
 
 const StudentDataRegisteration = ({
@@ -338,7 +339,7 @@ const StudentDataRegisteration = ({
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Row>
                 {page === 1 && (
-                  <StudentExcuses
+                  <StudentPayments
                     className={animate}
                     // setPersonalInfo={setPersonalInfo}
                     // personalInfo={personalInfo}

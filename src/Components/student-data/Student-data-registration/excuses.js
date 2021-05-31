@@ -3,7 +3,7 @@ import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
 
-const StudentReports = ({ className, handleChange }) => {
+const StudentExcuses = ({ className, handleChange }) => {
   const [btnText, setBtnText] = useState('')
   const [btnTextOne, setBtnTextOne] = useState('')
   const handleUpload = (e) => {
@@ -153,4 +153,4 @@ const StudentReports = ({ className, handleChange }) => {
   )
 }
 
-export default StudentReports
+export default StudentExcuses
