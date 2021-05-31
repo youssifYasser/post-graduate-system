@@ -6,8 +6,8 @@ import { countries } from './countries'
 const PersonalData = ({
   personalInfo,
   setPersonalInfo,
-  className,
   handleChange,
+  byExcel,
 }) => {
   // const [student, setStudent] = React.useState(personalData)
 
@@ -24,7 +24,7 @@ const PersonalData = ({
 
   return (
     <>
-      <Container className={`form-one ${className}`}>
+      <Container className={`form-one animate__animated animate__fadeIn`}>
         <h5 className='title'> البيانات الشخصية للطالب </h5>
         <section className='section'>
           <Form.Row>
@@ -38,6 +38,7 @@ const PersonalData = ({
                   value={personalInfo.arabicName}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الاسم باللغة العربية فقط.
@@ -48,12 +49,13 @@ const PersonalData = ({
               <Form.Group controlId='enName' dir='ltr' lang='en'>
                 <Form.Label>الاسم باللغة الإنجليزية</Form.Label>
                 <Form.Control
-                  className='form-input form-english'
+                  className='form-input'
                   type='text'
                   name='englishName-p'
                   value={personalInfo.englishName}
                   onChange={handleChange}
                   pattern='^[a-zA-Z$@$!%*?&#^-_. +]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الاسم باللغة الإنجليزية فقط.
@@ -71,7 +73,8 @@ const PersonalData = ({
                   name='birthdate-p'
                   value={personalInfo.birthdate}
                   onChange={handleChange}
-                  pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
+                  pattern='^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل التاريخ بالطريقة الصحيحة (مثال: 25/02/2015).
@@ -93,6 +96,7 @@ const PersonalData = ({
                         className='form-check-male'
                         checked={personalInfo.gender === 'ذكر'}
                         onChange={handleChange}
+                        required
                       />
                       <Form.Check
                         inline
@@ -103,6 +107,7 @@ const PersonalData = ({
                         className='form-check-female'
                         checked={personalInfo.gender === 'أنثى'}
                         onChange={handleChange}
+                        required
                       />
                     </Col>
                   </Form.Group>
@@ -118,9 +123,15 @@ const PersonalData = ({
                       onChange={handleChange}
                       pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                       custom
+                      required
                     >
+                      <option value=''>اختر الجنسية</option>
                       {countries.map((country, index) => {
-                        return <option key={index}>{country}</option>
+                        return (
+                          <option key={index} value={country}>
+                            {country}
+                          </option>
+                        )
                       })}
                     </Form.Control>
                   </Form.Group>
@@ -138,6 +149,7 @@ const PersonalData = ({
                   name='nationalityId-p'
                   value={personalInfo.nationalityId}
                   onChange={handleChange}
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الرقم القومى بالطريقة الصحيحية (أرقام فقط).
@@ -163,18 +175,18 @@ const PersonalData = ({
           </Form.Row>
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
-              <Form.Group controlId='code'>
-                <Form.Label>الرقم الكودى</Form.Label>
+              <Form.Group controlId='religion'>
+                <Form.Label>الديانة</Form.Label>
                 <Form.Control
                   className='form-input'
-                  type='number'
-                  name='idS-p'
-                  value={personalInfo.idS}
+                  type='text'
+                  name='religion-p'
+                  value={personalInfo.religion}
                   onChange={handleChange}
-                  disabled
+                  pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 />
                 <Form.Control.Feedback type='invalid'>
-                  من فضلك أدخل الرقم الكودى بالطريقة الصحيحة(أرقام فقط).
+                  من فضلك أدخل الديانة باللغة العربية فقط
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -188,6 +200,7 @@ const PersonalData = ({
                   value={personalInfo.email}
                   onChange={handleChange}
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل البريد الإلكترونى بالطريقة الصحيحة
@@ -196,6 +209,26 @@ const PersonalData = ({
               </Form.Group>
             </Col>
           </Form.Row>
+          {byExcel && (
+            <Form.Row>
+              <Col md={{ span: 5, offset: 2 }} sm={6}>
+                <Form.Group controlId='code'>
+                  <Form.Label>الرقم الكودى</Form.Label>
+                  <Form.Control
+                    className='form-input'
+                    type='number'
+                    name='idS-p'
+                    value={personalInfo.idS}
+                    onChange={handleChange}
+                    disabled
+                  />
+                  <Form.Control.Feedback type='invalid'>
+                    من فضلك أدخل الرقم الكودى بالطريقة الصحيحة(أرقام فقط).
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Form.Row>
+          )}
         </section>
         <section className='section'>
           <Form.Row>
@@ -224,6 +257,7 @@ const PersonalData = ({
                   name='mobile-p'
                   value={personalInfo.mobile}
                   onChange={handleChange}
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل رقم الهاتف بالطريقة الصحيحة(أرقام فقط).
@@ -244,6 +278,7 @@ const PersonalData = ({
                   value={personalInfo.jobArabic}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل الوظيفة باللغة العربية فقط.

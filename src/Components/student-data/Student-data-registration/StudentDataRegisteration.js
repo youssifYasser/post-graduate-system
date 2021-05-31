@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
+import {
+  Col,
+  Container,
+  Row,
+  Image,
+  Form,
+  Button,
+  Tabs,
+  Tab,
+} from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { TiUserAdd, TiUserDelete } from 'react-icons/ti'
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
+import { MdAddCircle } from 'react-icons/md'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 
@@ -41,6 +51,7 @@ const StudentDataRegisteration = ({
     arabicName: '',
   })
   const [uniDegrees, setUniDegrees] = useState([])
+  const [uniDegreesNum, setUniDegreesNum] = useState(0)
   const [thesisData, setThesisData] = useState({
     department: '',
     requiredCourses: '',
@@ -52,10 +63,11 @@ const StudentDataRegisteration = ({
   })
 
   const [student, setStudent] = useState([])
+  const [studies, setStudies] = useState([])
+  const [departments, setDepartments] = useState([])
 
   const [page, setPage] = useState(1)
   const [validated, setValidated] = useState(false)
-  const [animate, setAnimate] = useState('animate__animated animate__fadeIn')
 
   const [canceledStudents, setCanceledStudents] = useState([])
 
@@ -113,8 +125,27 @@ const StudentDataRegisteration = ({
       switch (page) {
         case 1:
         case 2:
-          setAnimate('animate__animated animate__fadeInLeft')
           setPage(page + 1)
+          document.getElementById(
+            `uncontrolled-tab-tab-${page}`
+          ).ariaSelected = false
+          document
+            .getElementById(`uncontrolled-tab-tab-${page}`)
+            .classList.remove('active')
+          document
+            .getElementById(`uncontrolled-tab-tabpane-${page}`)
+            .classList.remove('active', 'show')
+
+          document.getElementById(
+            `uncontrolled-tab-tab-${page + 1}`
+          ).ariaSelected = true
+          document
+            .getElementById(`uncontrolled-tab-tab-${page + 1}`)
+            .classList.add('active')
+          document
+            .getElementById(`uncontrolled-tab-tabpane-${page + 1}`)
+            .classList.add('active', 'show')
+
           break
         case 3:
           Swal.fire({
@@ -140,68 +171,94 @@ const StudentDataRegisteration = ({
               // console.log(JSON.stringify(thesisData))
               // console.log(uniDegrees)
 
-              const personalInfoAPI = {
-                url: `http://localhost:8000/api/student/${personalInfo.id}`,
-                method: 'put',
-                data: JSON.stringify(personalInfo),
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json;charset=UTF-8',
-                },
-              }
-              axios(personalInfoAPI)
-                .then((response) => {
-                  console.log(response)
-                })
-                .catch((err) => {
-                  console.log(err)
-                })
-
-              const thesisDataAPI = {
-                url: 'http://localhost:8000/api/registrations',
-                method: 'post',
-                data: JSON.stringify({ ...thesisData, idS: personalInfo.id }),
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json;charset=UTF-8',
-                },
-              }
-              axios(thesisDataAPI)
-                .then((response) => {
-                  console.log(response)
-                })
-                .catch((err) => {
-                  console.log(err)
-                })
-
-              for (let index = 0; index < uniDegrees.length; index++) {
-                if (uniDegrees[index].degree) {
-                  console.log(uniDegrees[index])
-                  const pervStudiesAPI = {
-                    url: `http://localhost:8000/api/previousstudy/${personalInfo.id}`,
-                    method: 'post',
-                    data: JSON.stringify(uniDegrees[index]),
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json;charset=UTF-8',
-                    },
-                  }
-                  axios(pervStudiesAPI)
-                    .then((response) => {
-                      console.log(response)
-                    })
-                    .catch((err) => {
-                      console.log(err)
-                    })
+              if (byExcel) {
+                const personalInfoAPI = {
+                  url: `http://localhost:8000/api/student/${personalInfo.id}`,
+                  method: 'put',
+                  data: JSON.stringify(personalInfo),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
                 }
-              }
+                axios(personalInfoAPI)
+                  .then((response) => {
+                    console.log(response)
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
 
-              setPersonalInfo({})
-              setUniDegrees({})
-              setThesisData({})
-              setStudentNumber(studentNumber + 1)
-              setAnimate('animate__animated animate__fadeIn')
-              setPage(1)
+                const thesisDataAPI = {
+                  url: 'http://localhost:8000/api/registrations',
+                  method: 'post',
+                  data: JSON.stringify({ ...thesisData, idS: personalInfo.id }),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(thesisDataAPI)
+                  .then((response) => {
+                    console.log(response)
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+
+                for (let index = 0; index < uniDegrees.length; index++) {
+                  if (uniDegrees[index].degree) {
+                    console.log(uniDegrees[index])
+                    const pervStudiesAPI = {
+                      url: `http://localhost:8000/api/previousstudy/${personalInfo.id}`,
+                      method: 'post',
+                      data: JSON.stringify(uniDegrees[index]),
+                      headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json;charset=UTF-8',
+                      },
+                    }
+                    axios(pervStudiesAPI)
+                      .then((response) => {
+                        console.log(response)
+                      })
+                      .catch((err) => {
+                        console.log(err)
+                      })
+                  }
+                }
+                setStudentNumber(studentNumber + 1)
+              } else {
+                console.log({
+                  personalInfo: { ...personalInfo },
+                  uniDegrees: [...uniDegrees],
+                  thesisData: { ...thesisData },
+                })
+                const insertStudentManuallyAPI = {
+                  url: 'http://localhost:8000/api/insert-student',
+                  method: 'post',
+                  data: JSON.stringify({
+                    personalInfo: { ...personalInfo },
+                    uniDegrees: [...uniDegrees],
+                    thesisData: { ...thesisData },
+                  }),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(insertStudentManuallyAPI)
+                  .then((response) => {
+                    console.log(response)
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+              // setPersonalInfo({})
+              // setUniDegrees({})
+              // setThesisData({})
+              // setPage(1)
             }
           })
           break
@@ -275,6 +332,54 @@ const StudentDataRegisteration = ({
   }
 
   useEffect(() => {
+    const studyTypesAPI = {
+      url: 'http://localhost:8000/api/getallstudytype',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(studyTypesAPI)
+      .then((response) => {
+        setStudies([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  useEffect(() => {
+    for (let i = 0; i < studies.length; i++) {
+      for (let j = 0; j < departments.length; j++) {
+        if (studies[i].idDeptF === departments[j].idDept) {
+          studies[i] = {
+            ...studies[i],
+            ['department']: departments[j].arabicName,
+          }
+          setStudies([...studies])
+        }
+      }
+    }
+  }, [departments])
+
+  useEffect(() => {
     if (byExcel) {
       if (studentNumber >= students.length && students.length !== 0) {
         setStudentNumber(0)
@@ -291,185 +396,194 @@ const StudentDataRegisteration = ({
   return (
     <Container key={personalInfo.idS}>
       <main className='main-form'>
-        <Row>
-          <Col xs={{ order: 2 }} md={{ order: 1 }}>
-            <Image src={personalInfo.image} className='person-img' />
-          </Col>
-          <Col
-            className='header'
-            xs={{ order: 1, span: 9 }}
-            md={{ order: 2, span: 5 }}
-            lg={{ span: 5 }}
-            xl={{ span: 5 }}
-          >
+        <Row className={`${byExcel || 'manual-row'}`}>
+          {byExcel && (
+            <Col>
+              <Image src={personalInfo.image} className='person-img' />
+            </Col>
+          )}
+          <Col className={`header ${byExcel || 'manual-header'}`}>
             <h1>تسجيل بيانات الطالب</h1>
           </Col>
-          <Col className='pages' xs={{ order: 3 }} md={{ order: 3 }}>
-            <Row>
-              <Col
-                className={
-                  page === 1 && 'active-page animate__animated animate__flipInX'
-                }
-              >
-                1
-              </Col>
-              <Col
-                className={
-                  page === 2 && 'active-page animate__animated animate__flipInX'
-                }
-              >
-                2
-              </Col>
-              <Col
-                className={
-                  page === 3 && 'active-page animate__animated animate__flipInX'
-                }
-              >
-                3
-              </Col>
-            </Row>
-          </Col>
         </Row>
-        <Row>
-          <Col>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Form.Row>
-                {page === 1 && (
-                  <PersonalData
-                    className={animate}
-                    setPersonalInfo={setPersonalInfo}
-                    personalInfo={personalInfo}
-                    handleChange={handleChange}
-                  />
-                )}
-                {page === 2 && (
-                  <UniversityDegrees
-                    className={animate}
-                    uniDegrees={uniDegrees}
-                    setUniDegrees={setUniDegrees}
-                    handleChange={handleChange}
-                  />
-                )}
-                {page === 3 && (
-                  <ThesisData
-                    className={animate}
-                    thesisData={thesisData}
-                    setThesisData={setThesisData}
-                    handleChange={handleChange}
-                  />
-                )}
-              </Form.Row>
 
-              <Form.Row>
-                {page === 1 || (
-                  <Col className='btn-col'>
-                    <Button
-                      size='lg'
-                      type='button'
-                      className='next-btn'
-                      onClick={() => {
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Tabs
+            defaultActiveKey='1'
+            activeKey={page}
+            id='uncontrolled-tab'
+            onSelect={(k) => setPage(parseInt(k))}
+          >
+            <Tab eventKey='1' title='البيانات الشخصية'>
+              <PersonalData
+                setPersonalInfo={setPersonalInfo}
+                personalInfo={personalInfo}
+                handleChange={handleChange}
+                byExcel={byExcel}
+              />
+            </Tab>
+            <Tab eventKey='2' title='الدرجات الجامعية'>
+              <UniversityDegrees
+                uniDegrees={uniDegrees}
+                setUniDegrees={setUniDegrees}
+                handleChange={handleChange}
+              />
+            </Tab>
+            <Tab eventKey='3' title='بيانات الرسالة'>
+              <ThesisData
+                thesisData={thesisData}
+                setThesisData={setThesisData}
+                handleChange={handleChange}
+                departments={departments}
+                studies={studies}
+              />
+            </Tab>
+          </Tabs>
+
+          <Form.Row>
+            {page === 1 || (
+              <Col className='btn-col'>
+                <Button
+                  size='lg'
+                  type='button'
+                  className={`btns ${byExcel && 'excel-btns'}`}
+                  onClick={() => {
+                    document.documentElement.scrollTop = 0
+                    setPage(page - 1)
+                    document.getElementById(
+                      `uncontrolled-tab-tab-${page}`
+                    ).ariaSelected = false
+                    document
+                      .getElementById(`uncontrolled-tab-tab-${page}`)
+                      .classList.remove('active')
+                    document
+                      .getElementById(`uncontrolled-tab-tabpane-${page}`)
+                      .classList.remove('active', 'show')
+
+                    document.getElementById(
+                      `uncontrolled-tab-tab-${page - 1}`
+                    ).ariaSelected = true
+                    document
+                      .getElementById(`uncontrolled-tab-tab-${page - 1}`)
+                      .classList.add('active')
+                    document
+                      .getElementById(`uncontrolled-tab-tabpane-${page - 1}`)
+                      .classList.add('active', 'show')
+                  }}
+                >
+                  <BsFillCaretRightFill className='btn-previous' />
+                  الســابق
+                </Button>
+              </Col>
+            )}
+            {page === 2 && (
+              <Col className='btn-col'>
+                <Button
+                  size='lg'
+                  type='button'
+                  className={`btns ${byExcel && 'excel-btns'} add-degree`}
+                  onClick={() => {
+                    setUniDegrees([...uniDegrees, { idS: uniDegreesNum + 1 }])
+                    setUniDegreesNum(uniDegreesNum + 1)
+                  }}
+                >
+                  إضـافة دراسة <MdAddCircle className='btn-submit' />
+                </Button>
+              </Col>
+            )}
+            {byExcel && (
+              <Col className='btn-col'>
+                <Button
+                  size='lg'
+                  type='button'
+                  className={`btns ${
+                    byExcel && (page === 1 || 'excel-btns')
+                  } cancel-btn`}
+                  onClick={() => {
+                    Swal.fire({
+                      icon: 'warning',
+                      title:
+                        'هل تريد مسح الطالب نهائياً أم وضعه في ملف إكسل لمراجعته لاحقاً؟',
+                      showConfirmButton: true,
+                      showDenyButton: true,
+                      showCancelButton: true,
+                      confirmButtonText: 'ضع الطالب في ملف إكسل',
+                      confirmButtonColor: '#1d6f42',
+                      denyButtonText: 'امسح الطالب نهائياً',
+                      cancelButtonText: 'لا ، عودة',
+                      cancelButtonColor: '#2f3944',
+                      denyButtonColor: '#be0707',
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'تم وضع الطالب في ملف إكسل',
+                          showConfirmButton: false,
+                          timer: 1500,
+                        })
                         document.documentElement.scrollTop = 0
-                        setAnimate('animate__animated animate__fadeInRight')
-                        setPage(page - 1)
-                      }}
-                    >
-                      <BsFillCaretRightFill className='btn-previous' />
-                      السابق
-                    </Button>
-                  </Col>
-                )}
-                <Col className='btn-col'>
-                  <Button
-                    size='lg'
-                    type='button'
-                    className='next-btn cancel-btn'
-                    onClick={() => {
-                      Swal.fire({
-                        icon: 'warning',
-                        title:
-                          'هل تريد مسح الطالب نهائياً أم وضعه في ملف إكسل لمراجعته لاحقاً؟',
-                        showConfirmButton: true,
-                        showDenyButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: 'ضع الطالب في ملف إكسل',
-                        confirmButtonColor: '#1d6f42',
-                        denyButtonText: 'امسح الطالب نهائياً',
-                        cancelButtonText: 'لا ، عودة',
-                        cancelButtonColor: '#2f3944',
-                        denyButtonColor: '#be0707',
-                      }).then((result) => {
-                        /* Read more about isConfirmed, isDenied below */
-                        if (result.isConfirmed) {
-                          Swal.fire({
-                            icon: 'success',
-                            title: 'تم وضع الطالب في ملف إكسل',
-                            showConfirmButton: false,
-                            timer: 1500,
-                          })
-                          document.documentElement.scrollTop = 0
-                          setPersonalInfo({})
-                          setUniDegrees({})
-                          setThesisData({})
-                          setCanceledStudents([...canceledStudents, student])
-                          setStudentNumber(studentNumber + 1)
-                          setAnimate('animate__animated animate__fadeIn')
-                          setPage(1)
-                        } else if (result.isDenied) {
-                          const deleteStudentAPI = {
-                            url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
-                            method: 'delete',
-                            headers: {
-                              Accept: 'application/json',
-                              'Content-Type': 'application/json;charset=UTF-8',
-                            },
-                          }
-                          axios(deleteStudentAPI)
-                            .then((response) => {
-                              Swal.fire({
-                                icon: 'success',
-                                title: 'تمت إزالة الطالب نهائياً',
-                                showConfirmButton: false,
-                                timer: 1500,
-                              })
-                              document.documentElement.scrollTop = 0
-                              setPersonalInfo({})
-                              setUniDegrees({})
-                              setThesisData({})
-                              setStudentNumber(studentNumber + 1)
-                              setAnimate('animate__animated animate__fadeIn')
-                              setPage(1)
-                            })
-                            .catch((err) => {
-                              console.log(err)
-                            })
+                        setPersonalInfo({})
+                        setUniDegrees({})
+                        setThesisData({})
+                        setCanceledStudents([...canceledStudents, student])
+                        setStudentNumber(studentNumber + 1)
+                        setPage(1)
+                      } else if (result.isDenied) {
+                        const deleteStudentAPI = {
+                          url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
+                          method: 'delete',
+                          headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json;charset=UTF-8',
+                          },
                         }
-                      })
-                    }}
-                  >
-                    إلغاء <TiUserDelete className='btn-submit' />
-                  </Button>
-                </Col>
-                <Col className='btn-col'>
-                  <Button
-                    size='lg'
-                    type='submit'
-                    className={`next-btn ${page === 3 && 'submit-btn'}`}
-                  >
-                    {page === 3 ? (
-                      <div>
-                        تسجيل <TiUserAdd className='btn-submit' />
-                      </div>
-                    ) : (
-                      <div>
-                        التالى <BsFillCaretLeftFill className='btn-next' />
-                      </div>
-                    )}
-                  </Button>
-                </Col>
-              </Form.Row>
-            </Form>
-          </Col>
-        </Row>
+                        axios(deleteStudentAPI)
+                          .then((response) => {
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'تمت إزالة الطالب نهائياً',
+                              showConfirmButton: false,
+                              timer: 1500,
+                            })
+                            document.documentElement.scrollTop = 0
+                            setPersonalInfo({})
+                            setUniDegrees({})
+                            setThesisData({})
+                            setStudentNumber(studentNumber + 1)
+                            setPage(1)
+                          })
+                          .catch((err) => {
+                            console.log(err)
+                          })
+                      }
+                    })
+                  }}
+                >
+                  إلغـاء الطـالب <TiUserDelete className='btn-submit' />
+                </Button>
+              </Col>
+            )}
+            <Col className={`btn-col ${byExcel || page !== 1 || 'only-btn'}`}>
+              <Button
+                size='lg'
+                type='submit'
+                className={`btns ${byExcel && (page === 1 || 'excel-btns')}
+                     next-btn ${page === 3 && 'submit-btn'}`}
+              >
+                {page === 3 ? (
+                  <div>
+                    تسجيل <TiUserAdd className='btn-submit' />
+                  </div>
+                ) : (
+                  <div>
+                    التــالى <BsFillCaretLeftFill className='btn-next' />
+                  </div>
+                )}
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
       </main>
     </Container>
   )

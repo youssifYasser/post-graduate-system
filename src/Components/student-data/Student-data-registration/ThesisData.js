@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Form, Container } from 'react-bootstrap'
 import './ThesisData.css'
 
-const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
+const ThesisData = ({
+  thesisData,
+  setThesisData,
+  handleChange,
+  departments,
+}) => {
   // const [thesis, setThesis] = useState(academicThesisData)
   // const handleChange = (e) => {
   //   const { name, value } = e.target
@@ -14,7 +19,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
   // }, [thesis])
 
   return (
-    <Container className={`form-three ${className}`}>
+    <Container className={`form-three animate__animated animate__fadeIn`}>
       <h5 className='title'> بيانات الرسالة</h5>
       <section className='section'>
         <Form.Row>
@@ -29,11 +34,17 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
+                required
               >
-                <option>دبلومة الدراسات العليا</option>
-                <option>تمهيدي الماجستير</option>
-                <option>الماجستير في العلوم</option>
-                <option>دكتوراه الفلسفة في العلوم</option>
+                <option value=''>اختر نوع الدراسة</option>
+                <option value='دبلومة الدراسات العليا'>
+                  دبلومة الدراسات العليا
+                </option>
+                <option value='تمهيدي الماجستير'>تمهيدي الماجستير</option>
+                <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+                <option value='دكتوراه الفلسفة في العلوم'>
+                  دكتوراه الفلسفة في العلوم
+                </option>
               </Form.Control>
               <Form.Control.Feedback type='invalid'>
                 من فضلك أدخل نوع الدراسة بالطريقة الصحيحة.
@@ -76,16 +87,16 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
+                required
               >
-                <option>قسم الفيزياء</option>
-                <option>قسم الكيمياء</option>
-                <option>قسم الكيمياء الحيوية</option>
-                <option>قسم علم الحشرات</option>
-                <option>قسم الرياضيات</option>
-                <option>قسم الجيولوجيا</option>
-                <option>قسم الجيوفيزياء</option>
-                <option>قسم علم الحيوان</option>
-                <option>قسم علم النبات</option>
+                <option value=''>اختر القسم</option>
+                {departments.map((dept) => {
+                  return (
+                    <option key={dept.idDept} value={dept.arabicName}>
+                      {dept.arabicName}
+                    </option>
+                  )
+                })}
               </Form.Control>
               <Form.Control.Feedback type='invalid'>
                 من فضلك أدخل اسم القسم باللغة العربية فقط.
@@ -109,6 +120,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                   value={thesisData.arabicTitle}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  required
                 />
 
                 <Form.Control.Feedback type='invalid'>
@@ -128,6 +140,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                   custom
+                  required
                 >
                   <option value=''>اختر التخصص</option>
 
@@ -256,6 +269,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                   value={thesisData.arabicTitle}
                   onChange={handleChange}
                   pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل عنوان الرسالة باللغة العربية فقط.
@@ -288,6 +302,7 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
                   pattern='^[a-zA-Z0-9$@$!%*?&#^-_. +]+$'
                   dir='ltr'
                   lang='en'
+                  required
                 />
                 <Form.Control.Feedback type='invalid'>
                   من فضلك أدخل عنوان الرسالة باللغة الإنجليزية فقط.
@@ -296,6 +311,8 @@ const ThesisData = ({ thesisData, setThesisData, className, handleChange }) => {
             </Col>
           )}
         </Form.Row>
+
+        {thesisData.sciDegree === ''}
         {(thesisData.sciDegree === 'دكتوراه الفلسفة في العلوم' ||
           thesisData.sciDegree === 'الماجستير في العلوم') && (
           <Form.Row>

@@ -45,6 +45,23 @@
   font-size: 1.1em !important;
 }
 
+.degree .form-row .del-col {
+  text-align: left;
+}
+
+.degree .form-row .del-col button {
+  background-color: #cb0000;
+  border: 1px solid #707070;
+  font-size: 1em;
+  margin-top: 5px;
+}
+
+.degree .form-row .del-col button:hover {
+  background-color: #edf0f6;
+  color: #cb0000;
+  border-color: #cb0000;
+}
+
 @media screen and (max-width: 767.98px) {
   .degree .form-row:nth-child(1) .col:nth-child(1),
   .degree .form-row:nth-child(1) .col:nth-child(2) {
