@@ -3,19 +3,9 @@ import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
 
-const StudentPayments = ({ className, handleChange }) => {
-  const [btnText, setBtnText] = useState('')
-  const handleUpload = (e) => {
-    let btn = e.target.files[0].name
-    let dot = btn.lastIndexOf('.')
-    let btnn = btn.slice(0, dot)
-    let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
-    let ext = btn.slice(dot)
-    setBtnText(btnnn + ext)
-    // setBtnText(btn)
-  }
+const StudentPayments = ({ handleChange, handleUpload, page, btnText }) => {
   return (
-    <Container className={`form-six ${className}`}>
+    <Container className={`form-six animate__animated animate__fadeIn`}>
       <h5 className='title'>تسجيل بيانات دفع المصروفات</h5>
       <section className='section'>
         <Form.Row>
@@ -108,7 +98,7 @@ const StudentPayments = ({ className, handleChange }) => {
                 onChange={handleUpload}
               />
               <label htmlFor='files' className='upload-label'>
-                {btnText ? btnText : 'ارفع الملف'}
+                {btnText}
               </label>
             </Form.Group>
           </Col>

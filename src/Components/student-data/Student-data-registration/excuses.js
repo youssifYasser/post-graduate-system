@@ -3,24 +3,15 @@ import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
 
-const StudentExcuses = ({ className, handleChange }) => {
-  const [btnText, setBtnText] = useState('')
-  const [btnTextOne, setBtnTextOne] = useState('')
-  const handleUpload = (e) => {
-    let btn = e.target.files[0].name
-    let dot = btn.lastIndexOf('.')
-    let btnn = btn.slice(0, dot)
-    let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
-    let ext = btn.slice(dot)
-    if (e.target.id === 'files') {
-      setBtnText(btnnn + ext)
-    } else if (e.target.id === 'files1') {
-      setBtnTextOne(btnnn + ext)
-    }
-  }
-
+const StudentExcuses = ({
+  handleChange,
+  handleUpload,
+  page,
+  btnText1,
+  btnText2,
+}) => {
   return (
-    <Container className={`form-six ${className}`}>
+    <Container className={`form-six animate__animated animate__fadeIn`}>
       <h5 className='title'>الأعذار</h5>
       <section className='section'>
         <Form.Row>
@@ -78,7 +69,7 @@ const StudentExcuses = ({ className, handleChange }) => {
                 onChange={handleUpload}
               />
               <label htmlFor='files' className='upload-label'>
-                {btnText ? btnText : 'ارفع الملف'}
+                {btnText1}
               </label>
             </Form.Group>
           </Col>
@@ -96,7 +87,7 @@ const StudentExcuses = ({ className, handleChange }) => {
                 onChange={handleUpload}
               />
               <label htmlFor='files1' className='upload-label'>
-                {btnTextOne ? btnTextOne : 'ارفع الملف'}
+                {btnText2}
               </label>
             </Form.Group>
           </Col>

@@ -76,6 +76,44 @@ const StudentDataRegisteration = ({
   const [validated, setValidated] = useState(false)
 
   const [canceledStudents, setCanceledStudents] = useState([])
+  const [file, setFile] = useState({})
+  const [btnRefText, setBtnRefText] = useState('ارفع الملف')
+  const [btnRepText, setBtnRepText] = useState('ارفع الملف')
+  const [btnEx1Text, setBtnEx1Text] = useState('ارفع الملف')
+  const [btnEx2Text, setBtnEx2Text] = useState('ارفع الملف')
+  const [btnPText, setBtnPText] = useState('ارفع الملف')
+
+  useEffect(() => {
+    console.log(file)
+  }, [file])
+  const handleUpload = (e) => {
+    setFile(e.target.files[0])
+    let btn = e.target.files[0].name
+    let dot = btn.lastIndexOf('.')
+    let btnn = btn.slice(0, dot)
+    let ext = btn.slice(dot)
+    if (page === 5) {
+      let btnnn = btnn.length <= 12 ? btnn : btnn.slice(0, 10) + '..'
+      setBtnRefText(btnnn + ext)
+      e.target.value = ''
+    } else if (page === 6) {
+      let btnnn = btnn.length <= 27 ? btnn : btnn.slice(0, 25) + '..'
+      setBtnRepText(btnnn + ext)
+      e.target.value = ''
+    } else if (page === 7) {
+      let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+      if (e.target.id === 'files1') {
+        setBtnEx2Text(btnnn + ext)
+      } else {
+        setBtnEx1Text(btnnn + ext)
+      }
+      e.target.value = ''
+    } else if (page === 8) {
+      let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+      setBtnPText(btnnn + ext)
+      e.target.value = ''
+    }
+  }
 
   const add = () => {
     if (page === 2) {
@@ -425,7 +463,7 @@ const StudentDataRegisteration = ({
   }, [studentNumber])
 
   return (
-    <Container key={personalInfo.idS}>
+    <Container className='student-data-reg'>
       <main className='main-form'>
         <Row className={`${byExcel || 'manual-row'}`}>
           {byExcel && (
@@ -487,44 +525,57 @@ const StudentDataRegisteration = ({
             {byExcel && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
+                  btnText={btnRefText}
+                  handleUpload={handleUpload}
+                  page={page}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
+                  btnText={btnRepText}
+                  handleUpload={handleUpload}
+                  page={page}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
+                  btnText1={btnEx1Text}
+                  btnText2={btnEx2Text}
+                  handleUpload={handleUpload}
+                  page={page}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
+                  btnText={btnPText}
+                  handleUpload={handleUpload}
+                  page={page}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}

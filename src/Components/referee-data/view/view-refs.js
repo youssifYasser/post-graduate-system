@@ -314,7 +314,7 @@ const Referees = () => {
     <div className='view-ref'>
       <Row>
         <div className='header'>
-          <h1>الـمـحـكـمـيـــن</h1>
+          <h1>الـسـادة الـمـحـكـمـيـــن</h1>
         </div>
       </Row>
       <Form className='search-form'>

@@ -1,22 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
 
-const StudentRefs = ({ className, handleChange }) => {
-  const [btnText, setBtnText] = useState('')
-  const handleUpload = (e) => {
-    let btn = e.target.files[0].name
-    let dot = btn.lastIndexOf('.')
-    let btnn = btn.slice(0, dot)
-    let btnnn = btnn.length <= 12 ? btnn : btnn.slice(0, 10) + '..'
-    let ext = btn.slice(dot)
-    setBtnText(btnnn + ext)
-    // setBtnText(btn)
-  }
-
+const StudentRefs = ({ handleChange, handleUpload, page, btnText }) => {
   return (
-    <Container className={`form-four ${className}`}>
+    <Container className={`form-four animate__animated animate__fadeIn`}>
       <h5 className='title'>الســادة المحكميــن</h5>
       <section className='section'>
         <Form.Row>
@@ -78,9 +67,10 @@ const StudentRefs = ({ className, handleChange }) => {
                 id='files'
                 style={{ display: 'none' }}
                 onChange={handleUpload}
+                // onClick={handleUpload}
               />
               <label htmlFor='files' className='upload-label'>
-                {btnText ? btnText : 'ارفع الملف'}
+                {btnText}
               </label>
             </Form.Group>
           </Col>

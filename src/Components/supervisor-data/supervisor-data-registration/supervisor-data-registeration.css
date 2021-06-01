@@ -3,14 +3,14 @@
   font-size: 1.2em;
 }
 
-.supervisor-reg .main-form {
-  /* text-align: right; */
+/* .supervisor-reg .main-form {
+  text-align: right;
   margin: 10px;
-}
+} */
 
 .supervisor-reg .main-form .header {
   background-color: #2f3944;
-  margin: 45px auto;
+  margin: 30px auto 50px;
   padding: 10px 20px;
   text-align: center;
   border-radius: 10px;
@@ -154,7 +154,7 @@
   padding: 10px 20px;
   text-align: center;
   border-radius: 10px;
-  max-width: 32%;
+  /* max-width: 32%; */
   color: #ece8e1;
 }
 

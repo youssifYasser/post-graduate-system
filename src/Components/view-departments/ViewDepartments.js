@@ -152,7 +152,7 @@ const ViewDepartments = () => {
       <div className='main-form'>
         <Row>
           <Col className='header'>
-            <h1>الأقسام</h1>
+            <h1>الأقـسـام</h1>
           </Col>
         </Row>
         <Row>
