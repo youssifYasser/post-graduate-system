@@ -130,9 +130,8 @@
 }
 
 .main-form .btn-col .submit-btn:hover {
-  color: #01ad01 !important;
-  background-color: #edf0f6 !important;
-  border-color: #01ad01 !important;
+  color: #1d6f42 !important;
+  border-color: #1d6f42 !important;
 }
 
 .main-form .btn-col .cancel-btn:hover {
@@ -222,3 +221,108 @@
     font-size: 1em !important;
   }
 }
+
+/* referees and supervisors */
+
+.form-four,
+.form-six {
+  text-align: center;
+}
+
+.sups-refs-labels {
+  font-size: 1.2em;
+  line-height: 2.5em;
+}
+
+.form-four .section .form-row .col:nth-child(1) {
+  max-width: 10%;
+}
+
+.form-six .section .form-row .excuse-date-col,
+.form-six .section .form-row .excuse-months {
+  max-width: 12%;
+}
+
+.form-four .section .form-row .col:nth-child(4) {
+  max-width: 13%;
+}
+
+.form-four .section .form-row .file {
+  max-width: 17%;
+}
+
+.form-four .section .form-row .col:nth-child(5) {
+  max-width: 13%;
+}
+
+.form-four .section .form-row .col:nth-child(6) .form-group.sup {
+  width: min-content;
+}
+
+.form-four .section .form-row .col:nth-child(6) .form-input-sup {
+  width: fit-content;
+}
+
+.form-four .section .form-row .del-col button,
+.form-six .section .form-row .del-col button {
+  background-color: #cb0000;
+  border: 1px solid #707070;
+  font-size: 1.1em;
+  width: 70%;
+  height: 37px;
+  padding-top: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-four .section .form-row .del-col button:hover,
+.form-six .section .form-row .del-col button:hover {
+  background-color: transparent;
+  color: #cb0000;
+  border: 2px solid #cb0000;
+  padding-top: 3px;
+}
+
+.form-six .section .form-row .del-col .rep-btn {
+  margin-top: 3px;
+  width: 67%;
+  font-size: 1.2em;
+  padding-top: 2px;
+}
+
+.form-six .section .form-row .del-col .rep-btn:hover {
+  padding-top: 2px;
+}
+
+.form-six .section .form-row .del-col .exc-btn {
+  width: 80%;
+}
+
+.form-six .section .form-row .del-col .pay-btn {
+  width: 75%;
+}
+
+.form-six .section .form-row .del-col .pay-btn:hover {
+  padding-top: 1px;
+}
+
+.form-four .section .form-row .ref-rep-date-col {
+  max-width: 11%;
+}
+
+.form-four .section .form-row .upload-label,
+.form-six .section .form-row .upload-label {
+  border: 1px solid #8e949b;
+  color: #373636;
+  background-color: #edf0f6 !important;
+  border-radius: 8px;
+  font-size: 1.1em;
+  padding: 6px 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.invalid-feedback {
+  font-size: 1em !important;
+}
+
+/* referees and supervisors */

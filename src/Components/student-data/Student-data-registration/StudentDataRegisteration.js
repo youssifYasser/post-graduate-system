@@ -23,6 +23,10 @@ import 'animate.css/animate.min.css'
 import PersonalData from './PersonalData'
 import ThesisData from './ThesisData'
 import UniversityDegrees from './UniversityDegrees'
+import StudentRefs from './referees'
+import StudentReports from './reports'
+import StudentExcuses from './excuses'
+import StudentPayments from './payments'
 import FileUpload from './FileUpload'
 
 const StudentDataRegisteration = ({

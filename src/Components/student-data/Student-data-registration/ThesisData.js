@@ -331,6 +331,125 @@ const ThesisData = ({
           </Form.Row>
         )}
       </section>
+      <h5 className='title'> تواريــخ هامــة</h5>
+      <section className='section'>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='submition-date'>
+              <Form.Label>تاريخ تسجيل الاستمارة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='formDate-t'
+                value={thesisData.formDate}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='dept-accept-date'>
+              <Form.Label>تاريخ موافقة القسم</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                dir='ltr'
+                name='departmentApprovalDateRegistration'
+                value={thesisData.departmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='fac-accept-date'>
+              <Form.Label>تاريخ موافقة الكلية</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='facultyApprovalDateRegistration-t'
+                value={thesisData.facultyApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='com-accept-date'>
+              <Form.Label>تاريخ موافقة لجنة الدراسات</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                dir='ltr'
+                name='universitydepartmentApprovalDateRegistration-t'
+                value={thesisData.universitydepartmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+        <Form.Row>
+          <Col md={{ span: 5, offset: 2 }} sm={6}>
+            <Form.Group controlId='uni-accept-date'>
+              <Form.Label>تاريخ موافقة الجامعة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                placeholder='dd/mm/yyyy'
+                name='universitydepartmentApprovalDateRegistration-t'
+                value={thesisData.universitydepartmentApprovalDateRegistration}
+                onChange={handleChange}
+                pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
+                dir='ltr'
+              />
+              <Form.Control.Feedback type='invalid'>
+                من فضلك ادخل التاريخ بالطريقة الصحيحة (مثال:25/02/2015)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col md={5} sm={6}>
+            <Form.Group controlId='form-status'>
+              <Form.Label>وضع الاستمارة</Form.Label>
+              <Form.Control
+                className='form-input'
+                type='text'
+                name='currentState-t'
+                value={thesisData.currentState}
+                onChange={handleChange}
+                as='select'
+                custom
+              >
+                <option value=''>اختر وضع الاستمارة</option>
+                <option value='سارية'>سارية</option>
+                <option value='أجيزت'>أجيزت</option>
+                <option value='موقوفة'>موقوفة</option>
+                <option value='ملغية'>ملغية</option>
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+      </section>
     </Container>
   )
 }
