@@ -248,9 +248,9 @@ const ViewStudents = () => {
           </Row>
           <Tabs
             defaultActiveKey='1'
-            activeKey={page}
+            // activeKey={page}
             id='uncontrolled-tab'
-            onSelect={(k) => setPage(parseInt(k))}
+            // onSelect={(k) => setPage(parseInt(k))}
           ></Tabs>
           {/* workking on Tabs */}
           <Row className='labels-row'>

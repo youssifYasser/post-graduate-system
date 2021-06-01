@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import { Col, Form, Container, Row, Button } from 'react-bootstrap'
 import './UniversityDegrees.css'
 
-const UniversityDegrees = ({ uniDegrees, setUniDegrees, handleChange }) => {
+const UniversityDegrees = ({
+  uniDegrees,
+  setUniDegrees,
+  handleChange,
+  deleteItem,
+}) => {
   // const [Degrees, setDegrees] = useState(universityDegrees)
 
   // const handleChange = (e) => {
@@ -125,17 +130,7 @@ const UniversityDegrees = ({ uniDegrees, setUniDegrees, handleChange }) => {
               </Form.Row>
               <Form.Row>
                 <Col className='del-col'>
-                  <Button
-                    type='button'
-                    onClick={() => {
-                      // handleDelete(index)
-                      setUniDegrees([
-                        ...uniDegrees.filter((deg) => {
-                          return deg.idS !== degree.idS
-                        }),
-                      ])
-                    }}
-                  >
+                  <Button type='button' onClick={() => deleteItem(degree.idS)}>
                     مسح الدراسة
                   </Button>
                 </Col>

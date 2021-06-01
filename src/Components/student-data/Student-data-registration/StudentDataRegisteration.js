@@ -27,7 +27,8 @@ import StudentRefs from './referees'
 import StudentReports from './reports'
 import StudentExcuses from './excuses'
 import StudentPayments from './payments'
-import FileUpload from './FileUpload'
+import StudentSups from './supervisors'
+import { add } from 'lodash'
 
 const StudentDataRegisteration = ({
   byExcel,
@@ -65,6 +66,7 @@ const StudentDataRegisteration = ({
     toeflGrade: '',
     sciDegree: '',
   })
+  const [studentSups, setStudentSups] = useState([])
 
   const [student, setStudent] = useState([])
   const [studies, setStudies] = useState([])
@@ -75,6 +77,31 @@ const StudentDataRegisteration = ({
 
   const [canceledStudents, setCanceledStudents] = useState([])
 
+  const add = () => {
+    if (page === 2) {
+      setUniDegrees([...uniDegrees, { idS: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 4) {
+      setStudentSups([...studentSups, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    }
+  }
+
+  const deleteItem = (deletedId) => {
+    if (page === 2) {
+      setUniDegrees([
+        ...uniDegrees.filter((deg) => {
+          return deg.idS !== deletedId
+        }),
+      ])
+    } else if (page === 4) {
+      setStudentSups([
+        ...studentSups.filter((sup) => {
+          return sup.id !== deletedId
+        }),
+      ])
+    }
+  }
   const handleChange = (e) => {
     let { name, value, type, checked } = e.target
     let indexOfDash = name.lastIndexOf('-')
@@ -431,6 +458,7 @@ const StudentDataRegisteration = ({
                 uniDegrees={uniDegrees}
                 setUniDegrees={setUniDegrees}
                 handleChange={handleChange}
+                deleteItem={deleteItem}
               />
             </Tab>
             <Tab eventKey='3' title='بيانات الرسالة'>
@@ -440,8 +468,66 @@ const StudentDataRegisteration = ({
                 handleChange={handleChange}
                 departments={departments}
                 studies={studies}
+                byExcel={byExcel}
               />
             </Tab>
+
+            {byExcel && (
+              <Tab eventKey='4' title='المشرفين'>
+                <StudentSups
+                  studentSups={studentSups}
+                  setStudentSups={setStudentSups}
+                  handleChange={handleChange}
+                  deleteItem={deleteItem}
+                  // departments={departments}
+                  // studies={studies}
+                />
+              </Tab>
+            )}
+            {byExcel && (
+              <Tab eventKey='5' title='المحكمين'>
+                <StudentRefs
+                  thesisData={thesisData}
+                  setThesisData={setThesisData}
+                  handleChange={handleChange}
+                  departments={departments}
+                  studies={studies}
+                />
+              </Tab>
+            )}
+            {byExcel && (
+              <Tab eventKey='6' title='بيان/تقرير'>
+                <StudentReports
+                  thesisData={thesisData}
+                  setThesisData={setThesisData}
+                  handleChange={handleChange}
+                  departments={departments}
+                  studies={studies}
+                />
+              </Tab>
+            )}
+            {byExcel && (
+              <Tab eventKey='7' title='الأعذار'>
+                <StudentExcuses
+                  thesisData={thesisData}
+                  setThesisData={setThesisData}
+                  handleChange={handleChange}
+                  departments={departments}
+                  studies={studies}
+                />
+              </Tab>
+            )}
+            {byExcel && (
+              <Tab eventKey='8' title='المصروفات'>
+                <StudentPayments
+                  thesisData={thesisData}
+                  setThesisData={setThesisData}
+                  handleChange={handleChange}
+                  departments={departments}
+                  studies={studies}
+                />
+              </Tab>
+            )}
           </Tabs>
 
           <Form.Row>
@@ -480,18 +566,21 @@ const StudentDataRegisteration = ({
                 </Button>
               </Col>
             )}
-            {page === 2 && (
+            {page >= 2 && page !== 3 && (
               <Col className='btn-col'>
                 <Button
                   size='lg'
                   type='button'
                   className={`btns ${byExcel && 'excel-btns'} add-degree`}
-                  onClick={() => {
-                    setUniDegrees([...uniDegrees, { idS: uniDegreesNum + 1 }])
-                    setUniDegreesNum(uniDegreesNum + 1)
-                  }}
+                  onClick={() => add()}
                 >
-                  إضـافة دراسة <MdAddCircle className='btn-submit' />
+                  {page === 2 && 'إضـافة دراسة'}
+                  {page === 4 && 'إضـافة مشرف'}
+                  {page === 5 && 'إضـافة محكم'}
+                  {page === 6 && 'إضـافة تقرير'}
+                  {page === 7 && 'إضـافة عذر'}
+                  {page === 8 && 'إضـافة إيصال'}
+                  <MdAddCircle className='btn-submit' />
                 </Button>
               </Col>
             )}

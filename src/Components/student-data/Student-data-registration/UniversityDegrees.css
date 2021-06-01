@@ -54,6 +54,7 @@
   border: 1px solid #707070;
   font-size: 1em;
   margin-top: 5px;
+  transition: all 0.2s ease-in-out;
 }
 
 .degree .form-row .del-col button:hover {

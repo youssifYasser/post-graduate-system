@@ -75,16 +75,18 @@ const StudentReports = ({ className, handleChange }) => {
               </label>
             </Form.Group>
           </Col>
-          <Col className='del-col'>
-            <Form.Label
-              className='sups-refs-labels'
-              style={{ visibility: 'hidden' }}
-            >
-              وضع الإشراف
-            </Form.Label>
-            <Button type='button' className='rep-btn'>
-              مسح التقرير
-            </Button>
+          <Col className='del-col report-del'>
+            <Form.Group>
+              <Form.Label
+                className='sups-refs-labels'
+                style={{ visibility: 'hidden' }}
+              >
+                وضع الإشراف
+              </Form.Label>
+              <Button type='button' className='rep-btn'>
+                مسح التقرير
+              </Button>
+            </Form.Group>
           </Col>
         </Form.Row>
       </section>

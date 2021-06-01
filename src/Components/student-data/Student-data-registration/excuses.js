@@ -144,7 +144,7 @@ const StudentExcuses = ({ className, handleChange }) => {
               وضع الإشراف
             </Form.Label>
             <Button type='button' className='exc-btn'>
-              مسح التقرير
+              مسح العذر
             </Button>
           </Col>
         </Form.Row>
