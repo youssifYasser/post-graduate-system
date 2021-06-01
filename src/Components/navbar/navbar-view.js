@@ -27,6 +27,10 @@ function navbar() {
               <Link to='/UploadStudentExcel' className='dropdown-item link'>
                 تسجيل بيانات الطالب بالأكسل{' '}
               </Link>
+
+              <Link to='/ViewStudents' className='dropdown-item link'>
+                عرض الطلبة
+              </Link>
             </NavDropdown>
 
             <NavDropdown

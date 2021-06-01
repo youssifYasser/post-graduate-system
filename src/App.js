@@ -8,6 +8,7 @@ import Navbar from './Components/navbar/navbar-container'
 import AddStudent from './Components/add-student/addStudent-container'
 import StudentData from './Components/student-data/Student-data-registration/StudentDataRegisteration'
 import UploadStudentExcel from './Components/student-data/Student-data-registration/FileUpload'
+import ViewStudents from './Components/student-data/view-students/view-students'
 
 // departments
 import viewDepartments from './Components/view-departments/ViewDepartments'
@@ -44,6 +45,7 @@ const App = () => {
           path='/UploadStudentExcel'
           component={UploadStudentExcel}
         />
+        <Route exact path='/ViewStudents' component={ViewStudents} />
 
         {/* study types */}
         <Route exact path='/addStudyType' component={StudyType} />

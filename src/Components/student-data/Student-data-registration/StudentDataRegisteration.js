@@ -411,7 +411,7 @@ const StudentDataRegisteration = ({
           <Tabs
             defaultActiveKey='1'
             activeKey={page}
-            id='uncontrolled-tab'
+            id='controlled-tab'
             onSelect={(k) => setPage(parseInt(k))}
           >
             <Tab eventKey='1' title='البيانات الشخصية'>
