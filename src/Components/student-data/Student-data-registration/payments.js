@@ -119,7 +119,7 @@ const StudentPayments = ({ className, handleChange }) => {
             >
               وضع الإشراف
             </Form.Label>
-            <Button type='button' className='rep-btn'>
+            <Button type='button' className='rep-btn pay-btn'>
               مسح الإيصال
             </Button>
           </Col>

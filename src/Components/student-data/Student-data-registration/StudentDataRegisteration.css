@@ -291,6 +291,14 @@
   width: 80%;
 }
 
+.form-six .section .form-row .del-col .pay-btn {
+  width: 75%;
+}
+
+.form-six .section .form-row .del-col .pay-btn:hover {
+  padding-top: 1px;
+}
+
 .form-four .section .form-row .ref-rep-date-col {
   max-width: 11%;
 }
