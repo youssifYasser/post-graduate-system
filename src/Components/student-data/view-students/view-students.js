@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, InputGroup, Button, Form, Tabs, Tab } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
@@ -10,19 +10,27 @@ import isEqual from 'lodash/isEqual'
 
 import Loading from '../../supervisor-data/view-supervisors/loading'
 import StudentDataRegisteration from '../Student-data-registration/StudentDataRegisteration'
+import StudentRow from './student-row'
 
 import './view-students-style.css'
+import NoSupervisors from '../../supervisor-data/view-supervisors/no-supervisors'
 
 // make the view with tabs
 const ViewStudents = () => {
   const [registeredStudents, setRegisteredStudents] = useState([])
   const [validStudents, setValidStudents] = useState([])
-  const [notValidStudents, setNotValidStudents] = useState([])
+  const [InvalidStudents, setInvalidStudents] = useState([])
   const [copyStudents, setCopyStudents] = useState([])
+  const [selectedSection, setSelectedSection] = useState('registeredStudents')
   const [isLoading, setIsLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [showSave, setShowSave] = useState(false)
+
+  const [titleFilter, setTitleFilter] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [nationFilter, setNationFilter] = useState([])
+  const [isFiltering, setIsFiltering] = useState(false)
 
   const s2ab = (s) => {
     var buf = new ArrayBuffer(s.length)
@@ -62,6 +70,149 @@ const ViewStudents = () => {
       'المشرفين.xlsx'
     )
   }
+
+  const handleSearch = (e) => {
+    const value = e.target.value
+    const searchArray =
+      selectedSection === 'registeredStudents'
+        ? registeredStudents
+        : selectedSection === 'validStudents'
+        ? validStudents
+        : InvalidStudents
+    const newStudents = searchArray.filter((student) => {
+      if (student['personal'].arabicName.includes(value)) {
+        return student
+      } else if (
+        student['personal'].nationalityId &&
+        student['personal'].nationalityId.includes(value)
+      ) {
+        return student
+      }
+    })
+    setCopyStudents(newStudents)
+  }
+
+  const startEdit = (index, idS, idStudyTypeF) => {
+    if (!idStudyTypeF) {
+      setEditIndex(index)
+      setIsEditing(true)
+    } else {
+      const registeredStudentsAPI = {
+        url: 'http://localhost:8000/api/getstudnt',
+        data: JSON.stringify({ idS, studyType_id: idStudyTypeF }),
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+      }
+      axios(registeredStudentsAPI)
+        .then((response) => {
+          console.log(response.data)
+          copyStudents[index] = { ...copyStudents[index], ...response.data }
+          // setCopyStudents([...copyStudents])
+          setEditIndex(index)
+          setIsEditing(true)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  useEffect(() => {
+    const filterItems = {
+      url: 'http://localhost:8000/api/view-info',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        console.log(response.data)
+        setNationFilter([...response.data.nationalities])
+        setTitleFilter([...response.data.studies])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const registeredStudentsAPI = {
+      url: 'http://localhost:8000/api/getall',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(registeredStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setRegisteredStudents([...response.data])
+        setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+
+    const validStudentsAPI = {
+      url: 'http://localhost:8000/api/valid-but-uncompleted',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(validStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setValidStudents([...response.data])
+        // setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const InvalidStudentsAPI = {
+      url: 'http://localhost:8000/api/uncompletedRegistration',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(InvalidStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setInvalidStudents([...response.data])
+        // setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   if (isLoading) {
     return <Loading />
@@ -110,7 +261,7 @@ const ViewStudents = () => {
                   placeholder='ابحث بالاسم أو بالرقم القومي'
                   aria-label='ابحث بالاسم أو بالرقم القومي'
                   aria-describedby='basic-addon1'
-                  // onChange={handleSearch}
+                  onChange={handleSearch}
                 />
                 <InputGroup.Prepend>
                   <InputGroup.Text id='basic-addon1'>
@@ -120,25 +271,18 @@ const ViewStudents = () => {
               </InputGroup>
             </Col>
           </Row>
-          <Row>
+          <Row className='filter-row'>
             <Col>
-              <Form.Control
-                className='info'
-                as='select'
-                name='idDegreeF'
-                custom
-              >
-                <option value=''>الدرجة العلمية</option>
-                {/* {universityPositions.map((position) => {
-                  return (
-                    <option
-                      key={position.idUniversityPosition}
-                      value={position.idUniversityPosition}
-                    >
-                      {position.arabicDegreeName}
-                    </option>
-                  )
-                })} */}
+              <Form.Control className='info' as='select' name='type' custom>
+                <option value=''>نوع الدراسة</option>
+                <option value='دبلومة الدراسات العليا'>
+                  دبلومة الدراسات العليا
+                </option>
+                <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
+                <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+                <option value='دكتوراه الفلسفة في العلوم'>
+                  دكتوراه الفلسفة في العلوم
+                </option>
               </Form.Control>
             </Col>
 
@@ -146,17 +290,17 @@ const ViewStudents = () => {
               <Form.Control
                 className='info'
                 as='select'
-                name='specialization'
+                name='arabic-name'
                 custom
               >
-                <option value=''>التخصص</option>
-                {/* {specFilter.map((spec, index) => {
+                <option value=''>عنوان الدراسة</option>
+                {titleFilter.map((title, index) => {
                   return (
-                    <option key={index} value={spec}>
-                      {spec}
+                    <option key={index} value={title}>
+                      {title}
                     </option>
                   )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -168,44 +312,13 @@ const ViewStudents = () => {
                 custom
               >
                 <option value=''>القسم</option>
-                {/* {departments.map((dept) => {
+                {departments.map((dept) => {
                   return (
                     <option key={dept.idDept} value={dept.arabicName}>
                       {dept.arabicName}
                     </option>
                   )
-                })} */}
-              </Form.Control>
-            </Col>
-
-            <Col>
-              <Form.Control className='info' as='select' name='faculty' custom>
-                <option value=''>الكلية</option>
-                {/* {facultyFilter.map((item, index) => {
-                  return (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                })} */}
-              </Form.Control>
-            </Col>
-
-            <Col>
-              <Form.Control
-                className='info'
-                as='select'
-                name='university'
-                custom
-              >
-                <option value=''>الجامعة</option>
-                {/* {univerFilter.map((item, index) => {
-                  return (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -217,13 +330,13 @@ const ViewStudents = () => {
                 custom
               >
                 <option value=''>الجنسية</option>
-                {/* {nationFilter.map((item, index) => {
+                {nationFilter.map((item, index) => {
                   return (
                     <option key={index} value={item}>
                       {item}
                     </option>
                   )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -247,46 +360,138 @@ const ViewStudents = () => {
             </Col>
           </Row>
           <Tabs
-            defaultActiveKey='1'
+            defaultActiveKey='registeredStudents'
             // activeKey={page}
             id='uncontrolled-tab'
-            // onSelect={(k) => setPage(parseInt(k))}
-          ></Tabs>
+            onSelect={(k) => {
+              // console.log(k)
+              if (k === 'registeredStudents') {
+                setCopyStudents(registeredStudents)
+                setSelectedSection('registeredStudents')
+              } else if (k === 'validStudents') {
+                setCopyStudents(validStudents)
+                setSelectedSection('validStudents')
+              } else if (k === 'InvalidStudents') {
+                setCopyStudents(InvalidStudents)
+                setSelectedSection('InvalidStudents')
+              }
+            }}
+          >
+            <Tab eventKey='registeredStudents' title='الطلبة الذي تم تسجيلهم'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+
+            <Tab eventKey='validStudents' title='الطلبة الذي تم إضافتهم'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+
+            <Tab eventKey='InvalidStudents' title='الطلبة المتأخرين'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+          </Tabs>
           {/* workking on Tabs */}
-          <Row className='labels-row'>
-            <Col>
-              <Form.Label>اسم المشرف</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>الدرجة العلمية</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>القسم</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>التخصص</Form.Label>
-            </Col>
-          </Row>
-          {/* {copyStudents.length !== 0 ? (
-          isFiltering ? (
-            <Loading />
-          ) : (
-            copyStudents.map((supervisor, index) => {
-              return (
-                <SupervisorRow
-                  key={supervisor.idSupervisor}
-                  index={index}
-                  supervisor={supervisor}
-                  handleDelete={handleDelete}
-                  setIsEditing={setIsEditing}
-                  setEditIndex={setEditIndex}
-                />
-              )
-            })
-          )
-        ) : (
-          <NoSupervisors />
-        )} */}
         </div>
       </div>
     )

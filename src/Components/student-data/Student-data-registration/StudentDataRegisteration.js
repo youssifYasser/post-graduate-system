@@ -37,6 +37,14 @@ const StudentDataRegisteration = ({
   setStudentNumber,
   studentNumber,
   setShowUpload,
+  isEditing,
+  setIsEditing,
+  editIndex,
+  editStudent,
+  setShowSave,
+  showSave,
+  copyStudents,
+  setCopyStudents,
 }) => {
   const [personalInfo, setPersonalInfo] = useState({
     image: '',
@@ -80,25 +88,64 @@ const StudentDataRegisteration = ({
   const [validated, setValidated] = useState(false)
 
   const [canceledStudents, setCanceledStudents] = useState([])
+  const [file, setFile] = useState({})
+  const [btnRefText, setBtnRefText] = useState('ارفع الملف')
+  const [btnRepText, setBtnRepText] = useState('ارفع الملف')
+  const [btnEx1Text, setBtnEx1Text] = useState('ارفع الملف')
+  const [btnEx2Text, setBtnEx2Text] = useState('ارفع الملف')
+  const [btnPText, setBtnPText] = useState('ارفع الملف')
+
+  useEffect(() => {
+    console.log(file)
+  }, [file])
+
+  const handleUpload = (e) => {
+    setFile(e.target.files[0])
+    let btn = e.target.files[0].name
+    let dot = btn.lastIndexOf('.')
+    let btnn = btn.slice(0, dot)
+    let ext = btn.slice(dot)
+    if (page === 5) {
+      let btnnn = btnn.length <= 12 ? btnn : btnn.slice(0, 10) + '..'
+      setBtnRefText(btnnn + ext)
+      e.target.value = ''
+    } else if (page === 6) {
+      let btnnn = btnn.length <= 27 ? btnn : btnn.slice(0, 25) + '..'
+      setBtnRepText(btnnn + ext)
+      e.target.value = ''
+    } else if (page === 7) {
+      let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+      if (e.target.id === 'files1') {
+        setBtnEx2Text(btnnn + ext)
+      } else {
+        setBtnEx1Text(btnnn + ext)
+      }
+      e.target.value = ''
+    } else if (page === 8) {
+      let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+      setBtnPText(btnnn + ext)
+      e.target.value = ''
+    }
+  }
 
   const add = () => {
     if (page === 2) {
-      setUniDegrees([...uniDegrees, { idS: uniDegreesNum + 1 }])
+      setUniDegrees([...uniDegrees, { id: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 4) {
-      setStudentSups([...studentSups, { id: uniDegreesNum + 1 }])
+      setStudentSups([...studentSups, { idSupervisor: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 5) {
-      setStudentRefs([...studentRefs, { id: uniDegreesNum + 1 }])
+      setStudentRefs([...studentRefs, { idRefereed: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 6) {
-      setStudentReports([...studentReports, { id: uniDegreesNum + 1 }])
+      setStudentReports([...studentReports, { idState: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 7) {
-      setStudentExcuses([...studentExcuses, { id: uniDegreesNum + 1 }])
+      setStudentExcuses([...studentExcuses, { idExcuse: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 8) {
-      setStudentPayments([...studentPayments, { id: uniDegreesNum + 1 }])
+      setStudentPayments([...studentPayments, { idPayment: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     }
   }
@@ -189,6 +236,36 @@ const StudentDataRegisteration = ({
       setUniDegrees([...uniDegrees])
     } else if (compIndex === 't') {
       setThesisData({ ...thesisData, [name]: value })
+    } else if (compIndex === 's') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentSups[index] = { ...studentSups[index], [name]: value }
+      setStudentSups([...studentSups])
+    } else if (compIndex === 'r') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentRefs[index] = { ...studentRefs[index], [name]: value }
+      setStudentRefs([...studentRefs])
+    } else if (compIndex === 'e') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentExcuses[index] = { ...studentExcuses[index], [name]: value }
+      setStudentExcuses([...studentExcuses])
+    } else if (compIndex === 'm') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentPayments[index] = { ...studentPayments[index], [name]: value }
+      setStudentPayments([...studentPayments])
+    } else if (compIndex === 'a') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentReports[index] = { ...studentReports[index], [name]: value }
+      setStudentReports([...studentReports])
     }
   }
   const handleSubmit = (e) => {
@@ -494,8 +571,23 @@ const StudentDataRegisteration = ({
     }
   }, [studentNumber])
 
+  useEffect(() => {
+    if (isEditing) {
+      setPersonalInfo({ ...editStudent['personal'] })
+      editStudent['previousstudie'] &&
+        setUniDegrees([...editStudent['previousstudie']])
+      editStudent['register'] && setThesisData({ ...editStudent['register'] })
+      editStudent['supervisour'] &&
+        setStudentSups([...editStudent['supervisour']])
+      editStudent['referee'] && setStudentRefs([...editStudent['referee']])
+      editStudent['excuse'] && setStudentExcuses([...editStudent['excuse']])
+      editStudent['payment'] && setStudentPayments([...editStudent['payment']])
+      editStudent['state'] && setStudentReports([...editStudent['state']])
+    }
+  }, [editIndex])
+
   return (
-    <Container key={personalInfo.idS}>
+    <Container className='student-data-reg'>
       <main className='main-form'>
         <Row className={`${byExcel || 'manual-row'}`}>
           {byExcel && (
@@ -538,11 +630,11 @@ const StudentDataRegisteration = ({
                 handleChange={handleChange}
                 departments={departments}
                 studies={studies}
-                byExcel={byExcel}
+                isEditing={isEditing}
               />
             </Tab>
 
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='4' title='المشرفين'>
                 <StudentSups
                   studentSups={studentSups}
@@ -554,9 +646,11 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
+                  btnText={btnRefText}
+                  handleUpload={handleUpload}
                   handleChange={handleChange}
                   studentRefs={studentRefs}
                   deleteItem={deleteItem}
@@ -567,12 +661,14 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
+                  btnText={btnRepText}
+                  handleUpload={handleUpload}
+                  handleChange={handleChange}
                   studentReports={studentReports}
                   deleteItem={deleteItem}
-                  handleChange={handleChange}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
                   // departments={departments}
@@ -580,9 +676,12 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
+                  btnText1={btnEx1Text}
+                  btnText2={btnEx2Text}
+                  handleUpload={handleUpload}
                   handleChange={handleChange}
                   studentExcuses={studentExcuses}
                   deleteItem={deleteItem}
@@ -593,9 +692,11 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
+                  btnText={btnPText}
+                  handleUpload={handleUpload}
                   handleChange={handleChange}
                   studentPayments={studentPayments}
                   deleteItem={deleteItem}

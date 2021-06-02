@@ -7,7 +7,7 @@ const ThesisData = ({
   setThesisData,
   handleChange,
   departments,
-  byExcel,
+  isEditing,
 }) => {
   // const [thesis, setThesis] = useState(academicThesisData)
   // const handleChange = (e) => {
@@ -340,7 +340,7 @@ const ThesisData = ({
         </Col>
       </Form.Row>
       <hr></hr>
-      {byExcel && (
+      {isEditing && (
         <>
           <h5 className='title'> تواريــخ هامــة</h5>
           <section className='section'>
@@ -371,7 +371,7 @@ const ThesisData = ({
                     type='text'
                     placeholder='dd/mm/yyyy'
                     dir='ltr'
-                    name='departmentApprovalDateRegistration'
+                    name='departmentApprovalDateRegistration-t'
                     value={thesisData.departmentApprovalDateRegistration}
                     onChange={handleChange}
                     pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'

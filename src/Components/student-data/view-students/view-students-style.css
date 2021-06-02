@@ -5,11 +5,11 @@
 
 .view-students .main-form .header {
   background-color: #2f3944;
-  margin: 45px auto;
-  padding: 5px 50px 10px;
+  margin: 30px auto 50px;
+  padding: 8px 50px 4px;
   text-align: center;
   border-radius: 10px;
-  max-width: max-content;
+  max-width: fit-content;
   color: #ece8e1;
 }
 
@@ -75,24 +75,24 @@
 
 /* filter row start*/
 
-.view-students .main-form .row:nth-child(3) .col {
+.view-students .main-form .filter-row .col {
   max-width: fit-content;
   padding: 0px 0px 0px 10px;
   margin-bottom: 25px !important;
 }
 
-.view-students .main-form .row:nth-child(3) .info {
+.view-students .main-form .filter-row .info {
   color: #373636 !important;
   border-radius: 10px !important;
   border: 1px solid #2f3944 !important;
   font-size: 1.1em !important;
 }
 
-.view-students .main-form .row:nth-child(3) .col:last-child {
+.view-students .main-form .filter-row .col:last-child {
   max-width: 8%;
 }
 
-.view-students .main-form .row:nth-child(3) .col:last-child .filter-btn {
+.view-students .main-form .filter-row .col:last-child .filter-btn {
   color: #ece8e1 !important;
   background-color: #2f3944 !important;
   border: 2px solid #2f3944 !important;
@@ -106,7 +106,7 @@
   /* margin-right: 10px; */
 }
 
-.view-students .main-form .row:nth-child(3) .col:last-child .filter-btn:hover {
+.view-students .main-form .filter-row .col:last-child .filter-btn:hover {
   color: #edf0f6 !important;
   background-color: #000 !important;
 }
@@ -119,22 +119,85 @@
   color: #2f3944;
   font-size: 1.4em;
   max-width: 22.6%;
+  margin-top: 25px !important;
 }
 
 .view-students .main-form .labels-row .col:nth-child(1) {
-  max-width: 23%;
+  max-width: 23% !important;
 }
 
 .view-students .main-form .labels-row .col:nth-child(2) {
-  max-width: 22.6%;
+  max-width: 22.6% !important;
 }
 
 .view-students .main-form .labels-row .col:nth-child(3) {
-  max-width: 21.6%;
+  max-width: 21.6% !important;
 }
 
 .view-students .main-form .labels-row .col:nth-child(4) {
-  max-width: 24%;
+  max-width: 24% !important;
 }
 
 /* labels end */
+
+/* student rows start */
+.view-students .main-form .section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease-out;
+  width: 100%;
+}
+
+.view-students .main-form .section:hover {
+  box-shadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.view-students .main-form .section .col {
+  text-align: center;
+  color: #2f3944;
+  font-size: 1.4em;
+  max-width: 23% !important;
+}
+
+.view-students .main-form .section .section-del-btns {
+  max-width: 4% !important;
+  margin-left: 1%;
+}
+
+.view-students .main-form .section .section-edit-btns {
+  max-width: 4% !important;
+  margin-left: 0;
+}
+
+.view-students .main-form .section .section-edit-btns button,
+.view-students .main-form .section .section-del-btns button {
+  background-color: transparent;
+  border: none;
+  padding: 1.8px 0px;
+}
+
+.view-students .main-form .section .section-edit-btns button svg,
+.view-students .main-form .section .section-del-btns button svg {
+  font-size: 1.9em;
+  stroke: black;
+  transition: transform 0.2s;
+}
+
+.view-students .main-form .section .section-edit-btns button svg {
+  color: #0d6dfd;
+  stroke-width: 10px;
+}
+
+.view-students .main-form .section .section-del-btns button svg {
+  color: #ff0000;
+  stroke-width: 0.6px;
+}
+
+.view-students .main-form .section .section-edit-btns button svg:hover,
+.view-students .main-form .section .section-del-btns button svg:hover {
+  transform: scale(1.25);
+}
+/* student rows start */

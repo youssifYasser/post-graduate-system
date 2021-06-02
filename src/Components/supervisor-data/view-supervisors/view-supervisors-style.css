@@ -10,12 +10,13 @@
 
 .view-supervisors .main-form .header {
   background-color: #2f3944;
-  margin: 45px auto;
-  padding: 5px 50px 10px;
+  margin: 30px auto 50px;
+  padding: 15px 40px;
   text-align: center;
   border-radius: 10px;
-  max-width: max-content;
+  width: max-content !important;
   color: #ece8e1;
+  max-width: max-content;
 }
 
 /* .view-supervisors .main-form .header h1 {

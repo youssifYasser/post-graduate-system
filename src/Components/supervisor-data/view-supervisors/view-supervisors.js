@@ -315,7 +315,7 @@ const ViewSupervisors = () => {
       <div className='main-form'>
         <Row>
           <Col className='header'>
-            <h1>المشرفيـن</h1>
+            <h1>الـسـادة الـمـشـرفـيـــن</h1>
           </Col>
         </Row>
         <Row>
