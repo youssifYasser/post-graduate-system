@@ -89,6 +89,7 @@
 
 .nav-tabs {
   border-bottom: 1px solid #4950576b;
+  margin-bottom: 30px !important;
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
