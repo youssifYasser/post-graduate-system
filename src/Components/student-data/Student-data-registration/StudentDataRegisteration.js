@@ -75,6 +75,10 @@ const StudentDataRegisteration = ({
     sciDegree: '',
   })
   const [studentSups, setStudentSups] = useState([])
+  const [studentRefs, setStudentRefs] = useState([])
+  const [studentReports, setStudentReports] = useState([])
+  const [studentExcuses, setStudentExcuses] = useState([])
+  const [studentPayments, setStudentPayments] = useState([])
 
   const [student, setStudent] = useState([])
   const [studies, setStudies] = useState([])
@@ -94,6 +98,7 @@ const StudentDataRegisteration = ({
   useEffect(() => {
     console.log(file)
   }, [file])
+
   const handleUpload = (e) => {
     setFile(e.target.files[0])
     let btn = e.target.files[0].name
@@ -130,6 +135,18 @@ const StudentDataRegisteration = ({
     } else if (page === 4) {
       setStudentSups([...studentSups, { id: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 5) {
+      setStudentRefs([...studentRefs, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 6) {
+      setStudentReports([...studentReports, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 7) {
+      setStudentExcuses([...studentExcuses, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 8) {
+      setStudentPayments([...studentPayments, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
     }
   }
 
@@ -144,6 +161,30 @@ const StudentDataRegisteration = ({
       setStudentSups([
         ...studentSups.filter((sup) => {
           return sup.id !== deletedId
+        }),
+      ])
+    } else if (page === 5) {
+      setStudentRefs([
+        ...studentRefs.filter((ref) => {
+          return ref.id !== deletedId
+        }),
+      ])
+    } else if (page === 6) {
+      setStudentReports([
+        ...studentReports.filter((rep) => {
+          return rep.id !== deletedId
+        }),
+      ])
+    } else if (page === 7) {
+      setStudentExcuses([
+        ...studentExcuses.filter((exc) => {
+          return exc.id !== deletedId
+        }),
+      ])
+    } else if (page === 8) {
+      setStudentPayments([
+        ...studentPayments.filter((pay) => {
+          return pay.id !== deletedId
         }),
       ])
     }
@@ -535,10 +576,11 @@ const StudentDataRegisteration = ({
                 <StudentRefs
                   btnText={btnRefText}
                   handleUpload={handleUpload}
-                  page={page}
+                  handleChange={handleChange}
+                  studentRefs={studentRefs}
+                  deleteItem={deleteItem}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
-                  handleChange={handleChange}
                   // departments={departments}
                   // studies={studies}
                 />
@@ -549,10 +591,11 @@ const StudentDataRegisteration = ({
                 <StudentReports
                   btnText={btnRepText}
                   handleUpload={handleUpload}
-                  page={page}
+                  handleChange={handleChange}
+                  studentReports={studentReports}
+                  deleteItem={deleteItem}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
-                  handleChange={handleChange}
                   // departments={departments}
                   // studies={studies}
                 />
@@ -564,10 +607,11 @@ const StudentDataRegisteration = ({
                   btnText1={btnEx1Text}
                   btnText2={btnEx2Text}
                   handleUpload={handleUpload}
-                  page={page}
+                  handleChange={handleChange}
+                  studentExcuses={studentExcuses}
+                  deleteItem={deleteItem}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
-                  handleChange={handleChange}
                   // departments={departments}
                   // studies={studies}
                 />
@@ -578,10 +622,11 @@ const StudentDataRegisteration = ({
                 <StudentPayments
                   btnText={btnPText}
                   handleUpload={handleUpload}
-                  page={page}
+                  handleChange={handleChange}
+                  studentPayments={studentPayments}
+                  deleteItem={deleteItem}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
-                  handleChange={handleChange}
                   // departments={departments}
                   // studies={studies}
                 />

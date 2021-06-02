@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Form, Container } from 'react-bootstrap'
+import { Col, Form, Container, Button } from 'react-bootstrap'
 import './ThesisData.css'
 
 const ThesisData = ({
@@ -332,7 +332,7 @@ const ThesisData = ({
           </Form.Row>
         )}
       </section>
-
+      <hr></hr>
       {byExcel && (
         <>
           <h5 className='title'> تواريــخ هامــة</h5>
