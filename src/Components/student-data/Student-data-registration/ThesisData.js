@@ -359,9 +359,9 @@ const ThesisData = ({
           </Col>
         </Form.Row>
       )}
-      <hr></hr>
       {isEditing && (
         <>
+          <hr></hr>
           <h5 className='title'> تواريــخ هامــة</h5>
           <section className='section'>
             <Form.Row>

@@ -698,7 +698,7 @@ const StudentDataRegisteration = ({
               />
             </Tab>
 
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='4' title='المشرفين'>
                 <StudentSups
                   studentSups={studentSups}
@@ -710,7 +710,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
                   btnText={btnRefText}
@@ -725,7 +725,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
                   btnText={btnRepText}
@@ -740,7 +740,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
                   btnText1={btnEx1Text}
@@ -756,7 +756,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
                   btnText={btnPText}
@@ -773,42 +773,7 @@ const StudentDataRegisteration = ({
             )}
           </Tabs>
 
-          <Form.Row>
-            {page === 1 || (
-              <Col className='btn-col'>
-                <Button
-                  size='lg'
-                  type='button'
-                  className={`btns ${byExcel && 'excel-btns'}`}
-                  onClick={() => {
-                    document.documentElement.scrollTop = 0
-                    setPage(page - 1)
-                    document.getElementById(
-                      `uncontrolled-tab-tab-${page}`
-                    ).ariaSelected = false
-                    document
-                      .getElementById(`uncontrolled-tab-tab-${page}`)
-                      .classList.remove('active')
-                    document
-                      .getElementById(`uncontrolled-tab-tabpane-${page}`)
-                      .classList.remove('active', 'show')
-
-                    document.getElementById(
-                      `uncontrolled-tab-tab-${page - 1}`
-                    ).ariaSelected = true
-                    document
-                      .getElementById(`uncontrolled-tab-tab-${page - 1}`)
-                      .classList.add('active')
-                    document
-                      .getElementById(`uncontrolled-tab-tabpane-${page - 1}`)
-                      .classList.add('active', 'show')
-                  }}
-                >
-                  <BsFillCaretRightFill className='btn-previous' />
-                  الســابق
-                </Button>
-              </Col>
-            )}
+          <Form.Row className='last-row'>
             {page >= 2 && page !== 3 && (
               <Col className='btn-col'>
                 <Button
@@ -827,7 +792,39 @@ const StudentDataRegisteration = ({
                 </Button>
               </Col>
             )}
-            {byExcel && (
+            {isEditing && (
+              <>
+                <Col className='btn-col btn-save'>
+                  <Button
+                    type='submit'
+                    className='submit-btn'
+                    disabled={!showSave}
+                  >
+                    حفظ
+                  </Button>
+                </Col>
+                <Col className='btn-col'>
+                  <Button
+                    type='button'
+                    className='delete-btn'
+                    // onClick={() => handleDelete(supervisor.idSupervisor)}
+                  >
+                    مسح المشرف
+                  </Button>
+                </Col>
+
+                <Col className='btn-col'>
+                  <Button
+                    type='button'
+                    className='cancel-btn'
+                    // onClick={() => handleCancel()}
+                  >
+                    إلغاء
+                  </Button>
+                </Col>
+              </>
+            )}
+            {byExcel && !isEditing && (
               <Col className='btn-col'>
                 <Button
                   size='lg'
@@ -900,24 +897,20 @@ const StudentDataRegisteration = ({
                 </Button>
               </Col>
             )}
-            <Col className={`btn-col ${byExcel || page !== 1 || 'only-btn'}`}>
-              <Button
-                size='lg'
-                type='submit'
-                className={`btns ${byExcel && (page === 1 || 'excel-btns')}
+            {page === 3 && !isEditing && (
+              <Col className={`btn-col ${byExcel || page !== 1 || 'only-btn'}`}>
+                <Button
+                  size='lg'
+                  type='submit'
+                  className={`btns ${byExcel && (page === 1 || 'excel-btns')}
                      next-btn ${page === 3 && 'submit-btn'}`}
-              >
-                {page === 3 ? (
+                >
                   <div>
                     تسجيل <TiUserAdd className='btn-submit' />
                   </div>
-                ) : (
-                  <div>
-                    التــالى <BsFillCaretLeftFill className='btn-next' />
-                  </div>
-                )}
-              </Button>
-            </Col>
+                </Button>
+              </Col>
+            )}
           </Form.Row>
         </Form>
       </main>
