@@ -67,6 +67,10 @@ const StudentDataRegisteration = ({
     sciDegree: '',
   })
   const [studentSups, setStudentSups] = useState([])
+  const [studentRefs, setStudentRefs] = useState([])
+  const [studentReports, setStudentReports] = useState([])
+  const [studentExcuses, setStudentExcuses] = useState([])
+  const [studentPayments, setStudentPayments] = useState([])
 
   const [student, setStudent] = useState([])
   const [studies, setStudies] = useState([])
@@ -84,6 +88,18 @@ const StudentDataRegisteration = ({
     } else if (page === 4) {
       setStudentSups([...studentSups, { id: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 5) {
+      setStudentRefs([...studentRefs, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 6) {
+      setStudentReports([...studentReports, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 7) {
+      setStudentExcuses([...studentExcuses, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
+    } else if (page === 8) {
+      setStudentPayments([...studentPayments, { id: uniDegreesNum + 1 }])
+      setUniDegreesNum(uniDegreesNum + 1)
     }
   }
 
@@ -98,6 +114,30 @@ const StudentDataRegisteration = ({
       setStudentSups([
         ...studentSups.filter((sup) => {
           return sup.id !== deletedId
+        }),
+      ])
+    } else if (page === 5) {
+      setStudentRefs([
+        ...studentRefs.filter((ref) => {
+          return ref.id !== deletedId
+        }),
+      ])
+    } else if (page === 6) {
+      setStudentReports([
+        ...studentReports.filter((rep) => {
+          return rep.id !== deletedId
+        }),
+      ])
+    } else if (page === 7) {
+      setStudentExcuses([
+        ...studentExcuses.filter((exc) => {
+          return exc.id !== deletedId
+        }),
+      ])
+    } else if (page === 8) {
+      setStudentPayments([
+        ...studentPayments.filter((pay) => {
+          return pay.id !== deletedId
         }),
       ])
     }
@@ -487,44 +527,52 @@ const StudentDataRegisteration = ({
             {byExcel && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  studentRefs={studentRefs}
+                  deleteItem={deleteItem}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
+                  studentReports={studentReports}
+                  deleteItem={deleteItem}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  studentExcuses={studentExcuses}
+                  deleteItem={deleteItem}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
             {byExcel && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
-                  thesisData={thesisData}
-                  setThesisData={setThesisData}
                   handleChange={handleChange}
-                  departments={departments}
-                  studies={studies}
+                  studentPayments={studentPayments}
+                  deleteItem={deleteItem}
+                  // thesisData={thesisData}
+                  // setThesisData={setThesisData}
+                  // departments={departments}
+                  // studies={studies}
                 />
               </Tab>
             )}
