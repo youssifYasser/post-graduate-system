@@ -634,7 +634,7 @@ const StudentDataRegisteration = ({
               />
             </Tab>
 
-            {isEditing && (
+            {byExcel && (
               <Tab eventKey='4' title='المشرفين'>
                 <StudentSups
                   studentSups={studentSups}
@@ -646,7 +646,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {isEditing && (
+            {byExcel && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
                   btnText={btnRefText}
@@ -661,7 +661,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {isEditing && (
+            {byExcel && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
                   btnText={btnRepText}
@@ -676,7 +676,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {isEditing && (
+            {byExcel && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
                   btnText1={btnEx1Text}
@@ -692,7 +692,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {isEditing && (
+            {byExcel && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
                   btnText={btnPText}

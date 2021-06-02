@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import AddRefereeView from './addReferee-view'
 
-const AddReferee = ({ modalShow }) => {
+const AddReferee = ({ modalShow, setModalShow }) => {
   const [validated, setValidated] = useState(false)
   const [universityPositions, setUniversityPositions] = useState([])
 
@@ -50,8 +50,9 @@ const AddReferee = ({ modalShow }) => {
           showConfirmButton: false,
           timer: 2000,
         })
-        console.log(JSON.stringify(referee))
-
+        if (modalShow) {
+          setModalShow(false)
+        }
         const options = {
           url: 'http://localhost:8000/api/createrefress',
           method: 'post',

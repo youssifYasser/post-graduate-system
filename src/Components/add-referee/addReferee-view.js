@@ -66,6 +66,8 @@ function AddReferee(props) {
               custom
             >
               <option value=''>اختر</option>
+              <option value='default'>default</option>
+
               {state.universityPositions.map((universityPosition) => {
                 return (
                   <option

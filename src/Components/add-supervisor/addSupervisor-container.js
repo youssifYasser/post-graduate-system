@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import AddSupervisorView from './addSupervisor-view'
 
-const AddSupervisor = ({ modalShow }) => {
+const AddSupervisor = ({ modalShow, setModalShow }) => {
   const [validated, setValidated] = useState(false)
   const [universityPositions, setUniversityPositions] = useState([])
   const [supervisor, setSupervisor] = useState({
@@ -49,7 +49,9 @@ const AddSupervisor = ({ modalShow }) => {
           showConfirmButton: false,
           timer: 2000,
         })
-
+        if (modalShow) {
+          setModalShow(false)
+        }
         const options = {
           url: 'http://localhost:8000/api/createSupervisor',
           method: 'post',

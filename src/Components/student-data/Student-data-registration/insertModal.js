@@ -14,10 +14,30 @@ function InsertModal(props) {
       centered
     >
       <Modal.Body dir='rtl'>
-        {props.insertPage === 1 && <AddSupervisor modalShow={props.show} />}
-        {props.insertPage === 2 && <SupervisorDataRegisteration />}
-        {props.insertPage === 3 && <AddReferee modalShow={props.show} />}
-        {props.insertPage === 4 && <RefManualReg />}
+        {props.insertPage === 1 && (
+          <AddSupervisor
+            modalShow={props.show}
+            setModalShow={props.setModalShow}
+          />
+        )}
+        {props.insertPage === 2 && (
+          <SupervisorDataRegisteration
+            modalShow={props.show}
+            setModalShow={props.setModalShow}
+          />
+        )}
+        {props.insertPage === 3 && (
+          <AddReferee
+            modalShow={props.show}
+            setModalShow={props.setModalShow}
+          />
+        )}
+        {props.insertPage === 4 && (
+          <RefManualReg
+            modalShow={props.show}
+            setModalShow={props.setModalShow}
+          />
+        )}
       </Modal.Body>
     </Modal>
   )

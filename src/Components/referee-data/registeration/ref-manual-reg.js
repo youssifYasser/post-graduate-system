@@ -23,6 +23,8 @@ const RefManualReg = ({
   showSave,
   copyRefs,
   setRefs,
+  setModalShow,
+  modalShow,
 }) => {
   const [degrees, setDegrees] = useState([])
   const [departments, setDepartments] = useState([])
@@ -178,6 +180,9 @@ const RefManualReg = ({
             showConfirmButton: false,
             timer: 1500,
           })
+          if (modalShow) {
+            setModalShow(false)
+          }
           setValidated(false)
           if (!isEditing) {
             for (const position of degrees) {
@@ -244,12 +249,14 @@ const RefManualReg = ({
             }
             axios(insertRefereeManuallyAPI)
               .then((response) => {
-                setTimeout(() => {
-                  window.location.href =
-                    window.location.pathname +
-                    window.location.search +
-                    window.location.hash
-                }, 1100)
+                if (!modalShow) {
+                  setTimeout(() => {
+                    window.location.href =
+                      window.location.pathname +
+                      window.location.search +
+                      window.location.hash
+                  }, 1100)
+                }
               })
               .catch((err) => {
                 console.log(err)

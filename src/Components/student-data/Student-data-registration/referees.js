@@ -65,6 +65,7 @@ const StudentRefs = ({
       <InsertModal
         insertPage={insertPage}
         show={modalShow}
+        setModalShow={setModalShow}
         onHide={() => setModalShow(false)}
       />
     )

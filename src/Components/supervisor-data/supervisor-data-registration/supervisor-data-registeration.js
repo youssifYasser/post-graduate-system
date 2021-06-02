@@ -25,6 +25,8 @@ const SupervisorDataRegisteration = ({
   copySupervisors,
   setCopySupervisors,
   setSupervisors,
+  setModalShow,
+  modalShow,
 }) => {
   const [validated, setValidated] = useState(false)
   const [departments, setDepartments] = useState([])
@@ -113,6 +115,9 @@ const SupervisorDataRegisteration = ({
             showConfirmButton: false,
             timer: 1500,
           })
+          if (modalShow) {
+            setModalShow(false)
+          }
           setValidated(false)
 
           if (!isEditing) {
