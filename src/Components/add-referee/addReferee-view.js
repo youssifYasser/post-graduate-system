@@ -7,7 +7,9 @@ function AddReferee(props) {
   const state = props
 
   return (
-    <Container className='addReferee mt-5 mb-5'>
+    <Container
+      className={`addReferee ${state.modalShow ? 'mt-2 mb-2' : 'mt-5 mb-5'}`}
+    >
       <div className='header'>
         <p className='text-center'>إضافة محكم</p>
       </div>

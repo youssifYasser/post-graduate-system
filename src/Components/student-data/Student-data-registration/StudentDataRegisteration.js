@@ -142,6 +142,36 @@ const StudentDataRegisteration = ({
       ])
     }
   }
+
+  // const handleUpload = (e) => {
+  //   setFile(e.target.files[0])
+  //   let btn = e.target.files[0].name
+  //   let dot = btn.lastIndexOf('.')
+  //   let btnn = btn.slice(0, dot)
+  //   let ext = btn.slice(dot)
+  //   if (page === 5) {
+  //     let btnnn = btnn.length <= 12 ? btnn : btnn.slice(0, 10) + '..'
+  //     setBtnRefText(btnnn + ext)
+  //     e.target.value = ''
+  //   } else if (page === 6) {
+  //     let btnnn = btnn.length <= 27 ? btnn : btnn.slice(0, 25) + '..'
+  //     setBtnRepText(btnnn + ext)
+  //     e.target.value = ''
+  //   } else if (page === 7) {
+  //     let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+  //     if (e.target.id === 'files1') {
+  //       setBtnEx2Text(btnnn + ext)
+  //     } else {
+  //       setBtnEx1Text(btnnn + ext)
+  //     }
+  //     e.target.value = ''
+  //   } else if (page === 8) {
+  //     let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
+  //     setBtnPText(btnnn + ext)
+  //     e.target.value = ''
+  //   }
+  // }
+
   const handleChange = (e) => {
     let { name, value, type, checked } = e.target
     let indexOfDash = name.lastIndexOf('-')

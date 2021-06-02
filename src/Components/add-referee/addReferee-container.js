@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import AddRefereeView from './addReferee-view'
 
-const AddReferee = () => {
+const AddReferee = ({ modalShow }) => {
   const [validated, setValidated] = useState(false)
   const [universityPositions, setUniversityPositions] = useState([])
 
@@ -93,6 +93,7 @@ const AddReferee = () => {
   }, [])
   return (
     <AddRefereeView
+      modalShow={modalShow}
       validated={validated}
       referee={referee}
       handleChange={handleChange}
