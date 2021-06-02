@@ -12,7 +12,6 @@ const StudentRefs = ({
   btnText,
   deleteItem,
   studentRefs,
-  index,
 }) => {
   const [modalShow, setModalShow] = useState(false)
   const [insertPage, setInsertPage] = useState(3)
@@ -78,9 +77,9 @@ const StudentRefs = ({
       {studentRefs.length === 0 ? (
         <h6 className='title'>لا يوجد محكمين ...</h6>
       ) : (
-        studentRefs.map((ref) => {
+        studentRefs.map((ref, index) => {
           return (
-            <section className='section' key={ref.id}>
+            <section className='section' key={index}>
               <Form.Row>
                 <Col>
                   <Form.Group>

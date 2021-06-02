@@ -282,7 +282,7 @@ const SupervisorDataRegisteration = ({
   }, [editIndex])
 
   return (
-    <Container className='supervisor-reg'>
+    <Container className='supervisor-reg' dir='rtl'>
       <div className='main-form'>
         <Row>
           <Col className='header'>
@@ -583,7 +583,7 @@ const SupervisorDataRegisteration = ({
               </Col>
             </Form.Row>
           </section>
-          <Form.Row>
+          <Form.Row className='btns-row'>
             {!isEditing ? (
               <Col className='btn-col'>
                 <Button type='submit' className='submit-btn'>

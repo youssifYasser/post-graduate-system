@@ -23,6 +23,7 @@
 }
 
 .supervisor-reg .main-form .section {
+  text-align: right;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -85,6 +86,10 @@
   border-radius: 10px !important;
   transition: background-color 0.3s ease-out;
   width: 25%;
+}
+
+.supervisor-reg .main-form .btns-row {
+  text-align: center;
 }
 
 .supervisor-reg .main-form .btn-col .submit-btn:hover {

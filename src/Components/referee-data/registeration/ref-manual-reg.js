@@ -261,7 +261,7 @@ const RefManualReg = ({
   }
 
   return (
-    <Container className='ref-form'>
+    <Container className='ref-form' dir='rtl'>
       <Row>
         <div className='header'>
           <h1>
@@ -592,7 +592,7 @@ const RefManualReg = ({
             </Col>
           </Row>
         </section>
-        <Form.Row>
+        <Form.Row className='btns-row'>
           {!isEditing ? (
             <Col className='submit-col'>
               <Button type='submit' className='submit-btn'>

@@ -52,6 +52,10 @@
   font-size: 1.2em;
 }
 
+.ref-form .btns-row {
+  text-align: center;
+}
+
 .ref-form .submit-col {
   text-align: center !important;
   max-width: 100% !important;

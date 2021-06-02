@@ -332,13 +332,15 @@ const ThesisData = ({
           </Form.Row>
         )}
       </section>
-      <Form.Row>
-        <Col>
-          <Button type='button' className='new-reg-email'>
-            إرسال بريد إلكتروني للطالب لتسجيل رسالة جديدة
-          </Button>
-        </Col>
-      </Form.Row>
+      {isEditing && (
+        <Form.Row>
+          <Col>
+            <Button type='button' className='new-reg-email'>
+              إرسال بريد إلكتروني للطالب لتسجيل رسالة جديدة
+            </Button>
+          </Col>
+        </Form.Row>
+      )}
       <hr></hr>
       {isEditing && (
         <>
