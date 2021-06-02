@@ -21,10 +21,15 @@ const ViewStudents = () => {
   const [validStudents, setValidStudents] = useState([])
   const [InvalidStudents, setInvalidStudents] = useState([])
   const [copyStudents, setCopyStudents] = useState([])
+  const [selectedSection, setSelectedSection] = useState('registeredStudents')
   const [isLoading, setIsLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [showSave, setShowSave] = useState(false)
+
+  const [titleFilter, setTitleFilter] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [nationFilter, setNationFilter] = useState([])
   const [isFiltering, setIsFiltering] = useState(false)
 
   const s2ab = (s) => {
@@ -66,6 +71,27 @@ const ViewStudents = () => {
     )
   }
 
+  const handleSearch = (e) => {
+    const value = e.target.value
+    const searchArray =
+      selectedSection === 'registeredStudents'
+        ? registeredStudents
+        : selectedSection === 'validStudents'
+        ? validStudents
+        : InvalidStudents
+    const newStudents = searchArray.filter((student) => {
+      if (student['personal'].arabicName.includes(value)) {
+        return student
+      } else if (
+        student['personal'].nationalityId &&
+        student['personal'].nationalityId.includes(value)
+      ) {
+        return student
+      }
+    })
+    setCopyStudents(newStudents)
+  }
+
   const startEdit = (index, idS, idStudyTypeF) => {
     if (!idStudyTypeF) {
       setEditIndex(index)
@@ -95,6 +121,24 @@ const ViewStudents = () => {
   }
 
   useEffect(() => {
+    const filterItems = {
+      url: 'http://localhost:8000/api/view-info',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(filterItems)
+      .then((response) => {
+        console.log(response.data)
+        setNationFilter([...response.data.nationalities])
+        setTitleFilter([...response.data.studies])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
     const registeredStudentsAPI = {
       url: 'http://localhost:8000/api/getall',
       method: 'get',
@@ -152,6 +196,22 @@ const ViewStudents = () => {
       .catch((err) => {
         console.log(err)
       })
+
+    const departmentsAPI = {
+      url: 'http://localhost:8000/api/departments',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(departmentsAPI)
+      .then((response) => {
+        setDepartments([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   if (isLoading) {
@@ -201,7 +261,7 @@ const ViewStudents = () => {
                   placeholder='ابحث بالاسم أو بالرقم القومي'
                   aria-label='ابحث بالاسم أو بالرقم القومي'
                   aria-describedby='basic-addon1'
-                  // onChange={handleSearch}
+                  onChange={handleSearch}
                 />
                 <InputGroup.Prepend>
                   <InputGroup.Text id='basic-addon1'>
@@ -213,23 +273,16 @@ const ViewStudents = () => {
           </Row>
           <Row className='filter-row'>
             <Col>
-              <Form.Control
-                className='info'
-                as='select'
-                name='idDegreeF'
-                custom
-              >
-                <option value=''>الدرجة العلمية</option>
-                {/* {universityPositions.map((position) => {
-                  return (
-                    <option
-                      key={position.idUniversityPosition}
-                      value={position.idUniversityPosition}
-                    >
-                      {position.arabicDegreeName}
-                    </option>
-                  )
-                })} */}
+              <Form.Control className='info' as='select' name='type' custom>
+                <option value=''>نوع الدراسة</option>
+                <option value='دبلومة الدراسات العليا'>
+                  دبلومة الدراسات العليا
+                </option>
+                <option value='تمهيدي الماجيستير'>تمهيدي الماجستير</option>
+                <option value='الماجستير في العلوم'>الماجستير في العلوم</option>
+                <option value='دكتوراه الفلسفة في العلوم'>
+                  دكتوراه الفلسفة في العلوم
+                </option>
               </Form.Control>
             </Col>
 
@@ -237,17 +290,17 @@ const ViewStudents = () => {
               <Form.Control
                 className='info'
                 as='select'
-                name='specialization'
+                name='arabic-name'
                 custom
               >
-                <option value=''>التخصص</option>
-                {/* {specFilter.map((spec, index) => {
+                <option value=''>عنوان الدراسة</option>
+                {titleFilter.map((title, index) => {
                   return (
-                    <option key={index} value={spec}>
-                      {spec}
+                    <option key={index} value={title}>
+                      {title}
                     </option>
                   )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -259,44 +312,13 @@ const ViewStudents = () => {
                 custom
               >
                 <option value=''>القسم</option>
-                {/* {departments.map((dept) => {
+                {departments.map((dept) => {
                   return (
                     <option key={dept.idDept} value={dept.arabicName}>
                       {dept.arabicName}
                     </option>
                   )
-                })} */}
-              </Form.Control>
-            </Col>
-
-            <Col>
-              <Form.Control className='info' as='select' name='faculty' custom>
-                <option value=''>الكلية</option>
-                {/* {facultyFilter.map((item, index) => {
-                  return (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                })} */}
-              </Form.Control>
-            </Col>
-
-            <Col>
-              <Form.Control
-                className='info'
-                as='select'
-                name='university'
-                custom
-              >
-                <option value=''>الجامعة</option>
-                {/* {univerFilter.map((item, index) => {
-                  return (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -308,13 +330,13 @@ const ViewStudents = () => {
                 custom
               >
                 <option value=''>الجنسية</option>
-                {/* {nationFilter.map((item, index) => {
+                {nationFilter.map((item, index) => {
                   return (
                     <option key={index} value={item}>
                       {item}
                     </option>
                   )
-                })} */}
+                })}
               </Form.Control>
             </Col>
 
@@ -345,10 +367,13 @@ const ViewStudents = () => {
               // console.log(k)
               if (k === 'registeredStudents') {
                 setCopyStudents(registeredStudents)
+                setSelectedSection('registeredStudents')
               } else if (k === 'validStudents') {
                 setCopyStudents(validStudents)
+                setSelectedSection('validStudents')
               } else if (k === 'InvalidStudents') {
                 setCopyStudents(InvalidStudents)
+                setSelectedSection('InvalidStudents')
               }
             }}
           >

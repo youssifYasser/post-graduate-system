@@ -130,22 +130,22 @@ const StudentDataRegisteration = ({
 
   const add = () => {
     if (page === 2) {
-      setUniDegrees([...uniDegrees, { idS: uniDegreesNum + 1 }])
+      setUniDegrees([...uniDegrees, { id: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 4) {
-      setStudentSups([...studentSups, { id: uniDegreesNum + 1 }])
+      setStudentSups([...studentSups, { idSupervisor: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 5) {
-      setStudentRefs([...studentRefs, { id: uniDegreesNum + 1 }])
+      setStudentRefs([...studentRefs, { idRefereed: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 6) {
-      setStudentReports([...studentReports, { id: uniDegreesNum + 1 }])
+      setStudentReports([...studentReports, { idState: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 7) {
-      setStudentExcuses([...studentExcuses, { id: uniDegreesNum + 1 }])
+      setStudentExcuses([...studentExcuses, { idExcuse: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 8) {
-      setStudentPayments([...studentPayments, { id: uniDegreesNum + 1 }])
+      setStudentPayments([...studentPayments, { idPayment: uniDegreesNum + 1 }])
       setUniDegreesNum(uniDegreesNum + 1)
     }
   }
@@ -206,6 +206,36 @@ const StudentDataRegisteration = ({
       setUniDegrees([...uniDegrees])
     } else if (compIndex === 't') {
       setThesisData({ ...thesisData, [name]: value })
+    } else if (compIndex === 's') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentSups[index] = { ...studentSups[index], [name]: value }
+      setStudentSups([...studentSups])
+    } else if (compIndex === 'r') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentRefs[index] = { ...studentRefs[index], [name]: value }
+      setStudentRefs([...studentRefs])
+    } else if (compIndex === 'e') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentExcuses[index] = { ...studentExcuses[index], [name]: value }
+      setStudentExcuses([...studentExcuses])
+    } else if (compIndex === 'm') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentPayments[index] = { ...studentPayments[index], [name]: value }
+      setStudentPayments([...studentPayments])
+    } else if (compIndex === 'a') {
+      indexOfDash = name.lastIndexOf('-')
+      let index = name.slice(indexOfDash + 1)
+      name = name.slice(0, indexOfDash)
+      studentReports[index] = { ...studentReports[index], [name]: value }
+      setStudentReports([...studentReports])
     }
   }
   const handleSubmit = (e) => {
@@ -511,6 +541,21 @@ const StudentDataRegisteration = ({
     }
   }, [studentNumber])
 
+  useEffect(() => {
+    if (isEditing) {
+      setPersonalInfo({ ...editStudent['personal'] })
+      editStudent['previousstudie'] &&
+        setUniDegrees([...editStudent['previousstudie']])
+      editStudent['register'] && setThesisData({ ...editStudent['register'] })
+      editStudent['supervisour'] &&
+        setStudentSups([...editStudent['supervisour']])
+      editStudent['referee'] && setStudentRefs([...editStudent['referee']])
+      editStudent['excuse'] && setStudentExcuses([...editStudent['excuse']])
+      editStudent['payment'] && setStudentPayments([...editStudent['payment']])
+      editStudent['state'] && setStudentReports([...editStudent['state']])
+    }
+  }, [editIndex])
+
   return (
     <Container className='student-data-reg'>
       <main className='main-form'>
@@ -555,11 +600,11 @@ const StudentDataRegisteration = ({
                 handleChange={handleChange}
                 departments={departments}
                 studies={studies}
-                byExcel={byExcel}
+                isEditing={isEditing}
               />
             </Tab>
 
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='4' title='المشرفين'>
                 <StudentSups
                   studentSups={studentSups}
@@ -571,7 +616,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='5' title='المحكمين'>
                 <StudentRefs
                   btnText={btnRefText}
@@ -586,7 +631,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='6' title='بيان/تقرير'>
                 <StudentReports
                   btnText={btnRepText}
@@ -601,7 +646,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='7' title='الأعذار'>
                 <StudentExcuses
                   btnText1={btnEx1Text}
@@ -617,7 +662,7 @@ const StudentDataRegisteration = ({
                 />
               </Tab>
             )}
-            {byExcel && (
+            {isEditing && (
               <Tab eventKey='8' title='المصروفات'>
                 <StudentPayments
                   btnText={btnPText}
