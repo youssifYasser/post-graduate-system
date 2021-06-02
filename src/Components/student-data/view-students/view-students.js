@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, InputGroup, Button, Form, Tabs, Tab } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { RiFileExcel2Fill } from 'react-icons/ri'
@@ -10,19 +10,22 @@ import isEqual from 'lodash/isEqual'
 
 import Loading from '../../supervisor-data/view-supervisors/loading'
 import StudentDataRegisteration from '../Student-data-registration/StudentDataRegisteration'
+import StudentRow from './student-row'
 
 import './view-students-style.css'
+import NoSupervisors from '../../supervisor-data/view-supervisors/no-supervisors'
 
 // make the view with tabs
 const ViewStudents = () => {
   const [registeredStudents, setRegisteredStudents] = useState([])
   const [validStudents, setValidStudents] = useState([])
-  const [notValidStudents, setNotValidStudents] = useState([])
+  const [InvalidStudents, setInvalidStudents] = useState([])
   const [copyStudents, setCopyStudents] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [showSave, setShowSave] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
 
   const s2ab = (s) => {
     var buf = new ArrayBuffer(s.length)
@@ -62,6 +65,94 @@ const ViewStudents = () => {
       'المشرفين.xlsx'
     )
   }
+
+  const startEdit = (index, idS, idStudyTypeF) => {
+    if (!idStudyTypeF) {
+      setEditIndex(index)
+      setIsEditing(true)
+    } else {
+      const registeredStudentsAPI = {
+        url: 'http://localhost:8000/api/getstudnt',
+        data: JSON.stringify({ idS, studyType_id: idStudyTypeF }),
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+      }
+      axios(registeredStudentsAPI)
+        .then((response) => {
+          console.log(response.data)
+          copyStudents[index] = { ...copyStudents[index], ...response.data }
+          // setCopyStudents([...copyStudents])
+          setEditIndex(index)
+          setIsEditing(true)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  useEffect(() => {
+    const registeredStudentsAPI = {
+      url: 'http://localhost:8000/api/getall',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(registeredStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setRegisteredStudents([...response.data])
+        setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+
+    const validStudentsAPI = {
+      url: 'http://localhost:8000/api/valid-but-uncompleted',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(validStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setValidStudents([...response.data])
+        // setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const InvalidStudentsAPI = {
+      url: 'http://localhost:8000/api/uncompletedRegistration',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(InvalidStudentsAPI)
+      .then((response) => {
+        console.log([...response.data])
+        setInvalidStudents([...response.data])
+        // setCopyStudents([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   if (isLoading) {
     return <Loading />
@@ -120,7 +211,7 @@ const ViewStudents = () => {
               </InputGroup>
             </Col>
           </Row>
-          <Row>
+          <Row className='filter-row'>
             <Col>
               <Form.Control
                 className='info'
@@ -247,46 +338,135 @@ const ViewStudents = () => {
             </Col>
           </Row>
           <Tabs
-            defaultActiveKey='1'
+            defaultActiveKey='registeredStudents'
             // activeKey={page}
             id='uncontrolled-tab'
-            // onSelect={(k) => setPage(parseInt(k))}
-          ></Tabs>
+            onSelect={(k) => {
+              // console.log(k)
+              if (k === 'registeredStudents') {
+                setCopyStudents(registeredStudents)
+              } else if (k === 'validStudents') {
+                setCopyStudents(validStudents)
+              } else if (k === 'InvalidStudents') {
+                setCopyStudents(InvalidStudents)
+              }
+            }}
+          >
+            <Tab eventKey='registeredStudents' title='الطلبة الذي تم تسجيلهم'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+
+            <Tab eventKey='validStudents' title='الطلبة الذي تم إضافتهم'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+
+            <Tab eventKey='InvalidStudents' title='الطلبة المتأخرين'>
+              <Row className='labels-row'>
+                <Col>
+                  <Form.Label>اسم الطالب</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>تاريخ الميلاد</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>الرقم القومي</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Label>عنوان الدراسة</Form.Label>
+                </Col>
+              </Row>
+              {copyStudents.length !== 0 ? (
+                isFiltering ? (
+                  <Loading />
+                ) : (
+                  copyStudents.map((student, index) => {
+                    return (
+                      <StudentRow
+                        key={student['personal'].idS}
+                        index={index}
+                        student={student}
+                        startEdit={startEdit}
+                        // handleDelete={handleDelete}
+                        setIsEditing={setIsEditing}
+                        setEditIndex={setEditIndex}
+                      />
+                    )
+                  })
+                )
+              ) : (
+                <NoSupervisors word={'طلاب'} />
+              )}
+            </Tab>
+          </Tabs>
           {/* workking on Tabs */}
-          <Row className='labels-row'>
-            <Col>
-              <Form.Label>اسم المشرف</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>الدرجة العلمية</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>القسم</Form.Label>
-            </Col>
-            <Col>
-              <Form.Label>التخصص</Form.Label>
-            </Col>
-          </Row>
-          {/* {copyStudents.length !== 0 ? (
-          isFiltering ? (
-            <Loading />
-          ) : (
-            copyStudents.map((supervisor, index) => {
-              return (
-                <SupervisorRow
-                  key={supervisor.idSupervisor}
-                  index={index}
-                  supervisor={supervisor}
-                  handleDelete={handleDelete}
-                  setIsEditing={setIsEditing}
-                  setEditIndex={setEditIndex}
-                />
-              )
-            })
-          )
-        ) : (
-          <NoSupervisors />
-        )} */}
         </div>
       </div>
     )

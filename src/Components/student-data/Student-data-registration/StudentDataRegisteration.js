@@ -37,6 +37,14 @@ const StudentDataRegisteration = ({
   setStudentNumber,
   studentNumber,
   setShowUpload,
+  isEditing,
+  setIsEditing,
+  editIndex,
+  editStudent,
+  setShowSave,
+  showSave,
+  copyStudents,
+  setCopyStudents,
 }) => {
   const [personalInfo, setPersonalInfo] = useState({
     image: '',
