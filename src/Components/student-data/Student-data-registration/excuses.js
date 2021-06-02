@@ -10,7 +10,6 @@ const StudentExcuses = ({
   btnText2,
   deleteItem,
   studentExcuses,
-  index,
 }) => {
   return (
     <Container className={`form-six animate__animated animate__fadeIn`}>
@@ -18,9 +17,9 @@ const StudentExcuses = ({
       {studentExcuses.length === 0 ? (
         <h6 className='title'>لا يوجد أعذار ...</h6>
       ) : (
-        studentExcuses.map((exc) => {
+        studentExcuses.map((exc, index) => {
           return (
-            <section className='section' key={exc.id}>
+            <section className='section' key={exc.idExcuse}>
               <Form.Row>
                 <Col className='excuse-date-col'>
                   <Form.Group controlId='registrationDate-t'>
@@ -152,7 +151,7 @@ const StudentExcuses = ({
                   <Button
                     type='button'
                     className='exc-btn'
-                    onClick={() => deleteItem(exc.id)}
+                    onClick={() => deleteItem(exc.idExcuse)}
                   >
                     مسح العذر
                   </Button>

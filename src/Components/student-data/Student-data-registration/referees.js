@@ -3,6 +3,7 @@ import { Container, Form, Col, Button } from 'react-bootstrap'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 import InsertModal from './insertModal'
 
 const StudentRefs = ({
@@ -14,6 +15,25 @@ const StudentRefs = ({
 }) => {
   const [modalShow, setModalShow] = useState(false)
   const [insertPage, setInsertPage] = useState(3)
+  const [allRefs, setAllRefs] = useState([])
+
+  useEffect(() => {
+    const getReferees = {
+      url: 'http://localhost:8000/api/getreferees',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(getReferees)
+      .then((response) => {
+        setAllRefs([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const newRef = () => {
     Swal.fire({
@@ -59,7 +79,7 @@ const StudentRefs = ({
       ) : (
         studentRefs.map((ref, index) => {
           return (
-            <section className='section' key={ref.id}>
+            <section className='section' key={ref.idRefereed}>
               <Form.Row>
                 <Col>
                   <Form.Group>
@@ -85,12 +105,23 @@ const StudentRefs = ({
 
                     <Form.Control
                       className='form-input'
-                      type='text'
                       value={ref.arabicName}
                       name={`arabicName-${index}-r`}
                       onChange={handleChange}
-                      pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
-                    />
+                      as='select'
+                      custom
+                      dir='rtl'
+                      lang='ar'
+                    >
+                      <option value=''>اختر المحكم</option>
+                      {allRefs.map((refs) => {
+                        return (
+                          <option key={refs.idRefereed} value={refs.arabicName}>
+                            {refs.arabicName}
+                          </option>
+                        )
+                      })}
+                    </Form.Control>
                     <Form.Control.Feedback type='invalid'>
                       من فضلك ادخل الاسم باللغة العربية فقط.
                     </Form.Control.Feedback>
@@ -182,7 +213,10 @@ const StudentRefs = ({
                   >
                     وضع الإشراف
                   </Form.Label>
-                  <Button type='button' onClick={() => deleteItem(ref.id)}>
+                  <Button
+                    type='button'
+                    onClick={() => deleteItem(ref.idRefereed)}
+                  >
                     مسح المحكم
                   </Button>
                 </Col>

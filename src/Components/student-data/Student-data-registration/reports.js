@@ -9,7 +9,6 @@ const StudentReports = ({
   btnText,
   deleteItem,
   studentReports,
-  index,
 }) => {
   useEffect(() => {
     btnText = ''
@@ -20,9 +19,9 @@ const StudentReports = ({
       {studentReports.length === 0 ? (
         <h6 className='title'>لا يوجد تقارير ...</h6>
       ) : (
-        studentReports.map((rep) => {
+        studentReports.map((rep, index) => {
           return (
-            <section className='section' key={rep.id}>
+            <section className='section' key={rep.idState}>
               <Form.Row>
                 <Col>
                   <Form.Group>
@@ -95,7 +94,7 @@ const StudentReports = ({
                     <Button
                       type='button'
                       className='rep-btn'
-                      onClick={() => deleteItem(rep.id)}
+                      onClick={() => deleteItem(rep.idState)}
                     >
                       مسح التقرير
                     </Button>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Form, Container, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
+
 import './ThesisData.css'
 
 const ThesisData = ({
@@ -8,6 +10,7 @@ const ThesisData = ({
   handleChange,
   departments,
   isEditing,
+  sendEmail,
 }) => {
   // const [thesis, setThesis] = useState(academicThesisData)
   // const handleChange = (e) => {
@@ -21,6 +24,21 @@ const ThesisData = ({
 
   return (
     <Container className={`form-three animate__animated animate__fadeIn`}>
+      {isEditing && (
+        <Form.Row>
+          <Col>
+            <Button
+              type='button'
+              className='new-reg-email'
+              onClick={() => {
+                sendEmail()
+              }}
+            >
+              إرسال بريد إلكتروني للطالب لتسجيل رسالة جديدة
+            </Button>
+          </Col>
+        </Form.Row>
+      )}
       <h5 className='title'> بيانات الرسالة</h5>
       <section className='section'>
         <Form.Row>
@@ -104,7 +122,7 @@ const ThesisData = ({
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
-          {/*start from here  */}
+
           <Col md={5} sm={6}>
             {thesisData.type === 'تمهيدي الماجستير' ||
             thesisData.type === 'دبلومة الدراسات العليا' ? (
@@ -332,6 +350,7 @@ const ThesisData = ({
           </Form.Row>
         )}
       </section>
+
       <hr></hr>
       {isEditing && (
         <>

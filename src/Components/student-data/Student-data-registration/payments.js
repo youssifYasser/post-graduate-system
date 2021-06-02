@@ -17,9 +17,9 @@ const StudentPayments = ({
       {studentPayments.length === 0 ? (
         <h6 className='title'>لا يوجد مصروفات ...</h6>
       ) : (
-        studentPayments.map((pay) => {
+        studentPayments.map((pay, index) => {
           return (
-            <section className='section' key={pay.id}>
+            <section className='section' key={pay.idPayment}>
               <Form.Row>
                 <Col>
                   <Form.Group controlId='registrationDate-t'>
@@ -131,7 +131,7 @@ const StudentPayments = ({
                   <Button
                     type='button'
                     className='rep-btn pay-btn'
-                    onClick={() => deleteItem(pay.id)}
+                    onClick={() => deleteItem(pay.idPayment)}
                   >
                     مسح الإيصال
                   </Button>

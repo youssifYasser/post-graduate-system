@@ -36,7 +36,7 @@ const UniversityDegrees = ({
       ) : (
         uniDegrees.map((degree, index) => {
           return (
-            <div key={index} className='degree'>
+            <div key={degree.id} className='degree'>
               <Form.Row>
                 <Col>
                   <Form.Group controlId='degree'>
@@ -130,7 +130,7 @@ const UniversityDegrees = ({
               </Form.Row>
               <Form.Row>
                 <Col className='del-col'>
-                  <Button type='button' onClick={() => deleteItem(degree.idS)}>
+                  <Button type='button' onClick={() => deleteItem(degree.id)}>
                     مسح الدراسة
                   </Button>
                 </Col>
