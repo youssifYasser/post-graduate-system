@@ -34,6 +34,33 @@
 /* End of About*/
 
 
+/* Start of Switch */
+.home .switch{
+    margin: auto;
+    width: fit-content;
+}
+.home .switch .btn{
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    padding: 0.2rem 1.5rem;
+}
+.home .switch .btn-secondary {
+    color: #edf0f6;
+    background-color: #212529;
+    border-color: #212529;
+}
+.home .switch .btn-secondary:hover{
+    background-color: #3b4046;
+    border-color:#3b4046;
+}
+.home .switch .active{
+    color: #212529 !important;
+    background-color: #edf0f6 !important;
+    border-color: #212529 !important;
+}
+
+/* End of Switch */
+
 /* Start of Section*/
 .home .section{
     color: #edf0f6;
@@ -92,7 +119,8 @@
     margin-bottom: 11px;
     padding-top: 5px;
 }
-.home .section .content .links .link{
+.home .section .content .links .link,
+.home .section .content .links .link a{
     color: #212529 !important;
     background-color: #edf0f6;
     text-align: left;
@@ -107,6 +135,9 @@
 .home .section .content .links .link:hover{
     text-decoration: none;
     transform: scale(1.1);
+}
+.home .section .content .links .link a{
+    text-decoration: none;
 }
 /* End of Section*/
 
@@ -197,7 +228,14 @@
     }
 }
 
-@media (min-width: 1439px) and(max-width: 1822px){
+@media (min-width: 1440px) and(max-width: 1822px){
+    .home .section .content .links .link .textOflink{
+        font-size: 21px;
+        padding-right: 0;
+    }
+    .home .section .content .links .link .icon2{
+        font-size: 38px;
+    }
     .home .section .content .links .sp2{
         margin-left: 0 !important;
     }

@@ -1,21 +1,21 @@
 import React from 'react'
-import { Container, Image, Row, Col } from 'react-bootstrap'
+import { Container, Image, Row, Col, Button } from 'react-bootstrap'
 
-import { FaUserGraduate, FaEdit } from 'react-icons/fa'
-import { MdAddCircle } from 'react-icons/md'
-import { GiHandOk } from 'react-icons/gi'
-import { RiFileExcel2Line } from 'react-icons/ri'
 import { AiOutlineEye } from 'react-icons/ai'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 
 import 'animate.css/animate.min.css'
 
 import cover from './image/AinShamss.jpg'
-import students from './image/students.jpg'
 
 import './homePage-style.css'
+import Student from './student-section'
+import Studies from './studies-section'
+import Department from './department-section'
+import Supervisor from './supervisor-section'
+import Referee from './referee-section'
 
-function homePage() {
+function HomePage(props) {
     return (
         <div className="home">
             <div className="cover mb-5">
@@ -65,142 +65,48 @@ function homePage() {
                 </Row>
             </Container>
 
-            <div className=" section mb-5">
+            <div className="switch">
                 <Row>
-                    <Col md={6}>
-                        <div className="content">
-                            <p className="title">الطلاب</p>
-                            <div className="line"></div>
-                            <div className="circle">
-                                <p className="icon"><FaUserGraduate /></p>
-                                <h2 className="count">22,561</h2>
-                                <h3>عدد الطلاب</h3>
-                            </div>
-
-                            <div className="links mt-5">
-                                <Row className="row-1">
-                                    <Col lg={12} xl={{ span: 5, offset: 2 }} className="sp2">
-                                        <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">إضافة طالب</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <MdAddCircle className="icon2" />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Col>
-                                    <Col lg={12} xl={5} className="sp2">
-                                        <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">عرض / بحث/ تعديل</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <FaEdit className="icon2" />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col lg={12} xl={{ span: 5, offset: 2 }}>
-                                        <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <GiHandOk className="icon2" />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Col>
-                                    <Col lg={12} xl={5}>
-                                        <div className="link">
-                                            <Row>
-                                                <Col xs={9} md={9}>
-                                                    <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
-                                                </Col>
-                                                <Col xs={3} md={3}>
-                                                    <RiFileExcel2Line className="icon2" />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </div>
+                    <Col>
+                        <Button variant="secondary" name="student" className={props.active.student} onClick={props.handleChange}>
+                            الطلاب
+                        </Button>
                     </Col>
-                    <Col md={6}>
-                        <img src={students} alt="Students" width={'100%'} height={800} className="image" />
+                    <Col>
+                        <Button variant="secondary" name="studies" className={props.active.studies} onClick={props.handleChange}>
+                            الدراسات
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button variant="secondary" name="dep" className={props.active.dep} onClick={props.handleChange}>
+                            الأقسام
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button variant="secondary" name="supervisor" className={props.active.supervisor} onClick={props.handleChange}>
+                            المشرفين
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button variant="secondary" name="referee" className={props.active.referee} onClick={props.handleChange}>
+                            المحكمين
+                        </Button>
                     </Col>
                 </Row>
             </div>
 
-            <div className="stats mt-5 mb-5">
-                <Row>
-                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
-                        <div className="stat sp animate__animated animate__fadeInDown aanimate__delay-.5s">
-                            <p className="title">دبلومة الدراسات العليا</p>
-                            <p className="count">14,123</p>
-                        </div>
-                    </Col>
-                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
-                        <div className="stat animate__animated animate__fadeInDown animate__fast">
-                            <p className="title">تمهيدي الماجستير</p>
-                            <p className="count">4,35</p>
-                        </div>
-                    </Col>
-                    <Col className="mb-3  col" xs={12} md={6} xl={3}>
-                        <div className="stat sp animate__animated animate__fadeInDown animate__slow">
-                            <p className="title">الماجستير في العلوم</p>
-                            <p className="count">1,113</p>
-                        </div>
-                    </Col>
+            {
+                props.section === 1 ? <Student />
+                    : props.section === 2 ? <Studies />
+                        : props.section === 3 ? <Department />
+                            : props.section === 4 ? <Supervisor />
+                                : props.section === 5 ? <Referee />
+                                    : <Student />
 
-                    <Col className="mb-3 col" xs={12} md={6} xl={3}>
-                        <div className="stat  animate__animated animate__fadeInDown  animate__slower">
-                            <p className="title">دكتوراه الفلسفة في العلوم</p>
-                            <p className="count">69</p>
-                        </div>
-                    </Col>
-                </Row>
-            </div>
-            
-            {/* <Container className="stats mb-5">
-                <h1 className="mb-5">عدد الطلاب فى كل دراسة</h1>
-                <Row>
-                    <Col xs={12} md={6} lg={3}>
-                        <div className="circle">
-                            <h2 className="count">561</h2>
-                            <h3>دبلومة الدراسات العليا</h3>
-                        </div>
-                    </Col>
-                    <Col xs={12} md={6} lg={3}>
-                        <div className="circle">
-                            <h2 className="count">2,212</h2>
-                            <h3>تمهيدي الماجستير</h3>
-                        </div>
-                    </Col>
-                    <Col xs={12} md={6} lg={3}>
-                        <div className="circle">
-                            <h2 className="count">14,154</h2>
-                            <h3>الماجستير في العلوم</h3>
-                        </div>
-                    </Col>
-                    <Col xs={12} md={6} lg={3}>
-                        <div className="circle">
-                            <h2 className="count">1,981</h2>
-                            <h3>دكتوراه الفلسفة في العلوم</h3>
-                        </div>
-                    </Col>
-                </Row>
-            </Container> */}
+            }
         </div>
 
     )
 }
 
-export default homePage;
+export default HomePage;
