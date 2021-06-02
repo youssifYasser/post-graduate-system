@@ -332,15 +332,24 @@
 }
 
 .form-four .new-row .new-col .new-btn {
-  background-color: #1d6f42;
-  border: 1px solid #707070 !important;
+  color: #0c55e8;
+  text-decoration: underline;
   font-size: 1.2em;
   margin-bottom: 5px !important;
-  transition: background-color 0.2s ease-out;
+  cursor: pointer;
 }
 
-.form-four .new-row .new-col .new-btn:hover {
-  color: #1d6f42;
-  background-color: transparent;
+.modal-content {
+  background-color: #edf0f600 !important;
+  border: 0 !important;
+}
+
+.modal-body {
+  padding: 0px !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
+  padding-bottom: 0px !important;
 }
 /* referees and supervisors */

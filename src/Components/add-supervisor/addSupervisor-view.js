@@ -6,7 +6,9 @@ import './addSupervisor-style.css'
 function AddSupervisor(props) {
   const state = props
   return (
-    <Container className='addSupervisor mt-5 mb-5'>
+    <Container
+      className={`addSupervisor ${state.modalShow ? 'mt-2 mb-2' : 'mt-5 mb-5'}`}
+    >
       <div className='header'>
         <p className='text-center'>إضافة مشرف</p>
       </div>

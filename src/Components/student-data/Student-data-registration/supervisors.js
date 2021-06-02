@@ -3,10 +3,14 @@ import { Container, Form, Col, Button } from 'react-bootstrap'
 import axios from 'axios'
 import './PersonalData.css'
 import './StudentDataRegisteration.css'
+import Swal from 'sweetalert2'
 import { FaUserTie } from 'react-icons/fa'
+import InsertModal from './insertModal'
 
 const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
   const [allSups, setAllSups] = useState([])
+  const [modalShow, setModalShow] = useState(false)
+  const [insertPage, setInsertPage] = useState(1)
 
   useEffect(() => {
     const supervisorsAPI = {
@@ -29,6 +33,41 @@ const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
       console.log(allSups)
     }, 500)
   }, [])
+
+  if (modalShow) {
+    return (
+      <InsertModal
+        insertPage={insertPage}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+    )
+  }
+
+  const newSup = () => {
+    Swal.fire({
+      icon: 'question',
+      title:
+        'هل تريد إرسال بريداً إلكترونياً إلى السيد المشرف أم تسجيل بياناته يدوياً؟',
+      showConfirmButton: true,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'أرسل بريد إلكترونى',
+      confirmButtonColor: '#2f3944',
+      denyButtonText: 'تسجيل المشرف يدوياً',
+      cancelButtonText: 'لا ، عودة',
+      cancelButtonColor: '#2f3944',
+      denyButtonColor: '#2f3944',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setModalShow(true)
+        setInsertPage(1)
+      } else if (result.isDenied) {
+        setModalShow(true)
+        setInsertPage(2)
+      }
+    })
+  }
   return (
     <Container className={`form-four ${className}`}>
       <h5 className='title'>الســادة المشرفيــن</h5>
@@ -181,17 +220,18 @@ const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
                 </Col>
               </Form.Row>
             </section>
-            <Form.Row className='new-row'>
-              <Col className='new-col'>
-                <Button type='button' className='new-btn'>
-                  تسجيل مشرف جديد
-                  <FaUserTie />
-                </Button>
-              </Col>
-            </Form.Row>
           </>
         )
       })}
+      {studentSups.length !== 0 && (
+        <Form.Row className='new-row'>
+          <Col className='new-col'>
+            <span className='new-btn' onClick={newSup}>
+              هل تريد تسجيل بيانات مشرف جديد؟
+            </span>
+          </Col>
+        </Form.Row>
+      )}
     </Container>
   )
 }

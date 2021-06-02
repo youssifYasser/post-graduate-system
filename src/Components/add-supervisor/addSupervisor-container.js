@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import AddSupervisorView from './addSupervisor-view'
 
-const AddSupervisor = () => {
+const AddSupervisor = ({ modalShow }) => {
   const [validated, setValidated] = useState(false)
   const [universityPositions, setUniversityPositions] = useState([])
   const [supervisor, setSupervisor] = useState({
@@ -92,6 +92,7 @@ const AddSupervisor = () => {
 
   return (
     <AddSupervisorView
+      modalShow={modalShow}
       validated={validated}
       supervisor={supervisor}
       handleChange={handleChange}
