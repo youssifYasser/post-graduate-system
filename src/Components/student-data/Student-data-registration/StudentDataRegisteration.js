@@ -72,7 +72,7 @@ const StudentDataRegisteration = ({
     englishTitle: '',
     arabicTitle: '',
     toeflGrade: '',
-    sciDegree: '',
+    type: '',
   })
   const [studentSups, setStudentSups] = useState([])
   const [studentRefs, setStudentRefs] = useState([])
