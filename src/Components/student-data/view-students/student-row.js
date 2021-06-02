@@ -41,7 +41,10 @@ const StudentRow = ({
           </Col>
 
           <Col className='section-del-btns'>
-            <Button type='button' onClick={() => handleDelete(student.idS)}>
+            <Button
+              type='button'
+              onClick={() => handleDelete(student['personal'].idS)}
+            >
               <MdDeleteForever />{' '}
             </Button>
           </Col>

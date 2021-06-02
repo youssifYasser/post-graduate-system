@@ -74,20 +74,18 @@ const StudentRefs = ({
   return (
     <Container className={`form-four animate__animated animate__fadeIn`}>
       <h5 className='title'>الســادة المحكميــن</h5>
-
       {studentRefs.length === 0 ? (
         <h6 className='title'>لا يوجد محكمين ...</h6>
       ) : (
         studentRefs.map((ref, index) => {
           return (
-            <section className='section' key={index}>
+            <section className='section' key={ref.idRefereed}>
               <Form.Row>
                 <Col>
                   <Form.Group>
                     <Form.Label className='sups-refs-labels'>
                       الرقم الكودي
                     </Form.Label>
-
                     <Form.Control
                       className='form-input'
                       type='number'
@@ -214,7 +212,10 @@ const StudentRefs = ({
                   >
                     وضع الإشراف
                   </Form.Label>
-                  <Button type='button' onClick={() => deleteItem(ref.id)}>
+                  <Button
+                    type='button'
+                    onClick={() => deleteItem(ref.idRefereed)}
+                  >
                     مسح المحكم
                   </Button>
                 </Col>

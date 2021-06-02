@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Form, Container, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
+
 import './ThesisData.css'
 
 const ThesisData = ({
@@ -8,6 +10,7 @@ const ThesisData = ({
   handleChange,
   departments,
   isEditing,
+  sendEmail,
 }) => {
   // const [thesis, setThesis] = useState(academicThesisData)
   // const handleChange = (e) => {
@@ -21,6 +24,21 @@ const ThesisData = ({
 
   return (
     <Container className={`form-three animate__animated animate__fadeIn`}>
+      {isEditing && (
+        <Form.Row>
+          <Col>
+            <Button
+              type='button'
+              className='new-reg-email'
+              onClick={() => {
+                sendEmail()
+              }}
+            >
+              إرسال بريد إلكتروني للطالب لتسجيل رسالة جديدة
+            </Button>
+          </Col>
+        </Form.Row>
+      )}
       <h5 className='title'> بيانات الرسالة</h5>
       <section className='section'>
         <Form.Row>
@@ -30,8 +48,8 @@ const ThesisData = ({
               <Form.Control
                 className='form-input'
                 as='select'
-                name='sciDegree-t'
-                value={thesisData.sciDegree}
+                name='type-t'
+                value={thesisData.type}
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
@@ -74,9 +92,9 @@ const ThesisData = ({
           <Col md={{ span: 5, offset: 2 }} sm={6}>
             <Form.Group controlId='department'>
               <Form.Label>
-                {thesisData.sciDegree === 'دبلومة الدراسات العليا'
+                {thesisData.type === 'دبلومة الدراسات العليا'
                   ? 'القسم التابعة له هذه الدبلومة'
-                  : thesisData.sciDegree === 'تمهيدي الماجستير'
+                  : thesisData.type === 'تمهيدي الماجستير'
                   ? 'القسم التابعة له دراسة تمهيدي الماجستير'
                   : 'القسم التابعة له هذه الرسالة'}
               </Form.Label>
@@ -84,7 +102,7 @@ const ThesisData = ({
                 className='form-input'
                 as='select'
                 name='department-t'
-                value={thesisData.department}
+                value={thesisData.departName}
                 onChange={handleChange}
                 pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                 custom
@@ -104,13 +122,13 @@ const ThesisData = ({
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
-          {/*start from here  */}
+
           <Col md={5} sm={6}>
-            {thesisData.sciDegree === 'تمهيدي الماجستير' ||
-            thesisData.sciDegree === 'دبلومة الدراسات العليا' ? (
+            {thesisData.type === 'تمهيدي الماجستير' ||
+            thesisData.type === 'دبلومة الدراسات العليا' ? (
               <Form.Group controlId='diplomaTitle'>
                 <Form.Label>
-                  {thesisData.sciDegree === 'دبلومة الدراسات العليا'
+                  {thesisData.type === 'دبلومة الدراسات العليا'
                     ? 'عنوان الدبلومة'
                     : 'عنوان تمهيدي الماجستير'}
                 </Form.Label>
@@ -125,7 +143,7 @@ const ThesisData = ({
                 />
 
                 <Form.Control.Feedback type='invalid'>
-                  {thesisData.sciDegree === 'دبلومة الدراسات العليا'
+                  {thesisData.type === 'دبلومة الدراسات العليا'
                     ? 'من فضلك أدخل عنوان الدبلومة باللغة العربية فقط.'
                     : ' من فضلك أدخل عنوان تمهيدي الماجستير باللغة العربية فقط.'}
                 </Form.Control.Feedback>
@@ -259,8 +277,8 @@ const ThesisData = ({
         </Form.Row>
         <Form.Row>
           <Col md={{ span: 5, offset: 2 }} sm={6}>
-            {thesisData.sciDegree === 'دكتوراه الفلسفة في العلوم' ||
-            thesisData.sciDegree === 'الماجستير في العلوم' ? (
+            {thesisData.type === 'دكتوراه الفلسفة في العلوم' ||
+            thesisData.type === 'الماجستير في العلوم' ? (
               <Form.Group controlId='arThesis'>
                 <Form.Label>عنوان الرسالة باللغة العربية</Form.Label>
                 <Form.Control
@@ -289,8 +307,8 @@ const ThesisData = ({
               </Form.Group>
             )}
           </Col>
-          {(thesisData.sciDegree === 'دكتوراه الفلسفة في العلوم' ||
-            thesisData.sciDegree === 'الماجستير في العلوم') && (
+          {(thesisData.type === 'دكتوراه الفلسفة في العلوم' ||
+            thesisData.type === 'الماجستير في العلوم') && (
             <Col md={5} sm={6}>
               <Form.Group controlId='enThesis'>
                 <Form.Label>عنوان الرسالة باللغة الإنجليزية</Form.Label>
@@ -313,9 +331,9 @@ const ThesisData = ({
           )}
         </Form.Row>
 
-        {thesisData.sciDegree === ''}
-        {(thesisData.sciDegree === 'دكتوراه الفلسفة في العلوم' ||
-          thesisData.sciDegree === 'الماجستير في العلوم') && (
+        {thesisData.type === ''}
+        {(thesisData.type === 'دكتوراه الفلسفة في العلوم' ||
+          thesisData.type === 'الماجستير في العلوم') && (
           <Form.Row>
             <Col md={{ span: 5, offset: 2 }} sm={6}>
               <Form.Group controlId='courses'>

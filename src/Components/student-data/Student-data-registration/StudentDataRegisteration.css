@@ -89,6 +89,7 @@
 
 .nav-tabs {
   border-bottom: 1px solid #4950576b;
+  margin-bottom: 30px !important;
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
@@ -158,6 +159,32 @@
   font-size: 1.2em;
 }
 
+.form-four .new-row {
+  text-align: right;
+  margin: -15px 0 30px 0;
+}
+
+.form-four .new-row .new-col .new-btn {
+  color: #0c55e8;
+  text-decoration: underline;
+  font-size: 1.2em;
+  margin-bottom: 5px !important;
+  cursor: pointer;
+}
+
+.modal-content {
+  background-color: #edf0f600 !important;
+  border: 0 !important;
+}
+
+.modal-body {
+  padding: 0px !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
+  padding-bottom: 0px !important;
+}
 /* .swal2-confirm {
   width: 30% !important;
   border-radius: 30px !important;

@@ -30,6 +30,7 @@
   margin-bottom: 30px;
   box-shadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease-out;
+  text-align: right;
 }
 
 .supervisor-reg .main-form .section:hover {
@@ -77,6 +78,11 @@
 
 .supervisor-reg .main-form .section .form-check-male {
   margin-left: 10px;
+}
+
+.supervisor-reg .main-form .btns-row {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .supervisor-reg .main-form .btn-col .submit-btn {

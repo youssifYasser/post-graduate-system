@@ -41,22 +41,83 @@ const ViewStudents = () => {
 
   const printExcel = (data) => {
     let newData = []
-    for (const item of data) {
+    for (let i = 0; i < data.length; i++) {
       newData.push({
-        ['الرقم الكودي']: item.idSupervisor,
-        ['الاسم باللغة العربية']: item.arabicName,
-        ['الاسم باللغة الإنجليزية']: item.englishName,
-        ['الرقم القومي']: item.nationalityId,
-        ['الجنس']: item.gender,
-        ['دولة الجنسية']: item.nationality,
-        ['رقم الهاتف']: item.mobile,
-        ['البريد الإلكتروني']: item.email,
-        ['الدرجة العلمية']: item.sciDegree,
-        ['التخصص']: item.specialization,
-        ['القسم الذي به المشرف']: item.department,
-        ['الكلية التي بها المشرف']: item.faculty,
-        ['الجامعة التي بها المشرف']: item.university,
+        ['الرقم الكودي']: data[i]['personal'].idS,
+        ['الصورة الشخصية']: data[i]['personal'].image,
+        ['الاسم باللغة العربية']: data[i]['personal'].arabicName,
+        ['الاسم باللغة الإنجليزية']: data[i]['personal'].englishName,
+        ['تاريخ الميلاد']: data[i]['personal'].birthdate,
+        ['الجنس']: data[i]['personal'].gender,
+        ['دولة الجنسية']: data[i]['personal'].nationality,
+        ['الرقم القومي']: data[i]['personal'].nationalityId,
+        ['مصدر شهادة الميلاد']: data[i]['personal'].birthdateSource,
+        ['العنوان']: data[i]['personal'].Add,
+        ['رقم الهاتف']: data[i]['personal'].mobile,
+        ['البريد الإلكتروني']: data[i]['personal'].email,
+        ['الوظيفة باللغة العربية']: data[i]['personal'].jobArabic,
+        ['الوظيفة باللغة الإنجليزية']: data[i]['personal'].jobEnglish,
+        ['عنوان الوظيفة']: data[i]['personal'].jobAdd,
       })
+      if (selectedSection === 'registeredStudents') {
+        if (data[i]['previousstudie'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['الرقم الكودي للدراسة السابقة']: data[i]['previousstudie'].id,
+            ['الدرجة  العلمية']: data[i]['previousstudie'].degree,
+            ['التخصص']: data[i]['previousstudie'].specialization,
+            ['تاريخ الحصول عليها']: data[i]['previousstudie'].dateObtained,
+            ['الكلية التي حصل الطالب على الدرجة العلمية منها']:
+              data[i]['previousstudie'].faculty,
+            ['الجامعة التي حصل الطالب على الدرجة العلمية منها']:
+              data[i]['previousstudie'].university,
+          }
+        } else {
+          for (let j = 0; j < data[i]['previousstudie'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`الرقم الكودي للدراسة السابقة ${i + 1}`]:
+                data[i]['previousstudie'].id,
+              [`الدرجة  العلمية ${i + 1}`]: data[i]['previousstudie'].degree,
+              [`التخصص ${i + 1}`]: data[i]['previousstudie'].specialization,
+              [`تاريخ الحصول عليها ${i + 1}`]:
+                data[i]['previousstudie'].dateObtained,
+              [`الكلية التي حصل الطالب على الدرجة العلمية منها ${i + 1}`]:
+                data[i]['previousstudie'].faculty,
+              [`الجامعة التي حصل الطالب على الدرجة العلمية منها ${i + 1}`]:
+                data[i]['previousstudie'].university,
+            }
+          }
+        }
+
+        newData[i] = {
+          ...newData[i],
+          ['نوع التسجيل']: data[i]['register'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+          ['الجنس']: data[i]['personal'].gender,
+        }
+      }
     }
 
     let wb = XLSX.utils.book_new()
@@ -118,6 +179,57 @@ const ViewStudents = () => {
           console.log(err)
         })
     }
+  }
+
+  const handleDelete = (studentID) => {
+    Swal.fire({
+      icon: 'warning',
+      title: 'هل أنت متأكد من إزالة الطالب',
+      showDenyButton: true,
+      showCancelButton: true,
+      showConfirmButton: false,
+      denyButtonText: `نعم ، امسح الطالب`,
+      cancelButtonText: 'لا ، عودة',
+      cancelButtonColor: '#2f3944',
+      denyButtonColor: '#be0707',
+    }).then((result) => {
+      if (result.isDenied) {
+        const newStudents = copyStudents.filter((student) => {
+          return student['personal'].idS !== studentID
+        })
+
+        const deleteStudentAPI = {
+          url: `http://localhost:8000/api/deletestudent/${studentID}`,
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(deleteStudentAPI)
+          .then((response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'تمت إزالة الطالب بنجاح',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            setTimeout(() => {
+              setCopyStudents([...newStudents])
+              // setSupervisors([...newSupervisors])
+              window.location.href =
+                window.location.pathname +
+                window.location.search +
+                window.location.hash
+            }, 1100)
+            // isEditing && setIsEditing(false)
+            console.log(response)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    })
   }
 
   useEffect(() => {
@@ -244,10 +356,17 @@ const ViewStudents = () => {
           <Row>
             <Col className='excel-col'>
               <Button
-                // disabled={students.length === 0}
+                disabled={
+                  (selectedSection === 'registeredStudents'
+                    ? registeredStudents
+                    : selectedSection === 'validStudents'
+                    ? validStudents
+                    : InvalidStudents
+                  ).length === 0
+                }
                 type='button'
                 className='excel-btn'
-                // onClick={() => printExcel(copySupervisors)}
+                onClick={() => printExcel(copyStudents)}
               >
                 تحويل البيانات لملف إكسل <RiFileExcel2Fill />
               </Button>
@@ -403,7 +522,7 @@ const ViewStudents = () => {
                         index={index}
                         student={student}
                         startEdit={startEdit}
-                        // handleDelete={handleDelete}
+                        handleDelete={handleDelete}
                         setIsEditing={setIsEditing}
                         setEditIndex={setEditIndex}
                       />
@@ -441,7 +560,7 @@ const ViewStudents = () => {
                         index={index}
                         student={student}
                         startEdit={startEdit}
-                        // handleDelete={handleDelete}
+                        handleDelete={handleDelete}
                         setIsEditing={setIsEditing}
                         setEditIndex={setEditIndex}
                       />
@@ -479,7 +598,7 @@ const ViewStudents = () => {
                         index={index}
                         student={student}
                         startEdit={startEdit}
-                        // handleDelete={handleDelete}
+                        handleDelete={handleDelete}
                         setIsEditing={setIsEditing}
                         setEditIndex={setEditIndex}
                       />

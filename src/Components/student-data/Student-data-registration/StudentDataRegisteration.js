@@ -72,7 +72,7 @@ const StudentDataRegisteration = ({
     englishTitle: '',
     arabicTitle: '',
     toeflGrade: '',
-    sciDegree: '',
+    type: '',
   })
   const [studentSups, setStudentSups] = useState([])
   const [studentRefs, setStudentRefs] = useState([])
@@ -98,6 +98,66 @@ const StudentDataRegisteration = ({
   useEffect(() => {
     console.log(file)
   }, [file])
+
+  async function sendEmail() {
+    const { value: studyType } = await Swal.fire({
+      title: 'اختر نوع الدراسة',
+      input: 'select',
+      confirmButtonColor: '#2f3944',
+      inputOptions: {
+        'اختر نوع دراسة': 'اختر نوع دراسة',
+        'دبلومة الدراسات العليا': 'دبلومة الدراسات العليا',
+        'تمهيدي الماجستير': 'تمهيدي الماجستير',
+        'الماجستير في العلوم': 'الماجستير في العلوم',
+        'دكتوراه الفلسفة في العلوم': 'دكتوراه الفلسفة في العلوم',
+      },
+      // inputPlaceholder: 'اختر نوع دراسة',
+      showCancelButton: true,
+
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value !== 'اختر نوع دراسة') {
+            console.log(resolve())
+          } else {
+            resolve('برجاء اختيار نوع الدراسة')
+          }
+        })
+      },
+    })
+
+    if (studyType) {
+      console.log(
+        JSON.stringify({
+          ['study_type']: studyType,
+          ['arabicName']: editStudent['personal'].arabicName,
+          ['email']: editStudent['personal'].email,
+          ['idS']: editStudent['personal'].idS,
+        })
+      )
+      const sendEmailAPI = {
+        url: 'http://localhost:8000/api/sendmail',
+        method: 'post',
+        data: JSON.stringify({
+          ['study_type']: studyType,
+          ['arabicName']: editStudent['personal'].arabicName,
+          ['email']: editStudent['personal'].email,
+          ['idS']: editStudent['personal'].idS,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+      }
+      axios(sendEmailAPI)
+        .then((response) => {
+          console.log(response)
+          Swal.fire(`تم ارسال البريد الإلكتروني`)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 
   const handleUpload = (e) => {
     setFile(e.target.files[0])
@@ -237,9 +297,12 @@ const StudentDataRegisteration = ({
     } else if (compIndex === 't') {
       setThesisData({ ...thesisData, [name]: value })
     } else if (compIndex === 's') {
+      // console.log('sups')
       indexOfDash = name.lastIndexOf('-')
       let index = name.slice(indexOfDash + 1)
       name = name.slice(0, indexOfDash)
+      console.log('name', name)
+      console.log('value', value)
       studentSups[index] = { ...studentSups[index], [name]: value }
       setStudentSups([...studentSups])
     } else if (compIndex === 'r') {
@@ -596,7 +659,7 @@ const StudentDataRegisteration = ({
             </Col>
           )}
           <Col className={`header ${byExcel || 'manual-header'}`}>
-            <h1>تسجيل بيانات الطالب</h1>
+            <h1>{isEditing ? 'تعديل' : 'تسجيل'} بيانات الطالب</h1>
           </Col>
         </Row>
 
@@ -631,6 +694,7 @@ const StudentDataRegisteration = ({
                 departments={departments}
                 studies={studies}
                 isEditing={isEditing}
+                sendEmail={sendEmail}
               />
             </Tab>
 
