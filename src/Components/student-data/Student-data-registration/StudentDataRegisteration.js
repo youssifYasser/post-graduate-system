@@ -629,7 +629,7 @@ const StudentDataRegisteration = ({
             </Col>
           )}
           <Col className={`header ${byExcel || 'manual-header'}`}>
-            <h1>تسجيل بيانات الطالب</h1>
+            <h1>{isEditing ? 'تعديل' : 'تسجيل'} بيانات الطالب</h1>
           </Col>
         </Row>
 
