@@ -7,7 +7,10 @@ const UniversityDegrees = ({
   setUniDegrees,
   handleChange,
   deleteItem,
+  byExcel,
 }) => {
+  // console.log(uniDegrees)
+
   // const [Degrees, setDegrees] = useState(universityDegrees)
 
   // const handleChange = (e) => {
@@ -23,10 +26,6 @@ const UniversityDegrees = ({
   //   setUniDegrees([...uniDegrees])
   // }
 
-  // React.useEffect(() => {
-  //   setUniDegrees(Degrees)
-  // }, [Degrees])
-
   return (
     <Container className={`form-two animate__animated animate__fadeIn`}>
       <h5 className='title'>الدرجات الجامعية وتاريخ الحصول عليها</h5>
@@ -36,7 +35,7 @@ const UniversityDegrees = ({
       ) : (
         uniDegrees.map((degree, index) => {
           return (
-            <div key={degree.id} className='degree'>
+            <div key={byExcel ? index : degree.id} className='degree'>
               <Form.Row>
                 <Col>
                   <Form.Group controlId='degree'>
@@ -128,13 +127,15 @@ const UniversityDegrees = ({
                   </Form.Group>
                 </Col>
               </Form.Row>
-              <Form.Row>
-                <Col className='del-col'>
-                  <Button type='button' onClick={() => deleteItem(degree.id)}>
-                    مسح الدراسة
-                  </Button>
-                </Col>
-              </Form.Row>
+              {byExcel || (
+                <Form.Row>
+                  <Col className='del-col'>
+                    <Button type='button' onClick={() => deleteItem(degree.id)}>
+                      مسح الدراسة
+                    </Button>
+                  </Col>
+                </Form.Row>
+              )}
             </div>
           )
         })

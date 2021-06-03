@@ -163,7 +163,7 @@ const ThesisData = ({
                 >
                   <option value=''>اختر التخصص</option>
 
-                  {thesisData.department === 'قسم الفيزياء' && (
+                  {thesisData.departName === 'قسم الفيزياء' && (
                     <>
                       <option value='الفيزياء النووية'>الفيزياء النووية</option>
                       <option value='الإلكترونيات'>الإلكترونيات</option>
@@ -174,7 +174,7 @@ const ThesisData = ({
                     </>
                   )}
 
-                  {thesisData.department === 'قسم الكيمياء' && (
+                  {thesisData.departName === 'قسم الكيمياء' && (
                     <>
                       <option value='الكيمياء العضوية'>الكيمياء العضوية</option>
                       <option value='الكيمياء غيرالعضوية والتحليلية'>
@@ -186,7 +186,7 @@ const ThesisData = ({
                     </>
                   )}
 
-                  {thesisData.department === 'قسم الكيمياء الحيوية' && (
+                  {thesisData.departName === 'قسم الكيمياء الحيوية' && (
                     <>
                       <option value='كيمياء حيوية تمثيل غذائى عام'>
                         كيمياء حيوية تمثيل غذائى عام
@@ -196,7 +196,7 @@ const ThesisData = ({
                       </option>
                     </>
                   )}
-                  {thesisData.department === 'قسم علم الحشرات' && (
+                  {thesisData.departName === 'قسم علم الحشرات' && (
                     <>
                       <option value='التصنيف والبيئـــــة'>
                         التصنيف والبيئـــــة
@@ -210,7 +210,7 @@ const ThesisData = ({
                       </option>
                     </>
                   )}
-                  {thesisData.department === 'قسم الرياضيات' && (
+                  {thesisData.departName === 'قسم الرياضيات' && (
                     <>
                       <option value='الرياضة البحتــــة'>
                         الرياضة البحتــــة
@@ -224,7 +224,7 @@ const ThesisData = ({
                       <option value='علوم الحاسبــات'>علوم الحاسبــات</option>
                     </>
                   )}
-                  {thesisData.department === 'قسم الجيولوجيا' && (
+                  {thesisData.departName === 'قسم الجيولوجيا' && (
                     <>
                       <option value='المعادن والصخور'>المعادن والصخور</option>
                       <option value='الحفريات والطبقات'>
@@ -236,7 +236,7 @@ const ThesisData = ({
                       <option value='الهيدروجيولوجيا'>الهيدروجيولوجيا</option>
                     </>
                   )}
-                  {thesisData.department === 'قسم الجيوفيزياء' && (
+                  {thesisData.departName === 'قسم الجيوفيزياء' && (
                     <>
                       <option value='طرق الجهد'>طرق الجهد</option>
                       <option value='الطرق السيزمية والزلزالية'>
@@ -247,7 +247,7 @@ const ThesisData = ({
                       </option>
                     </>
                   )}
-                  {thesisData.department === 'قسم علم الحيوان' && (
+                  {thesisData.departName === 'قسم علم الحيوان' && (
                     <>
                       <option value='الفقاريــات'>الفقاريــات</option>
                       <option value='اللافقاريـــات'>اللافقاريـــات</option>
@@ -255,12 +255,12 @@ const ThesisData = ({
                       <option value='الأنسجة والخلية'>الأنسجة والخلية</option>
                     </>
                   )}
-                  {thesisData.department === 'قسم علم النبات' && (
+                  {thesisData.departName === 'قسم علم النبات' && (
                     <>
                       <option value='النبـــــــات'>النبـــــــات</option>
                     </>
                   )}
-                  {thesisData.department === 'قسـم الميكروبيولوجى' && (
+                  {thesisData.departName === 'قسـم الميكروبيولوجى' && (
                     <>
                       <option value='الميكروبيولوجـــى'>
                         الميكروبيولوجـــى
@@ -392,7 +392,7 @@ const ThesisData = ({
                     placeholder='dd/mm/yyyy'
                     dir='ltr'
                     name='departmentApprovalDateRegistration-t'
-                    value={thesisData.departmentApprovalDateRegistration}
+                    value={thesisData.departNameApprovalDateRegistration}
                     onChange={handleChange}
                     pattern='^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[-/.](19|20)\d\d$'
                   />

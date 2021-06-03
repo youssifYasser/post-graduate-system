@@ -19,8 +19,8 @@ const StudentRow = ({
       <section className='section'>
         <Row>
           <Col>{student['personal'].arabicName}</Col>
-          <Col>{student['personal'].birthdate}</Col>
           <Col>{student['personal'].nationalityId}</Col>
+          <Col>{student['register'] ? student['register'].type : ''}</Col>
           <Col>
             {student['register'] ? student['register'].arabicTitle : ''}
           </Col>

@@ -60,6 +60,29 @@ const ViewStudents = () => {
         ['عنوان الوظيفة']: data[i]['personal'].jobAdd,
       })
       if (selectedSection === 'registeredStudents') {
+        const registeredStudentsAPI = {
+          url: 'http://localhost:8000/api/getstudnt',
+          data: JSON.stringify({
+            idS: data[i]['personal'].idS,
+            studyType_id: data[i]['register'].idStudyTypeF,
+          }),
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        }
+        axios(registeredStudentsAPI)
+          .then((response) => {
+            console.log(response.data)
+            data[i] = { ...data[i], ...response.data }
+            console.log(data[i]['previousstudie'].length)
+            // setCopyStudents([...copyStudents])
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+
         if (data[i]['previousstudie'].length === 1) {
           newData[i] = {
             ...newData[i],
@@ -72,7 +95,7 @@ const ViewStudents = () => {
             ['الجامعة التي حصل الطالب على الدرجة العلمية منها']:
               data[i]['previousstudie'].university,
           }
-        } else {
+        } else if (data[i]['previousstudie'].length >= 1) {
           for (let j = 0; j < data[i]['previousstudie'].length; j++) {
             newData[i] = {
               ...newData[i],
@@ -92,43 +115,170 @@ const ViewStudents = () => {
 
         newData[i] = {
           ...newData[i],
-          ['نوع التسجيل']: data[i]['register'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
-          ['الجنس']: data[i]['personal'].gender,
+          ['نوع الدراسة']: data[i]['register'].type,
+          ['درجة امتحان التويفل - TOEFL']: data[i]['register'].toeflGrade,
+          ['القسم التابعة له هذه الرسالة']: data[i]['register'].departName,
+        }
+        if (
+          newData[i]['register'].type === 'الماجستير في العلوم' ||
+          newData[i]['register'].type === 'دكتوراه الفلسفة في العلوم'
+        ) {
+          newData[i] = {
+            ...newData[i],
+            ['التخصص التابعة له هذه الرسالة']:
+              data[i]['register'].studyTypeName,
+            ['عنوان الرسالة باللغة العربية']: data[i]['register'].arabicTitle,
+            ['عنوان الرسالة باللغة الإنجليزية']:
+              data[i]['register'].englishTitle,
+          }
+        } else if (
+          newData[i]['register'].type === 'دبلومة الدراسات العليا' ||
+          newData[i]['register'].type === 'تمهيدي الماجستير'
+        ) {
+          newData[i] = {
+            ...newData[i],
+            ['عنوان الدبلومة']: data[i]['register'].arabicTitle,
+          }
+        }
+        newData[i] = {
+          ...newData[i],
+          ['دراسات إضافية ببيان من القسم (إن وجدت)']:
+            data[i]['register'].requiredCourses,
+          ['تاريخ تسجيل الاستمارة']: data[i]['register'].formDate,
+          ['تاريخ موافقة القسم']:
+            data[i]['register'].departmentApprovalDateRegistration,
+          ['تاريخ موافقة الكلية']:
+            data[i]['register'].facultyApprovalDateRegistration,
+          ['تاريخ موافقة لجنة الدراسات']:
+            data[i]['register'].committeeytApprovalDateRegistration,
+          ['تاريخ موافقة الجامعة']:
+            data[i]['register'].universitydepartmentApprovalDateRegistration,
+          ['وضع تسجيل الاستمارة']: data[i]['register'].currentState,
+        }
+        if (data[i]['supervisour'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['الرقم الكودي للمشرف']: data[i]['supervisour'].idSupervisor,
+            ['اسم المشرف']: data[i]['supervisour'].arabicName,
+            ['تخصص المشرف']: data[i]['supervisour'].specialization,
+            ['تاريخ الإشراف']: data[i]['supervisour'].registrationDate,
+            ['تاريخ انتهاء الإشراف']: data[i]['supervisour'].cancelationDate,
+            ['وضع الإشراف']: data[i]['supervisour'].currentState,
+          }
+        } else if (data[i]['supervisour'].length >= 1) {
+          for (let j = 0; j < data[i]['supervisour'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`الرقم الكودي للمشرف ${i + 1}`]:
+                data[i]['supervisour'].idSupervisor,
+              [`اسم المشرف ${i + 1}`]: data[i]['supervisour'].arabicName,
+              [`تخصص المشرف ${i + 1}`]: data[i]['supervisour'].specialization,
+              [`تاريخ الإشراف ${i + 1}`]:
+                data[i]['supervisour'].registrationDate,
+              [`تاريخ انتهاء الإشراف ${i + 1}`]:
+                data[i]['supervisour'].cancelationDate,
+              [`وضع الإشراف ${i + 1}`]: data[i]['supervisour'].currentState,
+            }
+          }
+        }
+        if (data[i]['referee'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['الرقم الكودي للمحكم']: data[i]['referee'].idRefereed,
+            ['اسم المحكم']: data[i]['referee'].arabicName,
+            ['تخصص المحكم']: data[i]['referee'].specialization,
+            ['ملف التقرير']: data[i]['referee'].URLReport,
+            ['حالة التقرير']: data[i]['referee'].reportState,
+            ['تاريخ التقرير']: data[i]['referee'].dateReport,
+          }
+        } else if (data[i]['referee'].length >= 1) {
+          for (let j = 0; j < data[i]['referee'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`الرقم الكودي للمحكم ${i + 1}`]: data[i]['referee'].idRefereed,
+              [`اسم المحكم ${i + 1}`]: data[i]['referee'].arabicName,
+              [`تخصص المحكم ${i + 1}`]: data[i]['referee'].specialization,
+              [`ملف التقرير ${i + 1}`]: data[i]['referee'].URLReport,
+              [`حالة التقرير ${i + 1}`]: data[i]['referee'].reportState,
+              [`تاريخ التقرير ${i + 1}`]: data[i]['referee'].dateReport,
+            }
+          }
+        }
+        if (data[i]['state'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['مضمون التقرير']: data[i]['state'].status,
+            ['ملف التقرير']: data[i]['state'].fileURL,
+            ['تاريخ التقرير']: data[i]['state'].startDate,
+          }
+        } else if (data[i]['state'].length >= 1) {
+          for (let j = 0; j < data[i]['state'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`مضمون التقرير ${i + 1}`]: data[i]['state'].status,
+              [`ملف التقرير ${i + 1}`]: data[i]['state'].fileURL,
+              [`تاريخ التقرير ${i + 1}`]: data[i]['state'].startDate,
+            }
+          }
+        }
+        if (data[i]['excuse'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['تاريخ العذر']: data[i]['excuse'].excuseDate,
+            ['تاريخ انتهاء العذر']: data[i]['excuse'].cancelDate,
+            ['ملف مرفق للعذر']: data[i]['excuse'].submittedDocURL,
+            ['ملف مرفق لفترة المد']: data[i]['excuse'].extendedPeriodDocURL,
+            ['مضمون العذر']: data[i]['excuse'].content,
+            ['المدة بالشهور']: data[i]['excuse'].numberMonthExtendedPeriod,
+          }
+        } else if (data[i]['excuse'].length >= 1) {
+          for (let j = 0; j < data[i]['excuse'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`تاريخ العذر ${i + 1}`]: data[i]['excuse'].excuseDate,
+              [`تاريخ انتهاء العذر ${i + 1}`]: data[i]['excuse'].cancelDate,
+              [`ملف مرفق للعذر ${i + 1}`]: data[i]['excuse'].submittedDocURL,
+              [`ملف مرفق لفترة المد ${i + 1}`]:
+                data[i]['excuse'].extendedPeriodDocURL,
+              [`مضمون العذر ${i + 1}`]: data[i]['excuse'].content,
+              [`المدة بالشهور ${i + 1}`]:
+                data[i]['excuse'].numberMonthExtendedPeriod,
+            }
+          }
+        }
+        if (data[i]['payment'].length === 1) {
+          newData[i] = {
+            ...newData[i],
+            ['تاريخ الإيصال']: data[i]['payment'].paymentDate,
+            ['رقم الإيصال']: data[i]['payment'].receiptNumber,
+            ['المبلغ المدفوع']: data[i]['payment'].amountPaid,
+            ['العام الدراسي']: data[i]['payment'].forYear,
+            ['صورة الإيصال']: data[i]['payment'].URLImage,
+          }
+        } else if (data[i]['payment'].length >= 1) {
+          for (let j = 0; j < data[i]['payment'].length; j++) {
+            newData[i] = {
+              ...newData[i],
+              [`تاريخ الإيصال ${i + 1}`]: data[i]['payment'].paymentDate,
+              [`رقم الإيصال ${i + 1}`]: data[i]['payment'].receiptNumber,
+              [`المبلغ المدفوع ${i + 1}`]: data[i]['payment'].amountPaid,
+              [`العام الدراسي ${i + 1}`]: data[i]['payment'].forYear,
+              [`صورة الإيصال ${i + 1}`]: data[i]['payment'].URLImage,
+            }
+          }
         }
       }
     }
 
     let wb = XLSX.utils.book_new()
     const ws = XLSX.utils.json_to_sheet(newData)
-    wb.SheetNames.push('المشرفين')
-    wb.Sheets['المشرفين'] = ws
+    wb.SheetNames.push('الطـلاب')
+    wb.Sheets['الطـلاب'] = ws
     wb.Workbook = { ['Views']: [{ RTL: true }] }
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
     saveAs(
       new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-      'المشرفين.xlsx'
+      'الطـلاب.xlsx'
     )
   }
 
@@ -502,10 +652,10 @@ const ViewStudents = () => {
                   <Form.Label>اسم الطالب</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>تاريخ الميلاد</Form.Label>
+                  <Form.Label>الرقم القومي</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>الرقم القومي</Form.Label>
+                  <Form.Label>نوع الدراسة</Form.Label>
                 </Col>
                 <Col>
                   <Form.Label>عنوان الدراسة</Form.Label>
@@ -540,10 +690,10 @@ const ViewStudents = () => {
                   <Form.Label>اسم الطالب</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>تاريخ الميلاد</Form.Label>
+                  <Form.Label>الرقم القومي</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>الرقم القومي</Form.Label>
+                  <Form.Label>نوع الدراسة</Form.Label>
                 </Col>
                 <Col>
                   <Form.Label>عنوان الدراسة</Form.Label>
@@ -578,10 +728,10 @@ const ViewStudents = () => {
                   <Form.Label>اسم الطالب</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>تاريخ الميلاد</Form.Label>
+                  <Form.Label>الرقم القومي</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label>الرقم القومي</Form.Label>
+                  <Form.Label>نوع الدراسة</Form.Label>
                 </Col>
                 <Col>
                   <Form.Label>عنوان الدراسة</Form.Label>

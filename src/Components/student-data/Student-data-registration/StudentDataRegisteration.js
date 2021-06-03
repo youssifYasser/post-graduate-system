@@ -80,7 +80,7 @@ const StudentDataRegisteration = ({
   const [studentExcuses, setStudentExcuses] = useState([])
   const [studentPayments, setStudentPayments] = useState([])
 
-  const [student, setStudent] = useState([])
+  const [student, setStudent] = useState({})
   const [studies, setStudies] = useState([])
   const [departments, setDepartments] = useState([])
 
@@ -250,35 +250,6 @@ const StudentDataRegisteration = ({
     }
   }
 
-  // const handleUpload = (e) => {
-  //   setFile(e.target.files[0])
-  //   let btn = e.target.files[0].name
-  //   let dot = btn.lastIndexOf('.')
-  //   let btnn = btn.slice(0, dot)
-  //   let ext = btn.slice(dot)
-  //   if (page === 5) {
-  //     let btnnn = btnn.length <= 12 ? btnn : btnn.slice(0, 10) + '..'
-  //     setBtnRefText(btnnn + ext)
-  //     e.target.value = ''
-  //   } else if (page === 6) {
-  //     let btnnn = btnn.length <= 27 ? btnn : btnn.slice(0, 25) + '..'
-  //     setBtnRepText(btnnn + ext)
-  //     e.target.value = ''
-  //   } else if (page === 7) {
-  //     let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
-  //     if (e.target.id === 'files1') {
-  //       setBtnEx2Text(btnnn + ext)
-  //     } else {
-  //       setBtnEx1Text(btnnn + ext)
-  //     }
-  //     e.target.value = ''
-  //   } else if (page === 8) {
-  //     let btnnn = btnn.length <= 16 ? btnn : btnn.slice(0, 14) + '..'
-  //     setBtnPText(btnnn + ext)
-  //     e.target.value = ''
-  //   }
-  // }
-
   const handleChange = (e) => {
     let { name, value, type, checked } = e.target
     let indexOfDash = name.lastIndexOf('-')
@@ -414,7 +385,7 @@ const StudentDataRegisteration = ({
 
               if (byExcel) {
                 const personalInfoAPI = {
-                  url: `http://localhost:8000/api/student/${personalInfo.id}`,
+                  url: `http://localhost:8000/api/student/${personalInfo.idS}`,
                   method: 'put',
                   data: JSON.stringify(personalInfo),
                   headers: {
@@ -430,10 +401,17 @@ const StudentDataRegisteration = ({
                     console.log(err)
                   })
 
+                // console.log({
+                //   ...thesisData,
+                //   idS: personalInfo.idS,
+                // })
                 const thesisDataAPI = {
                   url: 'http://localhost:8000/api/registrations',
                   method: 'post',
-                  data: JSON.stringify({ ...thesisData, idS: personalInfo.id }),
+                  data: JSON.stringify({
+                    ...thesisData,
+                    idS: personalInfo.idS,
+                  }),
                   headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -451,7 +429,7 @@ const StudentDataRegisteration = ({
                   if (uniDegrees[index].degree) {
                     console.log(uniDegrees[index])
                     const pervStudiesAPI = {
-                      url: `http://localhost:8000/api/previousstudy/${personalInfo.id}`,
+                      url: `http://localhost:8000/api/previousstudy/${personalInfo.idS}`,
                       method: 'post',
                       data: JSON.stringify(uniDegrees[index]),
                       headers: {
@@ -627,6 +605,7 @@ const StudentDataRegisteration = ({
         setShowUpload(true)
         canceledStudents.length > 0 && handleCanceledStudents(canceledStudents)
       } else {
+        setStudent({ ...studentObj })
         setPersonalInfo({ ...studentObj['personalInfo'] })
         setUniDegrees([...studentObj['uniDegrees']])
         setThesisData({ ...studentObj['thesisData'] })
@@ -682,6 +661,7 @@ const StudentDataRegisteration = ({
               <UniversityDegrees
                 uniDegrees={uniDegrees}
                 setUniDegrees={setUniDegrees}
+                byExcel={byExcel}
                 handleChange={handleChange}
                 deleteItem={deleteItem}
               />
@@ -774,24 +754,25 @@ const StudentDataRegisteration = ({
           </Tabs>
 
           <Form.Row className='last-row'>
-            {page >= 2 && page !== 3 && (
-              <Col className='btn-col'>
-                <Button
-                  size='lg'
-                  type='button'
-                  className={`btns ${byExcel && 'excel-btns'} add-degree`}
-                  onClick={() => add()}
-                >
-                  {page === 2 && 'إضـافة دراسة'}
-                  {page === 4 && 'إضـافة مشرف'}
-                  {page === 5 && 'إضـافة محكم'}
-                  {page === 6 && 'إضـافة تقرير'}
-                  {page === 7 && 'إضـافة عذر'}
-                  {page === 8 && 'إضـافة إيصال'}
-                  <MdAddCircle className='btn-submit' />
-                </Button>
-              </Col>
-            )}
+            {byExcel ||
+              (page >= 2 && page !== 3 && (
+                <Col className='btn-col'>
+                  <Button
+                    size='lg'
+                    type='button'
+                    className={`btns ${byExcel && 'excel-btns'} add-degree`}
+                    onClick={() => add()}
+                  >
+                    {page === 2 && 'إضـافة دراسة'}
+                    {page === 4 && 'إضـافة مشرف'}
+                    {page === 5 && 'إضـافة محكم'}
+                    {page === 6 && 'إضـافة تقرير'}
+                    {page === 7 && 'إضـافة عذر'}
+                    {page === 8 && 'إضـافة إيصال'}
+                    <MdAddCircle className='btn-submit' />
+                  </Button>
+                </Col>
+              ))}
             {isEditing && (
               <>
                 <Col className='btn-col btn-save'>
@@ -824,14 +805,12 @@ const StudentDataRegisteration = ({
                 </Col>
               </>
             )}
-            {byExcel && !isEditing && (
+            {byExcel && (
               <Col className='btn-col'>
                 <Button
                   size='lg'
                   type='button'
-                  className={`btns ${
-                    byExcel && (page === 1 || 'excel-btns')
-                  } cancel-btn`}
+                  className={`btns ${byExcel && 'excel-btns'} cancel-btn`}
                   onClick={() => {
                     Swal.fire({
                       icon: 'warning',
@@ -855,16 +834,19 @@ const StudentDataRegisteration = ({
                           showConfirmButton: false,
                           timer: 1500,
                         })
-                        document.documentElement.scrollTop = 0
+
                         setPersonalInfo({})
-                        setUniDegrees({})
+                        setUniDegrees([])
                         setThesisData({})
                         setCanceledStudents([...canceledStudents, student])
                         setStudentNumber(studentNumber + 1)
                         setPage(1)
+                        setTimeout(() => {
+                          document.documentElement.scrollTop = 0
+                        }, 1700)
                       } else if (result.isDenied) {
                         const deleteStudentAPI = {
-                          url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
+                          url: `http://localhost:8000/api/deletestudent/${personalInfo.idS}`,
                           method: 'delete',
                           headers: {
                             Accept: 'application/json',
@@ -879,12 +861,14 @@ const StudentDataRegisteration = ({
                               showConfirmButton: false,
                               timer: 1500,
                             })
-                            document.documentElement.scrollTop = 0
                             setPersonalInfo({})
                             setUniDegrees({})
                             setThesisData({})
                             setStudentNumber(studentNumber + 1)
                             setPage(1)
+                            setTimeout(() => {
+                              document.documentElement.scrollTop = 0
+                            }, 1700)
                           })
                           .catch((err) => {
                             console.log(err)

@@ -149,13 +149,13 @@ const UploadStudentExcel = () => {
             }
           }
           studentObj['thesisData'] = {
-            sciDegree: data[i]['تأكيد نوع التسجيل'],
+            type: data[i]['تأكيد نوع التسجيل'],
             toeflGrade: data[i]['درجة امتحان التويفل - TOEFL'],
             arabicTitle: title,
             englishTitle: enTitle,
             spec: spec,
             requiredCourses: data[i]['دراسات إضافية ببيان من القسم (إن وجدت)'],
-            department:
+            departName:
               data[i]['القسم التابعة له هذه الدبلومة'] ||
               data[i]['القسم التابعة له دراسة تمهيدي الماجستير'] ||
               data[i]['القسم التابعة له هذه الرسالة'],
