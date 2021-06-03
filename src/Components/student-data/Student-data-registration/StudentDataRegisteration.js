@@ -496,46 +496,71 @@ const StudentDataRegisteration = ({
   }
 
   const handleCanceledStudents = (data) => {
+    console.log(data)
+    let newData = []
+    for (let i = 0; i < data.length; i++) {
+      newData.push({
+        ['الرقم الكودي']: data[i]['personalInfo'].idS,
+        ['الصورة الشخصية']: data[i]['personalInfo'].image,
+        ['الاسم باللغة العربية']: data[i]['personalInfo'].arabicName,
+        ['الاسم باللغة الإنجليزية']: data[i]['personalInfo'].englishName,
+        ['تاريخ الميلاد']: data[i]['personalInfo'].birthdate,
+        ['الجنس']: data[i]['personalInfo'].gender,
+        ['دولة الجنسية']: data[i]['personalInfo'].nationality,
+        ['الرقم القومي']: data[i]['personalInfo'].nationalityId,
+        ['مصدر شهادة الميلاد']: data[i]['personalInfo'].birthdateSource,
+        ['العنوان']: data[i]['personalInfo'].Add,
+        ['رقم الهاتف']: data[i]['personalInfo'].mobile,
+        ['البريد الإلكتروني']: data[i]['personalInfo'].email,
+        ['الوظيفة باللغة العربية']: data[i]['personalInfo'].jobArabic,
+        ['الوظيفة باللغة الإنجليزية']: data[i]['personalInfo'].jobEnglish,
+        ['عنوان الوظيفة']: data[i]['personalInfo'].jobAdd,
+      })
+
+      for (let j = 0; j < data[i]['uniDegrees'].length; j++) {
+        newData[i] = {
+          ...newData[i],
+          [`الدرجة  العلمية ${j + 1}`]: data[i]['uniDegrees'][j].degree,
+          [`التخصص ${j + 1}`]: data[i]['uniDegrees'][j].specialization,
+          [`تاريخ الحصول عليها ${j + 1}`]:
+            data[i]['uniDegrees'][j].dateObtained,
+          [`الكلية التي حصل الطالب على الدرجة العلمية منها ${j + 1}`]:
+            data[i]['uniDegrees'][j].faculty,
+          [`الجامعة التي حصل الطالب على الدرجة العلمية منها ${j + 1}`]:
+            data[i]['uniDegrees'][j].university,
+        }
+      }
+
+      newData[i] = {
+        ...newData[i],
+        ['نوع الدراسة']: data[i]['thesisData'].type,
+        ['درجة امتحان التويفل - TOEFL']: data[i]['thesisData'].toeflGrade,
+        ['القسم التابعة له هذه الرسالة']: data[i]['thesisData'].departName,
+      }
+      if (
+        data[i]['thesisData']['type'] === 'الماجستير في العلوم' ||
+        data[i]['thesisData']['type'] === 'دكتوراه الفلسفة في العلوم'
+      ) {
+        newData[i] = {
+          ...newData[i],
+          ['التخصص التابعة له هذه الرسالة']: data[i]['thesisData'].spec,
+          ['عنوان الرسالة باللغة العربية']: data[i]['thesisData'].arabicTitle,
+          ['عنوان الرسالة باللغة الإنجليزية']:
+            data[i]['thesisData'].englishTitle,
+        }
+      } else if (
+        data[i]['thesisData'].type === 'دبلومة الدراسات العليا' ||
+        data[i]['thesisData'].type === 'تمهيدي الماجستير'
+      ) {
+        newData[i] = {
+          ...newData[i],
+          ['عنوان الدبلومة']: data[i]['thesisData'].arabicTitle,
+        }
+      }
+    }
+    console.log(newData)
     const wb = XLSX.utils.book_new()
-    const ws = XLSX.utils.json_to_sheet(data, {
-      header: [
-        'الصورة الشخصية',
-        'الرقم الكودي - الرقم المرسل في رسالة البريد الإلكتروني',
-        'الاسم باللغة العربية',
-        'الاسم باللغة الإنجليزية',
-        'تاريخ الميلاد',
-        'الجنس',
-        'دولة الجنسية (مثال: مصر)',
-        'الرقم القومي',
-        'العنوان',
-        'رقم الهاتف',
-        'البريد الإلكتروني',
-        'الوظيفة باللغة العربية',
-        'الوظيفة باللغة الإنجليزية',
-        'عنوان الوظيفة',
-        'الدرجة  العلمية',
-        'التخصص',
-        'تاريخ الحصول عليها',
-        'الكلية التي حصل الطالب على الدرجة العلمية منها',
-        'الجامعة التي حصل الطالب على الدرجة العلمية منها',
-        'الدرجة  العلمية2',
-        'التخصص2',
-        'تاريخ الحصول عليها2',
-        'الكلية التي حصل الطالب على الدرجة العلمية منها2',
-        'الجامعة التي حصل الطالب على الدرجة العلمية منها2',
-        'الدرجة  العلمية3',
-        'التخصص3',
-        'تاريخ الحصول عليها3',
-        'الكلية التي حصل الطالب على الدرجة العلمية منها3',
-        'الجامعة التي حصل الطالب على الدرجة العلمية منها3',
-        'تأكيد نوع التسجيل',
-        'درجة امتحان التويفل - TOEFL',
-        'التخصص التابعة له هذه الرسالة',
-        'عنوان الرسالة باللغة العربية',
-        'عنوان الرسالة بالغة الإنجليزية',
-        'المقررات المطلوبة بالقسم التي لم يدرسها الطالب (إن وجدت)',
-      ],
-    })
+    const ws = XLSX.utils.json_to_sheet(newData)
     wb.SheetNames.push('الطلبة الملغيين')
     wb.Sheets['الطلبة الملغيين'] = ws
     wb.Workbook = { ['Views']: [{ RTL: true }] }
