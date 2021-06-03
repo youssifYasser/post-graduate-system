@@ -1,68 +1,116 @@
 import React from 'react'
-import { Container, Image, Row, Col } from 'react-bootstrap'
+import { Container, Image, Row, Col, Button } from 'react-bootstrap'
 
-import maintenance from './image/maintenance.png'
+import { AiOutlineEye } from 'react-icons/ai'
+import { HiOutlineLightBulb } from 'react-icons/hi'
+
+import 'animate.css/animate.min.css'
+
+import cover from './image/AinShamss.jpg'
 
 import './homePage-style.css'
+import Student from './student-section'
+import Studies from './studies-section'
+import Department from './department-section'
+import Supervisor from './supervisor-section'
+import Referee from './referee-section'
 
-function homePage() {
+function HomePage(props) {
+    const {
+        convertToComa,
+        stats
+    } = props
     return (
-        <div className="home text-center">
-            {/* <Container>
-                <h1> Home Page Content</h1>
-                <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={bg1}
-                            alt="First slide"
-                            height="500" width="200"
-                        />
-                        <Carousel.Caption>
-                            <h3>Faculty of Science- Ain Shams University</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={bg2}
-                            alt="Second slide"
-                            height="500" width="200"
-                        />
+        <div className="home">
+            <div className="cover mb-5">
+                <Image src={cover} width={'100%'} alt="Ain Shams" className="image" />
+            </div>
 
-                        <Carousel.Caption>
-                            <h3>Faculty of Science- Ain Shams University</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                </Carousel>
-            </Container> */}
-
-            {/* <img src={img} alt=""/> */}
-
-            {/* <Container>
+            <Container className="about text-center ">
                 <Row>
-                    <Col xs="12" md="4" >
-                        <h1>تحت الصيانة</h1>
+                    <Col>
+                        <div className="bg-icon animate__animated animate__backInLeft">
+                            <HiOutlineLightBulb className="icon" />
+                        </div>
                     </Col>
-                    <Col xs="12" md="4" >
-
+                    <Col>
+                        <div className="bg-icon animate__animated animate__backInRight">
+                            <AiOutlineEye className="icon" />
+                        </div>
                     </Col>
                 </Row>
-            </Container> */}
-            <Image
-                className="d-block mx-auto img-fluid w-5"
-                src={maintenance}
-                alt="Coming soon"
-                width="500"
-                height="200"
-            />
-            <h1 className="mb-5" style={{color:"red"}}> الصفحة التى تحاول الوصول إليها تحت الصيانة حالياََ </h1>
-            <h1 style={{color:"red"}}> The page you're looking for is under maintenance </h1>
+                <Row>
+                    <Col>
+                        <h2 className="title">مهمتنا</h2>
+                    </Col>
+                    <Col>
+                        <h2 className="title">اى حاجه</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.<br />
+                            Id doloremque amet accusamus assumenda atque repellendus quasi,<br />
+                            corrupti repellat dolores a officiis?<br />
+                            Iusto obcaecati itaque totam ea facere esse. <br />
+                            Blanditiis, nulla.
+                        </p>
+                    </Col>
+                    <Col>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.<br />
+                            Id doloremque amet accusamus assumenda atque repellendus quasi,<br />
+                            corrupti repellat dolores a officiis?<br />
+                            Iusto obcaecati itaque totam ea facere esse. <br />
+                            Blanditiis, nulla.
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+
+            <div className="switch">
+                <Row>
+                    <Col xs={4} md='auto'  className="mb-2">
+                        <Button variant="secondary" name="student" className={props.active.student} onClick={props.handleChange}>
+                            الطلاب
+                        </Button>
+                    </Col>
+                    <Col xs={4} md='auto'  className="mb-2">
+                        <Button variant="secondary" name="studies" className={props.active.studies} onClick={props.handleChange}>
+                            الدراسات
+                        </Button>
+                    </Col>
+                    <Col xs={4} md='auto'  className="mb-2">
+                        <Button variant="secondary" name="dep" className={props.active.dep} onClick={props.handleChange}>
+                            الأقسام
+                        </Button>
+                    </Col>
+                    <Col xs={4} md='auto'>
+                        <Button variant="secondary" name="supervisor" className={props.active.supervisor} onClick={props.handleChange}>
+                            المشرفين
+                        </Button>
+                    </Col>
+                    <Col xs={4} md='auto'>
+                        <Button variant="secondary" name="referee" className={props.active.referee} onClick={props.handleChange}>
+                            المحكمين
+                        </Button>
+                    </Col>
+                </Row>
+            </div>
+
+            {
+                props.section === 1 ? <Student convertToComa={convertToComa} stats={stats}/>
+                    : props.section === 2 ? <Studies convertToComa={convertToComa} stats={stats}/>
+                        : props.section === 3 ? <Department convertToComa={convertToComa} stats={stats}/>
+                            : props.section === 4 ? <Supervisor convertToComa={convertToComa} stats={stats}/>
+                                : props.section === 5 ? <Referee convertToComa={convertToComa} stats={stats}/>
+                                    : <Student convertToComa={convertToComa} stats={stats}/>
+
+            }
         </div>
 
     )
 }
 
-export default homePage;
+export default HomePage;
