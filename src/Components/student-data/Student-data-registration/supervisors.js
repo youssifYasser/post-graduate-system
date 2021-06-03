@@ -218,7 +218,10 @@ const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
                   >
                     وضع الإشراف
                   </Form.Label>
-                  <Button type='button' onClick={() => deleteItem(sup.id)}>
+                  <Button
+                    type='button'
+                    onClick={() => deleteItem(sup.idSupervisor)}
+                  >
                     مسح المشرف
                   </Button>
                 </Col>

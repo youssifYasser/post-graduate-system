@@ -212,41 +212,256 @@ const StudentDataRegisteration = ({
 
   const deleteItem = (deletedId) => {
     if (page === 2) {
-      setUniDegrees([
-        ...uniDegrees.filter((deg) => {
-          return deg.idS !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح الدراسة`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setUniDegrees([
+            ...uniDegrees.filter((deg) => {
+              return deg.id !== deletedId
+            }),
+          ])
+
+          const deleteStateAPI = {
+            url: `http://localhost:8000/api/deletepreviousstudy/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteStateAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 4) {
-      setStudentSups([
-        ...studentSups.filter((sup) => {
-          return sup.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة المشرف من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح المشرف`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentSups([
+            ...studentSups.filter((sup) => {
+              return sup.idSupervisor !== deletedId
+            }),
+          ])
+          const deleteSupervisorAPI = {
+            url: `http://localhost:8000/api/deletesupervisorfromregister/${deletedId}`,
+            data: JSON.stringify({
+              idRegistration: editStudent.register.idRegistration,
+            }),
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteSupervisorAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة المشرف من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 5) {
-      setStudentRefs([
-        ...studentRefs.filter((ref) => {
-          return ref.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة المحكم من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح المحكم`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentRefs([
+            ...studentRefs.filter((ref) => {
+              return ref.idRefereed !== deletedId
+            }),
+          ])
+
+          const deleteRefereeAPI = {
+            url: `http://localhost:8000/api/deleterefreefromregister/${deletedId}`,
+            data: JSON.stringify({
+              idRegistration: editStudent.register.idRegistration,
+            }),
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteRefereeAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة المحكم من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 6) {
-      setStudentReports([
-        ...studentReports.filter((rep) => {
-          return rep.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة هذا التقرير من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح التقرير`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentReports([
+            ...studentReports.filter((rep) => {
+              return rep.idState !== deletedId
+            }),
+          ])
+
+          const deleteStateAPI = {
+            url: `http://localhost:8000/api/deletestate/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteStateAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة التقرير من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 7) {
-      setStudentExcuses([
-        ...studentExcuses.filter((exc) => {
-          return exc.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة العذر من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح العذر`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentExcuses([
+            ...studentExcuses.filter((exc) => {
+              return exc.idExcuse !== deletedId
+            }),
+          ])
+
+          const deleteExcuseAPI = {
+            url: `http://localhost:8000/api/deleteexcuse/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteExcuseAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة العذر من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 8) {
-      setStudentPayments([
-        ...studentPayments.filter((pay) => {
-          return pay.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة الإيصال من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح الإيصال`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentPayments([
+            ...studentPayments.filter((pay) => {
+              return pay.idPayment !== deletedId
+            }),
+          ])
+
+          const deletePaymentAPI = {
+            url: `http://localhost:8000/api/deletepayment/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deletePaymentAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة الإيصال من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     }
   }
 
@@ -414,7 +629,7 @@ const StudentDataRegisteration = ({
 
               if (byExcel) {
                 const personalInfoAPI = {
-                  url: `http://localhost:8000/api/student/${personalInfo.id}`,
+                  url: `http://localhost:8000/api/student/${personalInfo.idS}`,
                   method: 'put',
                   data: JSON.stringify(personalInfo),
                   headers: {
@@ -433,7 +648,10 @@ const StudentDataRegisteration = ({
                 const thesisDataAPI = {
                   url: 'http://localhost:8000/api/registrations',
                   method: 'post',
-                  data: JSON.stringify({ ...thesisData, idS: personalInfo.id }),
+                  data: JSON.stringify({
+                    ...thesisData,
+                    idS: personalInfo.idS,
+                  }),
                   headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -451,7 +669,7 @@ const StudentDataRegisteration = ({
                   if (uniDegrees[index].degree) {
                     console.log(uniDegrees[index])
                     const pervStudiesAPI = {
-                      url: `http://localhost:8000/api/previousstudy/${personalInfo.id}`,
+                      url: `http://localhost:8000/api/previousstudy/${personalInfo.idS}`,
                       method: 'post',
                       data: JSON.stringify(uniDegrees[index]),
                       headers: {
@@ -809,7 +1027,7 @@ const StudentDataRegisteration = ({
                     className='delete-btn'
                     // onClick={() => handleDelete(supervisor.idSupervisor)}
                   >
-                    مسح المشرف
+                    مسح الطالب
                   </Button>
                 </Col>
 
@@ -864,7 +1082,7 @@ const StudentDataRegisteration = ({
                         setPage(1)
                       } else if (result.isDenied) {
                         const deleteStudentAPI = {
-                          url: `http://localhost:8000/api/deletestudent/${personalInfo.id}`,
+                          url: `http://localhost:8000/api/deletestudent/${personalInfo.idS}`,
                           method: 'delete',
                           headers: {
                             Accept: 'application/json',
