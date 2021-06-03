@@ -8,6 +8,7 @@ const PersonalData = ({
   setPersonalInfo,
   handleChange,
   byExcel,
+  isEditing,
 }) => {
   // const [student, setStudent] = React.useState(personalData)
 
@@ -209,7 +210,7 @@ const PersonalData = ({
               </Form.Group>
             </Col>
           </Form.Row>
-          {byExcel && (
+          {(byExcel || isEditing) && (
             <Form.Row>
               <Col md={{ span: 5, offset: 2 }} sm={6}>
                 <Form.Group controlId='code'>

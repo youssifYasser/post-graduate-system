@@ -9,7 +9,6 @@ const StudentPayments = ({
   btnText,
   deleteItem,
   studentPayments,
-  index,
 }) => {
   return (
     <Container className={`form-six animate__animated animate__fadeIn`}>

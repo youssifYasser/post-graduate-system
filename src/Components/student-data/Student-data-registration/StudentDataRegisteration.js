@@ -16,6 +16,7 @@ import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs'
 import { MdAddCircle } from 'react-icons/md'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
+import isEqual from 'lodash/isEqual'
 
 import './StudentDataRegisteration.css'
 import 'animate.css/animate.min.css'
@@ -80,6 +81,8 @@ const StudentDataRegisteration = ({
   const [studentExcuses, setStudentExcuses] = useState([])
   const [studentPayments, setStudentPayments] = useState([])
 
+  const [allRefs, setAllRefs] = useState([])
+  const [allSups, setAllSups] = useState([])
   const [student, setStudent] = useState({})
   const [studies, setStudies] = useState([])
   const [departments, setDepartments] = useState([])
@@ -161,6 +164,7 @@ const StudentDataRegisteration = ({
 
   const handleUpload = (e) => {
     setFile(e.target.files[0])
+
     let btn = e.target.files[0].name
     let dot = btn.lastIndexOf('.')
     let btnn = btn.slice(0, dot)
@@ -189,68 +193,372 @@ const StudentDataRegisteration = ({
   }
 
   const add = () => {
+    let lastID
     if (page === 2) {
-      setUniDegrees([...uniDegrees, { id: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        uniDegrees.length !== 0 ? uniDegrees[uniDegrees.length - 1].id : 0
+      setUniDegrees([
+        ...uniDegrees,
+        {
+          id: lastID + 1,
+          new: true,
+          degree: '',
+          dateObtained: '',
+          specialization: '',
+          faculty: '',
+          university: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 4) {
-      setStudentSups([...studentSups, { idSupervisor: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        studentSups.length !== 0
+          ? studentSups[studentSups.length - 1].idSupervisor
+          : 0
+      setStudentSups([
+        ...studentSups,
+        {
+          idSupervisor: lastID + 1,
+          new: true,
+          arabicName: '',
+          specialization: '',
+          registrationDate: '',
+          cancelationDate: '',
+          currentState: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 5) {
-      setStudentRefs([...studentRefs, { idRefereed: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        studentRefs.length !== 0
+          ? studentRefs[studentRefs.length - 1].idRefereed
+          : 0
+      setStudentRefs([
+        ...studentRefs,
+        {
+          idRefereed: lastID + 1,
+          new: true,
+          arabicName: '',
+          specialization: '',
+          URLReport: '',
+          reportState: '',
+          dateReport: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 6) {
-      setStudentReports([...studentReports, { idState: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        studentReports.length !== 0
+          ? studentReports[studentReports.length - 1].idState
+          : 0
+      setStudentReports([
+        ...studentReports,
+        {
+          idState: lastID + 1,
+          new: true,
+          status: '',
+          startDate: '',
+          fileURL: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 7) {
-      setStudentExcuses([...studentExcuses, { idExcuse: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        studentExcuses.length !== 0
+          ? studentExcuses[studentExcuses.length - 1].idExcuse
+          : 0
+      setStudentExcuses([
+        ...studentExcuses,
+        {
+          idExcuse: lastID + 1,
+          new: true,
+          excuseDate: '',
+          cancelDate: '',
+          submittedDocURL: '',
+          extendedPeriodDocURL: '',
+          content: '',
+          numberMonthExtendedPeriod: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     } else if (page === 8) {
-      setStudentPayments([...studentPayments, { idPayment: uniDegreesNum + 1 }])
-      setUniDegreesNum(uniDegreesNum + 1)
+      lastID =
+        studentPayments.length !== 0
+          ? studentPayments[studentPayments.length - 1].idPayment
+          : 0
+      setStudentPayments([
+        ...studentPayments,
+        {
+          idPayment: lastID + 1,
+          new: true,
+          paymentDate: '',
+          receiptNumber: '',
+          amountPaid: '',
+          forYear: '',
+          URLImage: '',
+        },
+      ])
+      // setUniDegreesNum(uniDegreesNum + 1)
     }
   }
 
   const deleteItem = (deletedId) => {
     if (page === 2) {
-      setUniDegrees([
-        ...uniDegrees.filter((deg) => {
-          return deg.idS !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح الدراسة`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setUniDegrees([
+            ...uniDegrees.filter((deg) => {
+              return deg.id !== deletedId
+            }),
+          ])
+
+          const deleteStateAPI = {
+            url: `http://localhost:8000/api/deletepreviousstudy/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteStateAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 4) {
-      setStudentSups([
-        ...studentSups.filter((sup) => {
-          return sup.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة المشرف من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح المشرف`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentSups([
+            ...studentSups.filter((sup) => {
+              return sup.idSupervisor !== deletedId
+            }),
+          ])
+          const deleteSupervisorAPI = {
+            url: `http://localhost:8000/api/deletesupervisorfromregister/${deletedId}`,
+            data: JSON.stringify({
+              idRegistration: editStudent.register.idRegistration,
+            }),
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteSupervisorAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة المشرف من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 5) {
-      setStudentRefs([
-        ...studentRefs.filter((ref) => {
-          return ref.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة المحكم من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح المحكم`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentRefs([
+            ...studentRefs.filter((ref) => {
+              return ref.idRefereed !== deletedId
+            }),
+          ])
+
+          const deleteRefereeAPI = {
+            url: `http://localhost:8000/api/deleterefreefromregister/${deletedId}`,
+            data: JSON.stringify({
+              idRegistration: editStudent.register.idRegistration,
+            }),
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteRefereeAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة المحكم من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 6) {
-      setStudentReports([
-        ...studentReports.filter((rep) => {
-          return rep.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة هذا التقرير من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح التقرير`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentReports([
+            ...studentReports.filter((rep) => {
+              return rep.idState !== deletedId
+            }),
+          ])
+
+          const deleteStateAPI = {
+            url: `http://localhost:8000/api/deletestate/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteStateAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة التقرير من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 7) {
-      setStudentExcuses([
-        ...studentExcuses.filter((exc) => {
-          return exc.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة العذر من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح العذر`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentExcuses([
+            ...studentExcuses.filter((exc) => {
+              return exc.idExcuse !== deletedId
+            }),
+          ])
+
+          const deleteExcuseAPI = {
+            url: `http://localhost:8000/api/deleteexcuse/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deleteExcuseAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة العذر من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     } else if (page === 8) {
-      setStudentPayments([
-        ...studentPayments.filter((pay) => {
-          return pay.id !== deletedId
-        }),
-      ])
+      Swal.fire({
+        icon: 'warning',
+        title: 'هل أنت متأكد من إزالة الإيصال من هذه الدراسة؟',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `نعم ، امسح الإيصال`,
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+        denyButtonColor: '#be0707',
+      }).then((result) => {
+        if (result.isDenied) {
+          setStudentPayments([
+            ...studentPayments.filter((pay) => {
+              return pay.idPayment !== deletedId
+            }),
+          ])
+
+          const deletePaymentAPI = {
+            url: `http://localhost:8000/api/deletepayment/${deletedId}`,
+            method: 'delete',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
+          axios(deletePaymentAPI)
+            .then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت إزالة الإيصال من هذه الدراسة بنجاح',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     }
   }
 
   const handleChange = (e) => {
+    setShowSave(true)
     let { name, value, type, checked } = e.target
     let indexOfDash = name.lastIndexOf('-')
     let compIndex = name.slice(indexOfDash + 1)
@@ -274,12 +582,36 @@ const StudentDataRegisteration = ({
       name = name.slice(0, indexOfDash)
       console.log('name', name)
       console.log('value', value)
+      if (name === 'arabicName') {
+        const spec = allSups.filter((sup) => {
+          if (sup.idSupervisor === parseInt(value)) {
+            return sup
+          }
+        })
+        studentSups[index] = {
+          ...studentSups[index],
+          ['specialization']: spec[0]['specialization'],
+          ['idSupervisor']: spec[0]['idSupervisor'],
+        }
+      }
       studentSups[index] = { ...studentSups[index], [name]: value }
       setStudentSups([...studentSups])
     } else if (compIndex === 'r') {
       indexOfDash = name.lastIndexOf('-')
       let index = name.slice(indexOfDash + 1)
       name = name.slice(0, indexOfDash)
+      if (name === 'arabicName') {
+        const spec = allRefs.filter((ref) => {
+          if (ref.idRefereed === parseInt(value)) {
+            return ref
+          }
+        })
+        studentRefs[index] = {
+          ...studentRefs[index],
+          ['specialization']: spec[0]['specialization'],
+          ['idRefereed']: spec[0]['idRefereed'],
+        }
+      }
       studentRefs[index] = { ...studentRefs[index], [name]: value }
       setStudentRefs([...studentRefs])
     } else if (compIndex === 'e') {
@@ -332,141 +664,85 @@ const StudentDataRegisteration = ({
         }
       })
     } else {
-      document.documentElement.scrollTop = 0
       setValidated(true)
-      switch (page) {
-        case 1:
-        case 2:
-          setPage(page + 1)
-          document.getElementById(
-            `uncontrolled-tab-tab-${page}`
-          ).ariaSelected = false
-          document
-            .getElementById(`uncontrolled-tab-tab-${page}`)
-            .classList.remove('active')
-          document
-            .getElementById(`uncontrolled-tab-tabpane-${page}`)
-            .classList.remove('active', 'show')
 
-          document.getElementById(
-            `uncontrolled-tab-tab-${page + 1}`
-          ).ariaSelected = true
-          document
-            .getElementById(`uncontrolled-tab-tab-${page + 1}`)
-            .classList.add('active')
-          document
-            .getElementById(`uncontrolled-tab-tabpane-${page + 1}`)
-            .classList.add('active', 'show')
-
-          break
-        case 3:
+      Swal.fire({
+        icon: 'info',
+        title: 'هل أنت متأكد من تسجيل الطالب ؟',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#01ad01',
+        confirmButtonText: 'نعم ، سجل',
+        cancelButtonText: 'لا ، عودة',
+        cancelButtonColor: '#2f3944',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
           Swal.fire({
-            icon: 'info',
-            title: 'هل أنت متأكد من تسجيل الطالب ؟',
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonColor: '#01ad01',
-            confirmButtonText: 'نعم ، سجل',
-            cancelButtonText: 'لا ، عودة',
-            cancelButtonColor: '#2f3944',
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              Swal.fire({
-                icon: 'success',
-                title: 'تمت إضافة الطالب بنجاح',
-                showConfirmButton: false,
-                timer: 1500,
+            icon: 'success',
+            title: 'تمت إضافة الطالب بنجاح',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          // console.log(JSON.stringify(personalInfo))
+          // console.log(JSON.stringify(uniDegrees))
+          // console.log(JSON.stringify(thesisData))
+          // console.log(uniDegrees)
+          if (byExcel) {
+            const personalInfoAPI = {
+              url: `http://localhost:8000/api/student/${personalInfo.idS}`,
+              method: 'put',
+              data: JSON.stringify(personalInfo),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(personalInfoAPI)
+              .then((response) => {
+                console.log(response)
               })
-              // console.log(JSON.stringify(personalInfo))
-              // console.log(JSON.stringify(uniDegrees))
-              // console.log(JSON.stringify(thesisData))
-              // console.log(uniDegrees)
+              .catch((err) => {
+                console.log(err)
+              })
 
-              if (byExcel) {
-                const personalInfoAPI = {
-                  url: `http://localhost:8000/api/student/${personalInfo.idS}`,
-                  method: 'put',
-                  data: JSON.stringify(personalInfo),
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8',
-                  },
-                }
-                axios(personalInfoAPI)
-                  .then((response) => {
-                    console.log(response)
-                  })
-                  .catch((err) => {
-                    console.log(err)
-                  })
+            // console.log({
+            //   ...thesisData,
+            //   idS: personalInfo.idS,
+            // })
+            const thesisDataAPI = {
+              url: 'http://localhost:8000/api/registrations',
+              method: 'post',
+              data: JSON.stringify({
+                ...thesisData,
+                idS: personalInfo.idS,
+              }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(thesisDataAPI)
+              .then((response) => {
+                console.log(response)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
 
-                // console.log({
-                //   ...thesisData,
-                //   idS: personalInfo.idS,
-                // })
-                const thesisDataAPI = {
-                  url: 'http://localhost:8000/api/registrations',
+            for (let index = 0; index < uniDegrees.length; index++) {
+              if (uniDegrees[index].degree) {
+                console.log(uniDegrees[index])
+                const pervStudiesAPI = {
+                  url: `http://localhost:8000/api/previousstudy/${personalInfo.idS}`,
                   method: 'post',
-                  data: JSON.stringify({
-                    ...thesisData,
-                    idS: personalInfo.idS,
-                  }),
+                  data: JSON.stringify(uniDegrees[index]),
                   headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json;charset=UTF-8',
                   },
                 }
-                axios(thesisDataAPI)
-                  .then((response) => {
-                    console.log(response)
-                  })
-                  .catch((err) => {
-                    console.log(err)
-                  })
-
-                for (let index = 0; index < uniDegrees.length; index++) {
-                  if (uniDegrees[index].degree) {
-                    console.log(uniDegrees[index])
-                    const pervStudiesAPI = {
-                      url: `http://localhost:8000/api/previousstudy/${personalInfo.idS}`,
-                      method: 'post',
-                      data: JSON.stringify(uniDegrees[index]),
-                      headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json;charset=UTF-8',
-                      },
-                    }
-                    axios(pervStudiesAPI)
-                      .then((response) => {
-                        console.log(response)
-                      })
-                      .catch((err) => {
-                        console.log(err)
-                      })
-                  }
-                }
-                setStudentNumber(studentNumber + 1)
-              } else {
-                console.log({
-                  personalInfo: { ...personalInfo },
-                  uniDegrees: [...uniDegrees],
-                  thesisData: { ...thesisData },
-                })
-                const insertStudentManuallyAPI = {
-                  url: 'http://localhost:8000/api/insert-student',
-                  method: 'post',
-                  data: JSON.stringify({
-                    personalInfo: { ...personalInfo },
-                    uniDegrees: [...uniDegrees],
-                    thesisData: { ...thesisData },
-                  }),
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8',
-                  },
-                }
-                axios(insertStudentManuallyAPI)
+                axios(pervStudiesAPI)
                   .then((response) => {
                     console.log(response)
                   })
@@ -474,16 +750,382 @@ const StudentDataRegisteration = ({
                     console.log(err)
                   })
               }
-              // setPersonalInfo({})
-              // setUniDegrees({})
-              // setThesisData({})
-              // setPage(1)
             }
-          })
-          break
-        default:
-          break
-      }
+            setStudentNumber(studentNumber + 1)
+          } else if (isEditing) {
+            console.log({
+              idRegistration: thesisData.idRegistration,
+              supervisours: studentSups,
+            })
+
+            //supervisors
+            const updateSupervisor = {
+              url: `http://localhost:8000/api/addsupervisourtoregister`,
+              method: 'post',
+              data: JSON.stringify({
+                idRegistration: thesisData.idRegistration,
+                supervisours: studentSups,
+              }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(updateSupervisor)
+              .then((response) => {
+                console.log(response)
+                // setCopySupervisors([...copySupervisors])
+                // set([...copySupervisors])
+                setTimeout(() => {
+                  // setIsEditing(false)
+                  setShowSave(false)
+                  // window.location.href =
+                  //   window.location.pathname +
+                  //   window.location.search +
+                  //   window.location.hash
+                }, 1100)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+
+            //reports
+            if (studentReports.length !== 0) {
+              let newReports = []
+              for (let i = 0; i < studentReports.length; i++) {
+                if (studentReports[i].new) {
+                  newReports.push(studentReports[i])
+                  studentReports.splice(i, 1)
+                  i = i - 1
+                }
+              }
+              console.log(newReports)
+
+              let updateReports = []
+              for (let i = 0; i < studentReports.length; i++) {
+                if (!isEqual(editStudent['state'][i], studentReports[i])) {
+                  studentReports[i] = {
+                    ...studentReports[i],
+                    ['idRegistration']: thesisData.idRegistration,
+                  }
+                  updateReports.push(studentReports[i])
+                }
+              }
+
+              console.log(updateReports)
+
+              for (let i = 0; i < updateReports.length; i++) {
+                console.log('hi')
+                const updateReportsAPI = {
+                  url: 'http://localhost:8000/api/updatestate',
+                  method: 'put',
+                  data: JSON.stringify(updateReports[i]),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(updateReportsAPI)
+                  .then((response) => {
+                    copyStudents[editIndex]['state'] = [...studentReports]
+                    setCopyStudents([...copyStudents])
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+
+              const addReportAPI = {
+                url: `http://localhost:8000/api/addstate`,
+                method: 'post',
+                data: JSON.stringify({
+                  ['idRegistration']: thesisData.idRegistration,
+                  ['states']: newReports,
+                }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(addReportAPI)
+                .then((response) => {
+                  setStudentReports([...studentReports, ...newReports])
+                  copyStudents[editIndex]['state'] = [
+                    ...studentReports,
+                    ...newReports,
+                  ]
+                  setCopyStudents([...copyStudents])
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+            }
+
+            //excuses
+            if (studentExcuses.length !== 0) {
+              let newExcuses = []
+              for (let i = 0; i < studentExcuses.length; i++) {
+                if (studentExcuses[i].new) {
+                  newExcuses.push(studentExcuses[i])
+                  studentExcuses.splice(i, 1)
+                  i = i - 1
+                }
+              }
+              console.log(newExcuses)
+
+              let updateExcuses = []
+              for (let i = 0; i < studentExcuses.length; i++) {
+                if (!isEqual(editStudent['excuse'][i], studentExcuses[i])) {
+                  studentExcuses[i] = {
+                    ...studentExcuses[i],
+                    ['idRegistration']: thesisData.idRegistration,
+                  }
+                  updateExcuses.push(studentExcuses[i])
+                }
+              }
+
+              console.log(updateExcuses)
+
+              for (let i = 0; i < updateExcuses.length; i++) {
+                console.log('hi')
+                const updateExcusesAPI = {
+                  url: 'http://localhost:8000/api/updateexcuse',
+                  method: 'put',
+                  data: JSON.stringify(updateExcuses[i]),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(updateExcusesAPI)
+                  .then((response) => {
+                    copyStudents[editIndex]['excuse'] = [...studentExcuses]
+                    setCopyStudents([...copyStudents])
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+
+              const addExcuseAPI = {
+                url: `http://localhost:8000/api/addexcuse`,
+                method: 'post',
+                data: JSON.stringify({
+                  ['idRegistration']: thesisData.idRegistration,
+                  ['excuses']: newExcuses,
+                }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(addExcuseAPI)
+                .then((response) => {
+                  setStudentExcuses([...studentExcuses, ...newExcuses])
+                  copyStudents[editIndex]['excuse'] = [
+                    ...studentExcuses,
+                    ...newExcuses,
+                  ]
+                  setCopyStudents([...copyStudents])
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+            }
+
+            //payments
+            if (studentPayments.length !== 0) {
+              let newPayments = []
+              for (let i = 0; i < studentPayments.length; i++) {
+                if (studentPayments[i].new) {
+                  newPayments.push(studentPayments[i])
+                  studentPayments.splice(i, 1)
+                  i = i - 1
+                }
+              }
+              console.log(newPayments)
+
+              let updatePayments = []
+              for (let i = 0; i < studentPayments.length; i++) {
+                if (!isEqual(editStudent['payment'][i], studentPayments[i])) {
+                  studentPayments[i] = {
+                    ...studentPayments[i],
+                    ['idRegistration']: thesisData.idRegistration,
+                  }
+                  updatePayments.push(studentPayments[i])
+                }
+              }
+
+              console.log(updatePayments)
+
+              for (let i = 0; i < updatePayments.length; i++) {
+                console.log('hi')
+                const updatePaymentsAPI = {
+                  url: 'http://localhost:8000/api/updatepayment',
+                  method: 'put',
+                  data: JSON.stringify(updatePayments[i]),
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                  },
+                }
+                axios(updatePaymentsAPI)
+                  .then((response) => {
+                    copyStudents[editIndex]['payment'] = [...studentPayments]
+                    setCopyStudents([...copyStudents])
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+
+              const addPaymentAPI = {
+                url: `http://localhost:8000/api/addpayment`,
+                method: 'post',
+                data: JSON.stringify({
+                  ['idRegistration']: thesisData.idRegistration,
+                  ['payments']: newPayments,
+                }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                },
+              }
+              axios(addPaymentAPI)
+                .then((response) => {
+                  setStudentExcuses([...studentPayments, ...newPayments])
+                  copyStudents[editIndex]['payment'] = [
+                    ...studentPayments,
+                    ...newPayments,
+                  ]
+                  setCopyStudents([...copyStudents])
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+
+              //previous Studies
+
+              if (uniDegrees.length !== 0) {
+                let newDegrees = []
+                for (let i = 0; i < uniDegrees.length; i++) {
+                  if (uniDegrees[i].new) {
+                    newDegrees.push(uniDegrees[i])
+                    uniDegrees.splice(i, 1)
+                    i = i - 1
+                  }
+                }
+                console.log(newDegrees)
+
+                let updateDegrees = []
+                for (let i = 0; i < uniDegrees.length; i++) {
+                  if (
+                    !isEqual(editStudent['previousstudie'][i], uniDegrees[i])
+                  ) {
+                    uniDegrees[i] = {
+                      ...uniDegrees[i],
+                    }
+                    updateDegrees.push(uniDegrees[i])
+                  }
+                }
+
+                console.log(updateDegrees)
+
+                for (let i = 0; i < updateDegrees.length; i++) {
+                  console.log('hi')
+                  const updateDegreesAPI = {
+                    url: `http://localhost:8000/api/updatepreviousstudy/${updateDegrees[i].id}`,
+                    method: 'put',
+                    data: JSON.stringify(updateDegrees[i]),
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                  }
+                  axios(updateDegreesAPI)
+                    .then((response) => {
+                      copyStudents[editIndex]['previousstudie'] = [
+                        ...uniDegrees,
+                      ]
+                      setCopyStudents([...copyStudents])
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                    })
+                }
+                for (let i = 0; i < newDegrees.length; i++) {
+                  const addDegreeAPI = {
+                    url: `http://localhost:8000/api/previousstudy/${personalInfo.idS}`,
+                    method: 'post',
+                    data: JSON.stringify({
+                      ['degree']: newDegrees[i].degree,
+                      ['faculty']: newDegrees[i].faculty,
+                      ['university']: newDegrees[i].university,
+                      ['dateObtained']: newDegrees[i].dateObtained,
+                      ['specialization']: newDegrees[i].specialization,
+                    }),
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                  }
+                  axios(addDegreeAPI)
+                    .then((response) => {
+                      setUniDegrees([...uniDegrees, ...newDegrees])
+                      copyStudents[editIndex]['previousstudie'] = [
+                        ...uniDegrees,
+                        ...newDegrees,
+                      ]
+                      setCopyStudents([...copyStudents])
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                    })
+                }
+              }
+              setTimeout(() => {
+                window.location.href =
+                  window.location.pathname +
+                  window.location.search +
+                  window.location.hash
+                setIsEditing(false)
+                setValidated(false)
+                setShowSave(false)
+              }, 2000)
+            }
+          } else {
+            console.log({
+              personalInfo: { ...personalInfo },
+              uniDegrees: [...uniDegrees],
+              thesisData: { ...thesisData },
+            })
+            const insertStudentManuallyAPI = {
+              url: 'http://localhost:8000/api/insert-student',
+              method: 'post',
+              data: JSON.stringify({
+                personalInfo: { ...personalInfo },
+                uniDegrees: [...uniDegrees],
+                thesisData: { ...thesisData },
+              }),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
+            axios(insertStudentManuallyAPI)
+              .then((response) => {
+                console.log(response)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }
+          setPersonalInfo({})
+          setUniDegrees({})
+          setThesisData({})
+          setPage(1)
+        }
+      })
       setValidated(false)
     }
   }
@@ -607,6 +1249,42 @@ const StudentDataRegisteration = ({
       .catch((err) => {
         console.log(err)
       })
+
+    const supervisorsAPI = {
+      url: 'http://localhost:8000/api/supervisors',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(supervisorsAPI)
+      .then((response) => {
+        setAllSups([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    const getReferees = {
+      url: 'http://localhost:8000/api/getreferees',
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    }
+    axios(getReferees)
+      .then((response) => {
+        setAllRefs([...response.data])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setTimeout(() => {
+      console.log(allSups)
+    }, 500)
   }, [])
 
   useEffect(() => {
@@ -680,6 +1358,7 @@ const StudentDataRegisteration = ({
                 personalInfo={personalInfo}
                 handleChange={handleChange}
                 byExcel={byExcel}
+                isEditing={isEditing}
               />
             </Tab>
             <Tab eventKey='2' title='الدرجات الجامعية'>
@@ -710,6 +1389,7 @@ const StudentDataRegisteration = ({
                   setStudentSups={setStudentSups}
                   handleChange={handleChange}
                   deleteItem={deleteItem}
+                  allSups={allSups}
                   // departments={departments}
                   // studies={studies}
                 />
@@ -723,6 +1403,7 @@ const StudentDataRegisteration = ({
                   handleChange={handleChange}
                   studentRefs={studentRefs}
                   deleteItem={deleteItem}
+                  allRefs={allRefs}
                   // thesisData={thesisData}
                   // setThesisData={setThesisData}
                   // departments={departments}
@@ -815,7 +1496,7 @@ const StudentDataRegisteration = ({
                     className='delete-btn'
                     // onClick={() => handleDelete(supervisor.idSupervisor)}
                   >
-                    مسح المشرف
+                    مسح الطالب
                   </Button>
                 </Col>
 

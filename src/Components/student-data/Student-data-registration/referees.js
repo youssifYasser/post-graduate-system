@@ -12,28 +12,10 @@ const StudentRefs = ({
   btnText,
   deleteItem,
   studentRefs,
+  allRefs,
 }) => {
   const [modalShow, setModalShow] = useState(false)
   const [insertPage, setInsertPage] = useState(3)
-  const [allRefs, setAllRefs] = useState([])
-
-  useEffect(() => {
-    const getReferees = {
-      url: 'http://localhost:8000/api/getreferees',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(getReferees)
-      .then((response) => {
-        setAllRefs([...response.data])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
 
   const newRef = () => {
     Swal.fire({
@@ -115,7 +97,7 @@ const StudentRefs = ({
                       <option value=''>اختر المحكم</option>
                       {allRefs.map((refs) => {
                         return (
-                          <option key={refs.idRefereed} value={refs.arabicName}>
+                          <option key={refs.idRefereed} value={refs.idRefereed}>
                             {refs.arabicName}
                           </option>
                         )

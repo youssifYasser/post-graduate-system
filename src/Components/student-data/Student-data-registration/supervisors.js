@@ -6,32 +6,15 @@ import './StudentDataRegisteration.css'
 import Swal from 'sweetalert2'
 import InsertModal from './insertModal'
 
-const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
-  const [allSups, setAllSups] = useState([])
+const StudentSups = ({
+  className,
+  handleChange,
+  studentSups,
+  deleteItem,
+  allSups,
+}) => {
   const [modalShow, setModalShow] = useState(false)
   const [insertPage, setInsertPage] = useState(1)
-
-  useEffect(() => {
-    const supervisorsAPI = {
-      url: 'http://localhost:8000/api/supervisors',
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }
-    axios(supervisorsAPI)
-      .then((response) => {
-        setAllSups([...response.data])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    setTimeout(() => {
-      console.log(allSups)
-    }, 500)
-  }, [])
 
   const newSup = () => {
     Swal.fire({
@@ -114,7 +97,7 @@ const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
                         return (
                           <option
                             key={sups.idSupervisor}
-                            value={sups.arabicName}
+                            value={sups.idSupervisor}
                           >
                             {sups.arabicName}
                           </option>
@@ -218,7 +201,10 @@ const StudentSups = ({ className, handleChange, studentSups, deleteItem }) => {
                   >
                     وضع الإشراف
                   </Form.Label>
-                  <Button type='button' onClick={() => deleteItem(sup.id)}>
+                  <Button
+                    type='button'
+                    onClick={() => deleteItem(sup.idSupervisor)}
+                  >
                     مسح المشرف
                   </Button>
                 </Col>

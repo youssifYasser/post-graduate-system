@@ -39,6 +39,7 @@ const ViewStudents = () => {
     return buf
   }
 
+  //printing personal data only even if newData is set with all the data !!!
   const printExcel = (data) => {
     let newData = []
     for (let i = 0; i < data.length; i++) {
@@ -321,7 +322,7 @@ const ViewStudents = () => {
     } else {
       const registeredStudentsAPI = {
         url: 'http://localhost:8000/api/getstudnt',
-        data: JSON.stringify({ idS, studyType_id: idStudyTypeF }),
+        data: JSON.stringify({ idS: idS, studyType_id: idStudyTypeF }),
         method: 'post',
         headers: {
           Accept: 'application/json',

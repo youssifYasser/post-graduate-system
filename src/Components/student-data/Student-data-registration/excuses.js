@@ -130,11 +130,11 @@ const StudentExcuses = ({
 
                     <Form.Control
                       className='form-input'
-                      type='text'
+                      type='number'
                       value={exc.numberMonthExtendedPeriod}
                       name={`numberMonthExtendedPeriod-${index}-e`}
                       onChange={handleChange}
-                      pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
+                      // pattern='^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF ]+$'
                     />
                     <Form.Control.Feedback type='invalid'>
                       من فضلك ادخل المدة بالشهور باللغة العربية فقط.
