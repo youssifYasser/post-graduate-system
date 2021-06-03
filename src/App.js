@@ -35,7 +35,7 @@ const App = () => {
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route exact path='/' component={Home} />
+        <Route exact path='/' component={ViewSupervisors} />
 
         {/* students */}
         <Route exact path='/addStudent' component={AddStudent} />
