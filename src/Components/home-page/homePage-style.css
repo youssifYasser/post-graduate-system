@@ -59,6 +59,11 @@
     border-color: #212529 !important;
 }
 
+.home .switch .row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /* End of Switch */
 
 /* Start of Section*/

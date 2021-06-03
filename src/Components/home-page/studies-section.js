@@ -1,15 +1,18 @@
 import React from 'react'
-import { Row, Col} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 
 import { FaBookOpen, FaEdit } from 'react-icons/fa'
 import { MdAddCircle } from 'react-icons/md'
-import { GiHandOk } from 'react-icons/gi'
-import { RiFileExcel2Line } from 'react-icons/ri'
 
 import students from './image/students.jpg'
 import './homePage-style.css'
 
-const Studies = () => {
+const Studies = (props) => {
+    const {
+        convertToComa,
+        stats
+    } = props
     return (
         <div className="studies">
             <div className="section mb-5">
@@ -20,7 +23,7 @@ const Studies = () => {
                             <div className="line"></div>
                             <div className="circle">
                                 <p className="icon"><FaBookOpen /></p>
-                                <h2 className="count">561</h2>
+                                <h2 className="count">{convertToComa(stats['studies'])}</h2>
                                 <h3>عدد الدراسات</h3>
                             </div>
 
@@ -28,26 +31,30 @@ const Studies = () => {
                                 <Row className="row-1">
                                     <Col lg={12} xl={{ span: 5, offset: 2 }} className="sp2">
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">إضافة دراسة</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <MdAddCircle className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/addStudyType">
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center">إضافة دراسة</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <MdAddCircle className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                     <Col lg={12} xl={5} className="sp2">
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">عرض / بحث/ تعديل</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <FaEdit className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/viewStudyTypes">
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center">عرض / بحث/ تعديل</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <FaEdit className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                 </Row>

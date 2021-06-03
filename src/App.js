@@ -17,6 +17,7 @@ import Referees from './Components/referee-data/view/view-refs'
 import SupervisorDataRegisteration from './Components/supervisor-data-registration/supervisor-data-registeration'
 import UploadSupervisorExcel from './Components/supervisor-data-registration/upload-excel'
 import ViewSupervisors from './Components/view-supervisors/view-supervisors'
+import Footer from './Components/footer/footer-view'
 
 const App = () => {
   return (
@@ -41,8 +42,10 @@ const App = () => {
           exact
           path='/SupervisorDataRegisteration'
           component={SupervisorDataRegisteration}
+          
         />
       </Switch>
+      <Footer />
     </BrowserRouter>
   )
 }

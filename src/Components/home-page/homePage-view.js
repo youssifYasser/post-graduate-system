@@ -16,6 +16,10 @@ import Supervisor from './supervisor-section'
 import Referee from './referee-section'
 
 function HomePage(props) {
+    const {
+        convertToComa,
+        stats
+    } = props
     return (
         <div className="home">
             <div className="cover mb-5">
@@ -67,27 +71,27 @@ function HomePage(props) {
 
             <div className="switch">
                 <Row>
-                    <Col>
+                    <Col xs={4} md='auto'  className="mb-2">
                         <Button variant="secondary" name="student" className={props.active.student} onClick={props.handleChange}>
                             الطلاب
                         </Button>
                     </Col>
-                    <Col>
+                    <Col xs={4} md='auto'  className="mb-2">
                         <Button variant="secondary" name="studies" className={props.active.studies} onClick={props.handleChange}>
                             الدراسات
                         </Button>
                     </Col>
-                    <Col>
+                    <Col xs={4} md='auto'  className="mb-2">
                         <Button variant="secondary" name="dep" className={props.active.dep} onClick={props.handleChange}>
                             الأقسام
                         </Button>
                     </Col>
-                    <Col>
+                    <Col xs={4} md='auto'>
                         <Button variant="secondary" name="supervisor" className={props.active.supervisor} onClick={props.handleChange}>
                             المشرفين
                         </Button>
                     </Col>
-                    <Col>
+                    <Col xs={4} md='auto'>
                         <Button variant="secondary" name="referee" className={props.active.referee} onClick={props.handleChange}>
                             المحكمين
                         </Button>
@@ -96,12 +100,12 @@ function HomePage(props) {
             </div>
 
             {
-                props.section === 1 ? <Student />
-                    : props.section === 2 ? <Studies />
-                        : props.section === 3 ? <Department />
-                            : props.section === 4 ? <Supervisor />
-                                : props.section === 5 ? <Referee />
-                                    : <Student />
+                props.section === 1 ? <Student convertToComa={convertToComa} stats={stats}/>
+                    : props.section === 2 ? <Studies convertToComa={convertToComa} stats={stats}/>
+                        : props.section === 3 ? <Department convertToComa={convertToComa} stats={stats}/>
+                            : props.section === 4 ? <Supervisor convertToComa={convertToComa} stats={stats}/>
+                                : props.section === 5 ? <Referee convertToComa={convertToComa} stats={stats}/>
+                                    : <Student convertToComa={convertToComa} stats={stats}/>
 
             }
         </div>

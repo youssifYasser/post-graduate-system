@@ -1,5 +1,6 @@
 import React from 'react'
-import { Row, Col} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 
 import { FaEdit } from 'react-icons/fa'
 import { MdAddCircle, MdSupervisorAccount } from 'react-icons/md'
@@ -9,11 +10,15 @@ import { RiFileExcel2Line } from 'react-icons/ri'
 import students from './image/students.jpg'
 import './homePage-style.css'
 
-const Supervisor = () => {
-    const myStyle={
+const Supervisor = (props) => {
+    const myStyle = {
         fontSize: '3.2rem',
         paddingTop: '4px'
     }
+    const {
+        convertToComa,
+        stats
+    } = props
     return (
         <div className="supervisor">
             <div className="section mb-5">
@@ -24,7 +29,7 @@ const Supervisor = () => {
                             <div className="line"></div>
                             <div className="circle">
                                 <p className="icon" style={myStyle}><MdSupervisorAccount /></p>
-                                <h2 className="count">1245</h2>
+                                <h2 className="count">{convertToComa(stats['supervisors'])}</h2>
                                 <h3>عدد المشرفين</h3>
                             </div>
 
@@ -32,52 +37,60 @@ const Supervisor = () => {
                                 <Row className="row-1">
                                     <Col lg={12} xl={{ span: 5, offset: 2 }} className="sp2">
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">إضافة مشرف</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <MdAddCircle className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/addSupervisor">
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center">إضافة مشرف</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <MdAddCircle className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                     <Col lg={12} xl={5} className="sp2">
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center">عرض / بحث/ تعديل</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <FaEdit className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/viewSupervisors">
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center">عرض / بحث/ تعديل</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <FaEdit className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col lg={12} xl={{ span: 5, offset: 2 }}>
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <GiHandOk className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/SupervisorDataRegisteration">
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <GiHandOk className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                     <Col lg={12} xl={5}>
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={9} md={9}>
-                                                    <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
-                                                </Col>
-                                                <Col xs={3} md={3}>
-                                                    <RiFileExcel2Line className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/UploadSupervisorExcel">
+                                                <Row>
+                                                    <Col xs={9} md={9}>
+                                                        <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
+                                                    </Col>
+                                                    <Col xs={3} md={3}>
+                                                        <RiFileExcel2Line className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                 </Row>

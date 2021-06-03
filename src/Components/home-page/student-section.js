@@ -10,7 +10,11 @@ import { RiFileExcel2Line } from 'react-icons/ri'
 import students from './image/students.jpg'
 import './homePage-style.css'
 
-const Student = () => {
+const Student = (props) => {
+    const {
+        convertToComa,
+        stats
+    } = props
     return (
         <div className="student">
             <div className="section mb-5">
@@ -21,7 +25,7 @@ const Student = () => {
                             <div className="line"></div>
                             <div className="circle">
                                 <p className="icon"><FaUserGraduate /></p>
-                                <h2 className="count">22,561</h2>
+                                <h2 className="count">{convertToComa(stats['students'])}</h2>
                                 <h3>عدد الطلاب</h3>
                             </div>
 
@@ -43,7 +47,7 @@ const Student = () => {
                                     </Col>
                                     <Col lg={12} xl={5} className="sp2">
                                         <div className="link">
-                                            <Link to="/addstudent">
+                                            <Link to="/">
                                                 <Row>
                                                     <Col xs={7} md={9}>
                                                         <p className="textOflink text-center">عرض / بحث/ تعديل</p>
@@ -59,26 +63,32 @@ const Student = () => {
                                 <Row>
                                     <Col lg={12} xl={{ span: 5, offset: 2 }}>
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={7} md={9}>
-                                                    <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
-                                                </Col>
-                                                <Col xs={5} md={3}>
-                                                    <GiHandOk className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/">
+
+                                                <Row>
+                                                    <Col xs={7} md={9}>
+                                                        <p className="textOflink text-center"> تسجيل بيانات يدويا</p>
+                                                    </Col>
+                                                    <Col xs={5} md={3}>
+                                                        <GiHandOk className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                     <Col lg={12} xl={5}>
                                         <div className="link">
-                                            <Row>
-                                                <Col xs={9} md={9}>
-                                                    <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
-                                                </Col>
-                                                <Col xs={3} md={3}>
-                                                    <RiFileExcel2Line className="icon2" />
-                                                </Col>
-                                            </Row>
+                                            <Link to="/StudentDataExcelReg">
+
+                                                <Row>
+                                                    <Col xs={9} md={9}>
+                                                        <p className="textOflink text-center">تسجيل بيانات بالإكسل</p>
+                                                    </Col>
+                                                    <Col xs={3} md={3}>
+                                                        <RiFileExcel2Line className="icon2" />
+                                                    </Col>
+                                                </Row>
+                                            </Link>
                                         </div>
                                     </Col>
                                 </Row>
@@ -96,26 +106,26 @@ const Student = () => {
                     <Col className="mb-3 col" xs={12} md={6} xl={3}>
                         <div className="stat sp animate__animated animate__fadeInDown aanimate__delay-.5s">
                             <p className="title">دبلومة الدراسات العليا</p>
-                            <p className="count">14,123</p>
+                            <p className="count">{convertToComa(stats['diploma registrations'])}</p>
                         </div>
                     </Col>
                     <Col className="mb-3 col" xs={12} md={6} xl={3}>
                         <div className="stat animate__animated animate__fadeInDown animate__fast">
                             <p className="title">تمهيدي الماجستير</p>
-                            <p className="count">4,35</p>
+                            <p className="count">{convertToComa(stats['DSc_registrations'])}</p>
                         </div>
                     </Col>
                     <Col className="mb-3  col" xs={12} md={6} xl={3}>
                         <div className="stat sp animate__animated animate__fadeInDown animate__slow">
                             <p className="title">الماجستير في العلوم</p>
-                            <p className="count">1,113</p>
+                            <p className="count">{convertToComa(stats['MSc_registrations'])}</p>
                         </div>
                     </Col>
 
                     <Col className="mb-3 col" xs={12} md={6} xl={3}>
                         <div className="stat  animate__animated animate__fadeInDown  animate__slower">
                             <p className="title">دكتوراه الفلسفة في العلوم</p>
-                            <p className="count">69</p>
+                            <p className="count">{convertToComa(stats['PhD registrations'])}</p>
                         </div>
                     </Col>
                 </Row>
